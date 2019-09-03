@@ -5,10 +5,10 @@ const env = process.env.NODE_ENV || 'development';
 
 const configs = {
   development: {
-
+    env: 'development',
   },
   production: {
-
+    env: 'production',
   },
 };
 

@@ -5,9 +5,9 @@ import compress from 'compression';
 import methodOverride from 'method-override';
 import cors from 'cors';
 import helmet from 'helmet';
-import operationalErrorHandle from './middleware/errorHandle.js';
+import errorHandle from './middleware/errorHandle.js';
 import logger from './helpers/logging.js';
-// import routes from '../server/routes';
+import routes from './routes/index.js';
 
 const app = express();
 
@@ -35,9 +35,9 @@ app.use((req, res, next) => {
 app.use(logger.requestLogger);
 
 // mount all routes
-// app.use('/', routes);
+app.use('/', routes);
 
 // Operational errors
-app.use(operationalErrorHandle);
+app.use(errorHandle);
 
 export default app;
