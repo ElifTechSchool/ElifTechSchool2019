@@ -1,4 +1,5 @@
 import express from 'express';
+import exampleService from '../businessLogic/exampleService.js';
 
 const router = express.Router();
 
@@ -27,8 +28,44 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', function (req, res) {
-  res.send('Birds home page')
+router.get('/', (req, res, next) => {
+  exampleService.getExamples()
+    .then(result => res.json(result))
+    .catch(error => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/examples:
+ *   get:
+ *     description: Get example by id
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id', (req, res, next) => {
+  exampleService.getExampleById(req.params.id)
+    .then(result => res.json(result))
+    .catch(error => next(error));
 });
 
 /**
@@ -60,8 +97,10 @@ router.get('/', function (req, res) {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', function (req, res) {
-  res.status(201).send('About birds')
+router.post('/', (req, res, next) => {
+  exampleService.createExample(req.body)
+    .then(() => res.status(201).end())
+    .catch(error => next(error));
 });
 
 /**
@@ -98,8 +137,10 @@ router.post('/', function (req, res) {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/', function (req, res) {
-  res.status(204).send('About birds')
+router.put('/:id', (req, res, next) => {
+  exampleService.updateExample(req.params.id, req.body)
+    .then(() => res.status(204).end())
+    .catch(error => next(error));
 });
 
 /**
@@ -128,53 +169,11 @@ router.put('/', function (req, res) {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete('/', function (req, res) {
-  res.status(204).send('About birds')
+router.delete('/:id', (req, res, next) => {
+  exampleService.deleteExample(req.params.id)
+    .then(() => res.status(204).end())
+    .catch(error => next(error));
 });
 
-/**
- * @swagger
- *
- * definitions:
- *   401:
- *     type: object
- *     properties:
- *       message:
- *         type: string
- *         default: Unauthorized access
- *     required:
- *       - message
- *   404:
- *     type: object
- *     properties:
- *       message:
- *         type: string
- *         default: Information not found
- *     required:
- *       - message
- *   409:
- *     type: object
- *     properties:
- *       message:
- *         type: string
- *         default: Already exist
- *     required:
- *       - message
- *   422:
- *     type: object
- *     properties:
- *       message:
- *         type: string
- *         default: Error validating request
- *     required:
- *       - message
- *   500:
- *     type: object
- *     properties:
- *       message:
- *         type: string
- *         default: Server error
- *     required:
- *       - message
- */
+
 export default router;

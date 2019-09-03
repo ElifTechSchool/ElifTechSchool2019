@@ -27,6 +27,7 @@
     "pino-multi-stream": "^4.2.0",
     "pino-pretty": "^3.2.1",
     "pino-stackdriver": "^1.2.7",
+    "sequelize": "^5.18.1",
     "swagger-jsdoc": "^3.4.0",
     "swagger-ui-express": "^4.0.7"
   },
