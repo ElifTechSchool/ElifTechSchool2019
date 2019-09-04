@@ -36,8 +36,8 @@ const swaggerDefinition = {
       type: 'object',
       required: ['message'],
       properties: { message: { type: 'string', default: 'Server error' } },
-    }
-  }
+    },
+  },
 };
 
 const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/*.js'] });
