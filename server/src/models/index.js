@@ -1,12 +1,10 @@
 /* eslint-disable */
 import fs from 'fs';
 import Sequelize from 'sequelize';
-import { fileURLToPath } from 'url';
-import { extname, join, dirname } from 'path';
+import { extname, join } from 'path';
 import config from '../../config/env.js';
 import logger from '../helpers/logging.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 let models = {};
 const { Op, UniqueConstraintError } = Sequelize;
 const sequelize = new Sequelize(config.db.name, config.db.username, config.db.password, {
