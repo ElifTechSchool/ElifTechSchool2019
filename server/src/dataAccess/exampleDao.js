@@ -4,9 +4,7 @@ const { examples: exampleModel } = models;
 
 const getExamples = () => exampleModel.findAll();
 
-const getExampleById = (id) => exampleModel.findAll({
-  where: { id },
-});
+const getExampleById = (id) => exampleModel.findByPk(id);
 
 const createExample = (example) => exampleModel.create(example);
 
