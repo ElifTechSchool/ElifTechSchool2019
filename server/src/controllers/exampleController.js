@@ -9,6 +9,8 @@ const router = express.Router();
  * /v1/examples:
  *   get:
  *     description: Get examples
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters: []
@@ -45,6 +47,8 @@ router.get('/', (req, res, next) => {
  * /v1/examples/{id}:
  *   get:
  *     description: Get example by id
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -83,6 +87,8 @@ router.get('/:id', (req, res, next) => {
  * /v1/examples:
  *   post:
  *     description: add example
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -118,6 +124,8 @@ router.post('/', (req, res, next) => {
  * /v1/examples/{id}:
  *   put:
  *     description: update example
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -158,6 +166,8 @@ router.put('/:id', (req, res, next) => {
  * /v1/examples/{id}:
  *   delete:
  *     description: update example
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
