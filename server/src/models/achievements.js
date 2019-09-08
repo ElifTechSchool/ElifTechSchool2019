@@ -1,22 +1,38 @@
-'use strict';
+const Sequelize = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  const Achievements = sequelize.define('achievements', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: DataTypes.STRING,
-    description: {
-      type: DataTypes.TEXT,
-      validate: {
-        len: [0, 5120],
+module.exports = class Achievement extends Sequelize.Model {
+  static init(sequelize) {
+    return super.init({
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
       },
+      name: Sequelize.STRING,
+      description: {
+        type: Sequelize.TEXT,
+        validate: {
+          len: [0, 5120],
+        },
+      },
+      experience: Sequelize.INTEGER,
+      photo_url: Sequelize.STRING
     },
-    experience: DataTypes.INTEGER,
-    photo_url: DataTypes.STRING
-  }, {});
-  return Achievements;
-};
+    {
+      sequelize,
+      tableName: 'Achievements',
+      modelName: 'achievements',
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+      deletedAt: 'deleted_at',
+      paranoid: true,
+      timestamps: true,
+      scopes: {
+        withoutDefaultColumn: {
+          attributes: { exclude: ['createdat', 'deletedat', 'updatedat'] },
+        },
+      },
+    })
+  }
+}

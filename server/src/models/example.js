@@ -33,7 +33,4 @@ module.exports = class News extends Sequelize.Model {
       },
     });
   }
-
-  // static associate(models) {
-  // }
 };

@@ -7,19 +7,21 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-
       },
       name: {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        validate: {
+          len: [0, 5120],
+        },
       },
       type: {
         type: Sequelize.STRING
       },
       experience: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       photo_url: {
         type: Sequelize.STRING
