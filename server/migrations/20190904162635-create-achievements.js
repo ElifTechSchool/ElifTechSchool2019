@@ -25,7 +25,21 @@ module.exports = {
       },
       photo_url: {
         type: Sequelize.STRING
-      }
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('now()'),
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('now()'),
+      },
+      deleted_at: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
