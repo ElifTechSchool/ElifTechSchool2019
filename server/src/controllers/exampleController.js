@@ -9,6 +9,8 @@ const router = express.Router();
  * /v1/examples:
  *   get:
  *     description: Get examples
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters: []
@@ -18,7 +20,12 @@ const router = express.Router();
  *         schema:
  *           type: array
  *           items:
- *              type: string
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                message:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -37,22 +44,28 @@ router.get('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples:
+ * /v1/examples/{id}:
  *   get:
  *     description: Get example by id
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
  *         schema:
- *           type: string
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             message:
+ *               type: string
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -74,6 +87,8 @@ router.get('/:id', (req, res, next) => {
  * /v1/examples:
  *   post:
  *     description: add example
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -83,7 +98,7 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             example:
+ *             message:
  *               type: string
  *     responses:
  *       201:
@@ -106,25 +121,27 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples/:id:
+ * /v1/examples/{id}:
  *   put:
  *     description: update example
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
  *       - name: body
  *         in: body
  *         required: true
  *         schema:
  *           type: object
  *           properties:
- *             example:
+ *             message:
  *               type: string
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: number
  *     responses:
  *       204:
  *         description: added success
@@ -146,9 +163,11 @@ router.put('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples/:id:
+ * /v1/examples/{id}:
  *   delete:
  *     description: update example
+ *     tags:
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:

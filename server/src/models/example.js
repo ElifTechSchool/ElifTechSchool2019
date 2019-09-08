@@ -1,6 +1,6 @@
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
-export default class News extends Sequelize.Model {
+module.exports = class News extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -36,4 +36,4 @@ export default class News extends Sequelize.Model {
 
   // static associate(models) {
   // }
-}
+};
