@@ -9,7 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     name: DataTypes.STRING,
-    description: DataTypes.TEXT,
+    description: {
+      type: DataTypes.TEXT,
+      validate: {
+        len: [0, 5120],
+      },
+    },
     experience: DataTypes.INTEGER,
     photo_url: DataTypes.STRING
   }, {});
