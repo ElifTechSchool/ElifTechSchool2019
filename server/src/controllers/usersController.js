@@ -122,8 +122,6 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             id:
- *               type: number
  *             name:
  *               type: string
  *             surname:
