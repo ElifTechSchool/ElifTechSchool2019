@@ -9,6 +9,8 @@ const router = express.Router();
  * /v1/users:
  *   get:
  *     description: Get users
+ *     tags:
+ *       - users
  *     produces:
  *       - application/json
  *     parameters: []
@@ -57,6 +59,8 @@ router.get('/', (req, res, next) => {
  * /v1/users/{id}:
  *   get:
  *     description: Get user by id
+ *     tags:
+ *       - users
  *     produces:
  *       - application/json
  *     parameters:
@@ -97,7 +101,7 @@ router.get('/', (req, res, next) => {
  */
 router.get('/:id', (req, res, next) => {
   usersService.getUserById(req.params.id)
-    .then((result) => res.json(result))
+    .then((result) => res.json(result[0]))
     .catch((error) => next(error));
 });
 
@@ -107,6 +111,8 @@ router.get('/:id', (req, res, next) => {
  * /v1/users:
  *   post:
  *     description: add user
+ *     tags:
+ *       - users
  *     produces:
  *       - application/json
  *     parameters:
@@ -154,6 +160,8 @@ router.post('/', (req, res, next) => {
  * /v1/users/{id}:
  *   put:
  *     description: update user
+ *     tags:
+ *       - users
  *     produces:
  *       - application/json
  *     parameters:
@@ -168,8 +176,6 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             id:
- *               type: number
  *             name:
  *               type: string
  *             surname:
@@ -208,6 +214,8 @@ router.put('/:id', (req, res, next) => {
  * /v1/users/{id}:
  *   delete:
  *     description: delete user
+ *     tags:
+ *       - users
  *     produces:
  *       - application/json
  *     parameters:

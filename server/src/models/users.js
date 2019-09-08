@@ -26,6 +26,7 @@ module.exports = class Users extends Sequelize.Model {
       email: {
         type: Sequelize.STRING(300),
         allowNull: false,
+        unique: true,
         validate: {
           len: [0, 300],
         },
