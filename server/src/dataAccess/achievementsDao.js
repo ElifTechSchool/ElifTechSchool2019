@@ -1,8 +1,7 @@
 import { models } from '../models/index.js';
-console.log('!!!!!!!!!!!!!!!!!!')
 const { achievements: achievementsModel } = models;
 
-const getAchievements = () => achievementsModel.findAll();
+const getAchievements = () => achievementsModel.findAll({ raw: true });
 
 const getAchievementById = (id) => achievementsModel.findAll({
   where: { id },
@@ -11,7 +10,7 @@ const getAchievementById = (id) => achievementsModel.findAll({
 const createAchievement = (achievement) => achievementsModel.create(achievement);
 
 const updateAchievement = (id, achievement) => achievementsModel.update(
-  achievements,
+  achievement,
   {
     where: { id },
   },
