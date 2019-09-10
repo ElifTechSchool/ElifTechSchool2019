@@ -1,6 +1,6 @@
 import { models } from '../models/index.js';
 
-const {models: rankModel } = models;
+const {ranks: rankModel } = models;
 
 const getRanks = () => rankModel.findAll();
 
