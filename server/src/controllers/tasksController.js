@@ -1,5 +1,5 @@
 import express from 'express';
-import exampleService from '../businessLogic/exampleService.js';
+import tasksService from '../businessLogic/tasksService.js';
 
 const router = express.Router();
 
@@ -36,7 +36,7 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
-  exampleService.getExamples()
+  tasksService.getTasks()
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -76,8 +76,8 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-  exampleService.getExampleById(req.params.id)
-    .then((result) => res.json(result))
+  tasksService.getTaskById(req.params.id)
+    .then((result) => res.json(result[0]))
     .catch((error) => next(error));
 });
 
@@ -113,7 +113,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-  exampleService.createExample(req.body)
+  tasksService.createTask(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -155,7 +155,7 @@ router.post('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
-  exampleService.updateExample(req.params.id, req.body)
+  tasksService.updateTask(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -189,7 +189,7 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-  exampleService.deleteExample(req.params.id)
+  tasksService.deleteTask(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });

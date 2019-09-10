@@ -1,7 +1,7 @@
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import express from 'express';
-import example from '../controllers/exampleController.js';
+import tasks from '../controllers/tasksController.js';
 
 const router = express.Router();
 
@@ -44,6 +44,7 @@ const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/
 
 router.use('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(swaggerSpec));
-router.use('/api/v1/examples', example);
+/*router.use('/api/v1/examples', example);*/
+router.use('api/v1/tasks', tasks);
 
 export default router;
