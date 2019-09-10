@@ -16,6 +16,7 @@ module.exports = class Achievement extends Sequelize.Model {
           len: [0, 5120],
         },
       },
+      type: Sequelize.STRING,
       experience: Sequelize.INTEGER,
       photo_url: Sequelize.STRING
     },
