@@ -69,7 +69,7 @@ router.get('/', (req, res, next) => {
  *             name:
  *               type: string
  *             experience:
- *               type: string
+ *               type: number
  *             number:
  *               type: number
  *             photo_url:
@@ -107,7 +107,7 @@ router.get('/:id', (req, res, next) => {
  *             name:
  *               type: string
  *             experience:
- *               type: string
+ *               type: number
  *             number:
  *               type: number
  *             photo_url:
