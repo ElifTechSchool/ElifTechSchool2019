@@ -40,7 +40,7 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 
-router.get('/v1/competitions', (req, res, next) => {
+router.get('/', (req, res, next) => {
   competitionService.getCompetitions()
     .then((result) => res.json(result[0]))
     .catch((error) => next(error));
@@ -85,7 +85,7 @@ router.get('/v1/competitions', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('v1/competitons/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   competitionService.getCompetitionById(req.params.id)
     .then((result) => res.json(result))
     .catch((error) => next(error));
@@ -126,7 +126,7 @@ router.get('v1/competitons/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/v1/competitions', (req, res, next) => {
+router.post('/', (req, res, next) => {
   competitionService.createCompetition(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
@@ -172,7 +172,7 @@ router.post('/v1/competitions', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/v1/competitions/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   competitionService.updateCompetition(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
@@ -183,7 +183,7 @@ router.put('/v1/competitions/:id', (req, res, next) => {
  *
  * /v1/competition/:id:
  *   delete:
- *     description: update competition
+ *     description: delete competition
  *     produces:
  *       - application/json
  *     parameters:
@@ -204,7 +204,7 @@ router.put('/v1/competitions/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete('/v1/competitions/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   competitionService.deleteCompetition(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
