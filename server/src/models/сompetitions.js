@@ -1,5 +1,4 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const сompetitions = sequelize.define('сompetitions', {
     id: {
       allowNull: false,
