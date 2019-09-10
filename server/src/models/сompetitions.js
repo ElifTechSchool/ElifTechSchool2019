@@ -1,10 +1,39 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const сompetitions = sequelize.define('сompetitions', {
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    deadline_date: DataTypes.DATE,
-    experience: DataTypes.INTEGER
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    name: {
+      type: Sequelize.STRING,
+      validate: {
+        len: [0, 55],
+      },
+    },
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+      validate: {
+        len: [0, 5120],
+      },
+    },
+    deadline_date: {
+      type: Sequelize.DATE
+    },
+    experience: {
+      type: Sequelize.INTEGER
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
   }, {});
   сompetitions.associate = function(models) {
     // associations can be defined here
