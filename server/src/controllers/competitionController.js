@@ -127,7 +127,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-  competitionService.createcompetition(req.body)
+  competitionService.createCompetition(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
