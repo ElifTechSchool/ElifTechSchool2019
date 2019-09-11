@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Competition extends Sequelize.Model {
+module.exports = class Competitions extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       id: {
