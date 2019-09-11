@@ -1,15 +1,15 @@
-'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('сompetitions', {
+  up: (queryInterface, Sequelize) => queryInterface.sequelize.transaction(async (t) => {
+    await queryInterface.createTable('competitions', {
       id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: true,
         validate: {
           len: [0, 55],
         },
@@ -22,22 +22,20 @@ module.exports = {
         },
       },
       deadline_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('now()'),
       },
       experience: {
-        type: Sequelize.INTEGER
-      },
-      createdAt: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: 0,
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+    }, {
+      transaction: t,
     });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('сompetitions');
-  }
+  }),
+  down: (queryInterface, Sequelize) => queryInterface.sequelize.transaction(async (t) => {
+    await queryInterface.dropTable('competitions', { transaction: t });
+  }),
 };
