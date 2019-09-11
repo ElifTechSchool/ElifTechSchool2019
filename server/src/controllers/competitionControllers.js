@@ -6,9 +6,9 @@ const router = express.Router();
 /**
  * @swagger
  *
- * /v1/examples:
+ * /v1/competitions:
  *   get:
- *     description: Get examples
+ *     description: Get competitions
  *     produces:
  *       - application/json
  *     parameters: []
@@ -18,7 +18,18 @@ const router = express.Router();
  *         schema:
  *           type: array
  *           items:
- *              type: string
+ *              type: object
+ *              properties:
+ *              id:
+ *                  type: number
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -38,9 +49,9 @@ router.get('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples:
+ * /v1/competitions/{id}:
  *   get:
- *     description: Get example by id
+ *     description: Get competition by id
  *     produces:
  *       - application/json
  *     parameters:
@@ -53,7 +64,18 @@ router.get('/', (req, res, next) => {
  *       200:
  *         description: response
  *         schema:
- *           type: string
+ *           type: object
+ *           properties:
+ *              id:
+ *                  type: number
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number        
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -72,9 +94,9 @@ router.get('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples:
+ * /v1/competitions:
  *   post:
- *     description: add example
+ *     description: add competition
  *     produces:
  *       - application/json
  *     parameters:
@@ -84,8 +106,14 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             example:
- *               type: string
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
  *     responses:
  *       201:
  *         description: added success
@@ -107,7 +135,7 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples/:id:
+ * /v1/competitions/{id}:
  *   put:
  *     description: update example
  *     produces:
@@ -119,8 +147,14 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             example:
- *               type: string
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
  *       - name: id
  *         in: path
  *         required: true
@@ -147,9 +181,9 @@ router.put('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples/:id:
+ * /v1/competitions/{id}:
  *   delete:
- *     description: update example
+ *     description: delete competition
  *     produces:
  *       - application/json
  *     parameters:
