@@ -1,5 +1,5 @@
-import express from 'express';
-import rankService from '../businessLogic/rankService.js';
+import express from "express";
+import rankService from "../businessLogic/rankService.js";
 
 const router = express.Router();
 
@@ -9,6 +9,8 @@ const router = express.Router();
  * /v1/ranks:
  *   get:
  *     description: Get ranks
+ *     tags:
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters: []
@@ -39,18 +41,21 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', (req, res, next) => {
-    rankService.getRanks()
-      .then((result) => res.json(result))
-      .catch((error) => next(error));
-  });
+router.get("/", (req, res, next) => {
+  rankService
+    .getRanks()
+    .then(result => res.json(result))
+    .catch(error => next(error));
+});
 
-  /**
+/**
  * @swagger
  *
  * /v1/ranks/{id}:
  *   get:
  *     description: Get rank by id
+ *     tags:
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -83,18 +88,21 @@ router.get('/', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/:id', (req, res, next) => {
-  rankService.getRankById(req.params.id)
-    .then((result) => res.json(result))
-    .catch((error) => next(error));
+router.get("/:id", (req, res, next) => {
+  rankService
+    .getRankById(req.params.id)
+    .then(result => res.json(result))
+    .catch(error => next(error));
 });
 
-  /**
+/**
  * @swagger
  *
  * /v1/ranks:
  *   post:
  *     description: add rank
+ *     tags:
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -124,18 +132,21 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
-    rankService.createRank(req.body)
-      .then(() => res.status(201).end())
-      .catch((error) => next(error));
-  });
+router.post("/", (req, res, next) => {
+  rankService
+    .createRank(req.body)
+    .then(() => res.status(201).end())
+    .catch(error => next(error));
+});
 
-  /**
+/**
  * @swagger
  *
  * /v1/ranks/{id}:
  *   put:
  *     description: update rank
+ *     tags:
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -170,43 +181,46 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
-    rankService.updateRank(req.params.id, req.body)
-      .then(() => res.status(204).end())
-      .catch((error) => next(error));
-  });
-  
-  /**
-   * @swagger
-   *
-   * /v1/ranks/{id}:
-   *   delete:
-   *     description: delete rank
-   *     produces:
-   *       - application/json
-   *     parameters:
-   *       - name: id
-   *         in: path
-   *         required: true
-   *         schema:
-   *           type: number
-   *     responses:
-   *       204:
-   *         description: delete success
-   *       401:
-   *         description: Unauthorized access
-   *         schema:
-   *           $ref: '#/definitions/401'
-   *       500:
-   *         description: Server error
-   *         schema:
-   *           $ref: '#/definitions/500'
-   */
-  router.delete('/:id', (req, res, next) => {
-    rankService.deleteRank(req.params.id)
-      .then(() => res.status(204).end())
-      .catch((error) => next(error));
-  });
-  
-  
-  export default router;
+router.put("/:id", (req, res, next) => {
+  rankService
+    .updateRank(req.params.id, req.body)
+    .then(() => res.status(204).end())
+    .catch(error => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/ranks/{id}:
+ *   delete:
+ *     description: delete rank
+ *     tags:
+ *       - ranks
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       204:
+ *         description: delete success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.delete("/:id", (req, res, next) => {
+  rankService
+    .deleteRank(req.params.id)
+    .then(() => res.status(204).end())
+    .catch(error => next(error));
+});
+
+export default router;
