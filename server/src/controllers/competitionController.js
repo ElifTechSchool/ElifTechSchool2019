@@ -205,7 +205,7 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-  competitionService.deletecompetition(req.params.id)
+  competitionService.deleteCompetition(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
