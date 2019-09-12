@@ -37,4 +37,4 @@ module.exports = class Rank extends Model {
 
   // static associate(models) {
   // }
-}
+};
