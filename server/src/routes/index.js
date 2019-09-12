@@ -3,6 +3,9 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import express from 'express';
 import example from '../controllers/exampleController.js';
 import events from '../controllers/eventsController.js';
+import achievements from '../controllers/achievementsController.js';
+import users from '../controllers/usersController.js';
+import competitions from '../controllers/competitionController.js';
 
 const router = express.Router();
 
@@ -47,5 +50,8 @@ router.use('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(swaggerSpec));
 router.use('/api/v1/examples', example);
 router.use('/api/v1/events', events);
+router.use('/api/v1/users', users)
+router.use('/api/v1/competitions', competitions);
+router.use('/api/v1/achievements', achievements);
 
 export default router;
