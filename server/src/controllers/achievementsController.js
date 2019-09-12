@@ -1,16 +1,16 @@
 import express from 'express';
-import exampleService from '../businessLogic/exampleService.js';
+import achievementService from '../businessLogic/achievementsService.js';
 
 const router = express.Router();
 
 /**
  * @swagger
  *
- * /v1/examples:
+ * /v1/achievements:
  *   get:
- *     description: Get examples
+ *     description: Get achievements
  *     tags:
- *       - examples
+ *       - achievements
  *     produces:
  *       - application/json
  *     parameters: []
@@ -24,7 +24,15 @@ const router = express.Router();
  *              properties:
  *                id:
  *                  type: number
- *                message:
+ *                name:
+ *                  type: string
+ *                description:
+ *                  type: string
+ *                type:
+ *                  type: string
+ *                experience:
+ *                  type: number
+ *                photo_url:
  *                  type: string
  *       401:
  *         description: Unauthorized access
@@ -35,21 +43,20 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-
-router.get('/', (req, res, next) => {
-  exampleService.getExamples()
-    .then((result) => res.json(result))
-    .catch((error) => next(error));
+router.get('/', function (req, res, next) {
+  achievementService.getAchievements()
+    .then(data => res.json({ data }))
+    .catch(error => next(error));
 });
 
 /**
  * @swagger
  *
- * /v1/examples/{id}:
+ * /v1/achievements/{id}:
  *   get:
- *     description: Get example by id
+ *     description: Get achievements by id
  *     tags:
- *       - examples
+ *       - achievements
  *     produces:
  *       - application/json
  *     parameters:
@@ -63,9 +70,15 @@ router.get('/', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             id:
- *               type: number
- *             message:
+ *             name:
+ *               type: string
+ *             description:
+ *               type: string
+ *             type:
+ *               type: string
+ *             experience:
+ *                type: number
+ *             photo_url:
  *               type: string
  *       401:
  *         description: Unauthorized access
@@ -76,20 +89,20 @@ router.get('/', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/:id', (req, res, next) => {
-  exampleService.getExampleById(req.params.id)
-    .then((result) => res.json(result))
-    .catch((error) => next(error));
+router.get('/:id', function (req, res, next) {
+  achievementService.getAchievementById(req.params.id)
+    .then(data => res.json({ data }))
+    .catch(error => next(error));
 });
 
 /**
  * @swagger
  *
- * /v1/examples:
+ * /v1/achievements:
  *   post:
- *     description: add example
+ *     description: add achievement
  *     tags:
- *       - examples
+ *       - achievements
  *     produces:
  *       - application/json
  *     parameters:
@@ -99,7 +112,15 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             message:
+ *             name:
+ *               type: string
+ *             description:
+ *               type: string
+ *             type:
+ *               type: string
+ *             experience:
+ *                type: number
+ *             photo_url:
  *               type: string
  *     responses:
  *       201:
@@ -113,8 +134,9 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
-  exampleService.createExample(req.body)
+router.post('/', function (req, res,next) {
+  const { achievement } = req.body;
+  achievementService.createAchievement(achievement)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -122,53 +144,11 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/examples/{id}:
- *   put:
- *     description: update example
- *     tags:
- *       - examples
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: number
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             message:
- *               type: string
- *     responses:
- *       204:
- *         description: added success
- *       401:
- *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
- *       500:
- *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
- */
-router.put('/:id', (req, res, next) => {
-  exampleService.updateExample(req.params.id, req.body)
-    .then(() => res.status(204).end())
-    .catch((error) => next(error));
-});
-
-/**
- * @swagger
- *
- * /v1/examples/{id}:
+ * /v1/achievements/{id}:
  *   delete:
- *     description: update example
+ *     description: delete achievement
  *     tags:
- *       - examples
+ *       - achievements
  *     produces:
  *       - application/json
  *     parameters:
@@ -190,10 +170,59 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-  exampleService.deleteExample(req.params.id)
+  achievementService.deleteAchievement(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
 
+/**
+ * @swagger
+ *
+ * /v1/achievements/{id}:
+ *   put:
+ *     description: update achievement
+ *     tags:
+ *       - achievements
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             description:
+ *                type: string
+ *             type:
+ *                type: string
+ *             experience:
+ *                type: number
+ *             photo_url:
+ *                type: string
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.put('/:id', (req, res, next) => {
+  achievementService.updateAchievement(req.params.id, req.body)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
 
 export default router;
