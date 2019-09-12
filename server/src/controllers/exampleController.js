@@ -35,6 +35,7 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
+
 router.get('/', (req, res, next) => {
   exampleService.getExamples()
     .then((result) => res.json(result))
