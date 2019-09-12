@@ -7,7 +7,7 @@ Backend for event system management.
 
 Install dependencies:
 ```sh
-yarn
+npm i
 ```
 
 Create .env file
@@ -25,7 +25,7 @@ DB_PASSWORD=<db user password>
 Start server:
 ```sh
 # Start server
-yarn start
+npm start
 ```
 
 Tests:
