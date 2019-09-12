@@ -1,5 +1,5 @@
-import express from "express";
-import rankService from "../businessLogic/rankService.js";
+import express from 'express';
+import rankService from '../businessLogic/rankService.js';
 
 const router = express.Router();
 
@@ -41,11 +41,11 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get("/", (req, res, next) => {
+router.get('/', (req, res, next) => {
   rankService
     .getRanks()
-    .then(result => res.json(result))
-    .catch(error => next(error));
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
 });
 
 /**
@@ -88,11 +88,11 @@ router.get("/", (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get("/:id", (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   rankService
     .getRankById(req.params.id)
-    .then(result => res.json(result))
-    .catch(error => next(error));
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
 });
 
 /**
@@ -132,11 +132,11 @@ router.get("/:id", (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post("/", (req, res, next) => {
+router.post('/', (req, res, next) => {
   rankService
     .createRank(req.body)
     .then(() => res.status(201).end())
-    .catch(error => next(error));
+    .catch((error) => next(error));
 });
 
 /**
@@ -181,11 +181,11 @@ router.post("/", (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put("/:id", (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   rankService
     .updateRank(req.params.id, req.body)
     .then(() => res.status(204).end())
-    .catch(error => next(error));
+    .catch((error) => next(error));
 });
 
 /**
@@ -216,11 +216,11 @@ router.put("/:id", (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete("/:id", (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   rankService
     .deleteRank(req.params.id)
     .then(() => res.status(204).end())
-    .catch(error => next(error));
+    .catch((error) => next(error));
 });
 
 export default router;
