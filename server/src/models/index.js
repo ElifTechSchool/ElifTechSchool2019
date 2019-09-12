@@ -6,6 +6,7 @@ import { extname, join, dirname } from 'path';
 import config from '../../config/env.js';
 import logger from '../helpers/logging.js';
 
+
 const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const { Op, UniqueConstraintError } = Sequelize;

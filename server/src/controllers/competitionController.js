@@ -1,16 +1,14 @@
 import express from 'express';
-import tasksService from '../businessLogic/tasksService.js';
+import competitionService from '../businessLogic/competitionService.js';
 
 const router = express.Router();
 
 /**
  * @swagger
  *
- * /v1/tasks:
+ * /v1/competitions:
  *   get:
- *     description: Get examples
- *     tags:
- *       - examples
+ *     description: Get competitions
  *     produces:
  *       - application/json
  *     parameters: []
@@ -22,10 +20,16 @@ const router = express.Router();
  *           items:
  *              type: object
  *              properties:
- *                id:
+ *              id:
  *                  type: number
- *                message:
+ *              name:
  *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -37,7 +41,7 @@ const router = express.Router();
  */
 
 router.get('/', (req, res, next) => {
-  tasksService.getTasks()
+    competitionService.getCompetitions()
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -45,28 +49,33 @@ router.get('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/competitions/{id}:
  *   get:
- *     description: Get example by id
- *     tags:
- *       - examples
+ *     description: Get competition by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         type: number
+ *         schema:
+ *           type: number
  *     responses:
  *       200:
  *         description: response
  *         schema:
  *           type: object
  *           properties:
- *             id:
- *               type: number
- *             message:
- *               type: string
+ *              id:
+ *                  type: number
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number        
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -77,19 +86,17 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-  tasksService.getTaskById(req.params.id)
-    .then((result) => res.json(result[0]))
+  competitionService.getCompetitionById(req.params.id)
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 
 /**
  * @swagger
  *
- * /v1/tasks:
+ * /v1/competitions:
  *   post:
- *     description: add example
- *     tags:
- *       - examples
+ *     description: add competition
  *     produces:
  *       - application/json
  *     parameters:
@@ -99,8 +106,14 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             message:
- *               type: string
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
  *     responses:
  *       201:
  *         description: added success
@@ -114,7 +127,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-  tasksService.createTask(req.body)
+  competitionService.createCompetition(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -122,27 +135,31 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/competitions/{id}:
  *   put:
  *     description: update example
- *     tags:
- *       - examples
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: number
  *       - name: body
  *         in: body
  *         required: true
  *         schema:
  *           type: object
  *           properties:
- *             message:
- *               type: string
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
  *     responses:
  *       204:
  *         description: added success
@@ -156,7 +173,7 @@ router.post('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
-  tasksService.updateTask(req.params.id, req.body)
+  competitionService.updateCompetition(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -164,11 +181,9 @@ router.put('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/competitions/{id}:
  *   delete:
- *     description: update example
- *     tags:
- *       - examples
+ *     description: delete competition
  *     produces:
  *       - application/json
  *     parameters:
@@ -190,7 +205,7 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-  tasksService.deleteTask(req.params.id)
+  competitionService.deletecompetition(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });

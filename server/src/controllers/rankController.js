@@ -1,16 +1,16 @@
 import express from 'express';
-import tasksService from '../businessLogic/tasksService.js';
+import rankService from '../businessLogic/rankService.js';
 
 const router = express.Router();
 
 /**
  * @swagger
  *
- * /v1/tasks:
+ * /v1/ranks:
  *   get:
- *     description: Get examples
+ *     description: Get ranks
  *     tags:
- *       - examples
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters: []
@@ -24,7 +24,13 @@ const router = express.Router();
  *              properties:
  *                id:
  *                  type: number
- *                message:
+ *                name:
+ *                  type: string
+ *                experience:
+ *                  type: number
+ *                number:
+ *                  type: number
+ *                photo_url:
  *                  type: string
  *       401:
  *         description: Unauthorized access
@@ -35,9 +41,9 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-
 router.get('/', (req, res, next) => {
-  tasksService.getTasks()
+  rankService
+    .getRanks()
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -45,11 +51,11 @@ router.get('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/ranks/{id}:
  *   get:
- *     description: Get example by id
+ *     description: Get rank by id
  *     tags:
- *       - examples
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -65,7 +71,13 @@ router.get('/', (req, res, next) => {
  *           properties:
  *             id:
  *               type: number
- *             message:
+ *             name:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             number:
+ *               type: number
+ *             photo_url:
  *               type: string
  *       401:
  *         description: Unauthorized access
@@ -77,19 +89,20 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-  tasksService.getTaskById(req.params.id)
-    .then((result) => res.json(result[0]))
+  rankService
+    .getRankById(req.params.id)
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 
 /**
  * @swagger
  *
- * /v1/tasks:
+ * /v1/ranks:
  *   post:
- *     description: add example
+ *     description: add rank
  *     tags:
- *       - examples
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -99,7 +112,13 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             message:
+ *             name:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             number:
+ *               type: number
+ *             photo_url:
  *               type: string
  *     responses:
  *       201:
@@ -114,7 +133,8 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-  tasksService.createTask(req.body)
+  rankService
+    .createRank(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -122,11 +142,11 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/ranks/{id}:
  *   put:
- *     description: update example
+ *     description: update rank
  *     tags:
- *       - examples
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -141,7 +161,13 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             message:
+ *             name:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             number:
+ *               type: number
+ *             photo_url:
  *               type: string
  *     responses:
  *       204:
@@ -156,7 +182,8 @@ router.post('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
-  tasksService.updateTask(req.params.id, req.body)
+  rankService
+    .updateRank(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -164,11 +191,11 @@ router.put('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/ranks/{id}:
  *   delete:
- *     description: update example
+ *     description: delete rank
  *     tags:
- *       - examples
+ *       - ranks
  *     produces:
  *       - application/json
  *     parameters:
@@ -190,10 +217,10 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-  tasksService.deleteTask(req.params.id)
+  rankService
+    .deleteRank(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
-
 
 export default router;

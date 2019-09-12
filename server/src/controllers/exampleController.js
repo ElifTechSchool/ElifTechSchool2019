@@ -1,12 +1,12 @@
 import express from 'express';
-import tasksService from '../businessLogic/tasksService.js';
+import exampleService from '../businessLogic/exampleService.js';
 
 const router = express.Router();
 
 /**
  * @swagger
  *
- * /v1/tasks:
+ * /v1/examples:
  *   get:
  *     description: Get examples
  *     tags:
@@ -37,7 +37,7 @@ const router = express.Router();
  */
 
 router.get('/', (req, res, next) => {
-  tasksService.getTasks()
+  exampleService.getExamples()
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -45,7 +45,7 @@ router.get('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/examples/{id}:
  *   get:
  *     description: Get example by id
  *     tags:
@@ -77,15 +77,15 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-  tasksService.getTaskById(req.params.id)
-    .then((result) => res.json(result[0]))
+  exampleService.getExampleById(req.params.id)
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 
 /**
  * @swagger
  *
- * /v1/tasks:
+ * /v1/examples:
  *   post:
  *     description: add example
  *     tags:
@@ -114,7 +114,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-  tasksService.createTask(req.body)
+  exampleService.createExample(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -122,7 +122,7 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/examples/{id}:
  *   put:
  *     description: update example
  *     tags:
@@ -156,7 +156,7 @@ router.post('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
-  tasksService.updateTask(req.params.id, req.body)
+  exampleService.updateExample(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -164,7 +164,7 @@ router.put('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/tasks/{id}:
+ * /v1/examples/{id}:
  *   delete:
  *     description: update example
  *     tags:
@@ -190,7 +190,7 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-  tasksService.deleteTask(req.params.id)
+  exampleService.deleteExample(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
