@@ -29,7 +29,8 @@
     "pino-stackdriver": "^1.2.7",
     "sequelize": "^5.18.1",
     "swagger-jsdoc": "^3.4.0",
-    "swagger-ui-express": "^4.0.7"
+    "swagger-ui-express": "^4.0.7",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "chai": "^4.2.0",
