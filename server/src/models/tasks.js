@@ -1,6 +1,8 @@
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('tasks', {
+const Sequelize = require('sequelize');
+
+module.exports = class Tasks extends Sequelize.Model {
+  static init(sequelize) {
+    return super.init({
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -24,7 +26,7 @@ module.exports = {
         allowNull: false,
         validate: {
           len: [0, 100],
-
+        },
       },
       description:{
         type: Sequelize.TEXT,
@@ -49,12 +51,33 @@ module.exports = {
         validate: {
           len: [0, 100],
         },
+      },
+      max_participants: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
 
-      }
-     
+    },
+    {
+      sequelize,
+      tableName: 'tasks',
+      modelName: 'tasks',
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+      deletedAt: 'deleted_at',
+      paranoid: true,
+      timestamps: true,
+      scopes: {
+        withoutDefaultColumn: {
+          attributes: { exclude: ['createdat', 'deletedat', 'updatedat'] },
+        },
+      },
+    
     });
-  },
-  down: (queryInterface, Sequelize) => 
-  { return queryInterface.dropTable('examples', { transaction: t });}
-  }
 
+}
+
+  // static associate(models) {
+  // }
+};

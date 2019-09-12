@@ -3,7 +3,7 @@ import { models } from '../models/index.js';
 const { events: eventsModel } = models;
 
 const getEvents = () => eventsModel.findAll({
-  attributes: ['id', 'title', 'description', 'location', 'max_people', 'image', 'date', 'time']
+  attributes: ['id', 'title', 'description', 'location', 'max_people', 'image', 'date', 'time'],
 });
 
 const getEventById = (id) => eventsModel.findAll({
@@ -17,7 +17,7 @@ const updateEvent = (id, event) => eventsModel.update(
   event,
   {
     where: { id },
-    attributes: ['id', 'title', 'description', 'location', 'max_people', 'image', 'date', 'time']
+    attributes: ['id', 'title', 'description', 'location', 'max_people', 'image', 'date', 'time'],
   },
 );
 

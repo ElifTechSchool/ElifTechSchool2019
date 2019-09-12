@@ -1,6 +1,6 @@
-import { Model, INTEGER, CHAR, STRING } from 'sequelize';
+const { Model, INTEGER, CHAR, STRING } = require('sequelize');
 
-export default class Rank extends Model {
+module.exports = class Rank extends Model {
   static init(sequelize) {
     return super.init({
       id: {

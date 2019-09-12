@@ -1,16 +1,16 @@
 import express from 'express';
-import eventsService from '../businessLogic/eventsService.js';
+import tasksService from '../businessLogic/tasksService.js';
 
 const router = express.Router();
 
 /**
  * @swagger
  *
- * /v1/events:
+ * /v1/tasks:
  *   get:
- *     description: Get events
+ *     description: Get examples
  *     tags:
- *       - events
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters: []
@@ -24,19 +24,7 @@ const router = express.Router();
  *              properties:
  *                id:
  *                  type: number
- *                title:
- *                  type: string
- *                description:
- *                  type: string
- *                location:
- *                  type: string
- *                max_people:
- *                  type: number
- *                image:
- *                  type: string
- *                date:
- *                  type: string
- *                time:
+ *                message:
  *                  type: string
  *       401:
  *         description: Unauthorized access
@@ -47,8 +35,9 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
+
 router.get('/', (req, res, next) => {
-  eventsService.getEvents()
+  tasksService.getTasks()
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -56,11 +45,11 @@ router.get('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/events/{id}:
+ * /v1/tasks/{id}:
  *   get:
- *     description: Get event by id
+ *     description: Get example by id
  *     tags:
- *       - events
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -76,19 +65,7 @@ router.get('/', (req, res, next) => {
  *           properties:
  *             id:
  *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
+ *             message:
  *               type: string
  *       401:
  *         description: Unauthorized access
@@ -100,7 +77,7 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-    eventsService.getEventById(req.params.id)
+  tasksService.getTaskById(req.params.id)
     .then((result) => res.json(result[0]))
     .catch((error) => next(error));
 });
@@ -108,11 +85,11 @@ router.get('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/events:
+ * /v1/tasks:
  *   post:
- *     description: add event
+ *     description: add example
  *     tags:
- *       - events
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -122,21 +99,7 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
+ *             message:
  *               type: string
  *     responses:
  *       201:
@@ -151,7 +114,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-    eventsService.createEvent(req.body)
+  tasksService.createTask(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -159,11 +122,11 @@ router.post('/', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/events/{id}:
+ * /v1/tasks/{id}:
  *   put:
- *     description: update event
+ *     description: update example
  *     tags:
- *       - events
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -178,21 +141,7 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
+ *             message:
  *               type: string
  *     responses:
  *       204:
@@ -207,7 +156,7 @@ router.post('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
-    eventsService.updateEvent(req.params.id, req.body)
+  tasksService.updateTask(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -215,11 +164,11 @@ router.put('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/events/{id}:
+ * /v1/tasks/{id}:
  *   delete:
- *     description: delete event
+ *     description: update example
  *     tags:
- *       - events
+ *       - examples
  *     produces:
  *       - application/json
  *     parameters:
@@ -241,7 +190,7 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-    eventsService.deleteEvent(req.params.id)
+  tasksService.deleteTask(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });

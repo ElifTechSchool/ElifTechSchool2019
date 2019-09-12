@@ -1,6 +1,7 @@
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import express from 'express';
+import tasks from '../controllers/tasksController.js';
 import example from '../controllers/exampleController.js';
 import rank from '../controllers/rankController.js';
 import events from '../controllers/eventsController.js';
@@ -49,10 +50,11 @@ const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/
 
 router.use('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(swaggerSpec));
+router.use('api/v1/tasks', tasks);
 router.use('/api/v1/examples', example);
 router.use('/api/v1/ranks', rank);
 router.use('/api/v1/events', events);
-router.use('/api/v1/users', users)
+router.use('/api/v1/users', users);
 router.use('/api/v1/competitions', competitions);
 router.use('/api/v1/achievements', achievements);
 
