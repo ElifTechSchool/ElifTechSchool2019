@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --experimental-modules index.js",
+    "start": "nodemon --experimental-modules index.js",
     "start:dev": "nodemon --experimental-modules index.js",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo"
+  },
+  "repository": {
+    "url": "https://github.com/ElifTechSchool/ElifTechSchool2019"
   },
   "type": "module",
   "author": "",
@@ -20,18 +23,17 @@
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
-    "helmet": "^3.20.1",
+    "helmet": "^3.21.0",
     "http-status": "^1.3.2",
     "pg": "^7.12.1",
-    "pg-hstore": "^2.3.3",
     "pino": "^5.13.2",
     "pino-http": "^4.3.0",
     "pino-multi-stream": "^4.2.0",
     "pino-pretty": "^3.2.1",
     "pino-stackdriver": "^1.2.7",
-    "sequelize": "^5.18.1",
+    "sequelize": "^5.18.4",
     "swagger-jsdoc": "^3.4.0",
-    "swagger-ui-express": "^4.0.7"
+    "swagger-ui-express": "^4.1.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
