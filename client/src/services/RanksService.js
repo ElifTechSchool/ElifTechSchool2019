@@ -3,7 +3,6 @@ import axios from "axios";
 const getRanks = async () => {
   try {
     const response = await axios.get("ranks");
-    console.log(response)
     return response;
   } catch (error) {
     //for test, should added errorHandler
@@ -14,14 +13,44 @@ const getRanks = async () => {
 const addRank = async rank => {
   try {
     const response = await axios.post("ranks", rank);
-    return response.data;
+    return response;
   } catch (error) {
     //for test, should added errorHandler
     console.log(error);
   }
 };
 
+const getRankById = async id => {
+  try {
+    const response = await axios.get(`ranks/${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateRank = async (id, rank) => {
+  try {
+    const response = await axios.put(`ranks/${id}`, rank);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteRank = async id => {
+  try {
+    const response = await axios.delete(`ranks/${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default {
   getRanks,
-  addRank
+  addRank,
+  getRankById,
+  updateRank,
+  deleteRank
 };

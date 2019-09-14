@@ -1,7 +1,7 @@
-import rankService from "../../services/RanksService.js";
+import ranksService from "../../services/RanksService.js";
 
 const state = {
-  ranks: []
+  ranks: null
 };
 
 const getters = {
@@ -19,17 +19,17 @@ const mutations = {
 
 const actions = {
   async getAllRanks({ commit }) {
-    const response = await rankService.getRanks();
+    const response = await ranksService.getRanks();
     if (response.status == 200) {
       commit("setRanks", response.data);
     }
+  },
+  async addRank({ commit }, rank) {
+    const response = await ranksService.addRank(rank);
+    if (response.status == 201) {
+      commit("addRank", response.data);
+    }
   }
-  // async addRank({ commit }, rank) {
-  //   const response = await ranksService.addRank(rank);
-  //   if (response.status == 201) {
-  //     commit("addRank", response.data);
-  //   }
-  // }
 };
 
 export default {

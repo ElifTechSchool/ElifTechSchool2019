@@ -1,39 +1,21 @@
 <template lang="html">
-
-    <div class="container">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Experience</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="rank in ranks" :key="rank.id">
-          <td>{{ rank.id }}</td>
-          <td>{{ rank.experience }}</td>
-          <td>{{ rank.photo_url }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
+<div>
+  <ul >
+    <li v-for="rank in allRanks">
+      {{ rank.name }}
+    </li>
+  </ul>
+</div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
   export default  {
     name: 'ranks-list',
     props: [],
-    mounted() {
+    mounted () {
        this.$store.dispatch("getAllRanks")
-       console.log(this.ranks)
-    },
-    created() {
-      
     },
     data() {
       return {
@@ -43,7 +25,7 @@ import { mapState } from "vuex";
 
     },
     computed: {
-      ...mapState(['ranks'])
+     ...mapGetters(['allRanks'])
     }
 }
 </script>
