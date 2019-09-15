@@ -10,13 +10,15 @@
           <v-btn text>About</v-btn>
         </v-toolbar-items>
       </v-toolbar>
+      <RanksList/>
     </div>
 </template>
 
 <script>
-
+import RanksList from "../components/RanksList/RanksList"
 export default {
   components: {
+    RanksList
   },
 };
 </script>

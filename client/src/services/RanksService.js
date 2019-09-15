@@ -6,7 +6,8 @@ const getRanks = async () => {
     return response;
   } catch (error) {
     //for test, should added errorHandler
-    console.log(error);
+    console.log(error.message);
+    return error.message;
   }
 };
 
@@ -17,6 +18,7 @@ const addRank = async rank => {
   } catch (error) {
     //for test, should added errorHandler
     console.log(error);
+    return error.message;
   }
 };
 
@@ -26,6 +28,7 @@ const getRankById = async id => {
     return response;
   } catch (error) {
     console.log(error);
+    return error.message;
   }
 };
 
@@ -35,6 +38,7 @@ const updateRank = async (id, rank) => {
     return response;
   } catch (error) {
     console.log(error);
+    return error.message;
   }
 };
 
@@ -44,6 +48,7 @@ const deleteRank = async id => {
     return response;
   } catch (error) {
     console.log(error);
+    return error.message;
   }
 };
 

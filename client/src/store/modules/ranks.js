@@ -18,10 +18,12 @@ const mutations = {
 };
 
 const actions = {
-  async getAllRanks({ commit }) {
+  async getAllRanks({ commit, dispatch }) {
     const response = await ranksService.getRanks();
     if (response.status == 200) {
       commit("setRanks", response.data);
+    } else {
+      dispatch("showSnackBar", { response, color: "red" });
     }
   },
   async addRank({ commit }, rank) {
