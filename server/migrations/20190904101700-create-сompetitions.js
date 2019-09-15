@@ -30,21 +30,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
-      },
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('now()'),
-      },
-      updated_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('now()'),
-      },
-      deleted_at: {
-        type: Sequelize.DATE,
-        allowNull: true,
-      },
+      }
     }, {
       transaction: t,
     });
