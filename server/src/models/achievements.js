@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class News extends Sequelize.Model {
+module.exports = class Achievement extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -9,18 +9,21 @@ module.exports = class News extends Sequelize.Model {
         autoIncrement: true,
         primaryKey: true,
       },
-      message: {
+      name: Sequelize.STRING,
+      description: {
         type: Sequelize.TEXT,
-        allowNull: true,
         validate: {
           len: [0, 5120],
         },
       },
+      type: Sequelize.STRING,
+      experience: Sequelize.INTEGER,
+      photo_url: Sequelize.STRING
     },
     {
       sequelize,
-      tableName: 'examples',
-      modelName: 'examples',
+      tableName: 'Achievements',
+      modelName: 'achievements',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
@@ -31,6 +34,6 @@ module.exports = class News extends Sequelize.Model {
           attributes: { exclude: ['createdat', 'deletedat', 'updatedat'] },
         },
       },
-    });
+    })
   }
-};
+}
