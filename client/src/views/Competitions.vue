@@ -1,7 +1,7 @@
 <template>
   <div class="competitions">
     <h1>Competitions list</h1>
-    <div v-for="competition in competitions" class="row">
+    <div v-for="competition in getCompetitions" :key="competition.id" class="row"   >
       <div class="data col-sm text-right">
         DEADLINE_DATE: {{ competition.deadline_date }}
       </div>
@@ -18,22 +18,12 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex"
 export default {
-  data() {
-    return {
-      competitions: []
-    };
-  },
-  mounted: function() {
-    fetch("http://localhost:3000/api/v1/competitions", {
-      method: "get"
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.competitions = data;
-      });
+  computed: mapGetters(["getCompetitions"]),
+  methods: mapActions(["fetchCompetitions"]),
+  async mounted() {
+    this.fetchCompetitions();
   }
 };
 </script>

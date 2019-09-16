@@ -9,6 +9,8 @@ const router = express.Router();
  * /v1/competitions:
  *   get:
  *     description: Get competitions
+ *     tags:
+ *       - competitions
  *     produces:
  *       - application/json
  *     parameters: []
@@ -52,6 +54,8 @@ router.get('/', (req, res, next) => {
  * /v1/competitions/{id}:
  *   get:
  *     description: Get competition by id
+ *     tags:
+ *       - competitions
  *     produces:
  *       - application/json
  *     parameters:
@@ -97,6 +101,8 @@ router.get('/:id', (req, res, next) => {
  * /v1/competitions:
  *   post:
  *     description: add competition
+ *     tags:
+ *       - competitions
  *     produces:
  *       - application/json
  *     parameters:
@@ -138,6 +144,8 @@ router.post('/', (req, res, next) => {
  * /v1/competitions/{id}:
  *   put:
  *     description: update example
+ *     tags:
+ *       - competitions
  *     produces:
  *       - application/json
  *     parameters:
@@ -184,6 +192,8 @@ router.put('/:id', (req, res, next) => {
  * /v1/competitions/{id}:
  *   delete:
  *     description: delete competition
+ *     tags:
+ *       - competitions
  *     produces:
  *       - application/json
  *     parameters:

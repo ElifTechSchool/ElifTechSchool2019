@@ -9,6 +9,16 @@
   </div>
 </template>
 
+<script>
+// @ is an alias to /src
+import Home from "@/views/Home.vue";
+
+export default {
+  name: "home"
+};
+</script>
+
+
 <style lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
