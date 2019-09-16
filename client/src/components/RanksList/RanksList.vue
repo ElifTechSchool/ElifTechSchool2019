@@ -1,35 +1,40 @@
 <template lang="html">
 <div>
-  <ul >
-    <li v-for="rank in allRanks">
-      {{ rank.name }}
-    </li>
-  </ul>
+  <div v-for="rank in allRanks" :key="rank.id">
+    <RanksItem 
+          :id="rank.id" 
+          :name="rank.name" 
+          :experience="rank.experience"
+          :number="rank.number"
+          :url="rank.photo_url" 
+    />
+  </div>
 </div>
+
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import RanksItem from "../RanksItem/RanksItem";
 
-  export default  {
-    name: 'ranks-list',
-    props: [],
-    mounted () {
-       this.$store.dispatch("getAllRanks")
-    },
-    data() {
-      return {
-      }
-    },
-    methods: {
-
-    },
-    computed: {
-     ...mapGetters(['allRanks'])
-    }
-}
+export default {
+  components: {
+    RanksItem
+  },
+  name: "ranks-list",
+  props: [],
+  mounted() {
+    this.$store.dispatch("getAllRanks");
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+  computed: {
+    ...mapGetters(["allRanks"])
+  }
+};
 </script>
 
 <style scoped lang="scss">
-
 </style>

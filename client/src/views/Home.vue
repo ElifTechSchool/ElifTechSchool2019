@@ -1,24 +1,17 @@
 <template>
   <div>
-      <v-toolbar>
-        <v-toolbar-title>R{!}P</v-toolbar-title>
-  
-        <div class="flex-grow-1"></div>
-  
-        <v-toolbar-items>
-          <v-btn text>Home</v-btn>
-          <v-btn text>About</v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <RanksList/>
-    </div>
+    <h1>This is an home page</h1>
+  </div>
 </template>
 
 <script>
-import RanksList from "../components/RanksList/RanksList"
-export default {
-  components: {
-    RanksList
-  },
-};
+  export default {
+    components: {
+
+    },
+  };
+
 </script>
+<style lang="scss">
+
+</style>

@@ -1,18 +1,19 @@
 <template>
   <v-app>
-    <Home/>
+    <Navbar/>
+    <router-view/>
     <Snackbar/>
   </v-app>
 </template>
 
 <script>
-import Home from "./views/Home";
+import Navbar from "./components/Navbar/Navbar"
 import Snackbar from "./components/Snackbar/Snackbar";
 
 export default {
   name: 'App',
   components: {
-    Home,
+    Navbar,
     Snackbar
   },
   data: () => ({
