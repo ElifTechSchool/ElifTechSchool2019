@@ -6,12 +6,11 @@
         DEADLINE_DATE: {{ competition.deadline_date }}
       </div>
       <div class="info col-sm">
-        <ul>
-          <li class="text-left">ID: {{ competition.id }}</li>
-          <li class="text-left">NAME: {{ competition.name }}</li>
-          <li class="text-left">DESCRIPTION: {{ competition.description }}</li>
-          <li class="text-left">EXPERIENCE: {{ competition.experience }}</li>
-        </ul>
+        <li class="text-left">ID: {{ competition.id }}</li>
+        <li class="text-left">NAME: {{ competition.name }}</li>
+        <li class="text-left">DESCRIPTION: {{ competition.description }}</li>
+        <li class="text-left">EXPERIENCE: {{ competition.experience }}</li>
+        <li><router-link :to="{ name: 'details', params: { id: competition.id }}">Details</router-link></li>
       </div>
     </div>
   </div>
@@ -24,6 +23,7 @@ export default {
   methods: mapActions(["fetchCompetitions"]),
   async mounted() {
     this.fetchCompetitions();
-  }
+  },
+  
 };
 </script>
