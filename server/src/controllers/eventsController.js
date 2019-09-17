@@ -100,7 +100,7 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-    eventsService.getEventById(req.params.id)
+  eventsService.getEventById(req.params.id)
     .then((result) => res.json(result[0]))
     .catch((error) => next(error));
 });
@@ -151,7 +151,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-    eventsService.createEvent(req.body)
+  eventsService.createEvent(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
@@ -207,7 +207,7 @@ router.post('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
-    eventsService.updateEvent(req.params.id, req.body)
+  eventsService.updateEvent(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -241,7 +241,7 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
-    eventsService.deleteEvent(req.params.id)
+  eventsService.deleteEvent(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
