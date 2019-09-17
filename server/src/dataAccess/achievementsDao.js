@@ -1,4 +1,5 @@
 import { models } from '../models/index.js';
+
 const { achievements: achievementsModel } = models;
 
 const getAchievements = () => achievementsModel.findAll({ raw: true });

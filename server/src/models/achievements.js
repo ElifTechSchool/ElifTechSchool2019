@@ -18,7 +18,7 @@ module.exports = class Achievement extends Sequelize.Model {
       },
       type: Sequelize.STRING,
       experience: Sequelize.INTEGER,
-      photo_url: Sequelize.STRING
+      photo_url: Sequelize.STRING,
     },
     {
       sequelize,
@@ -34,6 +34,6 @@ module.exports = class Achievement extends Sequelize.Model {
           attributes: { exclude: ['createdat', 'deletedat', 'updatedat'] },
         },
       },
-    })
+    });
   }
-}
+};
