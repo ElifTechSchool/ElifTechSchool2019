@@ -9,8 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.CHAR(250),
-        allowNull: false
+        type: Sequelize.STRING(250),
+        allowNull: false,
+        validate: {
+          len: [0, 250],
+        },
       },
       experience: {
         type: Sequelize.INTEGER,

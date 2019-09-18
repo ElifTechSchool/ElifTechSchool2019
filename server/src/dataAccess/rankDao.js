@@ -4,9 +4,7 @@ const { ranks: rankModel } = models;
 
 const getRanks = () => rankModel.findAll();
 
-const getRankById = (id) => rankModel.findAll({
-  where: { id },
-});
+const getRankById = (id) => rankModel.findByPk(id);
 
 const createRank = (rank) => rankModel.create(rank);
 
@@ -17,7 +15,7 @@ const updateRank = (id, rank) => rankModel.update(
   },
 );
 
-const deleteRank = (id) => rankModel.detroy({
+const deleteRank = (id) => rankModel.destroy({
   where: { id },
 });
 

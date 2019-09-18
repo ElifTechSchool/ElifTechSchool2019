@@ -12,6 +12,9 @@ module.exports = class Rank extends Model {
       name: {
         type: STRING(250),
         allowNull: false,
+        validate: {
+          len: [0, 250],
+        },
       },
       experience: {
         type: INTEGER,
@@ -37,4 +40,4 @@ module.exports = class Rank extends Model {
 
   // static associate(models) {
   // }
-}
+};
