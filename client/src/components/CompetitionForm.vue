@@ -24,7 +24,12 @@ export default {
     data: () =>  {
         return {
             showForm: false,
-            competition: []
+            competition: {
+                name: "",
+                description: "",
+                deadline_date: "",
+                experience: "" 
+            }
         }
     },
     computed: mapGetters(["getCompetitions"]),
