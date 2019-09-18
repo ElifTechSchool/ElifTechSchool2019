@@ -7,17 +7,37 @@
           <li>DESCRIPTION: {{competition.description}}</li>
           <li>EXPERIENCE: {{competition.experience}}</li>
       </div>
+      <UpdateForm />
     </div> 
 </template>
 
 <script>
 import {mapGetters, mapActions} from "vuex"
+import UpdateForm from "./UpdateForm";
 export default {
+  components: {
+    UpdateForm
+  },
   computed: mapGetters(["getCompetitions"]),
-  methods: mapActions(["fetchCompetitionById"]),
+  methods: mapActions(["fetchCompetitionById", "updateCompetition"]),
   async mounted() {
     this.fetchCompetitionById(this.$route.params.id);
   },
   
 };
 </script>
+
+<style>
+    input {
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    UpdateForm{
+      display: none;
+    }
+
+</style>
