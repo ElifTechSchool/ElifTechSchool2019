@@ -7,6 +7,7 @@
           <li>DESCRIPTION: {{competition.description}}</li>
           <li>EXPERIENCE: {{competition.experience}}</li>
       </div>
+      
       <UpdateForm />
     </div> 
 </template>
@@ -23,6 +24,7 @@ export default {
   async mounted() {
     this.fetchCompetitionById(this.$route.params.id);
   },
+  
   
 };
 </script>
