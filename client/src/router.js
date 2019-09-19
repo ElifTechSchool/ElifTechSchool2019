@@ -31,7 +31,7 @@ export default new Router({
       path: "/add_user",
       name: "add_user",
       component: () => import("./views/AddUser.vue")
-    }
+    },
     {
       path: "/ranks",
       name: "ranks",
