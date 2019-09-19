@@ -1,4 +1,4 @@
-const { Model, INTEGER, CHAR, STRING } = require('sequelize');
+const { Model, INTEGER, STRING } = require('sequelize');
 
 module.exports = class Rank extends Model {
   static init(sequelize) {
@@ -10,8 +10,11 @@ module.exports = class Rank extends Model {
         type: INTEGER,
       },
       name: {
-        type: CHAR(250),
+        type: STRING(250),
         allowNull: false,
+        validate: {
+          len: [0, 250],
+        },
       },
       experience: {
         type: INTEGER,
@@ -37,4 +40,4 @@ module.exports = class Rank extends Model {
 
   // static associate(models) {
   // }
-}
+};

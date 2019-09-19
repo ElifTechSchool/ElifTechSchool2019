@@ -24,24 +24,29 @@
 </template>
 
 <script lang="js">
-export default {
-  name: 'navbar',
-  props: [],
-  mounted() {
-  },
-  data() {
-    return {
+  export default {
+    name: 'navbar',
+    props: [],
+    mounted() {
+
+    },
+    data() {
+      return {
+
+      }
+    },
+    methods: {
+
+    },
+    computed: {
+
     }
-  },
-  methods: {
-  },
-  computed: {
   }
-}
+
 </script>
 
 <style scoped lang="scss">
-.toolbar {
-  margin-bottom: 2.5rem;
-}
+  .toolbar {
+    margin-bottom: 2.5rem;
+  }
 </style>
