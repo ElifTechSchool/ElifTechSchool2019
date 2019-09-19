@@ -1,33 +1,15 @@
 <template>
-  <div>
-    <form @submit.prevent="submitUser">
+  <div class="form-wrapper">
+    <v-form @submit.prevent="submitUser">
       <h3>Create new user</h3>
-      <label>
-        <input type="text" name="name" v-model="user.name" />
-        <span>Name</span>
-      </label>
-      <label>
-        <input type="text" name="surname" v-model="user.surname" />
-        <span>Surname</span>
-      </label>
-      <label>
-        <input type="email" name="email" v-model="user.email" />
-        <span>Email</span>
-      </label>
-      <label>
-        <input type="password" name="password" v-model="user.password" />
-        <span>Password</span>
-      </label>
-      <label>
-        <input type="url" name="img_url" v-model="user.img_url" />
-        <span>Image url</span>
-      </label>
-      <label>
-        <input type="text" name="description" v-model="user.description" />
-        <span>Description</span>
-      </label>
-      <input type="submit" class="waves-effect waves-light btn" />
-    </form>
+        <v-text-field name="name" label="Name" v-model="user.name" required/>
+        <v-text-field name="surname" label="Surname" v-model="user.surname" required/>
+        <v-text-field type="email" label="E-mail" name="email" v-model="user.email" required/>
+        <v-text-field type="password" label="Password" name="password" v-model="user.password" required/>
+        <v-text-field type="url" label="Image url" name="img_url" v-model="user.img_url" />
+        <v-text-field type="text" label="Description" name="description" v-model="user.description" />
+      <v-btn type="submit" color="primary"> Submit </v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -48,4 +30,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .v-form{
+    width: 50%;
+    margin: 100px auto;
+  }
 </style>

@@ -1,20 +1,20 @@
 <template>
-    <v-app>
-      <Navbar/>
-      <router-view/>
-      <Snackbar/>
+  <v-app>
+    <Navbar />
+    <router-view />
+    <Snackbar />
   </v-app>
 </template>
 
 <script>
-import Navbar from "./components/Navbar/Navbar"
+import Navbar from "./components/Navbar/Navbar";
 
-  export default {
-    name: 'App',
-    components: {
-      Navbar,
-    },
-  };
+export default {
+  name: "App",
+  components: {
+    Navbar
+  }
+};
 </script>
 
 <style lang="scss">
