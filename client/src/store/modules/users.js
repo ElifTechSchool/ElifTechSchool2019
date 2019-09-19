@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const state = {
   users: []
 };
@@ -9,9 +11,6 @@ const getters = {
 const mutations = {
   setUsers: (state, users) => {
     state.users = users;
-  },
-  addUser: (state, newUser) => {
-    state.users.push(newUser);
   }
 };
 
@@ -22,17 +21,19 @@ const actions = {
       .then(res => res.data)
       .then(users => {
         commit("setUsers", users);
-      });
+      })
+      .catch(err => console.log(err));
   },
-  submitUser({ commit }, newUser) {
+  submitUser({ dispatch }, newUser) {
     axios
       .post("http://localhost:3000/api/v1/users", newUser)
-      .then(commit("addUser", newUser));
+      .catch(err => console.log(err));
   },
-  deleteUser({ commit, state }, id) {
+  deleteUser({ dispatch }, id) {
     axios
       .delete(`http://localhost:3000/api/v1/users/${id}`)
-      .then(commit("setUsers", state.users.filter(user => user.id !== id)));
+      .then(dispatch("loadUsers"))
+      .catch(err => console.log(err));
   }
 };
 

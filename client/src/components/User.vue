@@ -4,9 +4,11 @@
     <p class="rank">{{ userData.rank }}</p>
     <div class="userDetail">
       <h5>{{ userData.name }} {{ userData.surname }}</h5>
+      <!--
       <div class="meter">
         <span :style="{ width: experience + '%' }"></span>
       </div>
+      -->
       <p>{{ userData.email }}</p>
     </div>
     <button @click="deleteUser">Delete</button>
