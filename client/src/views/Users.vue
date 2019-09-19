@@ -1,9 +1,7 @@
 <template>
   <div class="users">
     <h1>Users</h1>
-    <button @click="loadUsers" class="waves-effect waves-light btn">
-      GET USERS
-    </button>
+    <v-btn @click="loadUsers" color="primary"> GET USERS </v-btn>
     <br />
     <User v-for="(user, index) in users" :userData="user" :key="index" />
   </div>

@@ -40,6 +40,7 @@ export default {
   },
   methods: {
     submitUser() {
+      console.log(this.user);
       this.$store.dispatch("submitUser", this.user);
       this.user = {};
     }
@@ -47,16 +48,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-  margin: 30px auto 100px auto;
-
-  input[type="submit"] {
-    margin: auto;
-    margin-top: 30px;
-    width: 50%;
-  }
-}
 </style>

@@ -11,7 +11,7 @@
       -->
       <p>{{ userData.email }}</p>
     </div>
-    <button @click="deleteUser">Delete</button>
+    <v-btn @click="deleteUser" color="primary">Delete</v-btn>
   </div>
 </template>
 
