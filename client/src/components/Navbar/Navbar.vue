@@ -12,6 +12,12 @@
         <v-btn text to="/about">
           About
         </v-btn>
+        <v-btn text to="/users">
+          User List
+        </v-btn>
+        <v-btn text to="/add_user">
+          Add user
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -43,5 +49,4 @@
   .toolbar {
     margin-bottom: 2.5rem;
   }
-
 </style>

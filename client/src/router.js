@@ -23,6 +23,16 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
     {
+      path: "/users",
+      name: "users",
+      component: () => import("./views/Users.vue")
+    },
+    {
+      path: "/add_user",
+      name: "add_user",
+      component: () => import("./views/AddUser.vue")
+    }
+    {
       path: "/ranks",
       name: "ranks",
       // route level code-splitting
