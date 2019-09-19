@@ -24,7 +24,7 @@ const actions = {
       })
       .catch(err => console.log(err));
   },
-  submitUser({ dispatch }, newUser) {
+  submitUser(newUser) {
     axios
       .post("http://localhost:3000/api/v1/users", newUser)
       .catch(err => console.log(err));

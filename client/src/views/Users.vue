@@ -25,7 +25,7 @@ export default {
   methods: {
     loadUsers() {
       this.$store.dispatch("loadUsers");
-    },
+    }
   },
   mounted() {
     this.$store.dispatch("loadUsers");
@@ -33,6 +33,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
