@@ -5,33 +5,42 @@ const state = {
 };
 
 const getters = {
-  users: state => state.users
+  users: state => state.users,
+  userById(state){
+    return id => state.users.find( el => el.id === id);
+  },
 };
 
 const mutations = {
   setUsers: (state, users) => {
     state.users = users;
+    console.log(state.users);
   }
 };
 
 const actions = {
   loadUsers({ commit }) {
     axios
-      .get("http://localhost:3000/api/v1/users")
+      .get("users")
       .then(res => res.data)
       .then(users => {
         commit("setUsers", users);
       })
       .catch(err => console.log(err));
   },
-  submitUser({}, newUser) {
+  submitUser(_, newUser) {
     axios
-      .post("http://localhost:3000/api/v1/users", newUser)
+      .post("users", newUser)
+      .catch(err => console.log(err));
+  },
+  updateUser(_, userData) {
+    axios
+      .put(`users/${userData.id}`, userData)
       .catch(err => console.log(err));
   },
   deleteUser({ dispatch }, id) {
     axios
-      .delete(`http://localhost:3000/api/v1/users/${id}`)
+      .delete(`users/${id}`)
       .then(dispatch("loadUsers"))
       .catch(err => console.log(err));
   }

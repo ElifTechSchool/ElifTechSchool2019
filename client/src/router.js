@@ -33,6 +33,11 @@ export default new Router({
       component: () => import("./views/AddUser.vue")
     },
     {
+      path: "/userDetails/:Uid",
+      name: "userDetails",
+      component: () => import("./views/UserDetails.vue")
+    },
+    {
       path: "/ranks",
       name: "ranks",
       // route level code-splitting

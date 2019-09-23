@@ -3,7 +3,7 @@
     <h1>Users</h1>
     <v-btn @click="loadUsers" color="primary"> GET USERS </v-btn>
     <br />
-    <User v-for="(user, index) in users" :userData="user" :key="index" />
+    <User v-for="user in users" :userData="user" :key="user.id" />
   </div>
 </template>
 
@@ -31,4 +31,8 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+h1, .v-btn {
+  margin-left: 30px;
+}
+</style>

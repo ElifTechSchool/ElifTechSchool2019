@@ -1,33 +1,29 @@
 <template>
   <div class="user">
-    <img :src="this.img" alt="" />
+    <img :src="userData.image_url" alt="" />
     <p class="rank">{{ userData.rank }}</p>
     <div class="userDetail">
       <h5>{{ userData.name }} {{ userData.surname }}</h5>
-      <!--
       <div class="meter">
-        <span :style="{ width: experience + '%' }"></span>
+        <span :style="{ width: userData.experience + '%' }"></span>
       </div>
-      -->
       <p>{{ userData.email }}</p>
     </div>
-    <v-btn @click="deleteUser" color="primary">Delete</v-btn>
+    <v-btn @click="goTodetail" color="primary">Details</v-btn>
+    <v-btn @click="deleteUser" color="error">Delete</v-btn>
   </div>
 </template>
 
 <script>
 export default {
   name: "User",
-  data() {
-    return {
-      img:
-        "https://res.cloudinary.com/teepublic/image/private/s--pvzK8hXi--/t_Preview/b_rgb:ffb81c,c_limit,f_jpg,h_630,q_90,w_630/v1504193852/production/designs/1863629_1.jpg"
-    };
-  },
   props: ["userData"],
   methods: {
     deleteUser() {
       this.$store.dispatch("deleteUser", this.userData.id);
+    },
+    goTodetail(prodId) {
+      this.$router.push({name:'userDetails', params:{Uid:this.userData.id}})
     }
   }
 };
@@ -35,6 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .user {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
