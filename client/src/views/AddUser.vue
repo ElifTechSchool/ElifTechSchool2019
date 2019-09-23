@@ -6,8 +6,9 @@
         <v-text-field name="surname" label="Surname" v-model="user.surname" required/>
         <v-text-field type="email" label="E-mail" name="email" v-model="user.email" required/>
         <v-text-field type="password" label="Password" name="password" v-model="user.password" required/>
-        <v-text-field type="url" label="Image url" name="img_url" v-model="user.img_url" />
+        <v-text-field type="url" label="Image url" name="img_url" v-model="user.image_url" />
         <v-text-field type="text" label="Description" name="description" v-model="user.description" />
+        <v-text-field type="text" label="Experience" name="experience" v-model="user.experience" />
       <v-btn type="submit" color="primary"> Submit </v-btn>
     </v-form>
   </div>
