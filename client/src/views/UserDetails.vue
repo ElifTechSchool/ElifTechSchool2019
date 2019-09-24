@@ -4,39 +4,67 @@
       <img :src="this.userData.image_url" alt="" />
       <p class="rank">{{ userData.rank }}</p>
       <div class="userDetail">
-        <h1><b>Name:</b>  {{ userData.name }} {{ userData.surname }}</h1>
-        <p><b>Experience:</b>  {{ userData.experience }}</p>
-        <p><b>Email:</b>  {{ userData.email }}</p>
-        <p><b>Description:</b>  {{ userData.description }}</p>
+        <h1><b>Name:</b> {{ userData.name }} {{ userData.surname }}</h1>
+        <p><b>Experience:</b> {{ userData.experience }}</p>
+        <p><b>Email:</b> {{ userData.email }}</p>
+        <p><b>Description:</b> {{ userData.description }}</p>
       </div>
-      <v-btn
-        color="orange lighten-2"
-        class="mt-12"
-        @click="toggleEdit"
-      >
+      <v-btn color="orange lighten-2" class="mt-12" @click="toggleEdit">
         Edit
       </v-btn>
     </v-row>
 
     <v-row justify="center" class="userEdit" v-else>
       <v-form @submit.prevent="updateUser">
-        <v-text-field name="name" label="Name" v-model="userData.name" required/>
-        <v-text-field name="surname" label="Surname" v-model="userData.surname" required/>
-        <v-text-field type="email" label="E-mail" name="email" v-model="userData.email" required/>
-        <v-text-field type="password" label="Password" name="password" v-model="userData.password" required/>
-        <v-text-field type="url" label="Image url" name="img_url" v-model="userData.image_url" />
-        <v-text-field type="text" label="Description" name="description" v-model="userData.description" />
-        <v-text-field type="text" label="Experience" name="experience" v-model="userData.experience" />
-      <v-btn
-        color="orange lighten-2"
-        class="mt-12"
-        type="submit"
-      >
-        Update
-      </v-btn>
+        <v-text-field
+          name="name"
+          label="Name"
+          v-model="userData.name"
+          required
+        />
+        <v-text-field
+          name="surname"
+          label="Surname"
+          v-model="userData.surname"
+          required
+        />
+        <v-text-field
+          type="email"
+          label="E-mail"
+          name="email"
+          v-model="userData.email"
+          required
+        />
+        <v-text-field
+          type="password"
+          label="Password"
+          name="password"
+          v-model="userData.password"
+          required
+        />
+        <v-text-field
+          type="url"
+          label="Image url"
+          name="img_url"
+          v-model="userData.image_url"
+        />
+        <v-text-field
+          type="text"
+          label="Description"
+          name="description"
+          v-model="userData.description"
+        />
+        <v-text-field
+          type="text"
+          label="Experience"
+          name="experience"
+          v-model="userData.experience"
+        />
+        <v-btn color="orange lighten-2" class="mt-12" type="submit">
+          Update
+        </v-btn>
       </v-form>
     </v-row>
-
   </v-card>
 </template>
 
@@ -44,12 +72,12 @@
 export default {
   name: "userDetail",
   data() {
-      return {
-        isEditing: false,
-      }
+    return {
+      isEditing: false
+    };
   },
   methods: {
-     toggleEdit() {
+    toggleEdit() {
       this.isEditing = !this.isEditing;
     },
     updateUser() {
@@ -59,8 +87,8 @@ export default {
     }
   },
   created() {
-    this.userData = this.$store.getters.userById(this.$route.params.Uid)
-  },
+    this.userData = this.$store.getters.userById(this.$route.params.Uid);
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -109,14 +137,14 @@ export default {
     }
   }
 
-  .userEdit{
+  .userEdit {
     display: flex;
     align-items: center;
     flex-direction: column;
     text-align: center;
 
-    .v-form{
-      width: 50%
+    .v-form {
+      width: 50%;
     }
   }
 }

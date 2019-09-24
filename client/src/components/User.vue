@@ -9,7 +9,7 @@
       </div>
       <p>{{ userData.email }}</p>
     </div>
-    <v-btn @click="goTodetail" color="primary">Details</v-btn>
+    <v-btn @click="goToDetail" color="primary">Details</v-btn>
     <v-btn @click="deleteUser" color="error">Delete</v-btn>
   </div>
 </template>
@@ -22,8 +22,11 @@ export default {
     deleteUser() {
       this.$store.dispatch("deleteUser", this.userData.id);
     },
-    goTodetail(prodId) {
-      this.$router.push({name:'userDetails', params:{Uid:this.userData.id}})
+    goToDetail() {
+      this.$router.push({
+        name: "userDetails",
+        params: { Uid: this.userData.id }
+      });
     }
   }
 };
