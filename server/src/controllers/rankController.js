@@ -1,5 +1,6 @@
 import express from 'express';
 import rankService from '../businessLogic/rankService.js';
+import multerUploader from '../middleware/multerUploader.js';
 
 const router = express.Router();
 
@@ -118,8 +119,6 @@ router.get('/:id', (req, res, next) => {
  *               type: number
  *             number:
  *               type: number
- *             photo_url:
- *               type: string
  *     responses:
  *       201:
  *         description: added success
@@ -132,7 +131,8 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
+router.post('/', multerUploader, (req, res, next) => {
+  req.body.photo_url = req.file.secure_url;
   rankService
     .createRank(req.body)
     .then(() => res.status(201).end())

@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import errorHandle from './middleware/errorHandle.js';
 import logger from './helpers/logging.js';
 import routes from './routes/index.js';
+import cloudinaryConfig from '../config/cloudinaryConfig.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ limit: '1mb', extended: true, parameterLimit: 10
 app.use(compress());
 app.use(helmet());
 app.use(cors());
+app.use('*', cloudinaryConfig);
 
 // normal log, before routes
 app.use(logger.requestLogger);
