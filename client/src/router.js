@@ -47,6 +47,12 @@ export default new Router({
         import(
           /* webpackChunkName: "about" */ "./components/RanksList/RanksList.vue"
         )
+    },
+    {
+      path: "/achievements",
+      name: "achievements",
+      component: () =>
+        import(/* webpackChunkName: "achievements" */ "./views/Achievements.vue")
     }
   ]
 });

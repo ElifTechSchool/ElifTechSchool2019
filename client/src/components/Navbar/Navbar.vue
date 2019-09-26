@@ -18,6 +18,9 @@
         <v-btn text to="/add_user">
           Add user
         </v-btn>
+        <v-btn text to="/achievements">
+          Achievements
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>
