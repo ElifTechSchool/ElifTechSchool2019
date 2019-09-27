@@ -1,6 +1,7 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
 import usersService from '../businessLogic/usersService.js';
+import authService from '../businessLogic/authService.js';
+
 
 const router = express.Router();
 
@@ -57,15 +58,15 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', async (req, res, next) => {
-  try{
+router.post('/', async (req, res) => {
+  try {
     const user = await usersService.getUserByEmail(req.body.email);
-    const compareRes = await bcrypt.compare(req.body.password, user[0].password);
-    compareRes === true ? res.status(200) : res.status(400);
-    res.send(compareRes);
-  } catch(err){
+    const compareResult = await authService.login(req.body.password, user[0].password);
+    compareResult === true ? res.status(200) : res.status(400);
+    res.send(compareResult);
+  } catch (err) {
     console.log(err);
   }
-  });
+});
 
 export default router;

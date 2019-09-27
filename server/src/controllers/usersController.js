@@ -1,6 +1,7 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
-import bcrypt from 'bcrypt';
+import authService from '../businessLogic/authService.js';
+
 
 const router = express.Router();
 
@@ -149,16 +150,14 @@ router.get('/:id', (req, res, next) => {
  */
 router.post('/', async (req, res, next) => {
   const userData = req.body;
-  try{
-    userData.password = await bcrypt.hash(userData.password, 10);
+  try {
+    userData.password = await authService.hash(userData.password);
     usersService.createUser(userData)
       .then(() => res.status(201).end())
       .catch((error) => next(error));
-
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-
 });
 
 /**
