@@ -51,8 +51,17 @@ export default new Router({
     {
       path: "/achievements",
       name: "achievements",
-      component: () =>
-        import(/* webpackChunkName: "achievements" */ "./views/Achievements.vue")
+      component: () => import("./views/Achievements.vue")
+    },
+    {
+      path: "/create_achievement",
+      name: "create_achievement",
+      component: () => import("./components/Achievements/AddAchievement.vue")
+    },
+    {
+      path: "/achievements/:id",
+      name: "achievementDetails",
+      component: () => import("./components/Achievements/AchievementDetails.vue")
     }
   ]
 });

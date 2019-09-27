@@ -4,24 +4,27 @@
       <img v-bind:src="photo_url">
     </div>
     <div class="info-block">
-      <div class="name">
+      <div>
         {{ name }} 
       </div>
       <div>
         {{ created_at }}
       </div>
+      <div>
+        {{ id }}
       </div>
-    <v-btn @click="showDetails" color="#D7D6D6">Details</v-btn>
+      </div>
+    <v-btn @click="showDetails" class="show-details" color="#D7D6D6">Details</v-btn>
   </div>
 </template>
 
 <script>
 export default {
   name: "achievement",
-  props: ["name", "description", "type", "experience", "photo_url", "created_at"],
+  props: ["id", "name", "description", "type", "experience", "photo_url", "created_at"],
   methods: {
-    showDetails(prodId) {
-      this.$router.push({name:'achievementDetails', params:{id:this.achievement.id}})
+    showDetails() {
+      this.$router.push({name:'achievementDetails', params:{id: this.id}})
     }
   }
 };

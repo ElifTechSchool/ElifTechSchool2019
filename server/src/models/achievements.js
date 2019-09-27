@@ -22,7 +22,7 @@ module.exports = class Achievement extends Sequelize.Model {
     },
     {
       sequelize,
-      tableName: 'Achievements',
+      tableName: 'achievements',
       modelName: 'achievements',
       createdAt: 'created_at',
       updatedAt: 'updated_at',

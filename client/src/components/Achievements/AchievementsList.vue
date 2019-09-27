@@ -2,6 +2,7 @@
   <div class="block-achievements">
     <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
       <Achievement 
+        :id="achievement.id"
         :photo_url="achievement.photo_url"
         :name="achievement.name"
         :created_at="achievement.created_at"

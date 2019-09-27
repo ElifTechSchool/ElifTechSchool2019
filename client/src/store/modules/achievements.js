@@ -6,8 +6,10 @@ const state = {
 
 const getters = {
   allAchievements: state => {
-    console.log("11111", state.achievements)
     return state.achievements;
+  },
+  achievementById(state) {
+    return id => state.achievements.find(el => el.id === id);
   }
 };
 
@@ -24,13 +26,19 @@ const actions = {
   async getAllAchievements({ commit }) {
     const response = await achievementsService.getAchievements();
     commit("setAchievements", response.data);
-    console.log("-----", response.data);
+  },
+  async getAchievementById(id) {
+    await achievementsService.getAchievementById(id);
   },
   async addAchievement({ commit }, achievement) {
     const response = await achievementsService.addAchievement(achievement);
-    if (response.status == 201) {
-      commit("addAchievement", response.data);
-    }
+    commit("addAchievement", response.data);
+  },
+  async updateAchievement(achievement) {
+    await achievementsService.updateAchievement(achievement);
+  },
+  async deleteAchievement(id) {
+    await achievementsService.deleteAchievement(id);
   }
 };
 export default {
