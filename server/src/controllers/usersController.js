@@ -109,62 +109,6 @@ router.get('/:id', (req, res, next) => {
 /**
  * @swagger
  *
- * /v1/users/email:
- *   post:
- *     description: Get user by email
- *     tags:
- *       - users
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: email
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             email:
- *               type: string
- *     responses:
- *       200:
- *         description: response
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             name:
- *               type: string
- *             surname:
- *               type: string
- *             email:
- *               type: string
- *             password:
- *               type: string
- *             experience:
- *               type: number
- *             image_url:
- *               type: string
- *             description:
- *               type: string
- *       401:
- *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
- *       500:
- *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
- */
-router.post('/email', (req, res, next) => {
-  usersService.getUserByEmail(req.body.email)
-    .then((result) => res.json(result[0]))
-    .catch((error) => next(error));
-});
-
-/**
- * @swagger
- *
  * /v1/users:
  *   post:
  *     description: add user
