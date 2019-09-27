@@ -31,24 +31,7 @@ const router = express.Router();
  *       200:
  *         description: response
  *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             name:
- *               type: string
- *             surname:
- *               type: string
- *             email:
- *               type: string
- *             password:
- *               type: string
- *             experience:
- *               type: number
- *             image_url:
- *               type: string
- *             description:
- *               type: string
+ *           type: boolean
  *       401:
  *         description: Unauthorized access
  *         schema:
