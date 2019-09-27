@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import usersDao from '../dataAccess/usersDao.js';
 
 const getUsers = () => usersDao.getUsers();
@@ -12,6 +13,8 @@ const updateUser = (id, user) => usersDao.updateUser(id, user);
 
 const deleteUser = (id) => usersDao.deleteUser(id);
 
+const hashPassword = (password) => bcrypt.hash(password, 10);
+
 export default {
   getUsers,
   getUserById,
@@ -19,4 +22,5 @@ export default {
   createUser,
   updateUser,
   deleteUser,
+  hashPassword,
 };

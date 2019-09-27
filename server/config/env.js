@@ -22,6 +22,8 @@ const defaultConfig = {
     port: '5432',
 
   },
+  jwtSecret: process.env.SECRET,
+  tokenExpTime: process.env.EXP_TIME,
 };
 
 export default { ...defaultConfig, ...configs[env] };

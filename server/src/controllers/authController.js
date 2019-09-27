@@ -43,10 +43,12 @@ const router = express.Router();
  */
 router.post('/', async (req, res) => {
   try {
-    const user = await usersService.getUserByEmail(req.body.email);
-    const compareResult = await authService.login(req.body.password, user[0].password);
-    compareResult === true ? res.status(200) : res.status(400);
-    res.send(compareResult);
+    const result = await authService.login(req.body);
+    if (result) {
+      res.send(result)
+    } else {
+      res.status(401).end()
+    }
   } catch (err) {
     console.log(err);
   }
