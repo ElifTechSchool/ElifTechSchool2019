@@ -1,6 +1,6 @@
 import express from 'express';
 import rankService from '../businessLogic/rankService.js';
-import multerUploader from '../middleware/multerUploader.js';
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -134,7 +134,7 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', multerUploader, (req, res, next) => {
+router.post('/', upload.single('image'), (req, res, next) => {
   req.body.photo_url = req.file.secure_url;
   rankService
     .createRank(req.body)
@@ -181,7 +181,7 @@ router.post('/', multerUploader, (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', multerUploader, (req, res, next) => {
+router.put('/:id', upload.single('image'), (req, res, next) => {
   if (req.file) {
     req.body.photo_url = req.file.secure_url;
   }
