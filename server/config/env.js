@@ -23,7 +23,7 @@ const defaultConfig = {
 
   },
   jwtSecret: process.env.SECRET,
-  tokenExpTime: process.env.EXP_TIME,
+  tokenExpTime: '1d',
 };
 
 export default { ...defaultConfig, ...configs[env] };
