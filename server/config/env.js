@@ -20,7 +20,11 @@ const defaultConfig = {
     username: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD,
     port: '5432',
-
+  },
+  cloud: {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
   },
   jwtSecret: process.env.SECRET,
   tokenExpTime: '1d',
