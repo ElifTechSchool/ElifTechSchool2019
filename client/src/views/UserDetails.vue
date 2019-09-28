@@ -40,13 +40,6 @@
           required
         />
         <v-text-field
-          type="password"
-          label="Password"
-          name="password"
-          v-model="userData.password"
-          required
-        />
-        <v-text-field
           type="url"
           label="Image url"
           name="img_url"

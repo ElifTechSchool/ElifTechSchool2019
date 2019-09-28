@@ -26,6 +26,8 @@ const defaultConfig = {
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   },
+  jwtSecret: process.env.SECRET,
+  tokenExpTime: '1d',
 };
 
 export default { ...defaultConfig, ...configs[env] };
