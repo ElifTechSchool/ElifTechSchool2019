@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card class="user d-flex mx-auto" :elevation="hover ? 9 : 3">
+    <v-card class="user d-flex mx-auto" @click="goToDetail" :elevation="hover ? 9 : 3">
       <img :src="userData.image_url" alt="" />
       <p class="rank">{{ userData.rank }}</p>
       <div class="userDetail">
@@ -9,7 +9,6 @@
         <p>Email: {{ userData.email }}</p>
       </div>
       <div>
-        <v-btn @click="goToDetail" color="primary">Details</v-btn>
         <v-btn @click="deleteUser" color="error">Delete</v-btn>
       </div>
     </v-card>
@@ -37,6 +36,7 @@ export default {
 <style lang="scss" scoped>
 .user {
   cursor: pointer;
+  padding: 15px;
   flex-direction: row;
   align-items: center;
   width: 40%;

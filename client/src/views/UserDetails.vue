@@ -9,13 +9,20 @@
         <p><b>Email:</b> {{ userData.email }}</p>
         <p><b>Description:</b> {{ userData.description }}</p>
       </div>
-      <v-btn
-        color="orange lighten-2"
-        class="align-self-end"
-        @click="toggleEdit"
-      >
-        Edit
-      </v-btn>
+      <div class="btn-wrapper">
+        <v-btn
+          color="orange lighten-2"
+          @click="toggleEdit"
+        >
+          Edit
+        </v-btn>
+        <v-btn
+          color="grey lighten-2"
+          @click="goBack"
+        >
+          Go back
+        </v-btn>
+      </div>
     </v-row>
 
     <v-row key="2" justify="center" class="userEdit" v-else>
@@ -84,6 +91,11 @@ export default {
       console.log(this.user);
       this.$store.dispatch("updateUser", this.userData);
       this.toggleEdit();
+    },
+    goBack(){
+      this.$router.push({
+        name: "users",
+      });
     }
   },
   created() {
@@ -91,6 +103,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .user {
   width: 50vw;
@@ -102,9 +115,11 @@ export default {
   .userInfo {
     display: flex;
 
+    .btn-wrapper{
+      margin-left: auto;
+    }
     .v-btn {
       margin: 15px;
-      margin-left: auto;
     }
   }
   .rank {

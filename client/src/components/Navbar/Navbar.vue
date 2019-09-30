@@ -13,10 +13,7 @@
           About
         </v-btn>
         <v-btn text to="/users">
-          User List
-        </v-btn>
-        <v-btn text to="/add_user">
-          Add user
+          Users
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
