@@ -1,5 +1,6 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -146,7 +147,8 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', async (req, res, next) => {
+router.post('/', upload.single('image'), async (req, res, next) => {
+  req.body.image_url = req.file.secure_url;
   const userData = req.body;
   try {
     userData.password = await usersService.hashPassword(userData.password);
@@ -206,7 +208,10 @@ router.post('/', async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
+router.put('/:id', upload.single('image'), (req, res, next) => {
+  if (req.file) {
+    req.body.image_url = req.file.secure_url;
+  }
   usersService.updateUser(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
