@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const achievementsURL = "http://localhost:3000/api/v1/achievements/"
+
 const getAchievements = async () => {
   try {
     const response = await axios
-      .get("http://localhost:3000/api/v1/achievements")
+      .get(achievementsURL)
       .then(res => res.data);
     return response;
   } catch (error) {
@@ -15,7 +17,7 @@ const getAchievements = async () => {
 const addAchievement = async achievement => {
   try {
     const response = await axios
-      .post("http://localhost:3000/api/v1/achievements", achievement)
+      .post(achievementsURL, achievement)
       .then(() => {});
     return response;
   } catch (error) {
@@ -26,33 +28,25 @@ const addAchievement = async achievement => {
 
 const getAchievementById = async id => {
   try {
-    const response = await axios
-      .get(`http://localhost:3000/api/v1/achievements/` + id
-    );
-    return response;
+    return await axios.get(achievementsURL + id);
   } catch (error) {
     console.log(error);
     return error.message;
   }
 };
 
-const updateAchievement = async (id, achievement) => {
+const updateAchievement = async achievement => {
   try {
-    const response = await axios.put(
-      `http://localhost:3000/api/v1/achievements/` + id,
-      achievement
-    );
-    return response;
+    return await axios.put(achievementsURL + id, achievement);
   } catch (error) {
     console.log(error);
     return error.message;
   }
 };
 
-const deleteAchievement = async (id) => {
+const deleteAchievement = async id => {
   try {
-    return await axios
-      .delete(`http://localhost:3000/api/v1/achievements/` + id)
+    return await axios.delete(achievementsURL + id);
   } catch (error) {
     console.log(error);
     return error.message;

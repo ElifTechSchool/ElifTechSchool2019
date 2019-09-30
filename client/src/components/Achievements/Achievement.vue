@@ -24,7 +24,7 @@ export default {
   props: ["id", "name", "description", "type", "experience", "photo_url", "created_at"],
   methods: {
     showDetails() {
-      this.$router.push({name:'achievementDetails', params:{id: this.id}})
+      this.$router.push({name:'achievementDetails', params: { id: this.id }})
     },
     deleteAchievement() {
       this.$store.dispatch("deleteAchievement", { id: this.id })

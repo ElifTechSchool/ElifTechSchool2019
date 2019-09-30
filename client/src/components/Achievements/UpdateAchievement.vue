@@ -34,7 +34,7 @@ export default {
       this.isEditing = !this.isEditing;
     },
     updateAchievement() {
-      this.$store.dispatch("updateAchievement", this.achievement);
+      this.$store.dispatch("updateAchievement", { achievement: this.achievement });
       this.startEditing();
     }
   }

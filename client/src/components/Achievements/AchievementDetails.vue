@@ -38,8 +38,13 @@ export default {
     this.achievement = this.$store.getters.achievementById(this.$route.params.id)
   },
   mounted() {
-    this.getAchievementById(this.$route.params.id)
-    console.log(typeof this.$route.params.id);
+    console.log('mounted...')
+    this.getAchievementById(this.$route.params.id).then(res => {
+      this.achievement = res.data.data[0]
+    })
+  },
+  updated () {
+    consoole.log('updated')
   }
 }
 </script>
