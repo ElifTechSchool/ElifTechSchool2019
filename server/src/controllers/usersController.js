@@ -146,10 +146,16 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
-  usersService.createUser(req.body)
-    .then(() => res.status(201).end())
-    .catch((error) => next(error));
+router.post('/', async (req, res, next) => {
+  const userData = req.body;
+  try {
+    userData.password = await usersService.hashPassword(userData.password);
+    usersService.createUser(userData)
+      .then(() => res.status(201).end())
+      .catch((error) => next(error));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 /**

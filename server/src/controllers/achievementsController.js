@@ -43,10 +43,10 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
   achievementService.getAchievements()
-    .then(data => res.json({ data }))
-    .catch(error => next(error));
+    .then((data) => res.json({ data }))
+    .catch((error) => next(error));
 });
 
 /**
@@ -89,10 +89,10 @@ router.get('/', function (req, res, next) {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/:id', function (req, res, next) {
+router.get('/:id', (req, res, next) => {
   achievementService.getAchievementById(req.params.id)
-    .then(data => res.json({ data }))
-    .catch(error => next(error));
+    .then((data) => res.json({ data }))
+    .catch((error) => next(error));
 });
 
 /**

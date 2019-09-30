@@ -2,7 +2,7 @@ import rankDao from '../dataAccess/rankDao.js';
 
 const getRanks = () => rankDao.getRanks();
 
-const getRankById = () => rankDao.getRankById();
+const getRankById = (id) => rankDao.getRankById(id);
 
 const createRank = (rank) => rankDao.createRank(rank);
 

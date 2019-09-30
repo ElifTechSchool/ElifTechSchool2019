@@ -21,6 +21,32 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
+    },
+    {
+      path: "/users",
+      name: "users",
+      component: () => import("./views/Users.vue")
+    },
+    {
+      path: "/add_user",
+      name: "add_user",
+      component: () => import("./views/AddUser.vue")
+    },
+    {
+      path: "/userDetails/:Uid",
+      name: "userDetails",
+      component: () => import("./views/UserDetails.vue")
+    },
+    {
+      path: "/ranks",
+      name: "ranks",
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(
+          /* webpackChunkName: "about" */ "./components/RanksList/RanksList.vue"
+        )
     }
   ]
 });
