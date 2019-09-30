@@ -1,21 +1,21 @@
 <template>
-  <div class="container-achievement">
+  <v-card class="container-achievement">
     <div class="img-achievement">
       <img v-bind:src="photo_url">
     </div>
     <div class="info-block">
-      <div>
+      <v-card-title>
         {{ name }} 
-      </div>
-      <div>
+      </v-card-title>
+      <v-card-text>
         {{ created_at }}
-      </div>
-      <div>
-        {{ id }}
-      </div>
-      </div>
-    <v-btn @click="showDetails" class="show-details" color="#D7D6D6">Details</v-btn>
-  </div>
+      </v-card-text>
+    </div>
+    <v-card-actions class="text-xs-right">
+      <v-btn @click="showDetails" color="info">Details</v-btn>
+      <v-btn @click="deleteAchievement" color="red accent-2">Delete</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -25,6 +25,9 @@ export default {
   methods: {
     showDetails() {
       this.$router.push({name:'achievementDetails', params:{id: this.id}})
+    },
+    deleteAchievement() {
+      this.$store.dispatch("deleteAchievement", { id: this.id })
     }
   }
 };
@@ -32,8 +35,6 @@ export default {
 
 <style scoped lang="scss">
   .container-achievement {
-    border: 1px solid black;
-    border-radius: 20px;
     margin: 20px;
     display: table;
     background-color: #F0EFEF;

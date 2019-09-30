@@ -37,7 +37,7 @@ import { mapGetters } from "vuex";
 </script>
 
 <style lang="scss">
-  .block-achievements {
-    border: 2px solid black
+  .block-achievements{
+    margin-left: 30px;
   }
-</style>>
+</style>

@@ -1,11 +1,13 @@
 <template>
-  <div class="achievements">
-    <h1>All achievements</h1>
-    <div>
-    <v-btn @click="AddAchievement" color="blue">Add achievement</v-btn>
-     <AchievementsList/>
+    <div class="achievements">
+      <h1>All achievements</h1>
+      <v-flex xs12 offset-xs8>
+        <v-btn @click="AddAchievement" color="green" >+ new achievement</v-btn>
+      </v-flex>
+      <div>
+      <AchievementsList/>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -22,3 +24,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  .achievements {
+    text-align: center;
+  }
+</style>
