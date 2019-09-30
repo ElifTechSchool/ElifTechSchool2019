@@ -7,6 +7,9 @@ const state = {
 
 const getters = {
     getCompetitions : state => state.competitions,
+    competitionById(state) {
+        return id => state.competitions.find(el => el.id === id);
+      }
     
 }; 
 
@@ -20,6 +23,12 @@ const actions = {
           })
           .catch(err => console.log(err));
       },
+      deleteCompetition({ dispatch }, id) {
+        axios
+          .delete("competitions/"+id)
+          .then(dispatch("loadCompetitions"))
+          .catch(err => console.log(err));
+      }
 };
 
 const mutations =  {
