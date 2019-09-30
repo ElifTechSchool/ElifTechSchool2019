@@ -41,7 +41,16 @@
         name="experience"
         v-model="user.experience"
       />
-      <v-btn type="submit" color="primary"> Submit </v-btn>
+      <div class="btn-wrapper">
+        <v-btn type="submit" color="primary"> Submit </v-btn>
+        <v-btn
+            to="/users"
+            class="goBack"
+            color="grey lighten-2"
+          >
+            Go back
+        </v-btn>
+      </div>
     </v-form>
   </div>
 </template>
@@ -58,7 +67,7 @@ export default {
       console.log(this.user);
       this.$store.dispatch("submitUser", this.user);
       this.user = {};
-    }
+    },
   }
 };
 </script>
@@ -66,5 +75,12 @@ export default {
 .v-form {
   width: 50%;
   margin: 100px auto;
+}
+.btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+.goBack {
+  margin-left: 20px;
 }
 </style>

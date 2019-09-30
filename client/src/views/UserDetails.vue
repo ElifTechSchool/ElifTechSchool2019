@@ -1,5 +1,6 @@
 <template>
   <v-card class="user" :elevation="5">
+    <transition name="fade">
     <v-row key="1" v-if="!isEditing" class="userInfo d-flex">
       <img :src="this.userData.image_url" alt="" />
       <p class="rank">{{ userData.rank }}</p>
@@ -17,10 +18,16 @@
           Edit
         </v-btn>
         <v-btn
+          to="/users"
           color="grey lighten-2"
-          @click="goBack"
         >
           Go back
+        </v-btn>
+        <br>
+        <v-btn
+          color="primary lighten-2"
+        >
+          Change password
         </v-btn>
       </div>
     </v-row>
@@ -72,6 +79,7 @@
         </v-btn>
       </v-form>
     </v-row>
+    </transition>
   </v-card>
 </template>
 
@@ -92,11 +100,6 @@ export default {
       this.$store.dispatch("updateUser", this.userData);
       this.toggleEdit();
     },
-    goBack(){
-      this.$router.push({
-        name: "users",
-      });
-    }
   },
   created() {
     this.userData = this.$store.getters.userById(this.$route.params.Uid);
@@ -119,7 +122,7 @@ export default {
       margin-left: auto;
     }
     .v-btn {
-      margin: 15px;
+      margin: 5px 8px;
     }
   }
   .rank {
@@ -149,5 +152,14 @@ img {
   width: 140px;
   height: 140px;
   margin-bottom: 30px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+  opacity: 0;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transition: opacity .5s;
+  opacity: 0;
 }
 </style>
