@@ -220,6 +220,54 @@ router.put('/:id', upload.single('image'), (req, res, next) => {
 /**
  * @swagger
  *
+ * /v1/users/{id}/passwords:
+ *   put:
+ *     description: update user's password
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             password:
+ *               type: string
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.put('/:id/passwords', async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const newPassword = await usersService.hashPassword(req.body.password);
+    usersService.updateUserPassword(req.params.id, newPassword)
+      .then(() => res.status(204).end())
+      .catch((error) => next(error));
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+/**
+ * @swagger
+ *
  * /v1/users/{id}:
  *   delete:
  *     description: delete user
