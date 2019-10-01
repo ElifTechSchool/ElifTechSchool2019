@@ -4,19 +4,24 @@
       <v-hover v-slot:default="{ hover }">
         <v-card
           class="user d-flex mx-auto"
-          @click="goToDetail"
           :elevation="hover ? 9 : 3"
         >
-          <img :src="userData.image_url" alt="" />
-          <p class="rank">{{ userData.rank }}</p>
-          <div class="userDetail">
-            <h3>{{ userData.name }} {{ userData.surname }}</h3>
-            <p>Experience: {{ userData.experience }}</p>
-            <p>Email: {{ userData.email }}</p>
-          </div>
-          <v-card-actions>
-            <v-btn @click="deleteUser" color="error">Delete</v-btn>
+        <v-row>
+          <v-col md="9" @click="goToDetail" class="d-flex flex-row">
+            <img :src="userData.image_url" alt="" />
+            <p class="rank">{{ userData.rank }}</p>
+            <div class="userDetail">
+              <h3>{{ userData.name }} {{ userData.surname }}</h3>
+              <p>Experience: {{ userData.experience }}</p>
+              <p>Email: {{ userData.email }}</p>
+            </div>
+          </v-col>
+          <v-col md="3">
+            <v-card-actions>
+              <v-btn @click="deleteUser" color="error">Delete</v-btn>
           </v-card-actions>
+          </v-col>
+        </v-row>
         </v-card>
       </v-hover>
     </v-col>
