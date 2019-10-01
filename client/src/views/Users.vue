@@ -1,10 +1,10 @@
 <template>
-  <div class="users">
+  <v-container>
     <User v-for="user in users" :userData="user" :key="user.id" />
     <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
-  </div>
+  </v-container>
 </template>
 
 <script>
