@@ -114,27 +114,37 @@ router.get('/:id', (req, res, next) => {
  *     description: add user
  *     tags:
  *       - users
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
- *       - name: body
- *         in: body
+ *       - name: name
+ *         in: formData
  *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             surname:
- *               type: string
- *             email:
- *               type: string
- *             password:
- *               type: string
- *             image_url:
- *               type: string
- *             description:
- *               type: string
+ *         type: string
+ *       - name: surname
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: image_url
+ *         in: formData
+ *         required: true
+ *         type: file
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: false
+ *         type: string
  *     responses:
  *       201:
  *         description: added success
@@ -147,9 +157,14 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('image'), async (req, res, next) => {
-  req.body.image_url = req.file.secure_url;
-  const userData = req.body;
+router.post('/', upload.single('image_url'), async (req, res, next) => {
+  console.log(req.body);
+  console.log('/////');
+  console.log(req.file);
+
+  const userData = JSON.parse(req.body.user);
+  userData.image_url = req.file.secure_url;
+
   try {
     userData.password = await usersService.hashPassword(userData.password);
     usersService.createUser(userData)
@@ -168,34 +183,37 @@ router.post('/', upload.single('image'), async (req, res, next) => {
  *     description: update user
  *     tags:
  *       - users
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
- *       - name: id
- *         in: path
+ *       - name: name
+ *         in: formData
  *         required: true
- *         schema:
- *           type: number
- *       - name: body
- *         in: body
+ *         type: string
+ *       - name: surname
+ *         in: formData
  *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             surname:
- *               type: string
- *             email:
- *               type: string
- *             password:
- *               type: string
- *             experience:
- *               type: number
- *             image_url:
- *               type: string
- *             description:
- *               type: string
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: image_url
+ *         in: formData
+ *         required: true
+ *         type: file
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: false
+ *         type: string
  *     responses:
  *       204:
  *         description: added success
@@ -208,7 +226,7 @@ router.post('/', upload.single('image'), async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', upload.single('image'), (req, res, next) => {
+router.put('/:id', upload.single('image_url'), (req, res, next) => {
   if (req.file) {
     req.body.image_url = req.file.secure_url;
   }
