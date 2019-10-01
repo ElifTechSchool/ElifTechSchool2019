@@ -26,7 +26,7 @@ export default {
     },
     addUser() {
       this.$router.push({
-        name: "add_user",
+        name: "add_user"
       });
     }
   },
