@@ -15,9 +15,6 @@
         <v-btn text to="/users">
           Users
         </v-btn>
-        <v-btn text to="/competitions">
-          Competitions
-        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>

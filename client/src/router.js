@@ -47,22 +47,6 @@ export default new Router({
         import(
           /* webpackChunkName: "about" */ "./components/RanksList/RanksList.vue"
         )
-    },
-    {
-      path: "/competitions",
-      name: "competitions",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Competitions.vue")
-    },
-    {
-      path: "/competitions/:id",
-      name: "competitionDetails",
-      component: () => import("./views/CompetitionDetails.vue")
-    },
-
-
+    }
   ]
 });
