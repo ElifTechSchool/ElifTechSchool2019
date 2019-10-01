@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
 export default {
     props: ["competitionData"],
     methods: {
@@ -23,7 +22,7 @@ export default {
             name: "competitionDetails",
             params: { id: this.competitionData.id }
         });
-        }
+        },
     },
 
 }
