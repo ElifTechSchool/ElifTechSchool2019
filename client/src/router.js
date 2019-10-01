@@ -59,7 +59,7 @@ export default new Router({
     },
     {
       path: "/competitions/:id",
-      name: "CompetitionDetails",
+      name: "competitionDetails",
       component: () => import("./views/CompetitionDetails.vue")
     },
 

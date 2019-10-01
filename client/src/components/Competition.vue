@@ -5,18 +5,26 @@
         <li>DESCRIPTION: {{competitionData.description}}</li>
         <li>DEADLINE_DATE: {{competitionData.deadline_date}}</li>
         <li>EXPERIENCE: {{competitionData.experience}}</li>
-        <v-btn class="ma-2" outlined color="primary" >Details</v-btn>
+        <v-btn class="ma-2" outlined color="primary" @click="getDetails">Details</v-btn>
         <v-btn class="ma-2" outlined color="error" @click="deleteCompetition">Delete</v-btn>
     </div>     
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
 export default {
     props: ["competitionData"],
     methods: {
-    deleteCompetition() {
-      this.$store.dispatch("deleteCompetition", this.competitionData.id);
+        deleteCompetition() {
+        this.$store.dispatch("deleteCompetition", this.competitionData.id);
+        },
+        getDetails() {
+            this.$router.push({
+            name: "competitionDetails",
+            params: { id: this.competitionData.id }
+        });
+        }
     },
-    }
+
 }
 </script>

@@ -1,48 +1,58 @@
 <template>
-    <div class="createForm">
-        <v-btn @click="showForm = !showForm">Create Competition</v-btn>
-        <div v-if="showForm">
-            <form @submit.prevent="createCompetition(competition)">
-            <span>Name</span>
-            <input type="text" placeholder="Name" v-model="competition.name">
-            <span>Descriprion</span>
-            <input type="text" placeholder="Description" v-model="competition.description">
-            <span>Deadline_date</span>
-            <input type="date" v-model="competition.deadline_date">
-            <span>Experience</span>
-            <input type="text" placeholder="Experience" v-model="competition.experience">
-            <button type="submit">Create Competition</button>
-            <hr> 
-            </form>
-        </div>
-    </div>
+  <div class="form-wrapper">
+    <v-btn class="ma-2" outlined color="primary" @click.native="showForm = !showForm"> Add </v-btn>
+     <div v-if="showForm">
+        <v-form @submit.prevent="addCompetition">
+        <h3>Create Competition</h3>
+        <v-text-field name="name" label="Name" v-model="competition.name" required />
+        <v-text-field
+            type="text"
+            label="Description"
+            name="description"
+            v-model="competition.description"
+            required
+        />
+        <v-text-field
+            type="date"
+            label="Deadline_date"
+            name="deadline_date"
+            v-model="competition.deadline_date"
+            required
+        />
+        <v-text-field
+            type="text"
+            label="Experience"
+            name="experience"
+            v-model="competition.experience"
+        />
+        <v-btn type="submit" color="primary"> Submit </v-btn>
+        </v-form>
+     </div>
+  </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from "vuex"
+import { mapGetters } from 'vuex';
 export default {
-    data: () =>  {
-        return {
-            showForm: false,
-            competition: {
-                name: "",
-                description: "",
-                deadline_date: "",
-                experience: "" 
-            }
-        }
-    },
-    computed: mapGetters(["getCompetitions"]),
-    methods: mapActions(["createCompetition"]),
-}
+  data() {
+    return {
+        showForm: false,
+        competition: {},
+    };
+  },
+  methods: {
+    addCompetition() {
+      this.$store.dispatch("addCompetition", this.competition);
+      this.competition = {};
+    }
+  },
+    
+};
 </script>
 
-<style>
-    input {
-        display: block;
-        margin: 0 auto;
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
+<style lang="scss" scoped>
+.v-form {
+  width: 50%;
+  margin: 100px auto;
+}
 </style>

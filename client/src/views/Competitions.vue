@@ -14,7 +14,7 @@ export default {
   computed: {
     getCompetitions() {
       return this.$store.getters.getCompetitions;
-    }
+    },
   },
   methods: {
     loadCompetitions() {
