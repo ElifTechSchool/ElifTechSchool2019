@@ -1,10 +1,10 @@
 <template>
-  <div class="users">
-    <h1>Users</h1>
-    <v-btn @click="loadUsers" color="primary"> GET USERS </v-btn>
-    <br />
+  <v-container>
     <User v-for="user in users" :userData="user" :key="user.id" />
-  </div>
+    <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
+  </v-container>
 </template>
 
 <script>
@@ -23,6 +23,11 @@ export default {
   methods: {
     loadUsers() {
       this.$store.dispatch("loadUsers");
+    },
+    addUser() {
+      this.$router.push({
+        name: "add_user"
+      });
     }
   },
   mounted() {
@@ -35,5 +40,10 @@ export default {
 h1,
 .v-btn {
   margin-left: 30px;
+}
+.mx-2 {
+  position: fixed;
+  bottom: 50px;
+  right: 80px;
 }
 </style>
