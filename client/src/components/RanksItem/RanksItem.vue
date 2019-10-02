@@ -15,18 +15,18 @@
         </v-list-item>
         <v-card-actions align="center">
           <div class="flex-grow-1"></div>
-          <v-btn text @click.stop="dialog = true">
+          <v-btn text @click.stop="editDialog = true">
             <v-icon>edit</v-icon>
             <span class="subheading">Edit</span>
           </v-btn>
-          <v-btn text>
-            <v-icon>close</v-icon>
+          <v-btn text @click.stop="warnDialog = true">
+            <v-icon>delete</v-icon>
             <span class="subheading">Delete</span>
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-hover>
-    <v-dialog v-model="dialog" max-width="800">
+    <v-dialog v-model="editDialog" max-width="800">
       <v-card>
         <v-card-title class="headline">Edit rank</v-card-title>
         <v-card-text>
@@ -48,19 +48,25 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <ModalBox :show="warnDialog"  @deleteItem="deleteRank" @hideModal="warnDialog = false"/>
   </div>
 </template>
 
-<script lang="js">
+<script>
+import ModalBox from "../ModalBox/ModalBox";
   export default {
     name: 'ranks-item',
+     components: {
+       ModalBox
+     },
     props: ["id", "name", "experience", "number", "url", "imageId"],
     mounted() {
 
     },
     data() {
       return {
-        dialog: false,
+        editDialog: false,
+        warnDialog: false,
         rankName: this.name, 
         nameRules: [
           v => !!v || "Name is required",
@@ -85,7 +91,6 @@
         }
       },
       deleteRank() {
-        
         this.$store.dispatch("deleteRank", this.id);
       }
     }
