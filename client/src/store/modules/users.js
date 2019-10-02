@@ -6,9 +6,9 @@ const state = {
 
 const getters = {
   users: state => state.users,
-  userById(state){
-    return id => state.users.find( el => el.id === id);
-  },
+  userById(state) {
+    return id => state.users.find(el => el.id === id);
+  }
 };
 
 const mutations = {
@@ -29,14 +29,10 @@ const actions = {
       .catch(err => console.log(err));
   },
   submitUser(_, newUser) {
-    axios
-      .post("users", newUser)
-      .catch(err => console.log(err));
+    axios.post("users", newUser).catch(err => console.log(err));
   },
   updateUser(_, userData) {
-    axios
-      .put(`users/${userData.id}`, userData)
-      .catch(err => console.log(err));
+    axios.put(`users/${userData.id}`, userData).catch(err => console.log(err));
   },
   deleteUser({ dispatch }, id) {
     axios

@@ -1,5 +1,6 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -113,27 +114,37 @@ router.get('/:id', (req, res, next) => {
  *     description: add user
  *     tags:
  *       - users
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
- *       - name: body
- *         in: body
+ *       - name: name
+ *         in: formData
  *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             surname:
- *               type: string
- *             email:
- *               type: string
- *             password:
- *               type: string
- *             image_url:
- *               type: string
- *             description:
- *               type: string
+ *         type: string
+ *       - name: surname
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: image_url
+ *         in: formData
+ *         required: true
+ *         type: file
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: false
+ *         type: string
  *     responses:
  *       201:
  *         description: added success
@@ -146,10 +157,22 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
-  usersService.createUser(req.body)
-    .then(() => res.status(201).end())
-    .catch((error) => next(error));
+router.post('/', upload.single('image_url'), async (req, res, next) => {
+  console.log(req.body);
+  console.log('/////');
+  console.log(req.file);
+
+  const userData = JSON.parse(req.body.user);
+  userData.image_url = req.file.secure_url;
+
+  try {
+    userData.password = await usersService.hashPassword(userData.password);
+    usersService.createUser(userData)
+      .then(() => res.status(201).end())
+      .catch((error) => next(error));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 /**
@@ -158,6 +181,66 @@ router.post('/', (req, res, next) => {
  * /v1/users/{id}:
  *   put:
  *     description: update user
+ *     tags:
+ *       - users
+ *     consumes:
+ *       - multipart/form-data
+ *     parameters:
+ *       - name: name
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: surname
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: image_url
+ *         in: formData
+ *         required: true
+ *         type: file
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: false
+ *         type: string
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.put('/:id', upload.single('image_url'), (req, res, next) => {
+  if (req.file) {
+    req.body.image_url = req.file.secure_url;
+  }
+  usersService.updateUser(req.params.id, req.body)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/passwords:
+ *   put:
+ *     description: update user's password
  *     tags:
  *       - users
  *     produces:
@@ -174,19 +257,7 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             name:
- *               type: string
- *             surname:
- *               type: string
- *             email:
- *               type: string
  *             password:
- *               type: string
- *             experience:
- *               type: number
- *             image_url:
- *               type: string
- *             description:
  *               type: string
  *     responses:
  *       204:
@@ -200,10 +271,16 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
-  usersService.updateUser(req.params.id, req.body)
-    .then(() => res.status(204).end())
-    .catch((error) => next(error));
+router.put('/:id/passwords', async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const newPassword = await usersService.hashPassword(req.body.password);
+    usersService.updateUserPassword(req.params.id, newPassword)
+      .then(() => res.status(204).end())
+      .catch((error) => next(error));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 /**

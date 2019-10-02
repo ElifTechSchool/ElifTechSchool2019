@@ -13,10 +13,10 @@
           About
         </v-btn>
         <v-btn text to="/users">
-          User List
+          Users
         </v-btn>
-        <v-btn text to="/add_user">
-          Add user
+        <v-btn text to="/competitions">
+          Competitions
         </v-btn>
         <v-btn text to="/achievements">
           Achievements
@@ -27,29 +27,28 @@
 </template>
 
 <script lang="js">
-  export default {
-    name: 'navbar',
-    props: [],
-    mounted() {
+export default {
+  name: 'navbar',
+  props: [],
+  mounted() {
 
-    },
-    data() {
-      return {
-
-      }
-    },
-    methods: {
-
-    },
-    computed: {
+  },
+  data() {
+    return {
 
     }
-  }
+  },
+  methods: {
 
+  },
+  computed: {
+
+  }
+}
 </script>
 
 <style scoped lang="scss">
-  .toolbar {
-    margin-bottom: 2.5rem;
-  }
+.toolbar {
+  margin-bottom: 2.5rem;
+}
 </style>

@@ -1,16 +1,15 @@
 <template lang="html">
-<div>
-  <div v-for="rank in allRanks" :key="rank.id">
-    <RanksItem 
-          :id="rank.id" 
-          :name="rank.name" 
-          :experience="rank.experience"
-          :number="rank.number"
-          :url="rank.photo_url" 
-    />
+  <div>
+    <div v-for="rank in allRanks" :key="rank.id">
+      <RanksItem
+        :id="rank.id"
+        :name="rank.name"
+        :experience="rank.experience"
+        :number="rank.number"
+        :url="rank.photo_url"
+      />
+    </div>
   </div>
-</div>
-
 </template>
 
 <script>
@@ -36,5 +35,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
