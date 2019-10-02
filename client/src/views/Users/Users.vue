@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import User from "@/components/User.vue";
+import User from "@/components/Users/User.vue";
 
 export default {
-  name: "Users",
+  name: "users",
   components: {
     User
   },
@@ -21,9 +21,6 @@ export default {
     }
   },
   methods: {
-    loadUsers() {
-      this.$store.dispatch("loadUsers");
-    },
     addUser() {
       this.$router.push({
         name: "add_user"

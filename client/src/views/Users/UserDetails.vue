@@ -61,29 +61,38 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
   name: "userDetail",
   data() {
     return {
-      isEditing: false
-    };
+      id: this.$route.params.Uid,
+    }
+  },
+  computed: {
+    ...mapGetters(['findUserById', 'userById']),
+    userData() {
+      if(this.findUserById(this.id)){
+        return this.findUserById(this.id);
+      } else {
+        return this.userById;
+      }
+    },
   },
   methods: {
     goToEdit() {
       this.$router.push({
         name: "editUser",
-        params: { Uid: this.userData.id }
+        params: { Uid: this.id }
       })
     },
-    updateUser() {
-      console.log(this.user);
-      this.$store.dispatch("updateUser", this.userData);
-      this.toggleEdit();
+  },
+  mounted() {
+    if(!this.findUserById(this.id)){
+      this.$store.dispatch("getUserById", this.$route.params.Uid);      
     }
   },
-  created() {
-    this.userData = this.$store.getters.userById(this.$route.params.Uid);
-  }
 };
 </script>
 

@@ -22,7 +22,7 @@ const updateUser = (id, user) => usersModel.update(
   user,
   {
     where: { id },
-    attributes: ['name', 'surname', 'email', 'experience', 'image_url', 'description'],
+    attributes: ['name', 'surname', 'email', 'image_url', 'description'],
 
   },
 );

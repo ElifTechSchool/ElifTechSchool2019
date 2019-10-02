@@ -38,8 +38,8 @@
               />
               <v-file-input
                 label="Change your profile picture"
-                name="img_url"
-                v-model="userData.img_url"
+                name="image_url"
+                v-model="image_url"
                 accept=".jpg, .png"
               ></v-file-input>
               <v-textarea
@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
   data() {
     return {
@@ -76,16 +78,31 @@ export default {
       emailRules: [
         v => !!v || "E-mail is required",
         v => /.+@.+/.test(v) || "E-mail must be valid"
-      ]
+      ],
+      textareaRules: [
+        v => v.length <= 500 || "Field must be less than 500 characters",
+      ],
+      image_url: underfined,
     };
   },
+  computed: {
+    ...mapGetters(['findUserById', 'userById']),
+    userData() {
+      if(this.findUserById(this.id)){
+        return this.findUserById(this.id);
+      } else {
+        return this.userById;
+      }
+    },
+  },
   methods: {
-    updateUser() {
+    async updateUser() {
+      const id = this.$route.params.Uid;
       const formData = new FormData();
-      formData.append("image_url", this.user.img_url);
-      formData.append("user", JSON.stringify(this.user));
 
-      this.$store.dispatch("updateUser", formData);
+      formData.append("image_url", this.image_url);      
+      formData.append("user", JSON.stringify(this.userData));
+      this.$store.dispatch("updateUser", {formData, id});
       this.goToDetail();
     },
     goToDetail() {
@@ -96,7 +113,7 @@ export default {
     }
   },
   created() {
-    this.userData = this.$store.getters.userById(this.$route.params.Uid);
+    this.$store.dispatch("getUserById", this.$route.params.Uid);
   }
 }
 </script>
