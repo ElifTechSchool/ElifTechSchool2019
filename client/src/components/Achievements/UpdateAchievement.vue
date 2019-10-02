@@ -1,41 +1,35 @@
 <template>
-  <div>
-    <v-row>
-      <v-btn @click="startEditing" color="green">
-        Edit
-      </v-btn>
-    </v-row>
-    <v-row class="updateAchievement" v-if="isEditing">>
-      <v-form @submit.prevent="updateAchievement">
-        <v-text-field name="name" label="Name" v-model="achievement.name"/>
-        <v-text-field name="description" label="Description" v-model="achievement.description"/>
-        <v-text-field name="type" label="Type" v-model="achievement.type"/>
-        <v-text-field name="experience" label="Experience" type="number" v-model="achievement.experience"/>
-        <v-text-field name="photo_url" label="Photo url" type="url" v-model="achievement.photo_url"/>
-      <v-btn color="green" type="submit">
-        Update achievement
-      </v-btn>
-      </v-form>
-    </v-row>
-  </div>
+  <v-form @submit.prevent="updateAchievement">
+    <v-text-field name="name" label="Name" v-model="achievement.name"/>
+    <v-text-field name="description" label="Description" v-model="achievement.description"/>
+    <v-text-field name="type" label="Type" v-model="achievement.type"/>
+    <v-text-field name="experience" label="Experience" type="number" v-model="achievement.experience"/>
+    <v-text-field name="photo_url" label="Photo url" type="url" v-model="achievement.photo_url"/>
+    <v-btn color="green" type="submit">
+      Update
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
+import {mapActions} from "vuex";
 export default {
-  name: "updateAchievement",
+  name: "UpdateAchievement",
   data() {
-      return {
-        isEditing: false,
-        achievement: {}
-      }
+    return {
+      achievement: {},
+    };
   },
   methods: {
-    startEditing() {
-      this.isEditing = !this.isEditing;
-    },
+    ...mapActions(["getAchievementById"]),
     updateAchievement() {
-      this.$store.dispatch("updateAchievement", { achievement: this.achievement });
-      this.startEditing();
+      this.$store.dispatch("updateAchievement", {achievement: this.achievement, id: this.achievement.id});
     }
+  },
+  mounted() {
+    this.getAchievementById(this.$route.params.id).then(res => {
+      this.achievement = res.data.data[0]
+    })
   }
 };
+</script>

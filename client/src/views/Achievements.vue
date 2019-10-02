@@ -19,7 +19,7 @@ export default {
   },
     methods: {
     AddAchievement() {
-      this.$router.push('/create_achievement');
+      this.$router.push('/achievements/create');
     },
   },
 };

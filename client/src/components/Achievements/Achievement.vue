@@ -1,11 +1,11 @@
 <template>
   <v-card class="container-achievement">
     <div class="img-achievement">
-      <img v-bind:src="photo_url">
+      <img v-bind:src="photo_url" />
     </div>
     <div class="info-block">
       <v-card-title>
-        {{ name }} 
+        {{ name }}
       </v-card-title>
       <v-card-text>
         {{ created_at }}
@@ -21,48 +21,59 @@
 <script>
 export default {
   name: "achievement",
-  props: ["id", "name", "description", "type", "experience", "photo_url", "created_at"],
+  props: [
+    "id",
+    "name",
+    "description",
+    "type",
+    "experience",
+    "photo_url",
+    "created_at"
+  ],
   methods: {
     showDetails() {
-      this.$router.push({name:'achievementDetails', params: { id: this.id }})
+      this.$router.push({
+        name: "achievementDetails",
+        params: { id: this.id }
+      });
     },
     deleteAchievement() {
-      this.$store.dispatch("deleteAchievement", { id: this.id })
+      this.$store.dispatch("deleteAchievement", { id: this.id });
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-  .container-achievement {
-    margin: 20px;
-    display: table;
-    background-color: #F0EFEF;
+.container-achievement {
+  margin: 20px;
+  display: table;
+  background-color: #f0efef;
 
-    .img-achievement{
-      display: table-cell;
-      text-align: left;
-      width: 5%;
+  .img-achievement {
+    display: table-cell;
+    text-align: left;
+    width: 5%;
 
-      img {
+    img {
       width: 150px;
       height: 150px;
       margin: 10px;
-      }
-    }
-
-    .info-block {
-      display: table-cell;
-      vertical-align: middle;
-      text-align: left;
-
-      div {
-        padding: 5px;
-      }
-
-      .name {
-        font-size: 20px;
-      }
     }
   }
+
+  .info-block {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+
+    div {
+      padding: 5px;
+    }
+
+    .name {
+      font-size: 20px;
+    }
+  }
+}
 </style>

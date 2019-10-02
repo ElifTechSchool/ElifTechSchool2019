@@ -27,16 +27,15 @@ const actions = {
     const response = await achievementsService.getAchievements();
     commit("setAchievements", response.data);
   },
-  async getAchievementById(store, id) {  
+  async getAchievementById(store, id) {
     return await achievementsService.getAchievementById(id)
-    
   },
   async addAchievement({ commit }, achievement) {
     const response = await achievementsService.addAchievement(achievement);
     commit("addAchievement", response.data);
   },
-  async updateAchievement(store, achievement) {
-    await achievementsService.updateAchievement(achievement);
+  async updateAchievement(store, { achievement, id }) {
+    await achievementsService.updateAchievement(achievement, id);
   },
   async deleteAchievement({ dispatch }, { id }) {
     await achievementsService.deleteAchievement(id);
