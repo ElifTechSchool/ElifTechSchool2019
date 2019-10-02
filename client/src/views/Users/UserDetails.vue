@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col md="6">
       <v-card :elevation="5" class="mx-auto">
-        <v-row key="1" v-if="!isEditing">
+        <v-row>
           <v-col md="4">
             <v-img
               position="center left"
@@ -35,7 +35,7 @@
             <v-card-actions>
               <v-btn
                 color="orange lighten-2"
-                @click="toggleEdit"
+                @click="goToEdit"
                 absolute
                 right
               >
@@ -55,67 +55,6 @@
             >
           </v-col>
         </v-row>
-
-        <v-row key="2" justify="center" v-else>
-          <v-col md="6">
-            <v-form @submit.prevent="updateUser">
-              <v-row>
-                <v-col cols="12" sm="6" md="6">
-                  <v-text-field
-                    name="name"
-                    label="Name"
-                    v-model="userData.name"
-                    required
-                  />
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                  <v-text-field
-                    name="surname"
-                    label="Surname"
-                    v-model="userData.surname"
-                    required
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="10" md="10">
-                  <v-text-field
-                    type="email"
-                    label="E-mail"
-                    name="email"
-                    v-model="userData.email"
-                    required
-                  />
-                </v-col>
-                <v-col cols="12" sm="2" md="2">
-                  <v-text-field
-                    type="text"
-                    label="Experience"
-                    name="experience"
-                    v-model="userData.experience"
-                  />
-                </v-col>
-              </v-row>
-              <v-text-field
-                type="url"
-                label="Image url"
-                name="img_url"
-                v-model="userData.image_url"
-              />
-              <v-textarea
-                label="Description"
-                name="description"
-                v-model="userData.description"
-              ></v-textarea>
-              <v-btn color="orange lighten-2" class="bt" type="submit">
-                Update
-              </v-btn>
-              <v-btn color="grey lighten-2" class="bt" @click="toggleEdit">
-                Cancel
-              </v-btn>
-            </v-form>
-          </v-col>
-        </v-row>
       </v-card>
     </v-col>
   </v-row>
@@ -130,8 +69,11 @@ export default {
     };
   },
   methods: {
-    toggleEdit() {
-      this.isEditing = !this.isEditing;
+    goToEdit() {
+      this.$router.push({
+        name: "editUser",
+        params: { Uid: this.userData.id }
+      })
     },
     updateUser() {
       console.log(this.user);
