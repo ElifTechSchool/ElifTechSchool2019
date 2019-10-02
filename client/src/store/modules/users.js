@@ -34,10 +34,9 @@ const actions = {
   updateUser(_, userData) {
     axios.put(`users/${userData.id}`, userData).catch(err => console.log(err));
   },
-  deleteUser({ dispatch }, id) {
-    axios
-      .delete(`users/${id}`)
-      .then(dispatch("loadUsers"))
+  async deleteUser({ dispatch }, id) {
+    await axios.delete(`users/${id}`)
+      dispatch("loadUsers")
       .catch(err => console.log(err));
   }
 };
