@@ -17,11 +17,11 @@
             </div>
           </div>
           <v-card-actions>
-            <v-btn @click="confirmDelete" absolute right>
+            <v-btn @click="confirmDelete" absolute right >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </v-card-actions>
-            <Dialog :achievement="selectedAchievement" v-if='confirmModal' @confirm='deleteAchievement' @cancel="cancelDelete"></Dialog>
+            <DialogConfirm  v-if='confirmModal' @confirm='deleteAchievement' @cancel="cancelDelete"></DialogConfirm >
         </v-card>
       </v-hover>
     </v-col>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Dialog from "./Dialog"
+import DialogConfirm from "./DialogConfirm"
 
 export default {
   name: "achievement",
@@ -43,11 +43,10 @@ export default {
     "created_at"
   ],
   components: {
-    Dialog
+    DialogConfirm 
   },
   data() {
     return {
-    selectedAchievement: null,
     confirmModal: false,
     }
   },
@@ -58,8 +57,7 @@ export default {
         params: { id: this.id },
       });
     },
-    confirmDelete(achievement) {
-      this.selectedAchievement = achievement;
+    confirmDelete() {
       this.confirmModal = true;
 		},
 		cancelDelete() {
@@ -102,24 +100,4 @@ export default {
     }
   }
 }
-   .appear-enter {
-        opacity: 0;
-    }
-    
-    .appear-enter .modal-window {
-        transform: translate(-75%, -50%);
-    }
-    
-    .appear-enter-active {
-        transition: .5s;
-    }
-    
-    .appear-leave-active .modal-window {
-     transform: translate(0, -50%);
-    }
-    
-    .appear-leave-active {
-     opacity: 0;
-     transition: .5s;
-    }
 </style>
