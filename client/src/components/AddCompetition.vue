@@ -1,5 +1,5 @@
 <template>
-  <div class="form-wrapper">
+  <div class="form-wrapper text-right">
      <v-btn class="mx-2" fab dark color="indigo" @click="showForm = !showForm">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>

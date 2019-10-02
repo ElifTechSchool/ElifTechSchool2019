@@ -4,7 +4,10 @@
     <h2>Competitions list</h2>
     <Competition v-for="competition in getCompetitions" :competitionData="competition" :key="competition.id"  />
   </div>
+  
 </template>
+
+
 
 <script>
 import AddCompetition from "../components/AddCompetition";
