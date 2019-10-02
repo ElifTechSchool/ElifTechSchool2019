@@ -1,13 +1,14 @@
 <template>
   <div class="form-add-achievement">
-    <v-form @submit.prevent="addAchievement">
+    <v-form @submit.prevent="addAchievement" ref="form">
       <h1>Create new achievement</h1>
         <v-text-field name="name" label="Name" solo v-model="achievement.name" required/>
         <v-text-field name="description" label="Description" solo v-model="achievement.description" required/>
         <v-text-field name="type" label="Type" solo v-model="achievement.type" required/>
         <v-text-field name="experience" label="Experience" type="number" solo v-model="achievement.experience" required/>
         <v-text-field name="photo_url"  label="Photo url" type="url" solo v-model="achievement.photo_url" hint="https:/example.com/page" required/>
-      <v-btn type="submit" color="green"> Create </v-btn>
+      <v-btn type="submit" color="green" > Create </v-btn>
+      <v-btn color="error" class="ma-5" @click="reset">Reset Form</v-btn>
     </v-form>
   </div>
 </template>
@@ -25,6 +26,9 @@
         this.$store.dispatch("addAchievement", this.achievement);
         alert("Achievement created")
         this.achievement = {};
+      },
+      reset () {
+        this.$refs.form.reset()
       }
     }
   }

@@ -51,18 +51,17 @@ export default new Router({
     {
       path: "/achievements",
       name: "achievements",
-      component: () => import("./views/Achievements.vue")
+      component: () => import("./views/Achievements/Achievements.vue")
     },
     {
       path: "/achievements/create",
       name: "create_achievement",
-      component: () => import("./components/Achievements/AddAchievement.vue")
+      component: () => import("./views/Achievements/AddAchievement.vue")
     },
     {
       path: "/achievements/:id",
       name: "achievementDetails",
-      component: () =>
-        import("./components/Achievements/AchievementDetails.vue")
+      component: () => import("./views/Achievements/AchievementDetails.vue")
     }
   ]
 });
