@@ -7,19 +7,14 @@
 </template>
 
 <script>
-
 import AddCompetition from "../components/AddCompetition";
 import Competition from "../components/Competition";
 export default {
+  name: "Competitions",
   computed: {
     getCompetitions() {
       return this.$store.getters.getCompetitions;
     },
-  },
-  methods: {
-    loadCompetitions() {
-      this.$store.dispatch("loadCompetitions");
-    }
   },
   mounted() {
     this.$store.dispatch("loadCompetitions");
@@ -28,3 +23,12 @@ export default {
 };
 
 </script>
+<style lang="scss" scoped>
+.competitions {
+  width: 50vw;
+  height: 600px;
+  padding: 40px;
+  margin: auto;
+  margin-top: 80px;
+}
+</style>
