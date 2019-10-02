@@ -7,6 +7,7 @@
         :experience="rank.experience"
         :number="rank.number"
         :url="rank.photo_url"
+        :imageId="rank.photo_id"
       />
     </div>
   </div>
