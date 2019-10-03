@@ -2,11 +2,13 @@ import axios from 'axios';
 
 
 const state = {
-        competitions: []
+        competitions: [],
+        competition: [],
 };
 
 const getters = {
     getCompetitions : state => state.competitions,
+    getCompetition : state => state.competition,
 }; 
 
 const actions = {
@@ -58,7 +60,7 @@ const mutations =  {
         state.competitions = competitions;
       },
     getCompetitionById: (state, competition) => {
-        state.competitions = competition;
+        state.competition = competition;
     }
 };
 

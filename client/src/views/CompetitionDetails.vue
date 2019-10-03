@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     getCompetition() {
-      return [this.$store.getters.getCompetitions];
+      return [this.$store.getters.getCompetition];
     },
   },
   methods: 
