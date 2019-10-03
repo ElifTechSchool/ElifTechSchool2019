@@ -1,4 +1,6 @@
-import achievementsService from "../../services/AchievementsService.js";
+import axios from "axios";
+
+const achievementsURL = "http://localhost:3000/api/v1/achievements/";
 
 const state = {
   achievements: []
@@ -24,24 +26,48 @@ const mutations = {
 
 const actions = {
   async getAllAchievements({ commit }) {
-    const response = await achievementsService.getAchievements();
-    commit("setAchievements", response.data);
+    try {
+      const response = await axios.get(achievementsURL).then(res => res.data);
+      commit("setAchievements", response.data);
+    } catch (error) {
+      return error;
+    }
   },
   async getAchievementById(store, id) {
-    return await achievementsService.getAchievementById(id)
+    try {
+      return await axios.get(achievementsURL + id);
+    } catch (error) {
+      return error;
+    }
   },
   async addAchievement({ commit }, achievement) {
-    const response = await achievementsService.addAchievement(achievement);
-    commit("addAchievement", response.data);
+    try {
+      const response = await axios
+        .post(achievementsURL, achievement)
+        .then(() => {});
+      commit("addAchievement", response.data);
+    } catch (error) {
+      return error;
+    }
   },
   async updateAchievement(store, { achievement, id }) {
-    await achievementsService.updateAchievement(achievement, id);
+    try {
+      return await axios.put(achievementsURL + id, achievement);
+    } catch (error) {
+      return error;
+    }
   },
   async deleteAchievement({ dispatch }, { id }) {
-    await achievementsService.deleteAchievement(id);
-    dispatch("getAllAchievements");
+    try {
+      return await axios
+        .delete(achievementsURL + id)
+        .then(() => dispatch("getAllAchievements"));
+    } catch (error) {
+      return error;
+    }
   }
 };
+
 export default {
   state,
   getters,
