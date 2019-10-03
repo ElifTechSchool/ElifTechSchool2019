@@ -17,20 +17,28 @@ import User from "@/components/Users/User.vue";
 
 export default {
   name: "users",
-  data() {
-    return {
-      page: 1,
-    }
-  },
   components: {
     User
+  },
+  data() {
+    return {
+      pageProxy: Number(this.$route.query.page),
+    }
   },
   computed: {
     users() {
       return this.$store.getters.users;
     },
     pagesNum() {
-      return Math.ceil(this.$store.getters.usersCount/this.$store.getters.pageSize)
+      return this.$store.getters.numOfPages
+    },
+    page: {
+      get() {
+        return this.pageProxy || this.$route.query.page
+      },
+      set(val) {
+        this.pageProxy = val 
+      }
     }
   },
   methods: {
@@ -40,13 +48,14 @@ export default {
       });
     },
     nextPage(){
+      this.$router.replace({ name: "users", query: {page: this.page, pageSize: this.$store.getters.pageSize} })
       const page = this.page;
       const pageSize = this.$store.getters.pageSize;
       this.$store.dispatch("loadUsers", {page, pageSize});
     }
   },
   mounted() {
-    const page = 1;
+    const page = this.$route.query.page || 1;
     const pageSize = this.$store.getters.pageSize;
     this.$store.dispatch("loadUsers", {page, pageSize});
   },

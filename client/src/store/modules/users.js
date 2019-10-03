@@ -4,7 +4,8 @@ const state = {
   users: [],
   userById: {},
   usersCount: 0,
-  pageSize: 3
+  pageSize: 3,
+  numOfPages: 0
 };
 
 const getters = {
@@ -15,6 +16,7 @@ const getters = {
   },
   usersCount: state => state.usersCount,
   pageSize: state => state.pageSize,
+  numOfPages: state => state.numOfPages,
 };
 
 const mutations = {
@@ -26,17 +28,21 @@ const mutations = {
   },
   setUsersCount: (state, usersCount) => {
     state.usersCount = usersCount;
+  },
+  setNumOfPages: (state) => {
+    state.numOfPages = Math.ceil(state.usersCount / state.pageSize);
   }
 };
 
 const actions = {
-  loadUsers({ commit }, {page, pageSize}) {
+  loadUsers({ commit }, query) {
     axios
-      .get(`users/${page}/${pageSize}`)
+      .get(`users/${query.page}/${query.pageSize}`)
       .then(res => res.data)
       .then(data => {
         commit("setUsers", data.rows);
         commit("setUsersCount", data.count);
+        commit("setNumOfPages");
       })
       .catch(err => console.log(err));
   },
