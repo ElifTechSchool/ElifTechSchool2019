@@ -40,10 +40,7 @@ const actions = {
       },
       updateCompetition(context, updateData) {
           axios
-            .put(`competitions/${updateData.id}`, updateData)
-            .then(() => {
-                context.dispatch("loadcompetitions")
-            })
+            .put("competitions/" + updateData.id, updateData)
             .catch(err => console.log(err));
       },
       deleteCompetition(context, id) {

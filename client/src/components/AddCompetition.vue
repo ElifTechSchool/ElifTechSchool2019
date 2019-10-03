@@ -1,6 +1,8 @@
 <template>
-  <div class="form-wrapper">
-    <v-btn class="ma-2" outlined color="primary" @click.native="showForm = !showForm"> Add </v-btn>
+  <div class="form-wrapper text-right">
+     <v-btn class="mx-2" fab dark color="indigo" @click="showForm = !showForm">
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
      <div v-if="showForm">
         <v-form @submit.prevent="addCompetition">
         <h3>Create Competition</h3>
