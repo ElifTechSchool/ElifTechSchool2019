@@ -12,10 +12,13 @@
           About
         </v-btn>
         <v-btn text to="/users">
-          User List
+          Users
         </v-btn>
-        <v-btn text to="/add_user">
-          Add user
+        <v-btn text to="/competitions">
+          Competitions
+        </v-btn>
+        <v-btn text to="/achievements">
+          Achievements
         </v-btn>
         <v-btn text to="/ranks">
           Ranks
