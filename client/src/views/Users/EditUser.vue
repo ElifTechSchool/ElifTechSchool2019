@@ -9,7 +9,6 @@
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
                     name="name"
-                    :rules="nameRules"
                     :counter="10"
                     label="Name"
                     v-model="userData.name"
@@ -19,7 +18,6 @@
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
                     name="surname"
-                    :rules="nameRules"
                     :counter="10"
                     label="Surname"
                     v-model="userData.surname"
@@ -30,7 +28,6 @@
               <v-text-field
                 type="email"
                 label="E-mail"
-                :rules="emailRules"
                 :counter="100"
                 name="email"
                 v-model="userData.email"
@@ -45,7 +42,6 @@
               <v-textarea
                 label="Description"
                 name="description"
-                :rules="textareaRules"
                 :counter="500"
                 v-model="userData.description"
               ></v-textarea>
@@ -71,18 +67,7 @@ import {mapGetters} from 'vuex';
 export default {
   data() {
     return {
-      nameRules: [
-        v => !!v || "This field is required",
-        v => v.length <= 10 || "Field must be less than 10 characters"
-      ],
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ],
-      textareaRules: [
-        v => v.length <= 500 || "Field must be less than 500 characters",
-      ],
-      image_url: underfined,
+      image_url: undefined,
     };
   },
   computed: {

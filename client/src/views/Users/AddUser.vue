@@ -7,7 +7,6 @@
           <v-col cols="12" sm="6" md="6">
             <v-text-field
               name="name"
-              :rules="nameRules"
               :counter="10"
               label="Name"
               v-model="user.name"
@@ -17,7 +16,6 @@
           <v-col cols="12" sm="6" md="6">
             <v-text-field
               name="surname"
-              :rules="nameRules"
               :counter="10"
               label="Surname"
               v-model="user.surname"
@@ -29,7 +27,6 @@
           <v-col cols="12" sm="10" md="10">
             <v-text-field
               type="email"
-              :rules="emailRules"
               :counter="100"
               label="E-mail"
               name="email"
@@ -51,7 +48,6 @@
           label="Password"
           name="password"
           :counter="100"
-          :rules="passRules"
           v-model="user.password"
           required
         />
@@ -64,7 +60,6 @@
         <v-textarea
           label="Description"
           name="description"
-          :rules="textareaRules"
           :counter="500"
           v-model="user.description"
         ></v-textarea>
@@ -84,18 +79,6 @@ export default {
   data() {
     return {
       user: {},
-      nameRules: [
-        v => !!v || "This field is required",
-        v => v.length <= 10 || "Field must be less than 10 characters"
-      ],
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => v.length <= 100 || "Field must be less than 100 characters",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ],
-      textareaRules: [
-        v => v.length <= 500 || "Field must be less than 500 characters",
-      ]
     };
   },
   methods: {
@@ -108,6 +91,9 @@ export default {
       formData.append("user", JSON.stringify(this.user));
       this.$store.dispatch("submitUser", formData);
       this.user = {};
+      this.$router.push({
+        name: "users",
+      })
     }
   }
 };
