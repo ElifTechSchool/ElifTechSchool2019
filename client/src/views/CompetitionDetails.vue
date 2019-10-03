@@ -7,8 +7,12 @@
         <p><b>Deadline_date:</b> {{ competition.deadline_date }}</p>
         <p><b>Experience:</b> {{ competition.experience }}</p>
       </div>
-      <v-btn class="ma-2" tile outlined color="success" @click.native="isShow = !isShow">
+      <v-btn  color="success" outlined  @click.native="isShow = !isShow">
         <v-icon left>mdi-pencil</v-icon> Edit
+      </v-btn>
+      <v-btn color="red lighten-2" outlined  @click="hidden = !hidden" >
+        <i class="material-icons">{{hidden ? "work_off" : "work"}}</i>
+          {{hidden ? "Unsubscribe" : "Subscribe"}}
       </v-btn>
     </v-row>
     <v-row key="2" justify="center" class="userEdit" v-else>
@@ -64,7 +68,13 @@ export default {
                 description: "",
                 deadline_date: "",
                 experience: "" 
-      }
+      },
+      hidden: false,
+      button: {
+        text: "Subscribe",
+        icon: "work",
+        click: false,
+      },
     };
   },
   computed: {
@@ -73,11 +83,22 @@ export default {
     },
   },
   methods: 
+
     mapActions(["updateCompetition"])
+
   ,
+  
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
   },
+  methods: {
+    subscribe() {
+        this.button.text = "Unsubscribe"; 
+        this.button.icon = "work_off";
+        this.button.clic = true;
+        
+    }
+  }
   
   
   
