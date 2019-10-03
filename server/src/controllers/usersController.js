@@ -159,19 +159,11 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('image_url'), async (req, res, next) => {
-  const userData = JSON.parse(req.body.user);
-  userData.image_url = req.file.secure_url;
-
-  try {
-    userData.password = await usersService.hashPassword(userData.password);
+router.post('/', upload.single('image_url'), (req, res, next) => {
     usersService
-      .createUser(userData)
+      .createUser(req)
       .then(() => res.status(201).end())
       .catch((error) => next(error));
-  } catch (err) {
-    console.log(err);
-  }
 });
 
 /**
@@ -225,13 +217,9 @@ router.post('/', upload.single('image_url'), async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', upload.single('image_url'), async (req, res, next) => {
-  const userData = JSON.parse(req.body.user);
-  if (req.file) {
-    userData.image_url = req.file.secure_url;
-  }
+router.put('/:id', upload.single('image_url'), (req, res, next) => {
   usersService
-    .updateUser(req.params.id, userData)
+    .updateUser(req)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -258,7 +246,9 @@ router.put('/:id', upload.single('image_url'), async (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             password:
+ *             oldPassword:
+ *               type: string
+ *             newPassword:
  *               type: string
  *     responses:
  *       204:
@@ -273,16 +263,10 @@ router.put('/:id', upload.single('image_url'), async (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id/passwords', async (req, res, next) => {
-  console.log(req.body);
-  try {
-    const newPassword = await usersService.hashPassword(req.body.password);
-    usersService
-      .updateUserPassword(req.params.id, newPassword)
-      .then(() => res.status(204).end())
-      .catch((error) => next(error));
-  } catch (err) {
-    console.log(err);
-  }
+  usersService
+    .updateUserPassword(req)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
 });
 
 /**
