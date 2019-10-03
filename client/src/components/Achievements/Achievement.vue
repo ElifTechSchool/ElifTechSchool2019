@@ -16,12 +16,27 @@
               </v-card-text>
             </div>
           </div>
-          <v-card-actions>
-            <v-btn @click="confirmDelete" absolute right >
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </v-card-actions>
-            <DialogConfirm  v-if='confirmModal' @confirm='deleteAchievement' @cancel="cancelDelete"></DialogConfirm >
+          <template>
+            <v-layout row justify-center>
+                <v-dialog persistent max-width="600" v-model="confirmModal">
+                    <template v-slot:activator="{ on }">
+                      <v-col>
+                        <v-btn @click="confirmDelete" v-on="on" color="red">
+                        <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </v-col>
+                    </template>
+                    <v-card>
+                    <v-card-title>Are you sure to delete {{ name }}  achievement ?</v-card-title>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn @click="confirmModal=false" color="red">Cancel</v-btn>
+                        <v-btn @click="deleteAchievement" color="green">Delete</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+             </v-layout>
+          </template>
         </v-card>
       </v-hover>
     </v-col>
@@ -29,7 +44,7 @@
 </template>
 
 <script>
-import DialogConfirm from "./DialogConfirm"
+
 
 export default {
   name: "achievement",
@@ -42,9 +57,7 @@ export default {
     "photo_url",
     "created_at"
   ],
-  components: {
-    DialogConfirm 
-  },
+
   data() {
     return {
     confirmModal: false,
@@ -57,16 +70,8 @@ export default {
         params: { id: this.id },
       });
     },
-    confirmDelete() {
-      this.confirmModal = true;
-		},
-		cancelDelete() {
-			this.confirmModal = false;
-			this.selectedAchievement = null;
-		},
     deleteAchievement() {
       this.$store.dispatch("deleteAchievement", { id: this.id });
-      this.selectedAchievement = null
     }
   }
 };
