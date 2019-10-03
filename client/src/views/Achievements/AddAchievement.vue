@@ -24,7 +24,6 @@
     methods: {
       addAchievement() {
         this.$store.dispatch("addAchievement", this.achievement);
-        alert("Achievement created")
         this.achievement = {};
       },
       reset () {
