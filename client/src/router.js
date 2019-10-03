@@ -54,6 +54,22 @@ export default new Router({
         )
     },
     {
+
+      path: "/achievements",
+      name: "achievements",
+      component: () => import("./views/Achievements/Achievements.vue")
+    },
+    {
+      path: "/achievements/create",
+      name: "create_achievement",
+      component: () => import("./views/Achievements/AddAchievement.vue")
+    },
+    {
+      path: "/achievements/:id",
+      name: "achievementDetails",
+      component: () => import("./views/Achievements/AchievementDetails.vue")
+    },
+    {
       path: "/competitions",
       name: "competitions",
       // route level code-splitting
@@ -67,7 +83,5 @@ export default new Router({
       name: "competitionDetails",
       component: () => import("./views/CompetitionDetails.vue")
     },
-
-
   ]
 });
