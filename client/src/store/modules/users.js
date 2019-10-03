@@ -57,8 +57,9 @@ const actions = {
   submitUser(_, newUser) {
     axios.post("users", newUser).catch(err => console.log(err));
   },
-  updateUser(_, {formData, id}) {
+  updateUser({dispatch}, {formData, id}) {
     axios.put(`users/${id}`, formData).catch(err => console.log(err));
+    dispatch("getUserById", id);
   },
   async deleteUser({ dispatch }, id) {
     await axios.delete(`users/${id}`);
