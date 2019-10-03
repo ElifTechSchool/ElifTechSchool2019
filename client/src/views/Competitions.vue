@@ -20,14 +20,12 @@ import AddCompetition from "../components/AddCompetition";
 import Competition from "../components/Competition";
 export default {
   name: "Competitions",
-
   components: { AddCompetition, Competition },
   computed: {
     getCompetitions() {
       return this.$store.getters.getCompetitions;
     },
   },
-  
   mounted() {
     this.$store.dispatch("loadCompetitions");
   },
