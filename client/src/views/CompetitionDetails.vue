@@ -91,14 +91,7 @@ export default {
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
   },
-  methods: {
-    subscribe() {
-        this.button.text = "Unsubscribe"; 
-        this.button.icon = "work_off";
-        this.button.clic = true;
-        
-    }
-  }
+  
   
   
   
