@@ -25,17 +25,22 @@ export default new Router({
     {
       path: "/users",
       name: "users",
-      component: () => import("./views/Users.vue")
+      component: () => import("./views/Users/Users.vue")
     },
     {
       path: "/add_user",
       name: "add_user",
-      component: () => import("./views/AddUser.vue")
+      component: () => import("./views/Users/AddUser.vue")
     },
     {
       path: "/userDetails/:Uid",
       name: "userDetails",
-      component: () => import("./views/UserDetails.vue")
+      component: () => import("./views/Users/UserDetails.vue")
+    },
+    {
+      path: "/editUser/:Uid",
+      name: "editUser",
+      component: () => import("./views/Users/EditUser.vue")
     },
     {
       path: "/ranks",

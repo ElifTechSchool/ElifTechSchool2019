@@ -30,7 +30,7 @@
             <v-text-field
               type="email"
               :rules="emailRules"
-              :counter="50"
+              :counter="100"
               label="E-mail"
               name="email"
               v-model="user.email"
@@ -50,11 +50,13 @@
           type="password"
           label="Password"
           name="password"
+          :counter="100"
+          :rules="passRules"
           v-model="user.password"
           required
         />
         <v-file-input
-          label="Secelt you profile picture"
+          label="Select you profile picture"
           name="img_url"
           v-model="user.image_url"
           accept=".jpg, .png"
@@ -62,13 +64,15 @@
         <v-textarea
           label="Description"
           name="description"
+          :rules="textareaRules"
+          :counter="500"
           v-model="user.description"
         ></v-textarea>
         <div class="btn-wrapper">
-          <v-btn type="submit" color="primary"> Submit </v-btn>
           <v-btn to="/users" class="goBack" color="grey lighten-2">
             Go back
           </v-btn>
+          <v-btn type="submit" color="primary"> Submit </v-btn>
         </div>
       </v-form>
     </v-col>
@@ -86,7 +90,11 @@ export default {
       ],
       emailRules: [
         v => !!v || "E-mail is required",
+        v => v.length <= 100 || "Field must be less than 100 characters",
         v => /.+@.+/.test(v) || "E-mail must be valid"
+      ],
+      textareaRules: [
+        v => v.length <= 500 || "Field must be less than 500 characters",
       ]
     };
   },
@@ -108,8 +116,9 @@ export default {
 .btn-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-top: 20px;
 }
 .goBack {
-  margin-left: 20px;
+  margin-right: 20px;
 }
 </style>

@@ -2,7 +2,12 @@ import { models } from '../models/index.js';
 
 const { users: usersModel } = models;
 
-const getUsers = () => usersModel.findAll({
+const getUsers = (offset, limit) => usersModel.findAndCountAll({
+  offset,
+  limit,
+  order: [
+    ['experience', 'DESC'],
+  ],
   attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
 });
 
@@ -22,7 +27,7 @@ const updateUser = (id, user) => usersModel.update(
   user,
   {
     where: { id },
-    attributes: ['name', 'surname', 'email', 'experience', 'image_url', 'description'],
+    attributes: ['name', 'surname', 'email', 'image_url', 'description'],
 
   },
 );
