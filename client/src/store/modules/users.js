@@ -3,6 +3,8 @@ import axios from "axios";
 const state = {
   users: [],
   userById: {},
+  usersCount: 0,
+  pageSize: 3
 };
 
 const getters = {
@@ -10,7 +12,9 @@ const getters = {
   userById: state => state.userById,
   findUserById(state) {
     return id => state.users.find(el => el.id === id);
-  }
+  },
+  usersCount: state => state.usersCount,
+  pageSize: state => state.pageSize,
 };
 
 const mutations = {
@@ -19,16 +23,20 @@ const mutations = {
   },
   setUser: (state, user) => {
     state.userById = user;
+  },
+  setUsersCount: (state, usersCount) => {
+    state.usersCount = usersCount;
   }
 };
 
 const actions = {
-  loadUsers({ commit }) {
+  loadUsers({ commit }, {page, pageSize}) {
     axios
-      .get("users")
+      .get(`users/${page}/${pageSize}`)
       .then(res => res.data)
-      .then(users => {
-        commit("setUsers", users);
+      .then(data => {
+        commit("setUsers", data.rows);
+        commit("setUsersCount", data.count);
       })
       .catch(err => console.log(err));
   },

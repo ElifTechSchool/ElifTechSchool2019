@@ -4,6 +4,11 @@
     <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
+    <v-pagination
+      v-model="page"
+      :length="pagesNum"
+      @input="nextPage"
+    ></v-pagination>
   </v-container>
 </template>
 
@@ -12,12 +17,20 @@ import User from "@/components/Users/User.vue";
 
 export default {
   name: "users",
+  data() {
+    return {
+      page: 1,
+    }
+  },
   components: {
     User
   },
   computed: {
     users() {
       return this.$store.getters.users;
+    },
+    pagesNum() {
+      return Math.ceil(this.$store.getters.usersCount/this.$store.getters.pageSize)
     }
   },
   methods: {
@@ -25,11 +38,19 @@ export default {
       this.$router.push({
         name: "add_user"
       });
+    },
+    nextPage(){
+      const page = this.page;
+      const pageSize = this.$store.getters.pageSize;
+      this.$store.dispatch("loadUsers", {page, pageSize});
     }
   },
   mounted() {
-    this.$store.dispatch("loadUsers");
-  }
+    const page = 1;
+    const pageSize = this.$store.getters.pageSize;
+    this.$store.dispatch("loadUsers", {page, pageSize});
+  },
+
 };
 </script>
 

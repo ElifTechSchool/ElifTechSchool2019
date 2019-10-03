@@ -3,7 +3,12 @@ import usersDao from '../dataAccess/usersDao.js';
 
 const hashPassword = (password) => bcrypt.hash(password, 10);
 
-const getUsers = () => usersDao.getUsers();
+const getUsers = (page, pageSize) => {
+  const offset = (Number(page)-1) * pageSize;
+  const limit = pageSize;
+  return usersDao.getUsers(offset, limit);
+}
+
 
 const getUserById = (id) => usersDao.getUserById(id);
 
