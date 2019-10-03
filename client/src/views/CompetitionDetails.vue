@@ -7,10 +7,10 @@
         <p><b>Deadline_date:</b> {{ competition.deadline_date }}</p>
         <p><b>Experience:</b> {{ competition.experience }}</p>
       </div>
-      <v-btn class="ma-2" tile outlined color="success" @click.native="isShow = !isShow">
+      <v-btn  color="success" outlined  @click.native="isShow = !isShow">
         <v-icon left>mdi-pencil</v-icon> Edit
       </v-btn>
-      <v-btn color="red lighten-2" dark  @click="hidden = !hidden" >
+      <v-btn color="red lighten-2" outlined  @click="hidden = !hidden" >
         <i class="material-icons">{{hidden ? "work_off" : "work"}}</i>
           {{hidden ? "Unsubscribe" : "Subscribe"}}
       </v-btn>
