@@ -1,4 +1,4 @@
-import ranksService from "../../services/RanksService.js";
+import axios from "axios";
 
 const state = {
   ranks: null
@@ -19,17 +19,44 @@ const mutations = {
 
 const actions = {
   async getAllRanks({ commit, dispatch }) {
-    const response = await ranksService.getRanks();
-    if (response.status == 200) {
+    try {
+      const response = await axios.get("ranks");
       commit("setRanks", response.data);
-    } else {
-      dispatch("showSnackBar", { response, color: "red" });
+    } catch (error) {
+      const message = error.message;
+      dispatch("showSnackBar", { message, color: "red" });
     }
   },
-  async addRank({ commit }, rank) {
-    const response = await ranksService.addRank(rank);
-    if (response.status == 201) {
+  async addRank({ commit, dispatch }, rank) {
+    try {
+      const response = await axios.post("ranks", rank);
       commit("addRank", response.data);
+    } catch (error) {
+      const message = error.message;
+      dispatch("showSnackBar", { message, color: "red" });
+    }
+  },
+  async updateRank({ dispatch }, rank) {
+    try {
+      console.log(rank);
+      await axios.put(`ranks/${rank.id}`, rank.data, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      dispatch("getAllRanks");
+    } catch (error) {
+      const message = error.message;
+      dispatch("showSnackBar", { message, color: "red" });
+    }
+  },
+  async deleteRank({ dispatch }, id) {
+    try {
+      await axios.delete(`ranks/${id}`);
+      dispatch("getAllRanks");
+    } catch (error) {
+      const message = error.message;
+      dispatch("showSnackBar", { message, color: "red" });
     }
   }
 };

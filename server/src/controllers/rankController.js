@@ -33,6 +33,8 @@ const router = express.Router();
  *                  type: number
  *                photo_url:
  *                  type: string
+ *                photo_id:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -79,6 +81,8 @@ router.get('/', (req, res, next) => {
  *             number:
  *               type: number
  *             photo_url:
+ *               type: string
+ *             photo_id:
  *               type: string
  *       401:
  *         description: Unauthorized access
@@ -136,6 +140,7 @@ router.get('/:id', (req, res, next) => {
  */
 router.post('/', upload.single('image'), (req, res, next) => {
   req.body.photo_url = req.file.secure_url;
+  req.body.photo_id = req.file.public_id;
   rankService
     .createRank(req.body)
     .then(() => res.status(201).end())
@@ -184,6 +189,7 @@ router.post('/', upload.single('image'), (req, res, next) => {
 router.put('/:id', upload.single('image'), (req, res, next) => {
   if (req.file) {
     req.body.photo_url = req.file.secure_url;
+    req.body.photo_id = req.file.public_id;
   }
   rankService
     .updateRank(req.params.id, req.body)
