@@ -48,7 +48,6 @@ export default new Router({
       component: () => import("./components/RanksList/RanksList.vue")
     },
     {
-
       path: "/achievements",
       name: "achievements",
       component: () => import("./views/Achievements/Achievements.vue")
@@ -76,6 +75,6 @@ export default new Router({
       path: "/competitions/:id",
       name: "competitionDetails",
       component: () => import("./views/CompetitionDetails.vue")
-    },
+    }
   ]
 });

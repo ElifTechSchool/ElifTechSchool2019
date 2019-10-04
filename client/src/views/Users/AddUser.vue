@@ -78,7 +78,7 @@
 export default {
   data() {
     return {
-      user: {},
+      user: {}
     };
   },
   methods: {
@@ -92,8 +92,8 @@ export default {
       this.$store.dispatch("submitUser", formData);
       this.user = {};
       this.$router.push({
-        name: "users",
-      })
+        name: "users"
+      });
     }
   }
 };

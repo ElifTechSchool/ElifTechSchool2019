@@ -1,5 +1,5 @@
 <template>
-    <v-row justify="center">
+  <v-row justify="center">
     <v-col md="6">
       <v-card :elevation="5" class="mx-auto">
         <v-row justify="center">
@@ -62,32 +62,32 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      image_url: undefined,
+      image_url: undefined
     };
   },
   computed: {
-    ...mapGetters(['findUserById', 'userById']),
+    ...mapGetters(["findUserById", "userById"]),
     userData() {
-      if(this.findUserById(this.id)){
+      if (this.findUserById(this.id)) {
         return this.findUserById(this.id);
       } else {
         return this.userById;
       }
-    },
+    }
   },
   methods: {
     async updateUser() {
       const id = this.$route.params.Uid;
       const formData = new FormData();
 
-      formData.append("image_url", this.image_url);      
+      formData.append("image_url", this.image_url);
       formData.append("user", JSON.stringify(this.userData));
-      this.$store.dispatch("updateUser", {formData, id});
+      this.$store.dispatch("updateUser", { formData, id });
       this.goToDetail();
     },
     goToDetail() {
@@ -100,11 +100,11 @@ export default {
   created() {
     this.$store.dispatch("getUserById", this.$route.params.Uid);
   }
-}
+};
 </script>
 
 <style lang="scss">
-  .btn-wrapper {
-    margin: 20px;
-  }
+.btn-wrapper {
+  margin: 20px;
+}
 </style>

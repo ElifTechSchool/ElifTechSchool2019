@@ -18,24 +18,31 @@
           </div>
           <template>
             <v-layout row justify-center>
-                <v-dialog persistent max-width="600" v-model="confirmModal">
-                    <template v-slot:activator="{ on }">
-                      <v-col>
-                        <v-btn @click="confirmDelete" v-on="on" color="red">
-                        <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </v-col>
-                    </template>
-                    <v-card>
-                    <v-card-title>Are you sure to delete {{ name }}  achievement ?</v-card-title>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn @click="confirmModal=false" color="red">Cancel</v-btn>
-                        <v-btn @click="deleteAchievement" color="green">Delete</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-             </v-layout>
+              <v-dialog persistent max-width="600" v-model="confirmModal">
+                <template v-slot:activator="{ on }">
+                  <v-col>
+                    <v-btn @click="confirmDelete" v-on="on" color="red">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-col>
+                </template>
+                <v-card>
+                  <v-card-title
+                    >Are you sure to delete {{ name }} achievement
+                    ?</v-card-title
+                  >
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="confirmModal = false" color="red"
+                      >Cancel</v-btn
+                    >
+                    <v-btn @click="deleteAchievement" color="green"
+                      >Delete</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-layout>
           </template>
         </v-card>
       </v-hover>
@@ -44,8 +51,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "achievement",
   props: [
@@ -60,14 +65,14 @@ export default {
 
   data() {
     return {
-    confirmModal: false,
-    }
+      confirmModal: false
+    };
   },
   methods: {
     showDetails() {
       this.$router.push({
         name: "achievementDetails",
-        params: { id: this.id },
+        params: { id: this.id }
       });
     },
     deleteAchievement() {

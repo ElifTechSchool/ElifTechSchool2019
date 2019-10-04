@@ -2,7 +2,10 @@
   <v-dialog v-model="show" persistent max-width="290">
     <v-card>
       <v-card-title class="headline">Are you sure?</v-card-title>
-      <v-card-text>Do you really want to delete this record? This process cannot be undone.</v-card-text>
+      <v-card-text
+        >Do you really want to delete this record? This process cannot be
+        undone.</v-card-text
+      >
       <v-card-actions>
         <div class="flex-grow-1"></div>
         <v-btn color="red" text @click="deleteItem">Delete</v-btn>
@@ -13,33 +16,30 @@
 </template>
 
 <script lang="js">
-  export default {
-    name: 'modal-box',
-    props: ["show", "actionName", "id"],
-    mounted() {
+export default {
+  name: 'modal-box',
+  props: ["show", "actionName", "id"],
+  mounted() {
 
+  },
+  data() {
+    return {
+    }
+  },
+  methods: {
+    deleteItem() {
+      this.$emit("deleteItem")
     },
-    data() {
-      return {
-      }
-    },
-    methods: {
-      deleteItem() {
-        this.$emit("deleteItem")
-      },
-      hideModal() {
-        this.$emit("hideModal")
-      }
-    },
-    // watch: {
-    //   show(newValue, oldValue) {
-    //       this.dialog = true;
-    //   }
-    // },
-  }
-
+    hideModal() {
+      this.$emit("hideModal")
+    }
+  },
+  // watch: {
+  //   show(newValue, oldValue) {
+  //       this.dialog = true;
+  //   }
+  // },
+}
 </script>
 
-<style scoped lang="scss">
-  
-</style>
+<style scoped lang="scss"></style>
