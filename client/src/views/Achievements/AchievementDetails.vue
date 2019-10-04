@@ -5,7 +5,10 @@
         <div v-if="!isEditing">
           <div>
             <v-avatar size="300">
-              <v-img v-bind:src="achievement.photo_url" alt="achievement photo" />
+              <v-img
+                v-bind:src="achievement.photo_url"
+                alt="achievement photo"
+              />
             </v-avatar>
             <v-card-title>
               {{ achievement.name }}
@@ -25,20 +28,20 @@
         <div v-if="isEditing">
           <v-form @submit.prevent="updateAchievement">
             <v-col cols="auto">
-              <v-text-field 
-                name="name" 
-                label="Name" 
-                v-model="achievement.name" 
+              <v-text-field
+                name="name"
+                label="Name"
+                v-model="achievement.name"
               />
               <v-text-field
                 name="description"
                 label="Description"
                 v-model="achievement.description"
               />
-              <v-text-field 
-                name="type" 
-                label="Type" 
-                v-model="achievement.type" 
+              <v-text-field
+                name="type"
+                label="Type"
+                v-model="achievement.type"
               />
               <v-text-field
                 name="experience"

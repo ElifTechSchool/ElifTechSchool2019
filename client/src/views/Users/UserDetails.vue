@@ -33,12 +33,7 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                color="orange lighten-2"
-                @click="goToEdit"
-                absolute
-                right
-              >
+              <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn color="primary lighten-2" outlined>
@@ -61,38 +56,38 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   name: "userDetail",
   data() {
     return {
-      id: this.$route.params.Uid,
-    }
+      id: this.$route.params.Uid
+    };
   },
   computed: {
-    ...mapGetters(['findUserById', 'userById']),
+    ...mapGetters(["findUserById", "userById"]),
     userData() {
-      if(this.findUserById(this.id)){
+      if (this.findUserById(this.id)) {
         return this.findUserById(this.id);
       } else {
         return this.userById;
       }
-    },
+    }
   },
   methods: {
     goToEdit() {
       this.$router.push({
         name: "editUser",
         params: { Uid: this.id }
-      })
-    },
-  },
-  mounted() {
-    if(!this.findUserById(this.id)){
-      this.$store.dispatch("getUserById", this.$route.params.Uid);      
+      });
     }
   },
+  mounted() {
+    if (!this.findUserById(this.id)) {
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    }
+  }
 };
 </script>
 

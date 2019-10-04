@@ -2,7 +2,7 @@
   <v-container>
     <User v-for="user in users" :userData="user" :key="user.id" />
     <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
-      <v-icon dark>mdi-plus</v-icon>
+      <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
       v-model="page"
@@ -22,22 +22,22 @@ export default {
   },
   data() {
     return {
-      pageProxy: Number(this.$route.query.page),
-    }
+      pageProxy: Number(this.$route.query.page)
+    };
   },
   computed: {
     users() {
       return this.$store.getters.users;
     },
     pagesNum() {
-      return this.$store.getters.numOfPages
+      return this.$store.getters.numOfPages;
     },
     page: {
       get() {
-        return this.pageProxy || this.$route.query.page
+        return this.pageProxy || this.$route.query.page;
       },
       set(val) {
-        this.pageProxy = val 
+        this.pageProxy = val;
       }
     }
   },
@@ -47,20 +47,22 @@ export default {
         name: "add_user"
       });
     },
-    nextPage(){
-      this.$router.replace({ name: "users", query: {page: this.page, pageSize: this.$store.getters.pageSize} })
+    nextPage() {
+      this.$router.replace({
+        name: "users",
+        query: { page: this.page, pageSize: this.$store.getters.pageSize }
+      });
       const page = this.page;
       const pageSize = this.$store.getters.pageSize;
-      this.$store.dispatch("loadUsers", {page, pageSize});
+      this.$store.dispatch("loadUsers", { page, pageSize });
     }
   },
   mounted() {
     this.page = Number(this.$route.query.page) || 1;
     const page = this.$route.query.page || 1;
     const pageSize = this.$store.getters.pageSize;
-    this.$store.dispatch("loadUsers", {page, pageSize});
-  },
-
+    this.$store.dispatch("loadUsers", { page, pageSize });
+  }
 };
 </script>
 

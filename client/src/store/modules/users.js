@@ -16,7 +16,7 @@ const getters = {
   },
   usersCount: state => state.usersCount,
   pageSize: state => state.pageSize,
-  numOfPages: state => state.numOfPages,
+  numOfPages: state => state.numOfPages
 };
 
 const mutations = {
@@ -29,7 +29,7 @@ const mutations = {
   setUsersCount: (state, usersCount) => {
     state.usersCount = usersCount;
   },
-  setNumOfPages: (state) => {
+  setNumOfPages: state => {
     state.numOfPages = Math.ceil(state.usersCount / state.pageSize);
   }
 };
@@ -46,18 +46,17 @@ const actions = {
       })
       .catch(err => console.log(err));
   },
-  getUserById({commit}, id) {
+  getUserById({ commit }, id) {
     axios
       .get(`users/${id}`)
       .then(res => res.data)
-      .then(user => 
-        commit("setUser", user))
-      .catch(err => console.log(err))
+      .then(user => commit("setUser", user))
+      .catch(err => console.log(err));
   },
   submitUser(_, newUser) {
     axios.post("users", newUser).catch(err => console.log(err));
   },
-  updateUser({dispatch}, {formData, id}) {
+  updateUser({ dispatch }, { formData, id }) {
     axios.put(`users/${id}`, formData).catch(err => console.log(err));
     dispatch("getUserById", id);
   },
