@@ -27,22 +27,37 @@
             </v-col>
             <v-col md="3">
               <v-card-actions>
-                <v-btn @click="deleteUser" color="error">Delete</v-btn>
+                <v-btn @click="warnDialog = true" color="error">Delete</v-btn>
               </v-card-actions>
             </v-col>
         </v-card>
       </v-hover>
     </v-col>
+    <ModalBox
+      :show="warnDialog"
+      @deleteItem="deleteUser"
+      @hideModal="warnDialog = false"
+    />
   </v-row>
 </template>
 
 <script>
+import ModalBox from "../ModalBox/ModalBox";
 export default {
   name: "User",
   props: ["userData"],
+  components: {
+    ModalBox
+  },
+  data() {
+    return {
+      warnDialog: false,
+    }
+  },
   methods: {
     deleteUser() {
       this.$store.dispatch("deleteUser", this.userData.id);
+      this.$router.push("users");
     },
     goToDetail() {
       this.$router.push({

@@ -29,6 +29,9 @@ const mutations = {
   setUsersCount: (state, usersCount) => {
     state.usersCount = usersCount;
   },
+  setPageSize: (state, pageSize) => {
+    state.pageSize = pageSize;
+  },
   setNumOfPages: state => {
     state.numOfPages = Math.ceil(state.usersCount / state.pageSize);
   }
@@ -36,8 +39,11 @@ const mutations = {
 
 const actions = {
   loadUsers({ commit }, query) {
+    commit("setPageSize", query.pageSize);
     axios
-      .get(`users/${query.page}/${query.pageSize}`)
+      .get(`users`, {
+        params: {...query}
+      })
       .then(res => res.data)
       .then(data => {
         commit("setUsers", data.rows);
@@ -62,7 +68,7 @@ const actions = {
   },
   async deleteUser({ dispatch }, id) {
     await axios.delete(`users/${id}`);
-    dispatch("loadUsers");
+    dispatch("loadUsers", {page:1});
   }
 };
 

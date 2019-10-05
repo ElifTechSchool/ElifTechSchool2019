@@ -48,9 +48,9 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/:page/:pageSize', (req, res, next) => {
+router.get('/', (req, res, next) => {
   usersService
-    .getUsers(req.params.page, req.params.pageSize)
+    .getUsers(req.query.page, req.query.pageSize)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });

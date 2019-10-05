@@ -60,7 +60,7 @@ export default {
   mounted() {
     this.page = Number(this.$route.query.page) || 1;
     const page = this.$route.query.page || 1;
-    const pageSize = this.$store.getters.pageSize;
+    const pageSize = this.$route.query.pageSize || this.$store.getters.pageSize;
     this.$store.dispatch("loadUsers", { page, pageSize });
   }
 };

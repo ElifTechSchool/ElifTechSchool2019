@@ -91,9 +91,7 @@ export default {
       formData.append("user", JSON.stringify(this.user));
       this.$store.dispatch("submitUser", formData);
       this.user = {};
-      this.$router.push({
-        name: "users"
-      });
+      this.$router.push("users");
     }
   }
 };
