@@ -7,7 +7,8 @@
           <v-col cols="12" sm="6" md="6">
             <v-text-field
               name="name"
-              :counter="10"
+              :rules="nameRules"
+              :counter="50"
               label="Name"
               v-model="user.name"
               required
@@ -16,7 +17,8 @@
           <v-col cols="12" sm="6" md="6">
             <v-text-field
               name="surname"
-              :counter="10"
+              :rules="nameRules"
+              :counter="50"
               label="Surname"
               v-model="user.surname"
               required
@@ -24,9 +26,10 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" sm="10" md="10">
+          <v-col cols="12" sm="9" md="9">
             <v-text-field
               type="email"
+              :rules="emailRules"
               :counter="100"
               label="E-mail"
               name="email"
@@ -34,9 +37,9 @@
               required
             />
           </v-col>
-          <v-col cols="12" sm="2" md="2">
+          <v-col cols="12" sm="3" md="3">
             <v-text-field
-              type="text"
+              type="number"
               label="Experience"
               name="experience"
               v-model="user.experience"
@@ -47,6 +50,7 @@
           type="password"
           label="Password"
           name="password"
+          :rules="passRules"
           :counter="100"
           v-model="user.password"
           required
@@ -60,6 +64,7 @@
         <v-textarea
           label="Description"
           name="description"
+          :rules="textareaRules"
           :counter="500"
           v-model="user.description"
         ></v-textarea>
@@ -78,7 +83,23 @@
 export default {
   data() {
     return {
-      user: {}
+      user: {},
+      nameRules: [
+        v => !!v || "This field is required",
+        v => (v && v.length <= 50) || "This field must be less than 50 characters"
+      ],
+      passRules: [
+        v => !!v || "This field is required",
+        v => (v && v.length <= 50) || "This field must be less than 50 characters"
+      ],
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v => (v && v.length <= 100) || "Field must be less than 100 characters",
+        v => /.+@.+/.test(v) || "E-mail must be valid"
+      ],
+      textareaRules: [
+        v => (v && v.length <= 500) || "Field must be less than 500 characters",
+      ]
     };
   },
   methods: {

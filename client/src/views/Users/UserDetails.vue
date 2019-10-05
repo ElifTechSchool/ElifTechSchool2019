@@ -62,7 +62,7 @@ export default {
   name: "userDetail",
   data() {
     return {
-      id: this.$route.params.Uid
+      id: this.$route.params.Uid,
     };
   },
   computed: {
