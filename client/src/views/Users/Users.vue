@@ -67,10 +67,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1,
-.v-btn {
-  margin-left: 30px;
-}
 .mx-2 {
   position: fixed;
   bottom: 50px;
