@@ -3,12 +3,15 @@ import usersDao from '../dataAccess/usersDao.js';
 
 const hashPassword = (password) => bcrypt.hash(password, 10);
 
+const getRank = (experience) => usersDao.getRank(experience).then(el => el[0]);
+const getNextRank = (experience) => usersDao.getNextRank(experience).then(el => el[0]);
+
+
 const getUsers = (page, pageSize) => {
   const offset = (Number(page)-1) * pageSize;
   const limit = pageSize;
   return usersDao.getUsers(offset, limit);
 }
-
 
 const getUserById = (id) => usersDao.getUserById(id);
 
@@ -47,6 +50,8 @@ const updateUserPassword = async (req) => {
 const deleteUser = (id) => usersDao.deleteUser(id);
 
 export default {
+  getRank,
+  getNextRank,
   getUsers,
   getUserById,
   getUserByEmail,

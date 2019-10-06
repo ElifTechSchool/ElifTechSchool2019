@@ -1,6 +1,30 @@
 import { models } from '../models/index.js';
+import  Sequelize from 'sequelize'
+const Op = Sequelize.Op;
 
-const { users: usersModel } = models;
+const { users: usersModel, ranks: rankModel } = models;
+
+const getRank = (experience) => rankModel.findAll({
+  where: {
+    experience: {
+      [Op.lte]: experience,
+    }
+  },
+  order: [
+    ['experience', 'DESC'],
+  ],
+});
+
+const getNextRank = (experience) => rankModel.findAll({
+  where: {
+    experience: {
+      [Op.gt]: experience,
+    }
+  },
+  order: [
+    ['experience', 'ASC'],
+  ],
+});
 
 const getUsers = (offset, limit) => usersModel.findAndCountAll({
   offset,
@@ -40,6 +64,8 @@ const deleteUser = (id) => usersModel.destroy({
 });
 
 export default {
+  getRank,
+  getNextRank,
   getUsers,
   getUserById,
   getUserByEmail,
