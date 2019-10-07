@@ -2,7 +2,7 @@ import { models } from '../models/index.js';
 
 const { achievements: achievementsModel } = models;
 
-const getAchievements = () => achievementsModel.findAll({ raw: true });
+const getAchievements = () => achievementsModel.findAll({ raw: true })
 
 const getAchievementById = (id) => achievementsModel.findAll({
   where: { id },

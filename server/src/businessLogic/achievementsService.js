@@ -1,6 +1,19 @@
 import achievementsDao from '../dataAccess/achievementsDao.js';
 
-const getAchievements = () => achievementsDao.getAchievements();
+const getAchievements = (params) => {
+  const { page, limit } = params;
+  if (page && limit) {
+    return getAchievementsPerPage(page, limit);
+  }
+  return achievementsDao.getAchievements()
+};
+
+async function getAchievementsPerPage (page, limit) {
+  const achievements = await achievementsDao.getAchievements();
+  const endIndex = page * limit;
+  const startIndex = endIndex - limit;
+  return achievements.slice(startIndex, endIndex);
+};
 
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 
