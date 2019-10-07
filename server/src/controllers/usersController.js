@@ -14,7 +14,15 @@ const router = express.Router();
  *       - users
  *     produces:
  *       - application/json
- *     parameters: []
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         required: true
+ *         type: number
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         type: number
  *     responses:
  *       200:
  *         description: response
@@ -50,7 +58,7 @@ const router = express.Router();
  */
 router.get('/', (req, res, next) => {
   usersService
-    .getNextRank(100)
+    .getUsers(req.query.page, req.query.pageSize)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -104,7 +112,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   usersService
     .getUserById(req.params.id)
-    .then((result) => res.json(result[0]))
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 

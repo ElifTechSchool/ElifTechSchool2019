@@ -10,7 +10,7 @@ const state = {
 
 const getters = {
   users: state => state.users,
-  userById: state => state.userById,
+  userById: state => state.userById.user,
   findUserById(state) {
     return id => state.users.find(el => el.id === id);
   },

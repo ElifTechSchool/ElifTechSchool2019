@@ -68,11 +68,7 @@ export default {
   computed: {
     ...mapGetters(["findUserById", "userById"]),
     userData() {
-      if (this.findUserById(this.id)) {
-        return this.findUserById(this.id);
-      } else {
         return this.userById;
-      }
     }
   },
   methods: {

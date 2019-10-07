@@ -4,7 +4,7 @@ const Op = Sequelize.Op;
 
 const { users: usersModel, ranks: rankModel } = models;
 
-const getRank = (experience) => rankModel.findAll({
+const getRank = (experience) => rankModel.findOne({
   where: {
     experience: {
       [Op.lte]: experience,
