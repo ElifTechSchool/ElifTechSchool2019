@@ -17,7 +17,7 @@
     </v-row>
     <v-row key="2" justify="center" class="userEdit" v-else>
       <div v-for="competition in getCompetition" :key="competition.id">
-      <v-form @submit.prevent="updateCompetition(competition)">
+      <v-form @submit.prevent="updateComeptition(competition)">
         <v-text-field
           name="name"
           label="Name"
@@ -55,8 +55,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
-
 export default {
   name: "CompetitionDetails",
   data() {
@@ -70,11 +68,7 @@ export default {
                 experience: "" 
       },
       hidden: false,
-      button: {
-        text: "Subscribe",
-        icon: "work",
-        click: false,
-      },
+    
     };
   },
   computed: {
@@ -82,25 +76,15 @@ export default {
       return [this.$store.getters.getCompetition];
     },
   },
-  methods: 
-
-    mapActions(["updateCompetition"])
-
-  ,
-  
+  methods: {
+    updateComeptition(competition) {
+      this.$store.dispatch("updateCompetition", competition);
+      this.isShow = false;
+    },
+  },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
   },
-  methods: {
-    subscribe() {
-        this.button.text = "Unsubscribe"; 
-        this.button.icon = "work_off";
-        this.button.clic = true;
-        
-    }
-  }
-  
-  
   
 };
 </script>
