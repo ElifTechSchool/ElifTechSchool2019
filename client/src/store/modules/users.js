@@ -11,6 +11,7 @@ const state = {
 const getters = {
   users: state => state.users,
   userById: state => state.userById.user,
+  rankData: state => state.userById.userRank,
   findUserById(state) {
     return id => state.users.find(el => el.id === id);
   },
