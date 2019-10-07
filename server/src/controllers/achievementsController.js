@@ -135,8 +135,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
-  const { achievement } = req.body;
-  achievementService.createAchievement(achievement)
+  achievementService.createAchievement(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });

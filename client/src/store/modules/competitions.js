@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import axios from "axios";
 
 const state = {
         competitions: [],
@@ -12,7 +11,7 @@ const getters = {
 }; 
 
 const actions = {
-    loadCompetitions({ commit }) {
+      loadCompetitions({ commit }) {
         axios
           .get("competitions")
           .then(res => res.data)
@@ -24,12 +23,12 @@ const actions = {
 
       loadCompetitionById(context, id) {
         axios
-            .get(`competitions/${id}`)
-            .then(res => res.data)
-            .then(competition => {
-                context.commit("getCompetitionById", competition);
-            })
-            .catch(err => console.log(err));
+          .get(`competitions/${id}`)
+          .then(res => res.data)
+          .then(competition => {
+            context.commit("getCompetitionById", competition);
+          })
+          .catch(err => console.log(err));
       },
 
       addCompetition(context, newCompetition) {
@@ -38,8 +37,8 @@ const actions = {
             context.dispatch("loadCompetitions")
         })
         .catch(err => console.log(err));
-        
       },
+
       updateCompetition(context, updateData) {
           axios
             .put("competitions/" + updateData.id, updateData)
@@ -48,6 +47,7 @@ const actions = {
             })
             .catch(err => console.log(err));
       },
+      
       deleteCompetition(context, id) {
         axios
           .delete("competitions/"+id)
@@ -55,7 +55,8 @@ const actions = {
               context.dispatch("loadCompetitions")
           })
           .catch(err => console.log(err));
-      }
+      },
+ 
 };
 
 const mutations =  {
@@ -68,10 +69,8 @@ const mutations =  {
 };
 
 export default {
-    state,
-    getters,
-    actions,
-    mutations
+  state,
+  getters,
+  actions,
+  mutations
 };
-
-

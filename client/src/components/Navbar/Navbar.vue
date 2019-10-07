@@ -1,25 +1,29 @@
 <template lang="html">
   <div>
     <v-toolbar class="toolbar">
-      <v-toolbar-title>R{!}P</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor: pointer"
+          >R{!}P
+        </router-link>
+      </v-toolbar-title>
 
-      <div class="flex-grow-1"></div>
+      <!-- <div class="flex-grow-1"></div> -->
 
       <v-toolbar-items>
-        <v-btn text to="/">
-          Home
-        </v-btn>
         <v-btn text to="/about">
           About
         </v-btn>
         <v-btn text to="/users">
-          User List
-        </v-btn>
-        <v-btn text to="/add_user">
-          Add user
+          Users
         </v-btn>
         <v-btn text to="/competitions">
           Competitions
+        </v-btn>
+        <v-btn text to="/achievements">
+          Achievements
+        </v-btn>
+        <v-btn text to="/ranks">
+          Ranks
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>

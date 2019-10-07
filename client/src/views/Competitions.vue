@@ -6,14 +6,15 @@
       <v-btn small slat color="primery" @click="sortByDate">
         <v-icon left>event</v-icon>
         <span class="caption text-lowercase">By date</span>
-        </v-btn>
+      </v-btn>
     </v-layout>
-    <Competition v-for="competition in getCompetitions" :competitionData="competition" :key="competition.id"  />
+    <Competition
+      v-for="competition in getCompetitions"
+      :competitionData="competition"
+      :key="competition.id"
+    />
   </div>
-  
 </template>
-
-
 
 <script>
 import AddCompetition from "../components/AddCompetition";
@@ -24,19 +25,20 @@ export default {
   computed: {
     getCompetitions() {
       return this.$store.getters.getCompetitions;
-    },
+    }
   },
   mounted() {
     this.$store.dispatch("loadCompetitions");
   },
   methods: {
-    sortByDate(){
+    sortByDate() {
       const competitions = this.$store.getters.getCompetitions;
-      return competitions.sort((a,b) => (a.deadline_date < b.deadline_date) ? 1 : -1 );
+      return competitions.sort((a, b) =>
+        a.deadline_date < b.deadline_date ? 1 : -1
+      );
     }
   }
 };
-
 </script>
 <style lang="scss" scoped>
 .competitions {

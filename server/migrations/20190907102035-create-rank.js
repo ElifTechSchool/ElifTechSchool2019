@@ -9,10 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING(250),
+        type: Sequelize.STRING(50),
         allowNull: false,
         validate: {
-          len: [0, 250],
+          len: [0, 50],
         },
       },
       experience: {
@@ -25,8 +25,12 @@ module.exports = {
       },
       photo_url: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      photo_id: {
+        type: Sequelize.STRING,
         allowNull: true
-      }
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

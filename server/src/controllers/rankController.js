@@ -1,5 +1,6 @@
 import express from 'express';
 import rankService from '../businessLogic/rankService.js';
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -31,6 +32,8 @@ const router = express.Router();
  *                number:
  *                  type: number
  *                photo_url:
+ *                  type: string
+ *                photo_id:
  *                  type: string
  *       401:
  *         description: Unauthorized access
@@ -79,6 +82,8 @@ router.get('/', (req, res, next) => {
  *               type: number
  *             photo_url:
  *               type: string
+ *             photo_id:
+ *               type: string
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -103,23 +108,24 @@ router.get('/:id', (req, res, next) => {
  *     description: add rank
  *     tags:
  *       - ranks
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
- *       - name: body
- *         in: body
+ *       - name: name
+ *         in: formData
  *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             experience:
- *               type: number
- *             number:
- *               type: number
- *             photo_url:
- *               type: string
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: true
+ *         type: number
+ *       - name: number
+ *         in: formData
+ *         required: true
+ *         type: number
+ *       - name: image
+ *         in: formData
+ *         type: file
  *     responses:
  *       201:
  *         description: added success
@@ -132,7 +138,9 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('image'), (req, res, next) => {
+  req.body.photo_url = req.file.secure_url;
+  req.body.photo_id = req.file.public_id;
   rankService
     .createRank(req.body)
     .then(() => res.status(201).end())
@@ -147,31 +155,28 @@ router.post('/', (req, res, next) => {
  *     description: update rank
  *     tags:
  *       - ranks
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             experience:
- *               type: number
- *             number:
- *               type: number
- *             photo_url:
- *               type: string
+ *         type: number
+ *       - name: name
+ *         in: formData
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         type: number
+ *       - name: number
+ *         in: formData
+ *         type: number
+ *       - name: image
+ *         in: formData
+ *         type: file
  *     responses:
  *       204:
- *         description: added success
+ *         description: update success
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -181,7 +186,11 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
+router.put('/:id', upload.single('image'), (req, res, next) => {
+  if (req.file) {
+    req.body.photo_url = req.file.secure_url;
+    req.body.photo_id = req.file.public_id;
+  }
   rankService
     .updateRank(req.params.id, req.body)
     .then(() => res.status(204).end())
