@@ -10,10 +10,10 @@ module.exports = class Rank extends Model {
         type: INTEGER,
       },
       name: {
-        type: STRING(250),
+        type: STRING(50),
         allowNull: false,
         validate: {
-          len: [0, 250],
+          len: [0, 50],
         },
       },
       experience: {
@@ -25,6 +25,10 @@ module.exports = class Rank extends Model {
         allowNull: false,
       },
       photo_url: {
+        type: STRING,
+        allowNull: false,
+      },
+      photo_id: {
         type: STRING,
         allowNull: true,
       },

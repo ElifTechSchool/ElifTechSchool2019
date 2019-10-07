@@ -25,28 +25,42 @@ export default new Router({
     {
       path: "/users",
       name: "users",
-      component: () => import("./views/Users.vue")
+      component: () => import("./views/Users/Users.vue")
     },
     {
       path: "/add_user",
       name: "add_user",
-      component: () => import("./views/AddUser.vue")
+      component: () => import("./views/Users/AddUser.vue")
     },
     {
       path: "/userDetails/:Uid",
       name: "userDetails",
-      component: () => import("./views/UserDetails.vue")
+      component: () => import("./views/Users/UserDetails.vue")
+    },
+    {
+      path: "/editUser/:Uid",
+      name: "editUser",
+      component: () => import("./views/Users/EditUser.vue")
     },
     {
       path: "/ranks",
       name: "ranks",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(
-          /* webpackChunkName: "about" */ "./components/RanksList/RanksList.vue"
-        )
+      component: () => import("./components/RanksList/RanksList.vue")
+    },
+    {
+      path: "/achievements",
+      name: "achievements",
+      component: () => import("./views/Achievements/Achievements.vue")
+    },
+    {
+      path: "/achievements/create",
+      name: "create_achievement",
+      component: () => import("./views/Achievements/AddAchievement.vue")
+    },
+    {
+      path: "/achievements/:id",
+      name: "achievementDetails",
+      component: () => import("./views/Achievements/AchievementDetails.vue")
     },
     {
       path: "/competitions",
@@ -61,8 +75,6 @@ export default new Router({
       path: "/competitions/:id",
       name: "competitionDetails",
       component: () => import("./views/CompetitionDetails.vue")
-    },
-
-
+    }
   ]
 });

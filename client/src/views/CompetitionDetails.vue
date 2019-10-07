@@ -1,5 +1,5 @@
 <template>
-  <v-card class="competition" >
+  <v-card class="competition">
     <v-row key="1" v-if="!isShow" justify="center" class="userInfo d-flex">
       <div v-for="competition in getCompetition" :key="competition.id">
         <h2><b>Name:</b> {{ competition.name }}</h2>
@@ -7,55 +7,55 @@
         <p><b>Deadline_date:</b> {{ competition.deadline_date }}</p>
         <p><b>Experience:</b> {{ competition.experience }}</p>
       </div>
-      <v-btn  color="success" outlined  @click.native="isShow = !isShow">
+      <v-btn color="success" outlined @click.native="isShow = !isShow">
         <v-icon left>mdi-pencil</v-icon> Edit
       </v-btn>
-      <v-btn color="red lighten-2" outlined  @click="hidden = !hidden" >
-        <i class="material-icons">{{hidden ? "work_off" : "work"}}</i>
-          {{hidden ? "Unsubscribe" : "Subscribe"}}
+      <v-btn color="red lighten-2" outlined @click="hidden = !hidden">
+        <i class="material-icons">{{ hidden ? "work_off" : "work" }}</i>
+        {{ hidden ? "Unsubscribe" : "Subscribe" }}
       </v-btn>
     </v-row>
     <v-row key="2" justify="center" class="userEdit" v-else>
       <div v-for="competition in getCompetition" :key="competition.id">
-      <v-form @submit.prevent="updateCompetition(competition)">
-        <v-text-field
-          name="name"
-          label="Name"
-          v-model="competition.name"
-          required
-        />
-        <v-text-field
-          type="text"
-          label="Description"
-          name="description"
-          v-model="competition.description"
-        />
-        <v-text-field
-          type="time-date"
-          label="Deadlne_date"
-          name="deadline_date"
-          v-model="competition.deadline_date"
-        />
-        <v-text-field
-          type="text"
-          label="Experience"
-          name="experience"
-          v-model="competition.experience"
-        />
-        <v-btn color="orange lighten-2" class="bt" type="submit">
-          Update
-        </v-btn>
-        <v-btn color="grey lighten-2" class="bt" @click="isShow = !isShow">
-          Cancel
-        </v-btn>
-      </v-form>
+        <v-form @submit.prevent="updateCompetition(competition)">
+          <v-text-field
+            name="name"
+            label="Name"
+            v-model="competition.name"
+            required
+          />
+          <v-text-field
+            type="text"
+            label="Description"
+            name="description"
+            v-model="competition.description"
+          />
+          <v-text-field
+            type="time-date"
+            label="Deadlne_date"
+            name="deadline_date"
+            v-model="competition.deadline_date"
+          />
+          <v-text-field
+            type="text"
+            label="Experience"
+            name="experience"
+            v-model="competition.experience"
+          />
+          <v-btn color="orange lighten-2" class="bt" type="submit">
+            Update
+          </v-btn>
+          <v-btn color="grey lighten-2" class="bt" @click="isShow = !isShow">
+            Cancel
+          </v-btn>
+        </v-form>
       </div>
     </v-row>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from "vuex"
+import { mapActions } from "vuex";
 
 export default {
   name: "CompetitionDetails",
@@ -63,39 +63,48 @@ export default {
     return {
       isShow: false,
       competition: {
-                id: "",
-                name: "",
-                description: "",
-                deadline_date: "",
-                experience: "" 
+        id: "",
+        name: "",
+        description: "",
+        deadline_date: "",
+        experience: ""
       },
       hidden: false,
       button: {
         text: "Subscribe",
         icon: "work",
-        click: false,
-      },
+        click: false
+      }
     };
   },
   computed: {
     getCompetition() {
+<<<<<<< HEAD
       return [this.$store.getters.getCompetition];
     },
+=======
+      return [this.$store.getters.getCompetitions];
+    }
+>>>>>>> e5ecaaced96562cdf7cfe0f66b706f9572c0bd6e
   },
-  methods: 
+  methods: mapActions(["updateCompetition"]),
 
-    mapActions(["updateCompetition"])
-
-  ,
-  
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
   },
+<<<<<<< HEAD
   
   
   
   
+=======
+  methods: {
+    subscribe() {
+      this.button.text = "Unsubscribe";
+      this.button.icon = "work_off";
+      this.button.clic = true;
+    }
+  }
+>>>>>>> e5ecaaced96562cdf7cfe0f66b706f9572c0bd6e
 };
 </script>
-
-
