@@ -1,6 +1,6 @@
 <template>
   <v-row align="center" justify="center">
-    <v-col cols="9">
+    <v-col cols="5">
       <v-hover v-slot:default="{ hover }">
         <v-card :elevation="hover ? 12 : 2">
           <div @click="showDetails" class="container-achievement">

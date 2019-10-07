@@ -8,6 +8,15 @@
         :created_at="achievement.created_at"
       />
     </div>
+    <div>
+      <button
+        v-for="page in getPages()"
+        @click="() => getAchievementPerPage(page)"
+      >
+        {{page}}
+      </button>
+   
+    </div>
   </div>
 </template>
 
@@ -22,17 +31,31 @@ export default {
   },
   name: "achievements-list",
   props: [],
-  mounted() {
-    this.$store.dispatch("getAllAchievements");
-  },
   data() {
-    return {};
+    return { 
+      limit: 5
+    }
   },
-  methods: {},
-  computed: {
-    ...mapGetters(["allAchievements"])
-  }
-};
+   mounted() {
+     this.$store.dispatch("getAllAchievements", { page: 1, limit: this.limit });
+   },
+  methods: { 
+     getPages () {
+       const pages = [];
+       let numberOfPages = Math.ceil(this.achievementsCount / this.limit);
+       for (let index = 1; index <= numberOfPages; index++) {
+         pages.push(index);
+       }
+       return pages;
+     },
+    getAchievementPerPage(page) {
+      this.$store.dispatch("getAllAchievements", { page, limit: this.limit });
+    }
+  },
+   computed: {
+     ...mapGetters(["allAchievements", "achievementsCount"]),
+   }
+}
 </script>
 
 <style lang="scss">

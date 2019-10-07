@@ -2,8 +2,13 @@ import axios from "axios";
 
 const achievementsURL = "http://localhost:3000/api/v1/achievements/";
 
+function getQuerySrtingURL({ page, limit }, url) {
+  return page && limit ? `${url}?page=${page}&limit=${limit}` : url;
+}
 const state = {
-  achievements: []
+  achievements: [],
+  achievementsCount: 0,
+  limit: 5
 };
 
 const getters = {
@@ -12,6 +17,9 @@ const getters = {
   },
   achievementById(state) {
     return id => state.achievements.find(el => el.id === id);
+  },
+  achievementsCount: state => {
+    return state.achievementsCount;
   }
 };
 
@@ -21,14 +29,21 @@ const mutations = {
   },
   addAchievement: (state, achievement) => {
     state.achievements.push(achievement);
+  },
+  setAchievementsCount: (state, achievementsCount) => {
+    state.achievementsCount = achievementsCount;
   }
 };
 
 const actions = {
-  async getAllAchievements({ commit }) {
+  async getAllAchievements({ commit }, { page, limit }) {
     try {
-      const response = await axios.get(achievementsURL).then(res => res.data);
-      commit("setAchievements", response.data);
+      const response = await axios.get(
+        getQuerySrtingURL({ page, limit }, achievementsURL))
+        .then(res => res.data);
+      commit("setAchievements", response.data.data);
+      commit("setAchievementsCount", response.data.count);
+      return response;
     } catch (error) {
       return error;
     }
