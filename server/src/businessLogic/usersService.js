@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import usersDao from '../dataAccess/usersDao.js';
 
 const hashPassword = (password) => bcrypt.hash(password, 10);
-
 const getRank = (experience) => usersDao.getRank(experience).then(el => el);
 const getNextRank = (experience) => usersDao.getNextRank(experience).then(el => el[0]);
 
@@ -43,8 +42,17 @@ const updateUser = async (req) => {
 
 const updateUserPassword = async (req) => {
   try {
-    const newPassword = await hashPassword(req.body.newPassword);
-    usersDao.updateUserPassword(req.params.id, newPassword);
+    const hash = await usersDao.getHash(req.params.id);
+    console.log(hash);
+    const check = await bcrypt.compare(req.body.oldPass, hash);
+    console.log(check);
+    if (check){
+      const newPassword = await hashPassword(req.body.newPass);
+      console.log(newPassword);
+      usersDao.updateUserPassword(req.params.id, newPassword);
+    } else {
+      console.error('Wrong password');
+    }
   }
   catch (err) {
     console.log(err);
@@ -54,8 +62,6 @@ const updateUserPassword = async (req) => {
 const deleteUser = (id) => usersDao.deleteUser(id);
 
 export default {
-  getRank,
-  getNextRank,
   getUsers,
   getUserById,
   getUserByEmail,
@@ -63,5 +69,4 @@ export default {
   updateUser,
   updateUserPassword,
   deleteUser,
-  hashPassword,
 };

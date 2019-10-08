@@ -271,6 +271,7 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id/passwords', async (req, res, next) => {
+  console.log(req.body);
   usersService
     .updateUserPassword(req)
     .then(() => res.status(204).end())

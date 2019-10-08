@@ -37,7 +37,7 @@
               <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn color="primary lighten-2" outlined>
+              <v-btn color="primary lighten-2" @click="warnDialog = true" outlined>
                 Change password
               </v-btn>
               <v-btn to="/users" color="grey" outlined>
@@ -47,26 +47,33 @@
           </v-col>
           <v-col md="7" justify-self="center">
             <v-card-title class="font-weight-bold">{{ userData.name }} {{ userData.surname }}</v-card-title>
-           
           </v-col>
         </v-row>
       </v-card>
     </v-col>
+    <ChangePass
+      :show="warnDialog"
+      @hideModal="warnDialog = false"
+    />
   </v-row>
 </template>
 
 <script>
 import ProgressBar from "@/components/Users/ProgressBar.vue";
+import ChangePass from "@/components/Users/ChangePass.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
   name: "userDetail",
   components: {
     ProgressBar,
+    ChangePass,
   },
   data() {
     return {
       id: this.$route.params.Uid,
+      warnDialog: false,
     };
   },
   computed: {
@@ -81,6 +88,10 @@ export default {
         name: "editUser",
         params: { Uid: this.id }
       });
+    },
+    goBack(){
+      this.$store.commit("setUser", {})
+      this.$router.push({name: "users"})
     }
   },
   mounted() {

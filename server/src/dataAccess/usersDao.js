@@ -26,6 +26,11 @@ const getNextRank = (experience) => rankModel.findAll({
   ],
 });
 
+const getHash = (id) => usersModel.findAll({
+  where: { id },
+  attributes: ['password'],
+}).then(e => e[0].dataValues.password);
+
 const getUsers = (offset, limit) => usersModel.findAndCountAll({
   offset,
   limit,
@@ -66,6 +71,7 @@ const deleteUser = (id) => usersModel.destroy({
 export default {
   getRank,
   getNextRank,
+  getHash,
   getUsers,
   getUserById,
   getUserByEmail,

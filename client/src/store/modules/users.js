@@ -67,6 +67,10 @@ const actions = {
     axios.put(`users/${id}`, formData).catch(err => console.log(err));
     dispatch("getUserById", id);
   },
+  changePassword({ dispatch }, { passData, id }) {
+    axios.put(`users/${id}/passwords`, passData).catch(err => console.log(err));
+    dispatch("getUserById", id);
+  },
   async deleteUser({ dispatch }, id) {
     await axios.delete(`users/${id}`);
     dispatch("loadUsers", {page:1});
