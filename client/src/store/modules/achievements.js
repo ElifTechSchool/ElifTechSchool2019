@@ -38,8 +38,8 @@ const mutations = {
 const actions = {
   async getAllAchievements({ commit }, { page, limit }) {
     try {
-      const response = await axios.get(
-        getQuerySrtingURL({ page, limit }, achievementsURL))
+      const response = await axios
+        .get(getQuerySrtingURL({ page, limit }, achievementsURL))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);

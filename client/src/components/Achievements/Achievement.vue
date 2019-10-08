@@ -21,7 +21,7 @@
               <v-dialog persistent max-width="600" v-model="confirmModal">
                 <template v-slot:activator="{ on }">
                   <v-col>
-                    <v-btn @click="confirmDelete" v-on="on" color="red">
+                    <v-btn v-on="on" color="red">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>

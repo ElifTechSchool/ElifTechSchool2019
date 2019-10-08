@@ -1,5 +1,8 @@
 <template>
   <div class="form-add-achievement">
+    <v-btn to="/achievements" icon class="hidden-xs-only">
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
     <v-form @submit.prevent="addAchievement" ref="form">
       <h1>Create new achievement</h1>
       <v-text-field
@@ -58,6 +61,7 @@ export default {
     addAchievement() {
       this.$store.dispatch("addAchievement", this.achievement);
       this.achievement = {};
+      this.$router.push({ name: "achievements" });
     },
     reset() {
       this.$refs.form.reset();
