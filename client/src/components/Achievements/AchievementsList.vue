@@ -9,12 +9,11 @@
       />
     </div>
     <div>
-      <button
-        v-for="page in getPages()"
-        @click="() => getAchievementPerPage(page)"
+      <v-pagination
+        :length="getPages()"
+        @input="(page) => getAchievementPerPage(page)"
       >
-        {{page}}
-      </button>
+      </v-pagination>
    
     </div>
   </div>
@@ -38,15 +37,10 @@ export default {
   },
    mounted() {
      this.$store.dispatch("getAllAchievements", { page: 1, limit: this.limit });
-   },
+    },
   methods: { 
      getPages () {
-       const pages = [];
-       let numberOfPages = Math.ceil(this.achievementsCount / this.limit);
-       for (let index = 1; index <= numberOfPages; index++) {
-         pages.push(index);
-       }
-       return pages;
+       return Math.ceil(this.achievementsCount / this.limit); 
      },
     getAchievementPerPage(page) {
       this.$store.dispatch("getAllAchievements", { page, limit: this.limit });

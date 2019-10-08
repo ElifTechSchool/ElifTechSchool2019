@@ -2,7 +2,12 @@ import { models } from '../models/index.js';
 
 const { achievements: achievementsModel } = models;
 
-const getAchievements = () => achievementsModel.findAll({ raw: true })
+const getAchievements = () => achievementsModel.findAll({ 
+  raw: true,
+  order: [
+    ['name', 'ASC'],
+  ],
+});
 
 const getAchievementById = (id) => achievementsModel.findAll({
   where: { id },
