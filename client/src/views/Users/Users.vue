@@ -54,14 +54,16 @@ export default {
       });
       const page = this.page;
       const pageSize = this.$store.getters.pageSize;
-      this.$store.dispatch("loadUsers", { page, pageSize });
+      const search = this.$store.getters.search;
+      this.$store.dispatch("loadUsers", { page, pageSize, search });
     }
   },
   mounted() {
     this.page = Number(this.$route.query.page) || 1;
     const page = this.$route.query.page || 1;
     const pageSize = this.$route.query.pageSize || this.$store.getters.pageSize;
-    this.$store.dispatch("loadUsers", { page, pageSize });
+    const search = this.$route.query.search;
+    this.$store.dispatch("loadUsers", { page, pageSize, search });
   }
 };
 </script>

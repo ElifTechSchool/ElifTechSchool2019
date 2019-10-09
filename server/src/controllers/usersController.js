@@ -57,6 +57,7 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
+  console.log(req.query);
   usersService
     .getUsers(req.query)
     .then((result) => res.json(result))

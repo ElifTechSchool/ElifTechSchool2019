@@ -5,7 +5,7 @@ const state = {
   userById: {},
   usersCount: 0,
   pageSize: 3,
-  numOfPages: 0
+  numOfPages: 0,
 };
 
 const getters = {
@@ -17,7 +17,8 @@ const getters = {
   },
   usersCount: state => state.usersCount,
   pageSize: state => state.pageSize,
-  numOfPages: state => state.numOfPages
+  numOfPages: state => state.numOfPages,
+  search: state => state.search,
 };
 
 const mutations = {
@@ -35,12 +36,16 @@ const mutations = {
   },
   setNumOfPages: state => {
     state.numOfPages = Math.ceil(state.usersCount / state.pageSize);
+  },
+  setSearch: (state, search) => {
+    state.search = search;
   }
 };
 
 const actions = {
   loadUsers({ commit }, query) {
     commit("setPageSize", query.pageSize);
+    commit("setSearch", query.search);
     axios
       .get(`users`, {
         params: {...query}
