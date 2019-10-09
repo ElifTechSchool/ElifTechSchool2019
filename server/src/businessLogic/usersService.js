@@ -22,9 +22,10 @@ const getUserByEmail = (email) => usersDao.getUserByEmail(email);
 
 const createUser = async (req) => {
   try{
-    const userData = JSON.parse(req.body.user);
-    userData.image_url = req.file.secure_url;
+    const userData = req.body;
+    Object.setPrototypeOf(userData, {});
     userData.password = await hashPassword(userData.password); 
+    userData.image_url = req.file.secure_url;
     usersDao.createUser(userData);
   }
   catch (err) {
@@ -33,7 +34,7 @@ const createUser = async (req) => {
 };
 
 const updateUser = async (req) => {
-  const userData = JSON.parse(req.body.user);
+  const userData = req.body;
   if (req.file) {
     userData.image_url = req.file.secure_url;
   }
@@ -43,12 +44,9 @@ const updateUser = async (req) => {
 const updateUserPassword = async (req) => {
   try {
     const hash = await usersDao.getHash(req.params.id);
-    console.log(hash);
     const check = await bcrypt.compare(req.body.oldPass, hash);
-    console.log(check);
     if (check){
       const newPassword = await hashPassword(req.body.newPass);
-      console.log(newPassword);
       usersDao.updateUserPassword(req.params.id, newPassword);
     } else {
       console.error('Wrong password');

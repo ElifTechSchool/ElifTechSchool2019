@@ -6,7 +6,7 @@
           <v-col md="4">
             <v-img
               position="center left"
-              :src="this.userData.image_url"
+              :src="this.userData.image_url" 
               alt="user image"
               aspect-ratio="1"
             />
@@ -95,7 +95,9 @@ export default {
     }
   },
   mounted() {
+    if(!this.userById){
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+    }
   }
 };
 </script>

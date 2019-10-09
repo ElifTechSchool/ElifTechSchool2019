@@ -57,7 +57,7 @@
         />
         <v-file-input
           label="Select you profile picture"
-          name="img_url"
+          name="image_url"
           v-model="user.image_url"
           accept=".jpg, .png"
         ></v-file-input>
@@ -105,11 +105,12 @@ export default {
   methods: {
     async submitUser() {
       const formData = new FormData();
-      formData.append("image_url", this.user.image_url);
       this.user.experience < 0
         ? (this.user.experience = 0)
         : this.user.experience;
-      formData.append("user", JSON.stringify(this.user));
+      Object.entries(this.user).forEach(([key, value]) => {
+          formData.append(key, value);
+      });
       this.$store.dispatch("submitUser", formData);
       this.user = {};
       this.$router.push("users");

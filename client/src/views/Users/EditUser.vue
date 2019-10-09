@@ -13,7 +13,6 @@
                     :counter="50"
                     label="Name"
                     v-model="userData.name"
-                    required
                   />
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
@@ -23,7 +22,6 @@
                     :counter="50"
                     label="Surname"
                     v-model="userData.surname"
-                    required
                   />
                 </v-col>
               </v-row>
@@ -34,7 +32,6 @@
                 :counter="100"
                 name="email"
                 v-model="userData.email"
-                required
               />
               <v-file-input
                 :label="(userData.image_url).match(/[\w-]+.(jpg|png)/)[0]"
@@ -100,9 +97,13 @@ export default {
     async updateUser() {
       const id = this.$route.params.Uid;
       const formData = new FormData();
-
-      formData.append("image_url", this.image_url);
-      formData.append("user", JSON.stringify(this.userData));
+      Object.entries(this.userData).forEach(([key, value]) => {
+        if(key === "image_url"){
+          this.image_url === undefined ? formData.append("image_url", this.userData.image_url) : formData.append("image_url", this.image_url) 
+        } else {
+          formData.append(key, value);
+        }
+      });
       this.$store.dispatch("updateUser", { formData, id });
       this.goToDetail();
     },
@@ -114,7 +115,9 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getUserById", this.$route.params.Uid);
+    if(!this.userById){
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    }
   }
 };
 </script>

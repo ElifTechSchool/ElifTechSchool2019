@@ -57,7 +57,6 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
-  console.log(req.query);
   usersService
     .getUsers(req.query)
     .then((result) => res.json(result))
@@ -169,10 +168,10 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', upload.single('image_url'), (req, res, next) => {
-    usersService
-      .createUser(req)
-      .then(() => res.status(201).end())
-      .catch((error) => next(error));
+  usersService
+    .createUser(req)
+    .then(() => res.status(201).end())
+    .catch((error) => next(error));
 });
 
 /**
@@ -186,29 +185,26 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *     consumes:
  *       - multipart/form-data
  *     parameters:
+ *       - name: id
+ *         in: path
+ *         type: number
  *       - name: name
  *         in: formData
- *         required: true
  *         type: string
  *       - name: surname
  *         in: formData
- *         required: true
  *         type: string
  *       - name: email
  *         in: formData
- *         required: true
  *         type: string
  *       - name: password
  *         in: formData
- *         required: true
  *         type: string
  *       - name: image_url
  *         in: formData
- *         required: true
  *         type: file
  *       - name: description
  *         in: formData
- *         required: true
  *         type: string
  *       - name: experience
  *         in: formData
@@ -227,6 +223,7 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', upload.single('image_url'), (req, res, next) => {
+  console.log(req.file);
   usersService
     .updateUser(req)
     .then(() => res.status(204).end())
@@ -255,9 +252,9 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             oldPassword:
+ *             oldPass:
  *               type: string
- *             newPassword:
+ *             newPass:
  *               type: string
  *     responses:
  *       204:
@@ -272,7 +269,6 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id/passwords', async (req, res, next) => {
-  console.log(req.body);
   usersService
     .updateUserPassword(req)
     .then(() => res.status(204).end())
