@@ -1,12 +1,36 @@
 <template>
   <v-col sm="1">
-    <v-select
-      label="Achievements type"
-      v-model="filterAch"
-      @change="filterAchievements(filterAch)"
-      :items="['all', 'one', 'two', 'three', 'four', 'five']"
-    >
-    </v-select>
+    <v-container>
+      <v-checkbox
+        v-model="selected"
+        label="one" 
+        value="one"
+        @change="handleChange($event)"
+      >
+      </v-checkbox>
+      <v-checkbox
+        v-model="selected"
+        label="err" 
+        value="err"
+        @change="handleChange($event)"
+
+      >
+      </v-checkbox>
+      <v-checkbox
+        v-model="selected"
+        label="three" 
+        value="three"
+        @change="handleChange($event)"
+      >
+      </v-checkbox>
+      <v-checkbox
+        v-model="selected"
+        label="four" 
+        value="four"
+        @change="handleChange($event)"
+      >
+      </v-checkbox>
+    </v-container>
   </v-col>
 </template>
 
@@ -14,14 +38,12 @@
 export default {
   data() {
     return {
-      filterAch: "all"
+      selected: [],
     };
   },
   methods: {
-    filterAchievements(type) {
-      if (type) {
-        this.$emit("filter", type);
-      }
+    handleChange() {
+      this.$emit("filter", this.selected);
     }
   }
 };

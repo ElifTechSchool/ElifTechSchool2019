@@ -1,8 +1,8 @@
 <template>
   <div>
-    <FilterTypeAchievements class="mt-0 pt-0" @filter="filterType = $event" />
+    <FilterTypeAchievements class="mt-0 pt-0" @filter="selectType" />
     <div class="block-achievements">
-      <div v-for="achievement in filterByType" v-bind:key="achievement.id">
+      <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
         <Achievement
           :id="achievement.id"
           :photo_url="achievement.photo_url"
@@ -36,7 +36,6 @@ export default {
   data() {
     return {
       limit: 5,
-      filterType: "all"
     };
   },
   mounted() {
@@ -48,17 +47,13 @@ export default {
     },
     getAchievementPerPage(page) {
       this.$store.dispatch("getAllAchievements", { page, limit: this.limit });
+    },
+    selectType(types) {
+      this.$store.dispatch("getAllAchievements", { page: 1, limit: this.limit, types, });     
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount"]),
-    filterByType() {
-      return this.filterType === "all"
-        ? this.allAchievements
-        : this.allAchievements.filter(
-            achievement => achievement.type === this.filterType
-          );
-    }
+    ...mapGetters(["allAchievements", "achievementsCount"])
   }
 };
 </script>

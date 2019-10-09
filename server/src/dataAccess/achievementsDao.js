@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize';
 import { models } from '../models/index.js';
 
 const { achievements: achievementsModel } = models;
@@ -7,6 +8,18 @@ const getAchievements = () => achievementsModel.findAll({
   order: [
     ['name', 'ASC'],
   ],
+});
+
+const getAchievementByType = (types) => achievementsModel.findAll({
+  raw: true,
+  order: [
+    ['name', 'ASC'],
+  ],
+  where: {
+    type: {
+      [Sequelize.Op.in]: types,
+    },
+  },
 });
 
 const getAchievementById = (id) => achievementsModel.findAll({
@@ -28,6 +41,7 @@ const deleteAchievement = (id) => achievementsModel.destroy({
 
 export default {
   getAchievements,
+  getAchievementByType,
   getAchievementById,
   createAchievement,
   updateAchievement,

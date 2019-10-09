@@ -44,7 +44,6 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
-  console.log(req.query)
   achievementService.getAchievements(req.query)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));

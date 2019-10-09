@@ -1,25 +1,29 @@
 import achievementsDao from '../dataAccess/achievementsDao.js';
 
 const getAchievements = (params) => {
-  const { page, limit } = params;
+  const { page, limit, types } = params;
   if (page && limit) {
-    return getAchievementsPerPage(page, limit);
+    return getAchievementsPerPage(page, limit, types);
   }
   return achievementsDao.getAchievements();
 };
 
-async function getAchievementsPerPage (page, limit) {
-  const achievements = await achievementsDao.getAchievements();
+async function getAchievementsPerPage (page, limit, types) {
+  const achievements = !types ? await achievementsDao.getAchievements()
+    : await achievementsDao.getAchievementByType(types);
+  if (achievements.length <= limit) {
+    return {
+      data: achievements,
+      count: achievements.length,
+    };
+  }
   const endIndex = page * limit;
   const startIndex = endIndex - limit;
-  console.log('endIndex', endIndex)
-  console.log('startIndex', startIndex)
-  
-  return { 
+  return {
     data: achievements.slice(startIndex, endIndex),
     count: achievements.length,
-  }
-};
+  };
+}
 
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 

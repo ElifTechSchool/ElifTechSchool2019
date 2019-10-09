@@ -2,9 +2,18 @@ import axios from "axios";
 
 const achievementsURL = "http://localhost:3000/api/v1/achievements/";
 
-function getQuerySrtingURL({ page, limit }, url) {
-  return page && limit ? `${url}?page=${page}&limit=${limit}` : url;
+function getQuerySrtingURL({ page, limit, types }, url) {
+  let result = "";
+  if (page && limit) {
+    result = result + `${url}?page=${page}&limit=${limit}`;
+  }
+  if (types && types.length) {
+    const typesQuerySrting = types.map(type => `&types[]=${type}`).join("");
+    result = result + `${typesQuerySrting}`;
+  }
+  return result;
 }
+
 const state = {
   achievements: [],
   achievementsCount: 0,
@@ -15,7 +24,7 @@ const getters = {
   allAchievements: state => {
     return state.achievements;
   },
-  achievementById(state) {
+  achievementById: state => {
     return id => state.achievements.find(el => el.id === id);
   },
   achievementsCount: state => {
@@ -36,10 +45,10 @@ const mutations = {
 };
 
 const actions = {
-  async getAllAchievements({ commit }, { page, limit }) {
+  async getAllAchievements({ commit }, { page, limit, types }) {
     try {
       const response = await axios
-        .get(getQuerySrtingURL({ page, limit }, achievementsURL))
+        .get(getQuerySrtingURL({ page, limit, types }, achievementsURL))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);
