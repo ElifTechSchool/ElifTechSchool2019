@@ -6,6 +6,7 @@ import randToken from 'rand-token';
 
 const login = async (data) => {
     const user = await usersService.getUserByEmail(data.email);
+    debugger
     const compare = await bcrypt.compare(data.password, user[0].password);
     if (compare){
         const refreshToken = randToken.uid(50);
