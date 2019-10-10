@@ -1,14 +1,7 @@
 <template lang="html">
   <div>
     <div v-for="rank in allRanks" :key="rank.id">
-      <RanksItem
-        :id="rank.id"
-        :name="rank.name"
-        :experience="rank.experience"
-        :number="rank.number"
-        :url="rank.photo_url"
-        :imageId="rank.photo_id"
-      />
+      <RanksItem :rank="rank" />
     </div>
   </div>
 </template>
