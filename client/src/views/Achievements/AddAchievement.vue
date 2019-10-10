@@ -19,13 +19,13 @@
         v-model="achievement.description"
         required
       />
-      <v-text-field
+      <v-select
         name="type"
         label="Type"
-        solo
+        :items="['one', 'two', 'three', 'four']"
         v-model="achievement.type"
         required
-      />
+      ></v-select>
       <v-text-field
         name="experience"
         label="Experience"
@@ -36,7 +36,7 @@
       />
       <v-text-field
         name="photo_url"
-        label="Photo url"
+        label="Achievement image"
         type="url"
         solo
         v-model="achievement.photo_url"

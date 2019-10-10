@@ -1,44 +1,41 @@
 <template>
-  <v-col sm="1">
-    <v-container>
-      <v-checkbox
-        v-model="selected"
-        label="one" 
-        value="one"
-        @change="handleChange($event)"
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="selected"
-        label="err" 
-        value="err"
-        @change="handleChange($event)"
-
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="selected"
-        label="three" 
-        value="three"
-        @change="handleChange($event)"
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="selected"
-        label="four" 
-        value="four"
-        @change="handleChange($event)"
-      >
-      </v-checkbox>
-    </v-container>
-  </v-col>
+  <v-row justify="center">
+    <v-checkbox
+      v-model="selected"
+      label="one"
+      value="one"
+      @change="handleChange($event)"
+    >
+    </v-checkbox>
+    <v-checkbox
+      v-model="selected"
+      label="two"
+      value="two"
+      @change="handleChange($event)"
+    >
+    </v-checkbox>
+    <v-checkbox
+      v-model="selected"
+      label="three"
+      value="three"
+      @change="handleChange($event)"
+    >
+    </v-checkbox>
+    <v-checkbox
+      v-model="selected"
+      label="four"
+      value="four"
+      @change="handleChange($event)"
+    >
+    </v-checkbox>
+  </v-row>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      selected: [],
+      selected: []
     };
   },
   methods: {
@@ -48,3 +45,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+v-checkbox {
+  display: inline-block;
+}
+</style>

@@ -25,6 +25,7 @@
               <v-card-actions>
                 <v-btn @click="startEdit" color="green">
                   <v-icon>mdi-pencil</v-icon>
+                  Edit
                 </v-btn>
               </v-card-actions>
             </div>
