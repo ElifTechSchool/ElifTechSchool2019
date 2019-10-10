@@ -3,32 +3,32 @@
     <v-card class="pa-9">
       <v-card-title class="headline">Change password</v-card-title>
       <v-text-field
-                type="password"
-                label="Old password"
-                :rules="passRules"
-                :counter="50"
-                name="old_password"
-                v-model="passData.oldPass"
-                required
-              />
-              <v-text-field
-                type="password"
-                label="New password"
-                :rules="passRules"
-                :counter="50"
-                name="new_password"
-                v-model="passData.newPass"
-                required
-              />
-              <v-text-field
-                type="password"
-                label="Re-type new password"
-                :rules="newPassRules"
-                :counter="50"
-                name="new_password2"
-                v-model="passData.newPass2"
-                required
-              />
+        type="password"
+        label="Old password"
+        :rules="passRules"
+        :counter="50"
+        name="old_password"
+        v-model="passData.oldPass"
+        required
+      />
+      <v-text-field
+        type="password"
+        label="New password"
+        :rules="passRules"
+        :counter="50"
+        name="new_password"
+        v-model="passData.newPass"
+        required
+      />
+      <v-text-field
+        type="password"
+        label="Re-type new password"
+        :rules="newPassRules"
+        :counter="50"
+        name="new_password2"
+        v-model="passData.newPass2"
+        required
+      />
       <v-card-actions>
         <div class="flex-grow-1"></div>
         <v-btn text @click="hideModal">Cancel</v-btn>

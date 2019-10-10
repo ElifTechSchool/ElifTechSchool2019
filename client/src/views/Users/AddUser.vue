@@ -86,11 +86,13 @@ export default {
       user: {},
       nameRules: [
         v => !!v || "This field is required",
-        v => (v && v.length <= 50) || "This field must be less than 50 characters"
+        v =>
+          (v && v.length <= 50) || "This field must be less than 50 characters"
       ],
       passRules: [
         v => !!v || "This field is required",
-        v => (v && v.length <= 50) || "This field must be less than 50 characters"
+        v =>
+          (v && v.length <= 50) || "This field must be less than 50 characters"
       ],
       emailRules: [
         v => !!v || "E-mail is required",
@@ -98,7 +100,7 @@ export default {
         v => /.+@.+/.test(v) || "E-mail must be valid"
       ],
       textareaRules: [
-        v => (v && v.length <= 500) || "Field must be less than 500 characters",
+        v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ]
     };
   },
@@ -109,7 +111,7 @@ export default {
         ? (this.user.experience = 0)
         : this.user.experience;
       Object.entries(this.user).forEach(([key, value]) => {
-          formData.append(key, value);
+        formData.append(key, value);
       });
       this.$store.dispatch("submitUser", formData);
       this.user = {};

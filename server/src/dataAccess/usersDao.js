@@ -15,7 +15,7 @@ const getRank = (experience) => rankModel.findOne({
   ],
 });
 
-const getNextRank = (experience) => rankModel.findAll({
+const getNextRank = (experience) => rankModel.findOne({
   where: {
     experience: {
       [Op.gt]: experience,

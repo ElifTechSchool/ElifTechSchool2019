@@ -34,7 +34,7 @@
                 v-model="userData.email"
               />
               <v-file-input
-                :label="(userData.image_url).match(/[\w-]+.(jpg|png)/)[0]"
+                :label="userData.image_url.match(/[\w-]+.(jpg|png)/)[0]"
                 name="image_url"
                 v-model="image_url"
                 accept=".jpg, .png"
@@ -42,7 +42,7 @@
               <v-textarea
                 label="Description"
                 name="description"
-                :rules="textareaRules"                
+                :rules="textareaRules"
                 :counter="500"
                 v-model="userData.description"
               ></v-textarea>
@@ -70,7 +70,8 @@ export default {
     return {
       nameRules: [
         v => !!v || "This field is required",
-        v => (v && v.length <= 50) || "This field must be less than 50 characters"
+        v =>
+          (v && v.length <= 50) || "This field must be less than 50 characters"
       ],
       emailRules: [
         v => !!v || "E-mail is required",
@@ -78,9 +79,9 @@ export default {
         v => /.+@.+/.test(v) || "E-mail must be valid"
       ],
       textareaRules: [
-        v => (v && v.length <= 500) || "Field must be less than 500 characters",
+        v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ],
-      image_url: undefined,
+      image_url: undefined
     };
   },
   computed: {
@@ -98,8 +99,10 @@ export default {
       const id = this.$route.params.Uid;
       const formData = new FormData();
       Object.entries(this.userData).forEach(([key, value]) => {
-        if(key === "image_url"){
-          this.image_url === undefined ? formData.append("image_url", this.userData.image_url) : formData.append("image_url", this.image_url) 
+        if (key === "image_url") {
+          this.image_url === undefined
+            ? formData.append("image_url", this.userData.image_url)
+            : formData.append("image_url", this.image_url);
         } else {
           formData.append(key, value);
         }
@@ -115,7 +118,7 @@ export default {
     }
   },
   mounted() {
-    if(!this.userById){
+    if (!this.userById) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
   }

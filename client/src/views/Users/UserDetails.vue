@@ -6,11 +6,14 @@
           <v-col md="4">
             <v-img
               position="center left"
-              :src="this.userData.image_url" 
+              :src="this.userData.image_url"
               alt="user image"
               aspect-ratio="1"
             />
-            <ProgressBar :rank="rankData" :userExperience="userData.experience"></ProgressBar>
+            <ProgressBar
+              :rank="rankData"
+              :userExperience="userData.experience"
+            ></ProgressBar>
             <p class="rank">{{ userData.rank }}</p>
             <v-card-text>
               <p>
@@ -37,7 +40,11 @@
               <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn color="primary lighten-2" @click="warnDialog = true" outlined>
+              <v-btn
+                color="primary lighten-2"
+                @click="warnDialog = true"
+                outlined
+              >
                 Change password
               </v-btn>
               <v-btn to="/users" color="grey" outlined>
@@ -46,15 +53,14 @@
             </v-card-actions>
           </v-col>
           <v-col md="7" justify-self="center">
-            <v-card-title class="font-weight-bold">{{ userData.name }} {{ userData.surname }}</v-card-title>
+            <v-card-title class="font-weight-bold"
+              >{{ userData.name }} {{ userData.surname }}</v-card-title
+            >
           </v-col>
         </v-row>
       </v-card>
     </v-col>
-    <ChangePass
-      :show="warnDialog"
-      @hideModal="warnDialog = false"
-    />
+    <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
   </v-row>
 </template>
 
@@ -68,18 +74,18 @@ export default {
   name: "userDetail",
   components: {
     ProgressBar,
-    ChangePass,
+    ChangePass
   },
   data() {
     return {
       id: this.$route.params.Uid,
-      warnDialog: false,
+      warnDialog: false
     };
   },
   computed: {
     ...mapGetters(["findUserById", "userById", "rankData"]),
     userData() {
-        return this.userById;
+      return this.userById;
     }
   },
   methods: {
@@ -89,13 +95,13 @@ export default {
         params: { Uid: this.id }
       });
     },
-    goBack(){
-      this.$store.commit("setUser", {})
-      this.$router.push({name: "users"})
+    goBack() {
+      this.$store.commit("setUser", {});
+      this.$router.push({ name: "users" });
     }
   },
   mounted() {
-    if(!this.userById){
+    if (!this.userById) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
   }

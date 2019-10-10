@@ -3,33 +3,32 @@
     <v-col md="5">
       <v-hover v-slot:default="{ hover }">
         <v-card class="user d-flex mx-auto" :elevation="hover ? 9 : 1">
-            <v-col md="9" @click="goToDetail" class="d-flex flex-row cursor">
-              <v-col md="4">
-                <v-img
-                  position="center left"
-                  :src="userData.image_url"
-                  alt="user image"
-                  max-width="150px"
-                  max-height="150px"
-                  
-                />
-              </v-col>
-              <v-col md="1">
-                <p class="rank">{{ userData.rank }}</p>
-              </v-col>
-              <v-col md="7" class="float-left pa-3">
-                <div class="userDetail">
-                  <h3>{{ userData.name }} {{ userData.surname }}</h3>
-                  <p>Experience: {{ userData.experience }}</p>
-                  <p>Email: {{ userData.email }}</p>
-                </div>
-              </v-col>
+          <v-col md="9" @click="goToDetail" class="d-flex flex-row cursor">
+            <v-col md="4">
+              <v-img
+                position="center left"
+                :src="userData.image_url"
+                alt="user image"
+                max-width="150px"
+                max-height="150px"
+              />
             </v-col>
-            <v-col md="3">
-              <v-card-actions>
-                <v-btn @click="warnDialog = true" color="error">Delete</v-btn>
-              </v-card-actions>
+            <v-col md="1">
+              <p class="rank">{{ userData.rank }}</p>
             </v-col>
+            <v-col md="7" class="float-left pa-3">
+              <div class="userDetail">
+                <h3>{{ userData.name }} {{ userData.surname }}</h3>
+                <p>Experience: {{ userData.experience }}</p>
+                <p>Email: {{ userData.email }}</p>
+              </div>
+            </v-col>
+          </v-col>
+          <v-col md="3">
+            <v-card-actions>
+              <v-btn @click="warnDialog = true" color="error">Delete</v-btn>
+            </v-card-actions>
+          </v-col>
         </v-card>
       </v-hover>
     </v-col>
@@ -51,8 +50,8 @@ export default {
   },
   data() {
     return {
-      warnDialog: false,
-    }
+      warnDialog: false
+    };
   },
   methods: {
     deleteUser() {

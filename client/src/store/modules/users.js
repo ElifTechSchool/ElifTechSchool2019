@@ -5,7 +5,7 @@ const state = {
   userById: {},
   usersCount: 0,
   pageSize: 3,
-  numOfPages: 0,
+  numOfPages: 0
 };
 
 const getters = {
@@ -18,7 +18,7 @@ const getters = {
   usersCount: state => state.usersCount,
   pageSize: state => state.pageSize,
   numOfPages: state => state.numOfPages,
-  search: state => state.search,
+  search: state => state.search
 };
 
 const mutations = {
@@ -48,7 +48,7 @@ const actions = {
     commit("setSearch", query.search);
     axios
       .get(`users`, {
-        params: {...query}
+        params: { ...query }
       })
       .then(res => res.data)
       .then(data => {
@@ -66,7 +66,10 @@ const actions = {
       .catch(err => console.log(err));
   },
   submitUser(_, newUser) {
-    axios.post("users", newUser).catch(err => console.log(err));
+    axios
+      .post("users", newUser)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   },
   async updateUser(_, { formData, id }) {
     await axios.put(`users/${id}`, formData).catch(err => console.log(err));

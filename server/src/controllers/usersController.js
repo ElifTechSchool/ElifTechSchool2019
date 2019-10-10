@@ -270,7 +270,7 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  */
 router.put('/:id/passwords', async (req, res, next) => {
   usersService
-    .updateUserPassword(req)
+    .updateUserPassword(req, res, next)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
