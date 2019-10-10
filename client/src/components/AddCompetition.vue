@@ -51,6 +51,7 @@ export default {
     addCompetition() {
       this.$store.dispatch("addCompetition", this.competition);
       this.competition = {};
+      this.showForm =  false;
     }
   }
 };

@@ -10,10 +10,21 @@ const updateCompetition = (id, competition) => competitionDao.updateCompetition(
 
 const deleteCompetition = (id) => competitionDao.deleteCompetition(id);
 
+
+const getCompetitionFollowers = (competitionId) => competitionDao.getCompetitionFollowers(competitionId);
+
+const createCompetitionFollower = (competitionId, competitionFollower) => competitionDao.createCompetitionFollower(competitionId, competitionFollower);
+
+const deleteCompetitionFollower = (id, followerId) => competitionDao.deleteCompetitionFollower(id, followerId);
+
+
 export default {
   getCompetitions,
   getCompetitionById,
   createCompetition,
   updateCompetition,
   deleteCompetition,
+  getCompetitionFollowers,
+  createCompetitionFollower,
+  deleteCompetitionFollower,
 };

@@ -17,46 +17,44 @@
     </v-row>
     <v-row key="2" justify="center" class="userEdit" v-else>
       <div v-for="competition in getCompetition" :key="competition.id">
-        <v-form @submit.prevent="updateCompetition(competition)">
-          <v-text-field
-            name="name"
-            label="Name"
-            v-model="competition.name"
-            required
-          />
-          <v-text-field
-            type="text"
-            label="Description"
-            name="description"
-            v-model="competition.description"
-          />
-          <v-text-field
-            type="time-date"
-            label="Deadlne_date"
-            name="deadline_date"
-            v-model="competition.deadline_date"
-          />
-          <v-text-field
-            type="text"
-            label="Experience"
-            name="experience"
-            v-model="competition.experience"
-          />
-          <v-btn color="orange lighten-2" class="bt" type="submit">
-            Update
-          </v-btn>
-          <v-btn color="grey lighten-2" class="bt" @click="isShow = !isShow">
-            Cancel
-          </v-btn>
-        </v-form>
+      <v-form @submit.prevent="updateComeptition(competition)">
+        <v-text-field
+          name="name"
+          label="Name"
+          v-model="competition.name"
+          required
+        />
+        <v-text-field
+          type="text"
+          label="Description"
+          name="description"
+          v-model="competition.description"
+        />
+        <v-text-field
+          type="time-date"
+          label="Deadlne_date"
+          name="deadline_date"
+          v-model="competition.deadline_date"
+        />
+        <v-text-field
+          type="text"
+          label="Experience"
+          name="experience"
+          v-model="competition.experience"
+        />
+        <v-btn color="orange lighten-2" class="bt" type="submit">
+          Update
+        </v-btn>
+        <v-btn color="grey lighten-2" class="bt" @click="isShow = !isShow">
+          Cancel
+        </v-btn>
+      </v-form>
       </div>
     </v-row>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
   name: "CompetitionDetails",
   data() {
@@ -70,29 +68,26 @@ export default {
         experience: ""
       },
       hidden: false,
-      button: {
-        text: "Subscribe",
-        icon: "work",
-        click: false
-      }
+    
     };
   },
   computed: {
     getCompetition() {
-      return [this.$store.getters.getCompetitions];
-    }
+      return [this.$store.getters.getCompetition];
+    },
   },
-  methods: mapActions(["updateCompetition"]),
-
+  methods: {
+    updateComeptition(competition) {
+      this.$store.dispatch("updateCompetition", competition);
+      this.isShow = false;
+    },
+  },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
   },
-  methods: {
-    subscribe() {
-      this.button.text = "Unsubscribe";
-      this.button.icon = "work_off";
-      this.button.clic = true;
-    }
-  }
-};
+  mounted() {
+    this.$store.dispatch("loadCompetitionById", this.$route.params.id);
+  },
+
+}
 </script>
