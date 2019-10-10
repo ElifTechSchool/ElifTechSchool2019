@@ -9,32 +9,32 @@
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
                     name="name"
-                    :counter="10"
+                    :rules="nameRules"
+                    :counter="50"
                     label="Name"
                     v-model="userData.name"
-                    required
                   />
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field
                     name="surname"
-                    :counter="10"
+                    :rules="nameRules"
+                    :counter="50"
                     label="Surname"
                     v-model="userData.surname"
-                    required
                   />
                 </v-col>
               </v-row>
               <v-text-field
                 type="email"
                 label="E-mail"
+                :rules="emailRules"
                 :counter="100"
                 name="email"
                 v-model="userData.email"
-                required
               />
               <v-file-input
-                label="Change your profile picture"
+                :label="userData.image_url.match(/[\w-]+.(jpg|png)/)[0]"
                 name="image_url"
                 v-model="image_url"
                 accept=".jpg, .png"
@@ -42,6 +42,7 @@
               <v-textarea
                 label="Description"
                 name="description"
+                :rules="textareaRules"
                 :counter="500"
                 v-model="userData.description"
               ></v-textarea>
@@ -67,6 +68,19 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      nameRules: [
+        v => !!v || "This field is required",
+        v =>
+          (v && v.length <= 50) || "This field must be less than 50 characters"
+      ],
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v => (v && v.length <= 100) || "Field must be less than 100 characters",
+        v => /.+@.+/.test(v) || "E-mail must be valid"
+      ],
+      textareaRules: [
+        v => (v && v.length <= 500) || "Field must be less than 500 characters"
+      ],
       image_url: undefined
     };
   },
@@ -84,9 +98,15 @@ export default {
     async updateUser() {
       const id = this.$route.params.Uid;
       const formData = new FormData();
-
-      formData.append("image_url", this.image_url);
-      formData.append("user", JSON.stringify(this.userData));
+      Object.entries(this.userData).forEach(([key, value]) => {
+        if (key === "image_url") {
+          this.image_url === undefined
+            ? formData.append("image_url", this.userData.image_url)
+            : formData.append("image_url", this.image_url);
+        } else {
+          formData.append(key, value);
+        }
+      });
       this.$store.dispatch("updateUser", { formData, id });
       this.goToDetail();
     },
@@ -97,8 +117,10 @@ export default {
       });
     }
   },
-  created() {
-    this.$store.dispatch("getUserById", this.$route.params.Uid);
+  mounted() {
+    if (!this.userById) {
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    }
   }
 };
 </script>

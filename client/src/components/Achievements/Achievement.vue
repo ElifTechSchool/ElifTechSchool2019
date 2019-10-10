@@ -1,6 +1,6 @@
 <template>
   <v-row align="center" justify="center">
-    <v-col cols="9">
+    <v-col cols="5">
       <v-hover v-slot:default="{ hover }">
         <v-card :elevation="hover ? 12 : 2">
           <div @click="showDetails" class="container-achievement">
@@ -18,11 +18,12 @@
           </div>
           <template>
             <v-layout row justify-center>
-              <v-dialog persistent max-width="600" v-model="confirmModal">
+              <v-dialog max-width="600" v-model="confirmModal">
                 <template v-slot:activator="{ on }">
                   <v-col>
-                    <v-btn @click="confirmDelete" v-on="on" color="red">
+                    <v-btn v-on="on" color="grey lighten-3">
                       <v-icon>mdi-delete</v-icon>
+                      Delete
                     </v-btn>
                   </v-col>
                 </template>
@@ -33,12 +34,10 @@
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn @click="confirmModal = false" color="red"
+                    <v-btn @click="confirmModal = false" color="green"
                       >Cancel</v-btn
                     >
-                    <v-btn @click="deleteAchievement" color="green"
-                      >Delete</v-btn
-                    >
+                    <v-btn @click="deleteAchievement" color="red">Delete</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -77,6 +76,7 @@ export default {
     },
     deleteAchievement() {
       this.$store.dispatch("deleteAchievement", { id: this.id });
+      this.confirmModal = false;
     }
   }
 };
