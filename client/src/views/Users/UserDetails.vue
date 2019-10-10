@@ -101,7 +101,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.userById) {
+    if (!this.userById.id === this.$route.params.Uid) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
   }
