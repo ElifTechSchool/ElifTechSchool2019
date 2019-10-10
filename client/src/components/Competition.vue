@@ -2,10 +2,10 @@
   <v-row>
     <v-col>
       <v-card class="mx-auto" @click="getDetails">
-        <v-card-title>{{ competitionData.name }}</v-card-title>
-        <v-card-text>{{ competitionData.description }}</v-card-text>
-        <v-card-text>{{ competitionData.deadline_date }}</v-card-text>
-        <v-card-text>{{ competitionData.experience }}</v-card-text>
+        <v-card-title>Name: {{ competitionData.name }}</v-card-title>
+        <v-card-text>Description: {{ competitionData.description }}</v-card-text>
+        <v-card-text>Deadline_date: {{ competitionData.deadline_date }}</v-card-text>
+        <v-card-text>Experience: {{ competitionData.experience }}</v-card-text>
         <v-card-actions> </v-card-actions>
       </v-card>
       <template>
