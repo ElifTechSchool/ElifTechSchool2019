@@ -14,7 +14,15 @@ const router = express.Router();
  *       - users
  *     produces:
  *       - application/json
- *     parameters: []
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         required: true
+ *         type: number
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         type: number
  *     responses:
  *       200:
  *         description: response
@@ -48,9 +56,9 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/:page/:pageSize', (req, res, next) => {
+router.get('/', (req, res, next) => {
   usersService
-    .getUsers(req.params.page, req.params.pageSize)
+    .getUsers(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -104,7 +112,7 @@ router.get('/:page/:pageSize', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   usersService
     .getUserById(req.params.id)
-    .then((result) => res.json(result[0]))
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 
@@ -160,10 +168,10 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', upload.single('image_url'), (req, res, next) => {
-    usersService
-      .createUser(req)
-      .then(() => res.status(201).end())
-      .catch((error) => next(error));
+  usersService
+    .createUser(req)
+    .then(() => res.status(201).end())
+    .catch((error) => next(error));
 });
 
 /**
@@ -177,29 +185,26 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *     consumes:
  *       - multipart/form-data
  *     parameters:
+ *       - name: id
+ *         in: path
+ *         type: number
  *       - name: name
  *         in: formData
- *         required: true
  *         type: string
  *       - name: surname
  *         in: formData
- *         required: true
  *         type: string
  *       - name: email
  *         in: formData
- *         required: true
  *         type: string
  *       - name: password
  *         in: formData
- *         required: true
  *         type: string
  *       - name: image_url
  *         in: formData
- *         required: true
  *         type: file
  *       - name: description
  *         in: formData
- *         required: true
  *         type: string
  *       - name: experience
  *         in: formData
@@ -218,6 +223,7 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.put('/:id', upload.single('image_url'), (req, res, next) => {
+  console.log(req.file);
   usersService
     .updateUser(req)
     .then(() => res.status(204).end())
@@ -246,9 +252,9 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *         schema:
  *           type: object
  *           properties:
- *             oldPassword:
+ *             oldPass:
  *               type: string
- *             newPassword:
+ *             newPass:
  *               type: string
  *     responses:
  *       204:
@@ -264,7 +270,7 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  */
 router.put('/:id/passwords', async (req, res, next) => {
   usersService
-    .updateUserPassword(req)
+    .updateUserPassword(req, res, next)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });

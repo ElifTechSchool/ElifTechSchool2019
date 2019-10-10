@@ -10,6 +10,10 @@
               alt="user image"
               aspect-ratio="1"
             />
+            <ProgressBar
+              :rank="rankData"
+              :userExperience="userData.experience"
+            ></ProgressBar>
             <p class="rank">{{ userData.rank }}</p>
             <v-card-text>
               <p>
@@ -36,7 +40,11 @@
               <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn color="primary lighten-2" outlined>
+              <v-btn
+                color="primary lighten-2"
+                @click="warnDialog = true"
+                outlined
+              >
                 Change password
               </v-btn>
               <v-btn to="/users" color="grey" outlined>
@@ -44,7 +52,7 @@
               </v-btn>
             </v-card-actions>
           </v-col>
-          <v-col>
+          <v-col md="7" justify-self="center">
             <v-card-title class="font-weight-bold"
               >{{ userData.name }} {{ userData.surname }}</v-card-title
             >
@@ -52,27 +60,32 @@
         </v-row>
       </v-card>
     </v-col>
+    <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
   </v-row>
 </template>
 
 <script>
+import ProgressBar from "@/components/Users/ProgressBar.vue";
+import ChangePass from "@/components/Users/ChangePass.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
   name: "userDetail",
+  components: {
+    ProgressBar,
+    ChangePass
+  },
   data() {
     return {
-      id: this.$route.params.Uid
+      id: this.$route.params.Uid,
+      warnDialog: false
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById"]),
+    ...mapGetters(["findUserById", "userById", "rankData"]),
     userData() {
-      if (this.findUserById(this.id)) {
-        return this.findUserById(this.id);
-      } else {
-        return this.userById;
-      }
+      return this.userById;
     }
   },
   methods: {
@@ -81,10 +94,14 @@ export default {
         name: "editUser",
         params: { Uid: this.id }
       });
+    },
+    goBack() {
+      this.$store.commit("setUser", {});
+      this.$router.push({ name: "users" });
     }
   },
   mounted() {
-    if (!this.findUserById(this.id)) {
+    if (!this.userById) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
   }

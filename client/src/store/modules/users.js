@@ -10,13 +10,15 @@ const state = {
 
 const getters = {
   users: state => state.users,
-  userById: state => state.userById,
+  userById: state => state.userById.user,
+  rankData: state => state.userById.userRank,
   findUserById(state) {
     return id => state.users.find(el => el.id === id);
   },
   usersCount: state => state.usersCount,
   pageSize: state => state.pageSize,
-  numOfPages: state => state.numOfPages
+  numOfPages: state => state.numOfPages,
+  search: state => state.search
 };
 
 const mutations = {
@@ -29,15 +31,25 @@ const mutations = {
   setUsersCount: (state, usersCount) => {
     state.usersCount = usersCount;
   },
+  setPageSize: (state, pageSize) => {
+    state.pageSize = pageSize;
+  },
   setNumOfPages: state => {
     state.numOfPages = Math.ceil(state.usersCount / state.pageSize);
+  },
+  setSearch: (state, search) => {
+    state.search = search;
   }
 };
 
 const actions = {
   loadUsers({ commit }, query) {
+    commit("setPageSize", query.pageSize);
+    commit("setSearch", query.search);
     axios
-      .get(`users/${query.page}/${query.pageSize}`)
+      .get(`users`, {
+        params: { ...query }
+      })
       .then(res => res.data)
       .then(data => {
         commit("setUsers", data.rows);
@@ -54,15 +66,20 @@ const actions = {
       .catch(err => console.log(err));
   },
   submitUser(_, newUser) {
-    axios.post("users", newUser).catch(err => console.log(err));
+    axios
+      .post("users", newUser)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   },
-  updateUser({ dispatch }, { formData, id }) {
-    axios.put(`users/${id}`, formData).catch(err => console.log(err));
+  async updateUser(_, { formData, id }) {
+    await axios.put(`users/${id}`, formData).catch(err => console.log(err));
+  },
+  changePassword({ dispatch }, { passData, id }) {
+    axios.put(`users/${id}/passwords`, passData).catch(err => console.log(err));
     dispatch("getUserById", id);
   },
-  async deleteUser({ dispatch }, id) {
-    await axios.delete(`users/${id}`);
-    dispatch("loadUsers");
+  deleteUser(_, id) {
+    axios.delete(`users/${id}`);
   }
 };
 

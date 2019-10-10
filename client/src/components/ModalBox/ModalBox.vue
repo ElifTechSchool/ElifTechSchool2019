@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     deleteItem() {
-      this.$emit("deleteItem")
+      this.$emit("deleteItem");
+      this.hideModal();
     },
     hideModal() {
       this.$emit("hideModal")
