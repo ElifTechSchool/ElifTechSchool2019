@@ -220,5 +220,132 @@ router.delete('/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
+/**
+ * @swagger
+ *
+ * /v1/competitions/{id}/followers:
+ *   get:
+ *     description: Get competition followers
+ *     tags:
+ *       - competitions
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *              id:
+ *                  type: number
+ *              user_id:
+ *                  type: number
+ *              competition_id:
+ *                  type: number
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id/followers', (req, res, next) => {
+  competitionService.getCompetitionFollowers(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/competitions/{id}/followers:
+ *   post:
+ *     description: add competition followers
+ *     tags:
+ *       - competitions
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *              user_id:
+ *                  type: number
+ *              competition_id:
+ *                  type: number
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       201:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.post('/:id/followers', (req, res, next) => {
+  competitionService.createCompetitionFollower(req.params.id, req.body)
+    .then(() => res.status(201).end())
+    .catch((error) => next(error));
+});
+
+/**
+* @swagger
+*
+* /v1/competitions/{id}/followers/{follower_id}:
+*   delete:
+*     description: delete competition follower
+*     tags:
+*       - competitions
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         in: path
+*         required: true
+*         schema:
+*           type: number
+*       - name: follower_id
+*         in: path
+*         required: true
+*         schema:
+*           type: number
+*     responses:
+*       204:
+*         description: delete success
+*       401:
+*         description: Unauthorized access
+*         schema:
+*           $ref: '#/definitions/401'
+*       500:
+*         description: Server error
+*         schema:
+*           $ref: '#/definitions/500'
+*/
+router.delete('/:id/followers/:follower_id', (req, res, next) => {
+competitionService.deleteCompetitionFollower(req.params.id, req.params.follower_id)
+  .then(() => res.status(204).end())
+  .catch((error) => next(error));
+});
+
 
 export default router;
