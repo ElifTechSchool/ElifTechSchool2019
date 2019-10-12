@@ -43,7 +43,7 @@ export default {
   margin: 0;
 }
 #current {
-  text-align: left;;
+  text-align: left;
 }
 #next {
   text-align: right;

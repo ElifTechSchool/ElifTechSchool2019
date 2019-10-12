@@ -30,11 +30,13 @@
           v-model="passData.newPass2"
           required
         />
-      </v-form> 
+      </v-form>
       <v-card-actions>
         <div class="flex-grow-1"></div>
         <v-btn text @click="hideModal">Cancel</v-btn>
-        <v-btn color="primary" text @click="changePass" :disabled="!valid">Save changes</v-btn>
+        <v-btn color="primary" text @click="changePass" :disabled="!valid"
+          >Save changes</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>

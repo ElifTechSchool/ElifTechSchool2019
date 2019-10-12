@@ -1,7 +1,11 @@
 <template>
   <v-row justify="center">
     <v-col sm="10" md="5">
-      <v-form @submit.prevent="submitUser" enctype="multipart/form-data" v-model="valid">
+      <v-form
+        @submit.prevent="submitUser"
+        enctype="multipart/form-data"
+        v-model="valid"
+      >
         <h3>Create new user</h3>
         <v-row>
           <v-col cols="12" sm="6" md="6">
@@ -41,7 +45,7 @@
           <v-col cols="12" sm="3" md="3">
             <v-text-field
               type="number"
-              :rules="expRules"              
+              :rules="expRules"
               label="Experience"
               name="experience"
               v-model="user.experience"
@@ -66,16 +70,31 @@
         ></v-file-input>
         <v-radio-group>
           <label>
-            <input type="radio" v-model="defaultImg" name="test" :value="'defaultUserIcon.jpg'" checked>
-            <img src="https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/defaultUserIcon.jpg">
+            <input
+              type="radio"
+              v-model="defaultImg"
+              name="test"
+              :value="'defaultUserIcon.jpg'"
+              checked
+            />
+            <img
+              src="https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/defaultUserIcon.jpg"
+            />
           </label>
 
           <label>
-            <input type="radio" v-model="defaultImg" name="test" :value="'defaultUserIcon2.jpg'">
-            <img src="https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/defaultUserIcon2.jpg">
+            <input
+              type="radio"
+              v-model="defaultImg"
+              name="test"
+              :value="'defaultUserIcon2.jpg'"
+            />
+            <img
+              src="https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/defaultUserIcon2.jpg"
+            />
           </label>
         </v-radio-group>
-        <span>value: {{user.image_url}}</span>
+        <span>value: {{ user.image_url }}</span>
         <v-textarea
           label="Description"
           name="description"
@@ -87,7 +106,9 @@
           <v-btn to="/users" class="goBack" color="grey lighten-2">
             Go back
           </v-btn>
-          <v-btn type="submit" color="primary" :disabled="!valid"> Submit </v-btn>
+          <v-btn type="submit" color="primary" :disabled="!valid">
+            Submit
+          </v-btn>
         </div>
       </v-form>
     </v-col>
@@ -99,9 +120,9 @@ export default {
   data() {
     return {
       user: {
-        image_url: undefined,
+        image_url: undefined
       },
-      defaultImg: 'defaultUserIcon.jpg',
+      defaultImg: "defaultUserIcon.jpg",
       valid: true,
       nameRules: [
         v => !!v || "This field is required",
@@ -110,10 +131,15 @@ export default {
       ],
       passRules: [
         v => !!v || "This field is required",
-        v => (v && v.length <= 50) || "This field must be less than 50 characters",
-        v => /.{6,}$/.test(v) || "Password is too short. Must have at least 6 characters",
-        v => /^(?=.*?[A-Z])(?=.*?[a-z])/.test(v) || "Password must have at least one upper case and one lower case English letter to be valid",
-        v => /(?=.*?[0-9])/.test(v) || "Password must have at least one digit",
+        v =>
+          (v && v.length <= 50) || "This field must be less than 50 characters",
+        v =>
+          /.{6,}$/.test(v) ||
+          "Password is too short. Must have at least 6 characters",
+        v =>
+          /^(?=.*?[A-Z])(?=.*?[a-z])/.test(v) ||
+          "Password must have at least one upper case and one lower case English letter to be valid",
+        v => /(?=.*?[0-9])/.test(v) || "Password must have at least one digit"
       ],
       emailRules: [
         v => !!v || "E-mail is required",
@@ -121,7 +147,7 @@ export default {
         v => /.+@.+/.test(v) || "E-mail must be valid"
       ],
       expRules: [
-        v => (v >= 0) || "Experience must be greater then or equal to zero",
+        v => v >= 0 || "Experience must be greater then or equal to zero"
       ],
       textareaRules: [
         v => v.length <= 500 || "Field must be less than 500 characters"
@@ -134,9 +160,11 @@ export default {
       this.user.experience < 0
         ? (this.user.experience = 0)
         : this.user.experience;
-      this.user.image_url 
-        ? this.user.image_url 
-        : this.user.image_url= 'https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/' + this.defaultImg;
+      this.user.image_url
+        ? this.user.image_url
+        : (this.user.image_url =
+            "https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/" +
+            this.defaultImg);
       Object.entries(this.user).forEach(([key, value]) => {
         formData.append(key, value);
       });
@@ -144,8 +172,8 @@ export default {
       this.user = {};
       this.$router.push("users");
     },
-    ccc(){
-      console.log(this.defaultImg)
+    ccc() {
+      console.log(this.defaultImg);
     }
   }
 };
@@ -159,18 +187,17 @@ export default {
 .goBack {
   margin-right: 20px;
 }
-[type=radio] { 
-  appearance:none;
+[type="radio"] {
+  appearance: none;
 }
 
-[type=radio] + img {
+[type="radio"] + img {
   cursor: pointer;
   width: 70px;
   margin-left: 20px;
-
 }
 
-[type=radio]:checked + img {
+[type="radio"]:checked + img {
   outline: 2.5px solid rgb(54, 59, 143);
 }
 </style>
