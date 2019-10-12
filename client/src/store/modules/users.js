@@ -5,7 +5,8 @@ const state = {
   userById: {},
   usersCount: 0,
   pageSize: 3,
-  numOfPages: 0
+  numOfPages: 0,
+  search: '',
 };
 
 const getters = {

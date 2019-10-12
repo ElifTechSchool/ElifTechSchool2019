@@ -68,7 +68,7 @@
           v-model="user.image_url"
           accept=".jpg, .png"
         ></v-file-input>
-        <v-radio-group>
+        <v-radio-group flex-direction: row>
           <label>
             <input
               type="radio"
@@ -81,7 +81,6 @@
               src="https://res.cloudinary.com/dphouqbtl/image/upload/v1570697061/images/defaultUserIcon.jpg"
             />
           </label>
-
           <label>
             <input
               type="radio"
@@ -94,7 +93,6 @@
             />
           </label>
         </v-radio-group>
-        <span>value: {{ user.image_url }}</span>
         <v-textarea
           label="Description"
           name="description"
