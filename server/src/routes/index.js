@@ -7,7 +7,8 @@ import events from '../controllers/eventsController.js';
 import achievements from '../controllers/achievementsController.js';
 import users from '../controllers/usersController.js';
 import competitions from '../controllers/competitionController.js';
-import auth from '../controllers/authController.js'
+import auth from '../controllers/authController.js';
+import sessions from '../controllers/sessionController.js';
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/api/v1/users', users);
 router.use('/api/v1/competitions', competitions);
 router.use('/api/v1/achievements', achievements);
 router.use('/api/v1/login', auth);
+router.use('/api/v1/tokens', sessions);
 
 export default router;
