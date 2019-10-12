@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import AddCompetition from "../components/AddCompetition";
-import Competition from "../components/Competition";
+import AddCompetition from "../Competitions/AddCompetition";
+import Competition from "../../components/Competitions/Competition";
 export default {
   name: "Competitions",
   components: { AddCompetition, Competition },
