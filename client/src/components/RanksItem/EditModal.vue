@@ -6,21 +6,21 @@
         <v-form ref="form">
           <v-text-field
             label="Name"
-            v-model="rank.name"
+            v-model="editRank.name"
             :rules="nameRules"
             :counter="50"
             required
           ></v-text-field>
           <v-text-field
             label="Experience"
-            v-model="rank.experience"
+            v-model="editRank.experience"
             type="number"
             min="0"
             required
           ></v-text-field>
           <v-text-field
             label="Number in list"
-            v-model="rank.number"
+            v-model="editRank.number"
             type="number"
             min="1"
             required
@@ -64,13 +64,13 @@ export default {
   },
   data() {
     return {
-      editRank: null,
-      rankImage: null,
-      nameRules: [
-        v => !!v || "Name is required",
-        v => (v && v.length <= 50) || "Name must be less than 50 characters"
-      ],
-    }
+        editRank: { ...this.rank },
+        rankImage: null,
+        nameRules: [
+          v => !!v || "Name is required",
+          v => (v && v.length <= 50) || "Name must be less than 50 characters"
+        ],
+      }
   },
   methods: {
     updateRank() {
@@ -89,8 +89,10 @@ export default {
       }
     },
     hideModal() {
+      this.editRank = { ...this.rank }
+      this.rankImage = null
       this.$emit("hideModal")
-    },
+    }
   },
 }
 </script>

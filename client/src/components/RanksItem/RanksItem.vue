@@ -17,11 +17,11 @@
         </v-list-item>
         <v-card-actions align="center">
           <div class="flex-grow-1"></div>
-          <v-btn text @click.stop="editDialog = true">
+          <v-btn text @click="editDialog = true">
             <v-icon>edit</v-icon>
             <span class="subheading">Edit</span>
           </v-btn>
-          <v-btn text @click.stop="warnDialog = true">
+          <v-btn text @click="warnDialog = true">
             <v-icon>delete</v-icon>
             <span class="subheading">Delete</span>
           </v-btn>
@@ -36,7 +36,7 @@
     <ModalBox
       :show="warnDialog"
       @deleteItem="deleteRank"
-      @hideModal="hideModal"
+      @hideModal="warnDialog = false"
     />
   </div>
 </template>
@@ -56,7 +56,6 @@ export default {
       required: true
     }
   },
-  mounted() {},
   data() {
     return {
       editDialog: false,
@@ -66,9 +65,6 @@ export default {
   methods: {
     deleteRank() {
       this.$store.dispatch("deleteRank", this.id);
-    },
-    hideModal() {
-      this.warnDialog = false;
     }
   }
 };
