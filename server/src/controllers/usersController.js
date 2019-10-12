@@ -168,6 +168,7 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', upload.single('image_url'), (req, res, next) => {
+  console.log(req.body);
   usersService
     .createUser(req)
     .then(() => res.status(201).end())

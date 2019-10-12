@@ -58,10 +58,7 @@ const getUsers = (offset, limit, search) => {
       attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
     });
   }
-
 }
-
-
 
 const getUserById = (id) => usersModel.findAll({
   where: { id },

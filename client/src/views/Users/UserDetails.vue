@@ -10,10 +10,6 @@
               alt="user image"
               aspect-ratio="1"
             />
-            <ProgressBar
-              :rank="rankData"
-              :userExperience="userData.experience"
-            ></ProgressBar>
             <p class="rank">{{ userData.rank }}</p>
             <v-card-text>
               <p>
@@ -56,6 +52,10 @@
             <v-card-title class="font-weight-bold"
               >{{ userData.name }} {{ userData.surname }}</v-card-title
             >
+            <ProgressBar
+              :rank="rankData"
+              :userExperience="userData.experience"
+            ></ProgressBar>
           </v-col>
         </v-row>
       </v-card>
