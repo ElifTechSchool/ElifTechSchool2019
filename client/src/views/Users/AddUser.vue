@@ -170,9 +170,6 @@ export default {
       this.user = {};
       this.$router.push("users");
     },
-    ccc() {
-      console.log(this.defaultImg);
-    }
   }
 };
 </script>
