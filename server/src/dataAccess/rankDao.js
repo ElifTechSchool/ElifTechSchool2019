@@ -2,7 +2,11 @@ import { models } from '../models/index.js';
 
 const { ranks: rankModel } = models;
 
-const getRanks = () => rankModel.findAll();
+const getRanks = () => rankModel.findAll({
+  order: [
+    ['number', 'ASC'],
+  ],
+});
 
 const getRankById = (id) => rankModel.findByPk(id);
 

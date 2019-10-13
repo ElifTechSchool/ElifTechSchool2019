@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     deleteRank() {
-      this.$store.dispatch("deleteRank", this.id);
+      this.$store.dispatch("deleteRank", this.rank.id);
     }
   }
 };
