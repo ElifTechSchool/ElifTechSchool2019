@@ -1,5 +1,7 @@
 import express from 'express';
 import achievementService from '../businessLogic/achievementsService.js';
+import authMiddleware from '../middleware/auth.js';
+import userAchievementsService from '../businessLogic/userAchievementsService.js'
 
 const router = express.Router();
 
@@ -43,7 +45,7 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', (req, res, next) => {
+router.get('/', authMiddleware, (req, res, next) => {
   achievementService.getAchievements(req.query)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
@@ -134,10 +136,20 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
-  achievementService.createAchievement(req.body)
-    .then(() => res.status(201).end())
-    .catch((error) => next(error));
+router.post('/', authMiddleware, async (req, res, next) => {
+  try {
+    const achievement = await achievementService.createAchievement(req.body);
+    if(res.locals) {
+      await userAchievementsService.createUserAchievements({ userId: res.locals, achievementId: achievement.id });
+    }
+  const getUserAchievements = await userAchievementsService.getUserAchievements();
+  console.log("getUserAchievements", getUserAchievements)
+
+
+    res.status(201).end();
+  } catch (error) {
+      next(error);
+  }
 });
 
 /**
