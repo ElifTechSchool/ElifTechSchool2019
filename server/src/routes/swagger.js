@@ -2,7 +2,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import express from 'express';
 
-const router = express.Router();
+export const swagger = express.Router();
 
 const swaggerDefinition = {
   info: {
@@ -39,9 +39,7 @@ const swaggerDefinition = {
   },
 };
 
-const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/*.js'] });
+export const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/*.js'] });
 
-router.use('/', swaggerUi.serve);
-router.get('/', swaggerUi.setup(swaggerSpec));
-
-export default router;
+swagger.use('/', swaggerUi.serve);
+swagger.get('/', swaggerUi.setup(swaggerSpec));

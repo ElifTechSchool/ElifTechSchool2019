@@ -1,5 +1,5 @@
 import express from 'express';
-import swagger from './swagger.js';
+import { swagger } from './swagger.js';
 import tasks from '../controllers/tasksController.js';
 import example from '../controllers/exampleController.js';
 import rank from '../controllers/rankController.js';
