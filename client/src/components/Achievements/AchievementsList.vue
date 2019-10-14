@@ -55,6 +55,9 @@ export default {
     selectType(types) {
       this.$store.dispatch("setTypes", types)
       this.$store.dispatch("getAllAchievements");
+    },
+    getDefaultPhotoUrt() {
+      return 'https://where2go.tech/assistant/img/achievements/win.png'
     }
   },
   computed: {

@@ -92,7 +92,7 @@ const actions = {
   },
   async updateAchievement(store, { achievement, id }) {
     try {
-      return await axios.put(achievementsURL + id, achievement);
+      await axios.put(achievementsURL + id, achievement);
     } catch (error) {
       console.log(error);
     }

@@ -239,8 +239,24 @@ router.delete('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
-  achievementService.updateAchievement(req.params.id, req.body)
+router.put('/:id', upload.single('photo_url'), (req, res, next) => {
+  const {
+    id,
+    name,
+    description,
+    type,
+    experience,
+    createdAt,
+  } = req.body
+  achievementService.updateAchievement(req.params.id, {
+    id,
+    name,
+    description,
+    type,
+    experience,
+    createdAt: new Date(createdAt),
+    photo_url: req.file.secure_url,
+  })
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });

@@ -35,56 +35,6 @@
               </v-card-actions>
             </v-row>
           </div>
-          <div v-if="isEditing">
-            <v-form @submit.prevent="updateAchievement">
-              <v-col cols="auto">
-                <v-text-field
-                  name="name"
-                  label="Name"
-                  v-model="achievement.name"
-                  outlined
-                />
-                <v-row>
-                  <v-col cols="12" sm="9">
-                    <v-select
-                      name="type"
-                      label="Type"
-                      :items="['one', 'two', 'three', 'four']"
-                      v-model="achievement.type"
-                      outlined
-                      required
-                    ></v-select>
-                    </v-col>
-                      <v-col cols="12" sm="3">
-                    <v-text-field
-                      name="experience"
-                      label="Experience"
-                      type="number"
-                      v-model="achievement.experience"
-                      outlined
-                      required
-                    />
-                  </v-col>
-                </v-row>
-                <v-text-field
-                  name="photo_url"
-                  label="Photo url"
-                  type="url"
-                  v-model="achievement.photo_url"
-                  outlined
-                />
-                <v-text-field
-                  name="description"
-                  label="Description"
-                  v-model="achievement.description"
-                  outlined
-                />
-              </v-col>
-              <v-btn color="green" type="submit" class="ma-3">
-                Update
-              </v-btn>
-            </v-form>
-          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -100,26 +50,22 @@ export default {
     return {
       isEditing: false,
       id: this.$route.params.id,
-      achievement: {}
+      achievement: {},
+      photo_url: "https://img.pngio.com/achievement-best-reward-trophy-win-icon-best-achievement-png-512_512.png",
     };
   },
   methods: {
     ...mapActions(["getAchievementById"]),
     startEdit() {
-      this.isEditing = !this.isEditing;
+      console.log('before pasing', this.achievement)
+      this.$router.push(`/achievements/${this.id}/edit`)
     },
-    updateAchievement() {
-      this.$store.dispatch("updateAchievement", {
-        achievement: this.achievement,
-        id: this.achievement.id
-      });
-      this.startEdit();
-    }
   },
   mounted() {
     this.getAchievementById(this.$route.params.id).then(res => {
       this.achievement = res.data.data[0];
+      this.photo_url = res.data.data[0].photo_url;
     });
-  }
+  },
 };
 </script>

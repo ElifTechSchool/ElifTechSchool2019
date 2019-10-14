@@ -23,4 +23,9 @@ router.use('/api/v1/achievements', achievements);
 router.use('/api/v1/login', auth);
 router.use('/api/v1/tokens', sessions);
 
+router.use((error, req, res, next) => {
+    console.log(error)
+});
+
+
 export default router;

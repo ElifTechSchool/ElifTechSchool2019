@@ -7,7 +7,7 @@
             <v-row>
               <v-col cols="12" sm="4">
                 <v-img 
-                    v-bind:src="photo_url" 
+                    v-bind:src="photo_url || 'https://where2go.tech/assistant/img/achievements/win.png'" 
                     alt="achievement image"
                 />
               </v-col>
