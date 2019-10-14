@@ -1,11 +1,13 @@
 import axios from "axios";
 
 const state = {
-  ranks: null
+  ranks: [],
+  isEmpty: false
 };
 
 const getters = {
-  allRanks: state => state.ranks
+  allRanks: state => state.ranks,
+  rankIsEmpty: state => state.isEmpty
 };
 
 const mutations = {
@@ -22,6 +24,9 @@ const actions = {
     try {
       const response = await axios.get("ranks");
       commit("setRanks", response.data);
+      if (state.rank.length === 0) {
+        state.isEmpty = true;
+      }
     } catch (error) {
       const message = error.message;
       dispatch("showSnackBar", { message, color: "red" });

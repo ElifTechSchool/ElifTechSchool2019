@@ -53,6 +53,6 @@ export default {
 
 <style scoped lang="scss">
 .toolbar {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 </style>

@@ -19,7 +19,6 @@ module.exports = {
         {
           type: Sequelize.INTEGER,
           allowNull: false,
-          unique: true,
         });
       await queryInterface.changeColumn('ranks', 'photo_id',
         {

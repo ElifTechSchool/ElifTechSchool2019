@@ -25,7 +25,6 @@ module.exports = class Rank extends Model {
       number: {
         type: INTEGER,
         allowNull: false,
-        unique: true,
       },
       photo_url: {
         type: STRING,

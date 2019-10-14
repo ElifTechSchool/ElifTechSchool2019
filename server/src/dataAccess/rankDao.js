@@ -1,4 +1,4 @@
-import { models } from '../models/index.js';
+import sequelize, { models, Op } from '../models/index.js';
 
 const { ranks: rankModel } = models;
 
@@ -19,6 +19,23 @@ const updateRank = (id, rank) => rankModel.update(
   },
 );
 
+const updateNum = async (exp) => rankModel.update({ number: sequelize.literal('number + 1') }, {
+  where: {
+    experience: { [Op.gt]: exp },
+  },
+});
+
+// find one Rank where experience < argument exp
+const getOneRank = (exp) => rankModel.findOne({
+  attributes: ['number', 'experience'],
+  where: {
+    experience: { [Op.lt]: exp },
+  },
+  order: [
+    ['number', 'DESC'],
+  ],
+});
+
 const deleteRank = (id) => rankModel.destroy({
   where: { id },
 });
@@ -29,4 +46,6 @@ export default {
   createRank,
   updateRank,
   deleteRank,
+  updateNum,
+  getOneRank,
 };

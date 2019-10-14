@@ -18,13 +18,6 @@
             min="0"
             required
           ></v-text-field>
-          <v-text-field
-            label="Number in list"
-            v-model="editRank.number"
-            type="number"
-            min="1"
-            required
-          ></v-text-field>
           <v-file-input
             prepend-icon="add_photo_alternate"
             v-model="rankImage"
@@ -78,7 +71,6 @@ export default {
         const formData = new FormData();
         formData.append("name", this.editRank.name);
         formData.append("experience", this.editRank.experience);
-        formData.append("number", this.editRank.number);
         formData.append("image", this.rankImage);
 
         this.$store.dispatch("updateRank", {
