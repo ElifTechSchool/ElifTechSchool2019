@@ -1,6 +1,5 @@
 <template>
   <div class="competitions">
-    <AddCompetition />
     <h2>Competitions list</h2>
     <v-layout>
       <v-btn small slat color="primery" @click="sortByDate">
@@ -13,6 +12,11 @@
       :competitionData="competition"
       :key="competition.id"
     />
+    <v-col>
+      <v-btn class="mx-2" fab dark color="indigo" @click="addCompetition">
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
+    </v-col>
   </div>
 </template>
 
@@ -36,6 +40,11 @@ export default {
       return competitions.sort((a, b) =>
         a.deadline_date < b.deadline_date ? 1 : -1
       );
+    },
+    addCompetition() {
+      this.$router.push({
+        name: "add_competition",
+      });
     }
   }
 };

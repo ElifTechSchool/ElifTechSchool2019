@@ -1,14 +1,14 @@
 <template>
   <div class="form-wrapper text-right">
-    <v-btn class="mx-2" fab dark color="indigo" @click="showForm = !showForm">
-      <v-icon dark>mdi-plus</v-icon>
-    </v-btn>
-    <div v-if="showForm">
+    
+   
       <v-form @submit.prevent="addCompetition">
         <h3>Create Competition</h3>
         <v-text-field
           name="name"
           label="Name"
+          :rules="nameRules"
+          :counter="55"
           v-model="competition.name"
           required
         />
@@ -16,6 +16,8 @@
           type="text"
           label="Description"
           name="description"
+          :rules="descriptionRules"
+          :counter="55"
           v-model="competition.description"
           required
         />
@@ -23,18 +25,21 @@
           type="date"
           label="Deadline_date"
           name="deadline_date"
+          :rules="dateRules"
           v-model="competition.deadline_date"
           required
         />
         <v-text-field
-          type="text"
+          type="number"
           label="Experience"
           name="experience"
+          :rules="experienceRules"
+          :counter="3"
           v-model="competition.experience"
         />
         <v-btn type="submit" color="primary"> Submit </v-btn>
       </v-form>
-    </div>
+  
   </div>
 </template>
 
@@ -44,14 +49,45 @@ export default {
   data() {
     return {
       showForm: false,
-      competition: {}
+      competition: {},
+      nameRules: [
+        v => !!v || "This field is required",
+        v =>
+          (v && v.length <= 55) || "This field must be less than 50 characters"
+      ],
+      descriptionRules: [
+        v => !!v || "This field is required",
+        v =>
+          (v && v.length <= 5120) || "This field must be less than 50 characters"
+      ],
+      experienceRules: [
+        v =>
+          (v && isFinite(v)) || "This field must be a number ",
+        v =>
+          (v && v.length <= 2) || "This field must have two digitals",
+        v =>
+          (v && Math.sign(v) !== -1 ) ||  "This field must be a positive number ",
+      ],
+      dateRules: [
+         v => !!v || "This field is required",
+      ],
+      
+
     };
   },
   methods: {
     addCompetition() {
-      this.$store.dispatch("addCompetition", this.competition);
-      this.competition = {};
-      this.showForm =  false;
+      if (this.competition.experience > 0 && 
+          this.competition.name &&
+          this.competition.description ) {
+        this.$store.dispatch("addCompetition", this.competition);
+        this.competition = {};
+        this.showForm =  false;
+        this.$router.push({
+        name: "competitions",
+      });
+      }
+      
     }
   }
 };

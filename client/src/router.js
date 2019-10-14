@@ -65,16 +65,17 @@ export default new Router({
     {
       path: "/competitions",
       name: "competitions",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Competitions/Competitions.vue")
+      component: () => import( "./views/Competitions/Competitions.vue")
     },
     {
       path: "/competitions/:id",
       name: "competitionDetails",
       component: () => import("./views/Competitions/CompetitionDetails.vue")
+    },
+    {
+      path: "/add_competition",
+      name: "add_competition",
+      component: () => import("./views/Competitions/AddCompetition.vue")
     }
   ]
 });

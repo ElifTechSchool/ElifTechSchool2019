@@ -67,7 +67,7 @@ export default {
         name: "competitionDetails",
         params: { id: this.competitionData.id }
       });
-    }
+    },
   }
 };
 </script>
