@@ -1,7 +1,8 @@
 <template>
   <div class="form-wrapper text-right">
-      <v-form @submit.prevent="addCompetition">
-        <h3>Create Competition</h3>
+    <div v-for="competition in getCompetition" :key="competition.id">
+      <v-form @submit.prevent="updateCompetition(competition)">
+        <h3>Edit Competition</h3>
         <v-text-field
           name="name"
           label="Name"
@@ -20,7 +21,7 @@
           required
         />
         <v-text-field
-          type="date"
+          type="time-date"
           label="Deadline_date"
           name="deadline_date"
           :rules="dateRules"
@@ -38,16 +39,23 @@
         />
         <v-btn type="submit" color="primary"> Submit </v-btn>
       </v-form>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
-  data() {
+  data: () => {
     return {
-      showForm: false,
-      competition: {},
+      showUpdateForm: false,
+      competition: {
+        id: "",
+        name: "",
+        description: "",
+        deadline_date: "",
+        experience: ""
+      },
       nameRules: [
         v => !!v || "This field is required",
         v =>
@@ -69,25 +77,25 @@ export default {
       dateRules: [
          v => !!v || "This field is required",
       ],
-      
-
     };
   },
+  computed: {
+    getCompetition() {
+      return [this.$store.getters.getCompetition];
+    },
+  },
   methods: {
-    addCompetition() {
-      if (this.competition.experience > 0 && 
-          this.competition.name &&
-          this.competition.description ) {
-        this.$store.dispatch("addCompetition", this.competition);
-        this.competition = {};
-        this.showForm =  false;
-        this.$router.push({
-        name: "competitions",
+    updateCompetition(competition) {
+            this.$store.dispatch("updateCompetition", competition);
+            this.$router.push({
+            path: `/competitions/${competition.id}`
       });
-      }
-      
-    }
-  }
+    },
+    
+  },
+  mounted() {
+    this.$store.dispatch("loadCompetitionById", this.$route.params.id);
+  },
 };
 </script>
 

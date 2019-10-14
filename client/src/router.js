@@ -76,6 +76,11 @@ export default new Router({
       path: "/add_competition",
       name: "add_competition",
       component: () => import("./views/Competitions/AddCompetition.vue")
-    }
+    },
+    {
+      path: "/editCompetition/:id",
+      name: "editCompetition",
+      component: () => import("./views/Competitions/EditCompetition.vue")
+    },
   ]
 });
