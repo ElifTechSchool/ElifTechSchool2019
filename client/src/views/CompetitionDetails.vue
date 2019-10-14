@@ -17,38 +17,38 @@
     </v-row>
     <v-row key="2" justify="center" class="userEdit" v-else>
       <div v-for="competition in getCompetition" :key="competition.id">
-      <v-form @submit.prevent="updateComeptition(competition)">
-        <v-text-field
-          name="name"
-          label="Name"
-          v-model="competition.name"
-          required
-        />
-        <v-text-field
-          type="text"
-          label="Description"
-          name="description"
-          v-model="competition.description"
-        />
-        <v-text-field
-          type="time-date"
-          label="Deadlne_date"
-          name="deadline_date"
-          v-model="competition.deadline_date"
-        />
-        <v-text-field
-          type="text"
-          label="Experience"
-          name="experience"
-          v-model="competition.experience"
-        />
-        <v-btn color="orange lighten-2" class="bt" type="submit">
-          Update
-        </v-btn>
-        <v-btn color="grey lighten-2" class="bt" @click="isShow = !isShow">
-          Cancel
-        </v-btn>
-      </v-form>
+        <v-form @submit.prevent="updateComeptition(competition)">
+          <v-text-field
+            name="name"
+            label="Name"
+            v-model="competition.name"
+            required
+          />
+          <v-text-field
+            type="text"
+            label="Description"
+            name="description"
+            v-model="competition.description"
+          />
+          <v-text-field
+            type="time-date"
+            label="Deadlne_date"
+            name="deadline_date"
+            v-model="competition.deadline_date"
+          />
+          <v-text-field
+            type="text"
+            label="Experience"
+            name="experience"
+            v-model="competition.experience"
+          />
+          <v-btn color="orange lighten-2" class="bt" type="submit">
+            Update
+          </v-btn>
+          <v-btn color="grey lighten-2" class="bt" @click="isShow = !isShow">
+            Cancel
+          </v-btn>
+        </v-form>
       </div>
     </v-row>
   </v-card>
@@ -67,27 +67,25 @@ export default {
         deadline_date: "",
         experience: ""
       },
-      hidden: false,
-    
+      hidden: false
     };
   },
   computed: {
     getCompetition() {
       return [this.$store.getters.getCompetition];
-    },
+    }
   },
   methods: {
     updateComeptition(competition) {
       this.$store.dispatch("updateCompetition", competition);
       this.isShow = false;
-    },
+    }
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
-  },
-
-}
+  }
+};
 </script>
