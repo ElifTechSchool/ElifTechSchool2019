@@ -1,34 +1,39 @@
 <template>
   <div>
-    <v-btn to="/achievements" icon class="hidden-xs-only">
+    <v-btn to="/achievements" icon class="ms-6">
       <v-icon>arrow_back</v-icon>
     </v-btn>
     <v-row align="center" justify="center">
-      <v-col cols="6">
-        <v-card>
+      <v-col cols="4">
+        <v-card class="pa-5">
           <div v-if="!isEditing">
-            <div>
-              <v-avatar size="300">
-                <v-img
-                  v-bind:src="achievement.photo_url"
-                  alt="achievement photo"
-                />
-              </v-avatar>
-              <v-card-title>
-                {{ achievement.name }}
-              </v-card-title>
-              <v-card-text>
-                <p>Type: {{ achievement.type }}</p>
-                <p>Experience: {{ achievement.experience }}</p>
-                <p>{{ achievement.description }}</p>
-              </v-card-text>
+            <v-row>
+              <v-col cols="12" sm="5">
+                <v-avatar size="200">
+                  <v-img
+                    v-bind:src="achievement.photo_url"
+                    alt="achievement image"
+                  />
+                </v-avatar>
+              </v-col>
+              <v-col cols="12" sm="7">
+                <v-card-title>
+                  {{ achievement.name }}
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-text>
+                  <p><b>Type:</b> {{ achievement.type }}</p>
+                  <p><b>Experience:</b> {{ achievement.experience }}</p>
+                  <p><b> Description:</b> {{ achievement.description }}</p>
+                </v-card-text>
+              </v-col>
               <v-card-actions>
-                <v-btn @click="startEdit" color="green">
+                <v-btn @click="startEdit" color="green" absolute right>
                   <v-icon>mdi-pencil</v-icon>
-                  Edit
+                    Edit
                 </v-btn>
               </v-card-actions>
-            </div>
+            </v-row>
           </div>
           <div v-if="isEditing">
             <v-form @submit.prevent="updateAchievement">
@@ -37,28 +42,42 @@
                   name="name"
                   label="Name"
                   v-model="achievement.name"
+                  outlined
                 />
-                <v-text-field
-                  name="description"
-                  label="Description"
-                  v-model="achievement.description"
-                />
-                <v-text-field
-                  name="type"
-                  label="Type"
-                  v-model="achievement.type"
-                />
-                <v-text-field
-                  name="experience"
-                  label="Experience"
-                  type="number"
-                  v-model="achievement.experience"
-                />
+                <v-row>
+                  <v-col cols="12" sm="9">
+                    <v-select
+                      name="type"
+                      label="Type"
+                      :items="['one', 'two', 'three', 'four']"
+                      v-model="achievement.type"
+                      outlined
+                      required
+                    ></v-select>
+                    </v-col>
+                      <v-col cols="12" sm="3">
+                    <v-text-field
+                      name="experience"
+                      label="Experience"
+                      type="number"
+                      v-model="achievement.experience"
+                      outlined
+                      required
+                    />
+                  </v-col>
+                </v-row>
                 <v-text-field
                   name="photo_url"
                   label="Photo url"
                   type="url"
                   v-model="achievement.photo_url"
+                  outlined
+                />
+                <v-text-field
+                  name="description"
+                  label="Description"
+                  v-model="achievement.description"
+                  outlined
                 />
               </v-col>
               <v-btn color="green" type="submit" class="ma-3">
