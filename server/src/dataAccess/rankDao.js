@@ -2,11 +2,27 @@ import sequelize, { models, Op } from '../models/index.js';
 
 const { ranks: rankModel } = models;
 
-const getRanks = () => rankModel.findAll({
-  order: [
-    ['number', 'ASC'],
-  ],
-});
+const getRanks = (offset, limit, search) => {
+  if (search) {
+    return rankModel.findAndCountAll({
+      where: {
+        name: { [Op.iLike]: `%${search}%` },
+      },
+      offset,
+      limit,
+      order: [
+        ['number', 'ASC'],
+      ],
+    });
+  }
+  return rankModel.findAndCountAll({
+    offset,
+    limit,
+    order: [
+      ['number', 'ASC'],
+    ],
+  });
+};
 
 const getRankById = (id) => rankModel.findByPk(id);
 
@@ -19,13 +35,13 @@ const updateRank = (id, rank) => rankModel.update(
   },
 );
 
-const updateNum = async (exp) => rankModel.update({ number: sequelize.literal('number + 1') }, {
+const updateNum = async (exp, query) => rankModel.update({ number: sequelize.literal(query) }, {
   where: {
     experience: { [Op.gt]: exp },
   },
 });
 
-// find one Rank where experience < argument exp
+// find one Rank where experience < exp
 const getOneRank = (exp) => rankModel.findOne({
   attributes: ['number', 'experience'],
   where: {
