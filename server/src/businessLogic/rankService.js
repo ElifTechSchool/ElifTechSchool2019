@@ -15,7 +15,7 @@ const createRank = async (rank) => {
   } else {
     localRank.number = previousRank.number + 1;
   }
-  await rankDao.updateNum(rank.experience);
+  await rankDao.updateNum(rank.experience, 'number + 1');
   const result = await rankDao.createRank(localRank);
   return result;
 };

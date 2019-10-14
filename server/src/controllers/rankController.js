@@ -14,7 +14,15 @@ const router = express.Router();
  *       - ranks
  *     produces:
  *       - application/json
- *     parameters: []
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         required: true
+ *         type: number
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         type: number
  *     responses:
  *       200:
  *         description: response
@@ -46,7 +54,7 @@ const router = express.Router();
  */
 router.get('/', (req, res, next) => {
   rankService
-    .getRanks()
+    .getRanks(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });

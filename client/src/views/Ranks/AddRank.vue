@@ -8,20 +8,20 @@
         <v-form ref="form">
           <v-text-field
             label="Name"
-          
+            v-model="name"
             :counter="50"
             required
           ></v-text-field>
           <v-text-field
             label="Experience"
-        
+            v-model="experience"
             type="number"
             min="0"
             required
           ></v-text-field>
           <v-file-input
             prepend-icon="add_photo_alternate"
-          
+            v-model="rankImage"
             accept="image/png, image/jpeg"
             placeholder="Pick rank image"
           >
@@ -30,11 +30,11 @@
       </v-card-text>
       <v-card-actions align="center">
         <div class="flex-grow-1"></div>
-        <v-btn text @click="updateRank">
+        <v-btn text @click="addRank">
           <v-icon>save_alt</v-icon>
           <span class="subheading">Submit</span>
         </v-btn>
-        <v-btn text @click="hideModal">
+        <v-btn text to="/ranks">
           <v-icon>close</v-icon>
           <span class="subheading">Cancel</span>
         </v-btn>
@@ -50,15 +50,30 @@
     name: 'add-rank',
     props: [],
     mounted() {
-
     },
     data() {
       return {
-
+        name: '',
+        nameRules: [
+          v => !!v || "Name is required",
+          v => (v && v.length <= 50) || "Name must be less than 50 characters"
+        ],
+        experience: '',
+        rankImage: null
       }
     },
     methods: {
+      addRank() {
+        if (this.$refs.form.validate()) {
+          const formData = new FormData();
+          formData.append("name", this.name);
+          formData.append("experience", this.experience);
+          formData.append("image", this.rankImage);
 
+          this.$store.dispatch("addRank", formData);
+          this.$router.push({ path: '/ranks' });
+        }
+      }
     },
     computed: {
 

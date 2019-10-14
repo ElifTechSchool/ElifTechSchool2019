@@ -13,6 +13,7 @@ const getRanks = (offset, limit, search) => {
       order: [
         ['number', 'ASC'],
       ],
+      attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
     });
   }
   return rankModel.findAndCountAll({
@@ -21,6 +22,7 @@ const getRanks = (offset, limit, search) => {
     order: [
       ['number', 'ASC'],
     ],
+    attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
   });
 };
 

@@ -3,9 +3,10 @@
     <div v-for="rank in allRanks" :key="rank.number">
       <RanksItem :rank="rank" />
     </div>
-    <v-btn class="mx-2" fab dark large color="primary">
+    <v-btn class="mx-2" fab dark large color="primary" to="/ranks/add">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
+    <v-pagination v-model="page" :length="pageQty" @input="nextPage"></v-pagination>
   </div>
   <v-container fluid fill-height v-else>
     <v-layout align-center justify-center>
@@ -45,14 +46,40 @@
     name: "ranks-list",
     props: [],
     created() {
-      this.$store.dispatch("getAllRanks");
+      this.page = Number(this.$route.query.page) || 1;
+      const page = this.$route.query.page || 1;
+      const pageSize = this.ranksPageSize;
+      const search = this.$route.query.search;
+      this.$store.dispatch("getAllRanks", { page, pageSize, search });
     },
     data() {
-      return {};
+      return {
+        pageProxy: Number(this.$route.query.page)
+      };
     },
     computed: {
-      ...mapGetters(["allRanks", "rankIsEmpty"])
-    }
+      ...mapGetters(["allRanks", "rankIsEmpty", "pageQty", "ranksPageSize", "searchRank"]),
+      page: {
+        get() {
+          return this.pageProxy || this.$route.query.page;
+        },
+        set(val) {
+          this.pageProxy = val;
+        }
+      }
+    },
+    methods: {
+      nextPage() {
+        this.$router.replace({
+          name: "ranks",
+          query: { page: this.page }
+        })
+        const page = this.page;
+        const pageSize = this.ranksPageSize;
+        const search = this.search;
+        this.$store.dispatch("getAllRanks", { page, pageSize, search });
+      }
+    },
   };
 
 </script>

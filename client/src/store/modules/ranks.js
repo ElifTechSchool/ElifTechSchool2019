@@ -2,12 +2,20 @@ import axios from "axios";
 
 const state = {
   ranks: [],
-  isEmpty: false
+  isEmpty: false,
+  ranksPageSize: 4,
+  pageQty: 0,
+  ranksQty: 0,
+  searchRank: ""
 };
 
 const getters = {
   allRanks: state => state.ranks,
-  rankIsEmpty: state => state.isEmpty
+  rankIsEmpty: state => state.isEmpty,
+  ranksPageSize: state => state.ranksPageSize,
+  pageQty: state => state.pageQty,
+  ranksQty: state => state.ranksQty,
+  searchRank: state => state.searchRank
 };
 
 const mutations = {
@@ -16,15 +24,31 @@ const mutations = {
   },
   addRank: (state, payload) => {
     state.ranks.push(payload);
+  },
+  setPageSize: (state, payload) => {
+    state.ranksPageSize = payload;
+  },
+  setPageQty: state => {
+    state.pageQty = Math.ceil(state.ranksQty / state.ranksPageSize);
+  },
+  setSearch: (state, payload) => {
+    state.searchRank = payload;
+  },
+  setRanksQty: (state, payload) => {
+    state.ranksQty = payload;
   }
 };
 
 const actions = {
-  async getAllRanks({ commit, dispatch }) {
+  async getAllRanks({ commit, dispatch }, query) {
     try {
-      const response = await axios.get("ranks");
-      commit("setRanks", response.data);
-      if (state.rank.length === 0) {
+      commit("setPageSize", query.pageSize);
+      commit("setSearch", query.search);
+      const response = await axios.get("ranks", { params: { ...query } });
+      commit("setRanks", response.data.rows);
+      commit("setRanksQty", response.data.count);
+      commit("setPageQty");
+      if (state.ranks.length === 0) {
         state.isEmpty = true;
       }
     } catch (error) {
@@ -34,8 +58,16 @@ const actions = {
   },
   async addRank({ commit, dispatch }, rank) {
     try {
-      const response = await axios.post("ranks", rank);
+      const response = await axios.post("ranks", rank, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
       commit("addRank", response.data);
+      dispatch("showSnackBar", {
+        message: "Rank added succesfully",
+        color: "green"
+      });
     } catch (error) {
       const message = error.message;
       dispatch("showSnackBar", { message, color: "red" });
