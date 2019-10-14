@@ -1,14 +1,16 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="mx-auto" @click="getDetails">
-        <v-card-title>Name: {{ competitionData.name }}</v-card-title>
-        <v-card-text>Description: {{ competitionData.description }}</v-card-text>
-        <v-card-text>Deadline_date: {{ competitionData.deadline_date }}</v-card-text>
-        <v-card-text>Experience: {{ competitionData.experience }}</v-card-text>
-        <v-card-actions> </v-card-actions>
-      </v-card>
-      <template>
+      <v-card class="mx-auto" >
+        <v-col col-8 @click="getDetails">
+          <v-card-title>Name: {{ competitionData.name }}</v-card-title>
+          <v-card-text>Description: {{ competitionData.description }}</v-card-text>
+          <v-card-text>Deadline_date: {{ competitionData.deadline_date }}</v-card-text>
+          <v-card-text>Experience: {{ competitionData.experience }}</v-card-text>
+          <v-card-actions> </v-card-actions>
+        </v-col>
+        <v-col> 
+          <template>
         <div class="text-right">
           <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on }">
@@ -45,6 +47,9 @@
           </v-dialog>
         </div>
       </template>
+        </v-col>
+      
+    </v-card>
     </v-col>
   </v-row>
 </template>

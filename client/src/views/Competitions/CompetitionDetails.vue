@@ -2,17 +2,21 @@
   <v-card class="competition">
     <v-row key="1" justify="center" class="userInfo d-flex">
       <div v-for="competition in getCompetition" :key="competition.id">
-        <h2><b>Name:</b> {{ competition.name }}</h2>
-        <p><b>Description:</b> {{ competition.description }}</p>
-        <p><b>Deadline_date:</b> {{ competition.deadline_date }}</p>
-        <p><b>Experience:</b> {{ competition.experience }}</p>
-        <v-btn color="success" outlined @click="updateCompetition(competition.id)">
-        <v-icon left>mdi-pencil</v-icon> Edit
-        </v-btn>
-        <v-btn color="red lighten-2" outlined @click="hidden = !hidden">
-          <i class="material-icons">{{ hidden ? "work_off" : "work" }}</i>
-          {{ hidden ? "Unsubscribe" : "Subscribe" }}
-        </v-btn>
+        <v-col >
+          <h2><b>Name:</b> {{ competition.name }}</h2>
+          <p><b>Description:</b> {{ competition.description }}</p>
+          <p><b>Deadline_date:</b> {{ competition.deadline_date }}</p>
+          <p><b>Experience:</b> {{ competition.experience }}</p>
+        </v-col>
+        <v-col>
+          <v-btn color="success" outlined @click="updateCompetition(competition.id)">
+          <v-icon left>mdi-pencil</v-icon> Edit
+          </v-btn>
+          <v-btn color="red lighten-2" outlined @click="hidden = !hidden">
+            <i class="material-icons">{{ hidden ? "work_off" : "work" }}</i>
+            {{ hidden ? "Unsubscribe" : "Subscribe" }}
+          </v-btn>
+        </v-col>
       </div>
     </v-row>
   </v-card>
@@ -46,3 +50,9 @@ export default {
 
 }
 </script>
+<style lang="scss" scoped>
+.v-card {
+  width: 50%;
+  margin: 100px auto;
+}
+</style>
