@@ -86,7 +86,6 @@ const actions = {
   async addAchievement({ commit }, achievement) {
     try {
       const response = await axios.post(achievementsURL, achievement)
-      commit("addAchievement", response.data);
     } catch (error) {
       console.log(error)
     }

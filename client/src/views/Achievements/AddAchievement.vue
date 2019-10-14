@@ -36,14 +36,14 @@
             />
           </v-col>
         </v-row>
-        <v-text-field
+        <v-file-input
           name="photo_url"
-          label="Achievement image"
-          type="url"
+          label="Select achievement image"
           v-model="achievement.photo_url"
           outlined
-          required
-        />
+          accept=".jpg, .png"
+        >
+        </v-file-input>
         <v-text-field
           name="description"
           label="Description"
@@ -69,7 +69,11 @@ export default {
   },
   methods: {
     addAchievement() {
-      this.$store.dispatch("addAchievement", this.achievement);
+      const formData = new FormData();
+      Object.entries(this.achievement).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      this.$store.dispatch("addAchievement", formData);
       this.achievement = {};
       this.$router.push({ name: "achievements" });
     },

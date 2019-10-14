@@ -2,6 +2,7 @@ import express from 'express';
 import achievementService from '../businessLogic/achievementsService.js';
 import authMiddleware from '../middleware/auth.js';
 import userAchievementsService from '../businessLogic/userAchievementsService.js'
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -136,11 +137,20 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', /*authMiddleware,*/ async (req, res, next) => {
+//router.post('/', /*authMiddleware,*/ async (req, res, next) => {
+router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res, next) => {
   try {
-    const achievement = await achievementService.createAchievement(req.body);
+    const achievement = await achievementService.createAchievement({
+      ...req.body,
+      photo_url: req.file.secure_url,
+    });
+    
+// TODO: save user_achievement when pass access token
     if(res.locals.userId) {
-      await userAchievementsService.createUserAchievements({ userId: res.locals, achievementId: achievement.id });
+      await userAchievementsService.createUserAchievements({
+        userId: res.locals,
+        achievementId: achievement.id,
+      });
       const getUserAchievements = await userAchievementsService.getUserAchievements();
       console.log("getUserAchievements", getUserAchievements)    
     }
