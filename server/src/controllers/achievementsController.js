@@ -45,7 +45,7 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', authMiddleware, (req, res, next) => {
+router.get('/', /*authMiddleware, */ (req, res, next) => {
   achievementService.getAchievements(req.query)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
@@ -136,17 +136,16 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', authMiddleware, async (req, res, next) => {
+router.post('/', /*authMiddleware,*/ async (req, res, next) => {
   try {
     const achievement = await achievementService.createAchievement(req.body);
-    if(res.locals) {
+    if(res.locals.userId) {
       await userAchievementsService.createUserAchievements({ userId: res.locals, achievementId: achievement.id });
+      const getUserAchievements = await userAchievementsService.getUserAchievements();
+      console.log("getUserAchievements", getUserAchievements)    
     }
-  const getUserAchievements = await userAchievementsService.getUserAchievements();
-  console.log("getUserAchievements", getUserAchievements)
 
-
-    res.status(201).end();
+    res.status(201).send(achievement);
   } catch (error) {
       next(error);
   }
