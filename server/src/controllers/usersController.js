@@ -17,11 +17,11 @@ const router = express.Router();
  *     parameters:
  *       - name: page
  *         in: query
- *         required: true
  *         type: number
+ *         default: 1
  *       - name: pageSize
  *         in: query
- *         required: true
+ *         default: 4
  *         type: number
  *     responses:
  *       200:
@@ -131,30 +131,33 @@ router.get('/:id', (req, res, next) => {
  *         in: formData
  *         required: true
  *         type: string
+ *         minLength: 3
  *       - name: surname
  *         in: formData
  *         required: true
  *         type: string
+ *         minLength: 3
  *       - name: email
  *         in: formData
  *         required: true
  *         type: string
+ *         format: email
  *       - name: password
  *         in: formData
  *         required: true
  *         type: string
+ *         minLength: 6
  *       - name: image_url
  *         in: formData
  *         required: true
  *         type: file
  *       - name: description
  *         in: formData
- *         required: true
  *         type: string
  *       - name: experience
  *         in: formData
  *         required: false
- *         type: string
+ *         type: number
  *     responses:
  *       201:
  *         description: added success
@@ -168,7 +171,6 @@ router.get('/:id', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.post('/', upload.single('image_url'), (req, res, next) => {
-  console.log(req.body);
   usersService
     .createUser(req)
     .then(() => res.status(201).end())
@@ -188,6 +190,7 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *     parameters:
  *       - name: id
  *         in: path
+ *         required: true
  *         type: number
  *       - name: name
  *         in: formData
@@ -198,18 +201,12 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *       - name: email
  *         in: formData
  *         type: string
- *       - name: password
- *         in: formData
- *         type: string
+ *         format: email
  *       - name: image_url
  *         in: formData
  *         type: file
  *       - name: description
  *         in: formData
- *         type: string
- *       - name: experience
- *         in: formData
- *         required: false
  *         type: string
  *     responses:
  *       204:
@@ -254,8 +251,12 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *           properties:
  *             oldPass:
  *               type: string
+ *               minLength: 6
+ *               required: true
  *             newPass:
  *               type: string
+ *               minLength: 6
+ *               required: true
  *     responses:
  *       204:
  *         description: added success
