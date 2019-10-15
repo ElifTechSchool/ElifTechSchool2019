@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const state = {
+<<<<<<< HEAD
         competitions: [],
         competition: [],
         countCompetitions: 0,
@@ -48,6 +49,46 @@ const actions = {
           })
           .catch(err => console.log(err));
       },
+=======
+  competitions: [],
+  competition: []
+};
+
+const getters = {
+  getCompetitions: state => state.competitions,
+  getCompetition: state => state.competition
+};
+
+const actions = {
+  loadCompetitions({ commit }) {
+    axios
+      .get("competitions")
+      .then(res => res.data)
+      .then(competitions => {
+        commit("getCompetitions", competitions);
+      })
+      .catch(err => console.log(err));
+  },
+
+  loadCompetitionById(context, id) {
+    axios
+      .get(`competitions/${id}`)
+      .then(res => res.data)
+      .then(competition => {
+        context.commit("getCompetitionById", competition);
+      })
+      .catch(err => console.log(err));
+  },
+
+  addCompetition(context, newCompetition) {
+    axios
+      .post("competitions", newCompetition)
+      .then(() => {
+        context.dispatch("loadCompetitions");
+      })
+      .catch(err => console.log(err));
+  },
+>>>>>>> e046ccfd1b0a0e04359206dee718aff47991460a
 
   updateCompetition(context, updateData) {
     axios
@@ -68,6 +109,7 @@ const actions = {
   }
 };
 
+<<<<<<< HEAD
 const mutations =  {
     getCompetitions: (state, competitions) => {
         state.competitions = competitions;
@@ -78,6 +120,15 @@ const mutations =  {
     setCountCompetitions: (state, countCompetitions) => {
       state.countCompetitions = countCompetitions;
     }
+=======
+const mutations = {
+  getCompetitions: (state, competitions) => {
+    state.competitions = competitions;
+  },
+  getCompetitionById: (state, competition) => {
+    state.competition = competition;
+  }
+>>>>>>> e046ccfd1b0a0e04359206dee718aff47991460a
 };
 
 export default {
