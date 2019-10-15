@@ -65,12 +65,12 @@ export default {
       });
     },
     getPages() {
-      const result =  Math.ceil(this.getCountCompetitions / this.competitionParams.limit);
-      console.log(result);
+      const result = Math.ceil(this.getCountCompetitions / this.competitionParams.limit);
       return result;
     },
     setCompetitionPage(page) {
       this.competitionParams.page = page;
+      this.$store.dispatch("loadCompetitions", this.competitionParams);
     },
   }
 };

@@ -15,16 +15,29 @@ const getters = {
 }; 
 
 const actions = {
-      loadCompetitions({ commit }, competitionParams) {
+      loadCompetitions(context, competitionParams) {
         axios 
           .get("competitions", { params: competitionParams})
           .then(res => res.data)
           .then(competitions => {
-            commit("getCompetitions", competitions);
-            commit("setCountCompetitions", competitions.length);
+            context.commit("getCompetitions", competitions);
+          })
+          .then( () => {
+            context.dispatch("countCompetitions");
           })
           .catch(err => console.log(err));
       },
+
+      countCompetitions(context) {
+        axios
+          .get("competitions", { params: {limit: 10000, page: 1}})
+          .then(res => res.data)
+          .then(competitions => {
+            context.commit("setCountCompetitions", competitions.length);
+          })
+          .catch(err => console.log(err));
+      },
+
 
       loadCompetitionById(context, id) {
         axios
