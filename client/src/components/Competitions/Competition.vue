@@ -58,8 +58,8 @@
 export default {
   data() {
     return {
-      dialog: false
-    };
+      dialog: false,
+    }
   },
   name: "Competition",
   props: ["competitionData"],
@@ -73,6 +73,7 @@ export default {
         params: { id: this.competitionData.id }
       });
     },
+    
   }
 };
 </script>

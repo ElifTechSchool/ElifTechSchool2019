@@ -86,10 +86,14 @@ export default {
   },
   methods: {
     updateCompetition(competition) {
+      if (competition.experience > 0 && 
+          competition.name &&
+          competition.description) {
             this.$store.dispatch("updateCompetition", competition);
             this.$router.push({
-            path: `/competitions/${competition.id}`
-      });
+              path: `/competitions/${competition.id}`
+            });
+          }
     },
     
   },
