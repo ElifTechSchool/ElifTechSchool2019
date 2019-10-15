@@ -23,7 +23,9 @@ async function getAchievementsPerPage (page, limit, types) {
     data: achievements.slice(startIndex, endIndex),
     count: achievements.length,
   };
-}
+};
+
+const getTypes = () => achievementsDao.getTypes();
 
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 
@@ -39,4 +41,5 @@ export default {
   createAchievement,
   updateAchievement,
   deleteAchievement,
+  getTypes,
 };

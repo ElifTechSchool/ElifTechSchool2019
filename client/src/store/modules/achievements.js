@@ -40,7 +40,7 @@ const mutations = {
     state.achievements = achievements;
   },
   addAchievement: (state, achievement) => {
-    state.achievements = [achievement].concat(state.achievements)
+    state.achievements = [achievement].concat(state.achievements);
   },
   setAchievementsCount: (state, achievementsCount) => {
     state.achievementsCount = achievementsCount;
@@ -85,9 +85,9 @@ const actions = {
   },
   async addAchievement({ commit }, achievement) {
     try {
-      const response = await axios.post(achievementsURL, achievement)
+      await axios.post(achievementsURL, achievement);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
   async updateAchievement(store, { achievement, id }) {
@@ -99,10 +99,10 @@ const actions = {
   },
   async deleteAchievement({ dispatch }, { id }) {
     try {
-      await axios.delete(achievementsURL + id)
+      await axios.delete(achievementsURL + id);
       dispatch("getAllAchievements");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 };
