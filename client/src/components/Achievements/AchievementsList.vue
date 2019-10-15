@@ -41,21 +41,23 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("getAllAchievements", { page: 1, limit: this.limit });
+    this.$store.dispatch("setCurrentPage", 1)
+    this.$store.dispatch("getAllAchievements");
   },
   methods: {
     getPages() {
       return Math.ceil(this.achievementsCount / this.limit);
     },
     getAchievementPerPage(page) {
-      this.$store.dispatch("getAllAchievements", { page, limit: this.limit });
+      this.$store.dispatch("setCurrentPage", page)
+      this.$store.dispatch("getAllAchievements");
     },
     selectType(types) {
-      this.$store.dispatch("getAllAchievements", {
-        page: 1,
-        limit: this.limit,
-        types
-      });
+      this.$store.dispatch("setTypes", types)
+      this.$store.dispatch("getAllAchievements");
+    },
+    getDefaultPhotoUrt() {
+      return 'https://where2go.tech/assistant/img/achievements/win.png'
     }
   },
   computed: {
