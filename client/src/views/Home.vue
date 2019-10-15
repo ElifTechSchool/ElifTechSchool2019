@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <h1>This is an home page</h1>
-  </div>
+  <v-container>
+    <Login></Login>
+  </v-container>
 </template>
 
 <script>
+import Login from '@/components/Login.vue';
 export default {
-  components: {}
+  components: { Login }
 };
 </script>
 <style lang="scss"></style>

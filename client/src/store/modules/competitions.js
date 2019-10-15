@@ -49,32 +49,23 @@ const actions = {
           .catch(err => console.log(err));
       },
 
-      addCompetition(context, newCompetition) {
-        axios.post("competitions", newCompetition)
-        .then( () => {
-            context.dispatch("loadCompetitions")
-        })
-        .catch(err => console.log(err));
-      },
+  updateCompetition(context, updateData) {
+    axios
+      .put("competitions/" + updateData.id, updateData)
+      .then(() => {
+        context.commit("getCompetitionById", updateData);
+      })
+      .catch(err => console.log(err));
+  },
 
-      updateCompetition(context, updateData) {
-          axios
-            .put("competitions/" + updateData.id, updateData)
-            .then(() => {
-              context.commit("getCompetitionById", updateData);
-            })
-            .catch(err => console.log(err));
-      },
-      
-      deleteCompetition(context, id) {
-        axios
-          .delete("competitions/"+id)
-          .then(() => {
-              context.dispatch("loadCompetitions")
-          })
-          .catch(err => console.log(err));
-      },
- 
+  deleteCompetition(context, id) {
+    axios
+      .delete("competitions/" + id)
+      .then(() => {
+        context.dispatch("loadCompetitions");
+      })
+      .catch(err => console.log(err));
+  }
 };
 
 const mutations =  {

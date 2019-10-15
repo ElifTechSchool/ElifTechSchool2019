@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col md="12">
+    <v-col md="12" sm="12">
       <v-progress-linear
         :value="progress"
         color="primary lighten-2"
@@ -8,11 +8,11 @@
       ></v-progress-linear>
     </v-col>
     <v-row justify="space-between">
-      <v-col md="3">
-        <h3>{{ rank.current.name }}</h3>
+      <v-col md="6">
+        <h3 id="current">{{ rank.current.name }}</h3>
       </v-col>
-      <v-col md="3">
-        <h3>{{ rank.next.name }}</h3>
+      <v-col md="6">
+        <h3 id="next">{{ rank.next.name }}</h3>
       </v-col>
     </v-row>
   </v-row>
@@ -42,8 +42,11 @@ export default {
   width: 100%;
   margin: 0;
 }
-h3 {
-  text-align: center;
+#current {
+  text-align: left;
+}
+#next {
+  text-align: right;
 }
 .col {
   padding: 0;

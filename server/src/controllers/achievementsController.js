@@ -1,5 +1,8 @@
 import express from 'express';
 import achievementService from '../businessLogic/achievementsService.js';
+import authMiddleware from '../middleware/auth.js';
+import userAchievementsService from '../businessLogic/userAchievementsService.js'
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -43,7 +46,7 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', (req, res, next) => {
+router.get('/', /*authMiddleware, */ (req, res, next) => {
   achievementService.getAchievements(req.query)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
@@ -134,10 +137,28 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
-  achievementService.createAchievement(req.body)
-    .then(() => res.status(201).end())
-    .catch((error) => next(error));
+//router.post('/', /*authMiddleware,*/ async (req, res, next) => {
+router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res, next) => {
+  try {
+    const achievement = await achievementService.createAchievement({
+      ...req.body,
+      photo_url: req.file.secure_url,
+    });
+    
+// TODO: save user_achievement when pass access token
+    if(res.locals.userId) {
+      await userAchievementsService.createUserAchievements({
+        userId: res.locals,
+        achievementId: achievement.id,
+      });
+      const getUserAchievements = await userAchievementsService.getUserAchievements();
+      console.log("getUserAchievements", getUserAchievements)    
+    }
+
+    res.status(201).send(achievement);
+  } catch (error) {
+      next(error);
+  }
 });
 
 /**
@@ -218,8 +239,24 @@ router.delete('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
-  achievementService.updateAchievement(req.params.id, req.body)
+router.put('/:id', upload.single('photo_url'), (req, res, next) => {
+  const {
+    id,
+    name,
+    description,
+    type,
+    experience,
+    createdAt,
+  } = req.body
+  achievementService.updateAchievement(req.params.id, {
+    id,
+    name,
+    description,
+    type,
+    experience,
+    createdAt: new Date(createdAt),
+    photo_url: req.file.secure_url,
+  })
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });

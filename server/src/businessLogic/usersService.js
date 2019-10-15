@@ -8,7 +8,7 @@ const getNextRank = (experience) => usersDao.getNextRank(experience).then(el => 
 
 const getUsers = (query) => {
   const offset = (Number(query.page)-1) * query.pageSize;
-  return usersDao.getUsers(offset, query.pageSize, query.search);
+  return usersDao.getUsers(offset, query.pageSize, query.search)
 }
 
 const getUserById = async (id) => {
@@ -23,9 +23,11 @@ const getUserByEmail = (email) => usersDao.getUserByEmail(email);
 const createUser = async (req) => {
   try{
     const userData = req.body;
-    Object.setPrototypeOf(userData, {});
-    userData.password = await hashPassword(userData.password); 
-    userData.image_url = req.file.secure_url;
+    Object.setPrototypeOf(userData, {});    
+    userData.password = await hashPassword(userData.password);
+    if (req.file) {
+      userData.image_url = req.file.secure_url;
+    } 
     usersDao.createUser(userData);
   }
   catch (err) {

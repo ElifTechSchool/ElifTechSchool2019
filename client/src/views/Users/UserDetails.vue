@@ -10,10 +10,6 @@
               alt="user image"
               aspect-ratio="1"
             />
-            <ProgressBar
-              :rank="rankData"
-              :userExperience="userData.experience"
-            ></ProgressBar>
             <p class="rank">{{ userData.rank }}</p>
             <v-card-text>
               <p>
@@ -56,6 +52,10 @@
             <v-card-title class="font-weight-bold"
               >{{ userData.name }} {{ userData.surname }}</v-card-title
             >
+            <ProgressBar
+              :rank="rankData"
+              :userExperience="userData.experience"
+            ></ProgressBar>
           </v-col>
         </v-row>
       </v-card>
@@ -101,7 +101,12 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getUserById", this.$route.params.Uid);
+    if(this.$route.params.Uid !== this.$store.getters.userById.id){
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    }
+  },
+  created() {
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
   }
 };
 </script>
