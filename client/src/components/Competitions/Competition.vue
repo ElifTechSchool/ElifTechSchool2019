@@ -9,7 +9,7 @@
           <v-card-text>Experience: {{ competitionData.experience }}</v-card-text>
           <v-card-actions> </v-card-actions>
         </v-col>
-        <v-col> 
+        <v-col>
           <template>
         <div class="text-right">
           <v-dialog v-model="dialog" width="500">
@@ -46,9 +46,8 @@
             </v-card>
           </v-dialog>
         </div>
-      </template>
-        </v-col>
-      
+      </template> 
+      </v-col>   
     </v-card>
     </v-col>
   </v-row>
@@ -66,6 +65,7 @@ export default {
   methods: {
     deleteCompetition() {
       this.$store.dispatch("deleteCompetition", this.competitionData.id);
+      this.dialog = false;
     },
     getDetails() {
       this.$router.push({
