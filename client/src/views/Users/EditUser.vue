@@ -107,7 +107,8 @@ export default {
           formData.append(key, value);
         }
       });
-      this.$store.dispatch("updateUser", { formData, id });
+      await this.$store.dispatch("updateUser", { formData, id });
+      await this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.goToDetail();
     },
     goToDetail() {
