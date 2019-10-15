@@ -52,7 +52,7 @@ const actions = {
   addCompetition(context, newCompetition) {
     axios.post("competitions", newCompetition)
     .then( () => {
-        context.dispatch("loadCompetitions")
+        context.dispatch("loadCompetitions", {limit: 5, page: 1})
     })
     .catch(err => console.log(err));
   },
@@ -63,6 +63,10 @@ const actions = {
       .then(() => {
         context.commit("getCompetitionById", updateData);
       })
+      .then( () => {
+        context.dispatch("loadCompetitions", {limit: 5, page: 1});
+        context.dispatch("countCompetitions");
+      })
       .catch(err => console.log(err));
   },
 
@@ -70,7 +74,7 @@ const actions = {
     axios
       .delete("competitions/" + id)
       .then(() => {
-        context.dispatch("loadCompetitions");
+        context.dispatch("loadCompetitions", {limit: 5, page: 1});
         context.dispatch("countCompetitions");
       })
       .catch(err => console.log(err));
