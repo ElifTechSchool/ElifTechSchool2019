@@ -1,70 +1,39 @@
 <template>
   <div>
-    <v-btn to="/achievements" icon class="hidden-xs-only">
+    <v-btn to="/achievements" icon class="ms-6">
       <v-icon>arrow_back</v-icon>
     </v-btn>
     <v-row align="center" justify="center">
-      <v-col cols="6">
-        <v-card>
+      <v-col cols="4">
+        <v-card class="pa-5">
           <div v-if="!isEditing">
-            <div>
-              <v-avatar size="300">
-                <v-img
-                  v-bind:src="achievement.photo_url"
-                  alt="achievement photo"
-                />
-              </v-avatar>
-              <v-card-title>
-                {{ achievement.name }}
-              </v-card-title>
-              <v-card-text>
-                <p>Type: {{ achievement.type }}</p>
-                <p>Experience: {{ achievement.experience }}</p>
-                <p>{{ achievement.description }}</p>
-              </v-card-text>
+            <v-row>
+              <v-col cols="12" sm="5">
+                <v-avatar size="200">
+                  <v-img
+                    v-bind:src="achievement.photo_url"
+                    alt="achievement image"
+                  />
+                </v-avatar>
+              </v-col>
+              <v-col cols="12" sm="7">
+                <v-card-title>
+                  {{ achievement.name }}
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-text>
+                  <p><b>Type:</b> {{ achievement.type }}</p>
+                  <p><b>Experience:</b> {{ achievement.experience }}</p>
+                  <p><b> Description:</b> {{ achievement.description }}</p>
+                </v-card-text>
+              </v-col>
               <v-card-actions>
-                <v-btn @click="startEdit" color="green">
+                <v-btn @click="startEdit" color="green" absolute right>
                   <v-icon>mdi-pencil</v-icon>
-                  Edit
+                    Edit
                 </v-btn>
               </v-card-actions>
-            </div>
-          </div>
-          <div v-if="isEditing">
-            <v-form @submit.prevent="updateAchievement">
-              <v-col cols="auto">
-                <v-text-field
-                  name="name"
-                  label="Name"
-                  v-model="achievement.name"
-                />
-                <v-text-field
-                  name="description"
-                  label="Description"
-                  v-model="achievement.description"
-                />
-                <v-text-field
-                  name="type"
-                  label="Type"
-                  v-model="achievement.type"
-                />
-                <v-text-field
-                  name="experience"
-                  label="Experience"
-                  type="number"
-                  v-model="achievement.experience"
-                />
-                <v-text-field
-                  name="photo_url"
-                  label="Photo url"
-                  type="url"
-                  v-model="achievement.photo_url"
-                />
-              </v-col>
-              <v-btn color="green" type="submit" class="ma-3">
-                Update
-              </v-btn>
-            </v-form>
+            </v-row>
           </div>
         </v-card>
       </v-col>
@@ -81,26 +50,22 @@ export default {
     return {
       isEditing: false,
       id: this.$route.params.id,
-      achievement: {}
+      achievement: {},
+      photo_url: "https://img.pngio.com/achievement-best-reward-trophy-win-icon-best-achievement-png-512_512.png",
     };
   },
   methods: {
     ...mapActions(["getAchievementById"]),
     startEdit() {
-      this.isEditing = !this.isEditing;
+      console.log('before pasing', this.achievement)
+      this.$router.push(`/achievements/${this.id}/edit`)
     },
-    updateAchievement() {
-      this.$store.dispatch("updateAchievement", {
-        achievement: this.achievement,
-        id: this.achievement.id
-      });
-      this.startEdit();
-    }
   },
   mounted() {
     this.getAchievementById(this.$route.params.id).then(res => {
       this.achievement = res.data.data[0];
+      this.photo_url = res.data.data[0].photo_url;
     });
-  }
+  },
 };
 </script>

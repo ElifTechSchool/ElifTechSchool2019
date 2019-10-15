@@ -27,7 +27,9 @@ const defaultConfig = {
     api_secret: process.env.CLOUDINARY_API_SECRET,
   },
   jwtSecret: process.env.SECRET,
+  jwtRefreshSecret: process.env.REFRESH_TOKEN_SECRET,
   tokenExpTime: '1d',
+  refreshTokenExpTime: '60d',
 };
 
 export default { ...defaultConfig, ...configs[env] };

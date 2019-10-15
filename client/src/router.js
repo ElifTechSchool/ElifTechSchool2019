@@ -63,6 +63,11 @@ export default new Router({
       component: () => import("./views/Achievements/AchievementDetails.vue")
     },
     {
+      path: "/achievements/:id/edit",
+      name: "EditAchievement",
+      component: () => import("./views/Achievements/EditAchievement.vue")
+    },
+    {
       path: "/competitions",
       name: "competitions",
       // route level code-splitting
