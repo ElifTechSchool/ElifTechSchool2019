@@ -104,6 +104,9 @@ export default {
     if(this.$route.params.Uid !== this.$store.getters.userById.id){
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
+  },
+  created() {
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
   }
 };
 </script>
