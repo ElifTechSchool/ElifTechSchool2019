@@ -41,7 +41,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("setCurrentPage", 1)
+    this.$store.dispatch("setCurrentPage", this.getPage || 1)
     this.$store.dispatch("getAllAchievements");
   },
   methods: {
@@ -55,13 +55,11 @@ export default {
     selectType(types) {
       this.$store.dispatch("setTypes", types)
       this.$store.dispatch("getAllAchievements");
-    },
-    getDefaultPhotoUrt() {
-      return 'https://where2go.tech/assistant/img/achievements/win.png'
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount"])
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage"]),
+    
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn to="/achievements" icon class="ms-6">
+    <v-btn @click="goBack" icon class="ms-6">
       <v-icon>arrow_back</v-icon>
     </v-btn>
     <v-row align="center" justify="center">
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "achievementDetails",
@@ -56,10 +56,13 @@ export default {
   },
   methods: {
     ...mapActions(["getAchievementById"]),
+    ...mapGetters(["getPage"]),
     startEdit() {
-      console.log('before pasing', this.achievement)
       this.$router.push(`/achievements/${this.id}/edit`)
     },
+    goBack() {
+      this.$router.go(-1)
+    }
   },
   mounted() {
     this.getAchievementById(this.$route.params.id).then(res => {

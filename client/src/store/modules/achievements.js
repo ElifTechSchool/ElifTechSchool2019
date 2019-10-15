@@ -32,6 +32,9 @@ const getters = {
   },
   achievementsCount: state => {
     return state.achievementsCount;
+  },
+  getPage: state => {
+    return state.page;
   }
 };
 
