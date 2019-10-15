@@ -17,22 +17,40 @@
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
     </v-col>
+      <div>
+          <v-pagination
+            :length="getPages()"
+            @input="page => setCompetitionPage(page)"
+          >
+          </v-pagination>
+      </div>
   </div>
 </template>
 
 <script>
-import AddCompetition from "../Competitions/AddCompetition";
 import Competition from "../../components/Competitions/Competition";
 export default {
   name: "Competitions",
-  components: { AddCompetition, Competition },
+  data() {
+    return {
+      
+      competitionParams: {
+        limit: 5,
+        page: 1
+      }
+    }
+  },
+  components: { Competition },
   computed: {
     getCompetitions() {
       return this.$store.getters.getCompetitions;
+    },
+    getCountCompetitions() {
+      return this.$store.getters.getCountCompetitions;
     }
   },
   mounted() {
-    this.$store.dispatch("loadCompetitions");
+    this.$store.dispatch("loadCompetitions", this.competitionParams);
   },
   methods: {
     sortByDate() {
@@ -45,7 +63,15 @@ export default {
       this.$router.push({
         name: "add_competition",
       });
-    }
+    },
+    getPages() {
+      const result =  Math.ceil(this.getCountCompetitions / this.competitionParams.limit);
+      console.log(result);
+      return result;
+    },
+    setCompetitionPage(page) {
+      this.competitionParams.page = page;
+    },
   }
 };
 </script>

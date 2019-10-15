@@ -3,20 +3,25 @@ import axios from "axios";
 const state = {
         competitions: [],
         competition: [],
+        countCompetitions: 0,
+        
 };
 
 const getters = {
     getCompetitions : state => state.competitions,
     getCompetition : state => state.competition,
+    getCountCompetitions: state => state.countCompetitions
+    
 }; 
 
 const actions = {
-      loadCompetitions({ commit }) {
-        axios
-          .get("competitions")
+      loadCompetitions({ commit }, competitionParams) {
+        axios 
+          .get("competitions", { params: competitionParams})
           .then(res => res.data)
           .then(competitions => {
             commit("getCompetitions", competitions);
+            commit("setCountCompetitions", competitions.length);
           })
           .catch(err => console.log(err));
       },
@@ -65,6 +70,9 @@ const mutations =  {
       },
     getCompetitionById: (state, competition) => {
         state.competition = competition;
+    },
+    setCountCompetitions: (state, countCompetitions) => {
+      state.countCompetitions = countCompetitions;
     }
 };
 
