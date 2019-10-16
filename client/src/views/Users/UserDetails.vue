@@ -43,7 +43,7 @@
               >
                 Change password
               </v-btn>
-              <v-btn to="/users" color="grey" outlined>
+              <v-btn @click="goBack" color="grey" outlined>
                 Go back
               </v-btn>
             </v-card-actions>
@@ -93,8 +93,10 @@ export default {
       });
     },
     goBack() {
-      this.$store.commit("setUser", {});
-      this.$router.push({ name: "users" });
+      this.$router.replace({
+          name: "users",
+          query: { page: this.$route.params.page || 1, pageSize: this.$store.getters.pageSize, search: this.search }
+        });
     }
   },
   mounted() {
