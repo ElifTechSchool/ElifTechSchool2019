@@ -14,7 +14,7 @@
           create
           </i> Edit
           </v-btn>
-          <v-btn color="red lighten-2" outlined @click="subscribeCompetition()">
+          <v-btn color="red lighten-2" outlined @click="subscribe(competition.id)">
             <i class="material-icons">{{ hidden ? "person_add_disabled" : "person_add" }}</i>
             {{ hidden ? "Unsubscribe" : "Subscribe" }}
           </v-btn>
@@ -36,7 +36,11 @@ export default {
   data() {
     return {
       hidden: false,
-    };
+      dataFollower: {
+        competition_id: null,
+        user_id: 153
+      } 
+    }
   },
   computed: {
     getCompetition() {
@@ -62,13 +66,24 @@ export default {
         return day + '/' + month + '/' + year;
     },
     subscribeCompetition() {
-      
+      this.$store.dispatch( "subscribeFollower", this.dataFollower );
+    },
+
+    unsubscribeCompetition() {
+      this.$store.dispatch( "unsubscribeFollower", this.dataFollower );
+    },
+
+    subscribe(competitionId) {
+      this.dataFollower.competition_id = competitionId;
+
       if (this.hidden == false) {
+        this.subscribeCompetition();
         alert("You are subscribed");
         this.hidden = !this.hidden;
       } else {
+        this.unsubscribeCompetition();
         alert("You are unsubscribed");
-        this.hidden = !this.hidden;
+        this.hidden = this.hidden;
       }
     },
   },
