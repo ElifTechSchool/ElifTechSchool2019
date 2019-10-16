@@ -17,14 +17,13 @@
                 />
                 <v-row>
                   <v-col cols="12" sm="9">
-                    <v-select
+                    <v-text-field
                       name="type"
                       label="Type"
-                      :items="['one', 'two', 'three', 'four']"
                       v-model="achievement.type"
                       outlined
                       required
-                    ></v-select>
+                    ></v-text-field>
                     </v-col>
                       <v-col cols="12" sm="3">
                     <v-text-field

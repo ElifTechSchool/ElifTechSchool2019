@@ -3,7 +3,6 @@ import axios from "axios";
 const achievementsURL = "http://localhost:3000/api/v1/achievements/";
 
 function getQuerySrtingURL({ page, limit, types }, url) {
-  debugger;
   let result = "";
   if (page && limit) {
     result = result + `${url}?page=${page}&limit=${limit}`;
@@ -52,7 +51,6 @@ const mutations = {
     state.page = page;
   },
   setTypes: (state, types) => {
-    console.log("types", types)
     state.types = types;
   }
 };
@@ -62,9 +60,7 @@ const actions = {
     const { page, limit, types } = state;
     try {
       const response = await axios
-        .get(
-          getQuerySrtingURL({ page, limit, types }, achievementsURL),
-        )
+        .get(getQuerySrtingURL({ page, limit, types }, achievementsURL))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);

@@ -41,7 +41,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("setCurrentPage", this.getPage || 1)
+    this.$store.dispatch("setCurrentPage", this.getPage || 1);
     this.$store.dispatch("getAllAchievements");
   },
   methods: {
@@ -49,17 +49,16 @@ export default {
       return Math.ceil(this.achievementsCount / this.limit);
     },
     getAchievementPerPage(page) {
-      this.$store.dispatch("setCurrentPage", page)
+      this.$store.dispatch("setCurrentPage", page);
       this.$store.dispatch("getAllAchievements");
     },
     selectType(types) {
-      this.$store.dispatch("setTypes", types)
+      this.$store.dispatch("setTypes", types);
       this.$store.dispatch("getAllAchievements");
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount", "getPage"]),
-    
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage"])
   }
 };
 </script>
