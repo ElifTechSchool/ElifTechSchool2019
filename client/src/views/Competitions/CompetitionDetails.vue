@@ -19,6 +19,12 @@
             {{ hidden ? "Unsubscribe" : "Subscribe" }}
           </v-btn>
         </v-col>
+        <v-col>
+          <h4>Folllowers:</h4>
+          <div v-for="follower in getCompetitionFollowers" :key="follower.id">
+              <p>userId: {{follower.user_id}}</p>
+          </div>
+        </v-col>
       </div>
     </v-row>
   </v-card>
@@ -36,6 +42,9 @@ export default {
     getCompetition() {
       return [this.$store.getters.getCompetition];
     },
+    getCompetitionFollowers() {
+      return this.$store.getters.getFollowers;
+    }
   },
   methods: {
     updateCompetition(competitionId) {
@@ -65,6 +74,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
+    this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
   
 

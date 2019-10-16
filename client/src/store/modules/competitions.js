@@ -97,6 +97,7 @@ const actions = {
   getSubscribedFollowers(context, competitionId) {
     axios
       .get(`competitions/${competitionId}/followers`)
+      .then(res => res.data)
       .then(followers => {
         context.commit("setFollowers", followers);
       })
