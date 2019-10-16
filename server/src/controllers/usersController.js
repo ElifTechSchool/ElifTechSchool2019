@@ -1,6 +1,7 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
 import upload from '../businessLogic/cloudinaryService.js';
+import usersRolesService from '../businessLogic/usersRolesService.js';
 
 const router = express.Router();
 
@@ -309,5 +310,23 @@ router.delete('/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.put('/:id/roles', async (req, res, next) => {
+  const userId = req.params.id;
+
+  if(!userId || !Array.isArray(req.body.roles)) {
+    res.status(401).send({ error: 'incorest data' });
+  }
+  const userRoles = await usersRolesService.getRolesOfSpecificUser(userId);
+  const rolesToAdd = req.body.roles.filter(r => userRoles.indexOf(r) === -1)
+  if (!rolesToAdd.length) {
+    res.send({ message: 'roles already exist' })
+    return;
+  }
+  usersRolesService.createUserRoles(
+    rolesToAdd.map(role => ({ role_id: role, user_id: userId }))
+  )
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
 
 export default router;

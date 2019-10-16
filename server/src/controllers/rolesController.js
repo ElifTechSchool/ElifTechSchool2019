@@ -43,4 +43,11 @@ router.get('/', (req, res, next) => {
     .catch((error) => next(error));
 });
 
+
+router.post('/', (req, res, next) => {
+  rolesService.createRole(req.body)
+    .then(() => res.status(201).end())
+    .catch((error) => next(error));
+});
+
 export default router;
