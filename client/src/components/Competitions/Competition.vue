@@ -85,7 +85,7 @@ export default {
         let day = date.getDate();
         let year = date.getFullYear();
 
-        return month + '/' + day + '/' + year;
+        return day + '/' + month + '/' + year;
     },
   }
 };

@@ -10,10 +10,12 @@
         </v-col>
         <v-col>
           <v-btn color="success" outlined @click="updateCompetition(competition.id)">
-          <v-icon left>mdi-pencil</v-icon> Edit
+          <i class="material-icons">
+          create
+          </i> Edit
           </v-btn>
           <v-btn color="red lighten-2" outlined @click="hidden = !hidden">
-            <i class="material-icons">{{ hidden ? "work_off" : "work" }}</i>
+            <i class="material-icons">{{ hidden ? "person_add_disabled" : "person_add" }}</i>
             {{ hidden ? "Unsubscribe" : "Subscribe" }}
           </v-btn>
         </v-col>
@@ -48,7 +50,7 @@ export default {
         let day = date.getDate();
         let year = date.getFullYear();
 
-        return month + '/' + day + '/' + year;
+        return day + '/' + month + '/' + year;
     },
   },
   mounted() {
