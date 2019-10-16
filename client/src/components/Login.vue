@@ -16,6 +16,8 @@
                                 :counter="100"
                                 label="Email"
                                 v-model="user.email"
+                                @keyup="loginResult.status = 200"
+                                :error-messages="loginResult.status !== 200 ? ['Wrong email or password'] : []"
                                 required outlined 
                             ></v-text-field>
                             <v-text-field
@@ -25,6 +27,8 @@
                                 :counter="100"
                                 label="Password"
                                 v-model="user.password"
+                                @change="loginResult.status = 200"
+                                :error-messages="loginResult.status !== 200 ? ['Wrong email or password'] : []"
                                 required outlined
                             ></v-text-field>                       
                             <v-btn block color="primary" type="submit" height="50px" :disabled="!valid">LOGIN</v-btn>
@@ -44,6 +48,9 @@
 export default {
     data() {
         return {
+            loginResult: {
+                status: 200,
+            },
             user: {},
             valid: true,
             emailRules: [
@@ -62,8 +69,8 @@ export default {
     },
     methods: {
         async loginUser() {
-            this.$store.dispatch("loginUser", this.user);
-            this.user = {};
+            this.loginResult = await this.$store.dispatch("loginUser", this.user);
+            console.log(this.loginResult);
         },
     },
 }

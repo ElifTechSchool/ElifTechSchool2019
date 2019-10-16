@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
     const { userId, token, refreshToken } = result;
     await sessionService.createSession({ userId, refreshToken });
     if (result) {
-      res.send({ token, refreshToken });
+      res.send({ token, refreshToken, userId });
     } else {
       res.status(401).end();
     }

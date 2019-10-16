@@ -2,10 +2,10 @@ import axios from "axios";
 
 const actions = {
     loginUser(_, newUser) {
-        axios
+        return axios
             .post("login", newUser)
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+            .then(res => res)
+            .catch(err => err);
     },
 };
 export default {
