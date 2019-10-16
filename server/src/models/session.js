@@ -11,6 +11,7 @@ module.exports = class Sessions extends Sequelize.Model {
       },
       user_id: Sequelize.INTEGER,
       refresh_token: Sequelize.STRING,
+      browser_info: Sequelize.STRING,
     },
     {
       sequelize,

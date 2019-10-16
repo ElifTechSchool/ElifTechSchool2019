@@ -6,14 +6,17 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       refresh_token: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
+      browser_info: {
+        type: Sequelize.STRING,
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
