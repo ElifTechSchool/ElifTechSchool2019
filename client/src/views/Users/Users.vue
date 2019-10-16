@@ -10,7 +10,7 @@
       v-on:keyup.enter="searchUser"
     />
     <User v-for="user in users" :userData="user" :key="user.id" />
-    <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
+    <v-btn class="mx-2" fab dark large to="add_user" color="primary">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
@@ -52,7 +52,7 @@ export default {
     },
     page: {
       get() {
-        return this.$route.query.page || this.pageProxy;
+        return Number(this.$route.query.page) || this.pageProxy;
       },
       set(val) {
         this.pageProxy = val;
@@ -60,11 +60,6 @@ export default {
     }
   },
   methods: {
-    addUser() {
-      this.$router.push({
-        name: "add_user"
-      });
-    },
     nextPage(p) {
       this.$router.replace({
         name: "users",
@@ -85,10 +80,10 @@ export default {
   mounted() {
     this.pageProxy = Number(this.$route.query.page) || 1;
     this.page = Number(this.$route.query.page) || 1;
-    const page = this.$route.query.page || 1;
-    const pageSize = this.$route.query.pageSize || this.$store.getters.pageSize;
-    const search = this.$route.query.search;
-    this.$store.dispatch("loadUsers", { page, pageSize, search });
+    this.$store.dispatch("loadUsers", { page: Number(this.$route.query.page) || 1, 
+                                        pageSize:this.$route.query.pageSize || this.$store.getters.pageSize, 
+                                        search: this.$route.query.search 
+                                        });
   }
 };
 </script>

@@ -148,7 +148,7 @@ export default {
         v => v >= 0 || "Experience must be greater then or equal to zero"
       ],
       textareaRules: [
-        v => v.length <= 500 || "Field must be less than 500 characters"
+        v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ]
     };
   },

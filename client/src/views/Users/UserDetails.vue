@@ -6,30 +6,30 @@
           <v-col md="4">
             <v-img
               position="center left"
-              :src="this.userData.image_url"
+              :src="userById.image_url"
               alt="user image"
               aspect-ratio="1"
             />
-            <p class="rank">{{ userData.rank }}</p>
+            <p class="rank">{{ userById.rank }}</p>
             <v-card-text>
               <p>
                 <v-icon color="primary" class="ma-2"
                   >mdi-swap-vertical-bold</v-icon
                 >
                 <b>Experience:</b>
-                {{ userData.experience }}
+                {{ userById.experience }}
               </p>
               <p>
                 <v-icon color="primary" class="ma-2">mdi-email</v-icon>
                 <b>Email:</b>
-                {{ userData.email }}
+                {{ userById.email }}
               </p>
               <p>
                 <v-icon color="primary" class="ma-2"
                   >mdi-account-badge-outline</v-icon
                 >
                 <b>Description:</b>
-                {{ userData.description }}
+                {{ userById.description }}
               </p>
             </v-card-text>
             <v-card-actions>
@@ -50,11 +50,11 @@
           </v-col>
           <v-col md="7" justify-self="center">
             <v-card-title class="font-weight-bold"
-              >{{ userData.name }} {{ userData.surname }}</v-card-title
+              >{{ userById.name }} {{ userById.surname }}</v-card-title
             >
             <ProgressBar
               :rank="rankData"
-              :userExperience="userData.experience"
+              :userExperience="userById.experience"
             ></ProgressBar>
           </v-col>
         </v-row>
@@ -84,9 +84,6 @@ export default {
   },
   computed: {
     ...mapGetters(["findUserById", "userById", "rankData"]),
-    userData() {
-      return this.userById;
-    }
   },
   methods: {
     goToEdit() {
@@ -101,12 +98,12 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.params.Uid !== this.$store.getters.userById.id){
+    if(this.$store.getters.userById === undefined){
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    } 
+    else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
-  },
-  created() {
-      this.$store.dispatch("getUserById", this.$route.params.Uid);
   }
 };
 </script>
