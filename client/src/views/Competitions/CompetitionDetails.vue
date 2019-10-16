@@ -14,7 +14,7 @@
           create
           </i> Edit
           </v-btn>
-          <v-btn color="red lighten-2" outlined @click="hidden = !hidden">
+          <v-btn color="red lighten-2" outlined @click="subscribeCompetition()">
             <i class="material-icons">{{ hidden ? "person_add_disabled" : "person_add" }}</i>
             {{ hidden ? "Unsubscribe" : "Subscribe" }}
           </v-btn>
@@ -51,6 +51,16 @@ export default {
         let year = date.getFullYear();
 
         return day + '/' + month + '/' + year;
+    },
+    subscribeCompetition() {
+      
+      if (this.hidden == false) {
+        alert("You are subscribed");
+        this.hidden = !this.hidden;
+      } else {
+        alert("You are unsubscribed");
+        this.hidden = !this.hidden;
+      }
     },
   },
   mounted() {
