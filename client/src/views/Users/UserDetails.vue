@@ -49,13 +49,16 @@
             </v-card-actions>
           </v-col>
           <v-col md="7" justify-self="center">
-            <v-card-title class="font-weight-bold"
-              >{{ userById.name }} {{ userById.surname }}</v-card-title
-            >
-            <ProgressBar
+            <v-row>
+              <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
+            </v-row>
+            <v-row>
+              <ProgressBar
               :rank="rankData"
               :userExperience="userById.experience"
-            ></ProgressBar>
+              ></ProgressBar>
+            </v-row>
+            <Multiselect class="multiselect" type="achiv"></Multiselect>
           </v-col>
         </v-row>
       </v-card>
@@ -67,6 +70,7 @@
 <script>
 import ProgressBar from "@/components/Users/ProgressBar.vue";
 import ChangePass from "@/components/Users/ChangePass.vue";
+import Multiselect from "@/components/Users/Multiselect.vue";
 
 import { mapGetters } from "vuex";
 
@@ -74,7 +78,8 @@ export default {
   name: "userDetail",
   components: {
     ProgressBar,
-    ChangePass
+    ChangePass,
+    Multiselect,
   },
   data() {
     return {
@@ -125,5 +130,8 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transition: opacity 0.5s;
   opacity: 0;
+}
+.multiselect{
+  margin-top: 50px;
 }
 </style>

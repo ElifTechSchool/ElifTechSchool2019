@@ -25,6 +25,8 @@
                   <p><b>Type:</b> {{ achievement.type }}</p>
                   <p><b>Experience:</b> {{ achievement.experience }}</p>
                   <p><b> Description:</b> {{ achievement.description }}</p>
+            <Multiselect class="multiselect" type="users"></Multiselect>
+
                 </v-card-text>
               </v-col>
               <v-card-actions>
@@ -43,9 +45,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import Multiselect from "@/components/Users/Multiselect.vue";
 
 export default {
   name: "achievementDetails",
+  components: {
+    Multiselect,
+  },
   data() {
     return {
       isEditing: false,
