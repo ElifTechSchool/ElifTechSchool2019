@@ -4,13 +4,15 @@ const state = {
         competitions: [],
         competition: [],
         countCompetitions: 0,
+        followers: [],
         
 };
 
 const getters = {
     getCompetitions : state => state.competitions,
     getCompetition : state => state.competition,
-    getCountCompetitions: state => state.countCompetitions
+    getCountCompetitions: state => state.countCompetitions,
+    getFollowers: state => state.followers,
     
 }; 
 
@@ -78,7 +80,39 @@ const actions = {
         context.dispatch("countCompetitions");
       })
       .catch(err => console.log(err));
-  }
+  },
+
+
+  // Followers subscribe
+  
+  subscribeFollower(context, data){
+    axios
+      .post(`competitions/${data.competitionId}/followers`, data )
+      .then( () => {
+        context.commit("getCompetitionById", competition);
+      })
+      .catch(err => console.log(err));
+  },
+
+  getSubscribedFollowers(context, competitionId) {
+    axios
+      .get(`competitions/${competitionId}/followers`)
+      .then(followers => {
+        context.commit("setFollowers", followers);
+      })
+      .catch(err => console.log(err));
+      
+  },
+
+  unsubscribeFollower(context, data){
+    axios
+      .delete(`competitions/${data.competitionId}/followers/${data.userId}`)
+      .then( () => {
+        context.commit("getCompetitionById", competition);
+      })
+      .catch(err => console.log(err));
+  },
+
 };
 
 const mutations =  {
@@ -90,6 +124,9 @@ const mutations =  {
     },
     setCountCompetitions: (state, countCompetitions) => {
       state.countCompetitions = countCompetitions;
+    },
+    setFollowers: (state, followers) => {
+      state.followers = followers;
     }
 };
 
