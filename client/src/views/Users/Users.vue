@@ -60,21 +60,23 @@ export default {
     }
   },
   methods: {
-    nextPage(p) {
-      this.$router.replace({
-        name: "users",
-        query: { page: p || this.page, pageSize: this.$store.getters.pageSize, search: this.search }
-      });
-      const page = p || this.page;
-      const pageSize = this.$store.getters.pageSize;
-      const search = this.search;
-      this.$store.dispatch("loadUsers", { page, pageSize, search });
+    nextPage(page, search) {
+      if (search === ''){
+        this.$router.replace({
+          name: "users",
+          query: { page: page || this.page, pageSize: this.$store.getters.pageSize}
+        });
+      } 
+      else {
+        this.$router.replace({
+          name: "users",
+          query: { page: page || this.page, pageSize: this.$store.getters.pageSize, search: this.search }
+        });
+      }
+      this.$store.dispatch("loadUsers", { page: page || this.page, pageSize: this.$store.getters.pageSize, search: this.search });
     },
     searchUser() {
-      if(this.search){
-        this.nextPage(1)
-      }
-      this.searchProxy = '';
+        this.nextPage(1, this.searchProxy)
     }
   },
   mounted() {
