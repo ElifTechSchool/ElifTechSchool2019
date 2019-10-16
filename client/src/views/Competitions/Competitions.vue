@@ -1,22 +1,26 @@
 <template>
   <div class="competitions">
     <h2>Competitions list</h2>
-    <v-layout>
-      <v-btn small slat color="primery" @click="sortByDate">
-        <v-icon left>event</v-icon>
-        <span class="caption text-lowercase">By date</span>
-      </v-btn>
-    </v-layout>
+    <v-row align="center">
+    <v-col class="text-center" cols="12" md="8">
+      <v-layout>
+        <v-btn small slat color="primery" @click="sortByDate">
+          <v-icon left>event</v-icon>
+          <span class="caption text-lowercase">By date</span>
+        </v-btn>
+      </v-layout>
+    </v-col>
+    <v-col class="text-center" cols="6" md="4">
+      <v-btn class="mx-2" right fab dark color="indigo" @click="addCompetition">
+      <v-icon dark>mdi-plus</v-icon>
+      </v-btn>  
+    </v-col>
+    </v-row>
     <Competition
       v-for="competition in getCompetitions"
       :competitionData="competition"
       :key="competition.id"
     />
-    <v-col>
-      <v-btn class="mx-2" fab dark color="indigo" @click="addCompetition">
-      <v-icon dark>mdi-plus</v-icon>
-    </v-btn>
-    </v-col>
       <div>
           <v-pagination
             :length="getPages()"

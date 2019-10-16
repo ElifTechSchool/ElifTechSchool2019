@@ -5,7 +5,7 @@
         <v-col col-8 @click="getDetails">
           <v-card-title>Name: {{ competitionData.name }}</v-card-title>
           <v-card-text>Description: {{ competitionData.description }}</v-card-text>
-          <v-card-text>Deadline_date: {{ competitionData.deadline_date }}</v-card-text>
+          <v-card-text>Deadline_date: {{ formatDateRead() }}</v-card-text>
           <v-card-text>Experience: {{ competitionData.experience }}</v-card-text>
           <v-card-actions> </v-card-actions>
         </v-col>
@@ -73,7 +73,14 @@ export default {
         params: { id: this.competitionData.id }
       });
     },
-    
+    formatDateRead() {
+        const date = new Date(this.competitionData.deadline_date);
+        let month = date.getMonth();
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        return month + '/' + day + '/' + year;
+    },
   }
 };
 </script>

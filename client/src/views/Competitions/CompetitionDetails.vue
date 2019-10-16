@@ -5,7 +5,7 @@
         <v-col >
           <h2><b>Name:</b> {{ competition.name }}</h2>
           <p><b>Description:</b> {{ competition.description }}</p>
-          <p><b>Deadline_date:</b> {{ competition.deadline_date }}</p>
+          <p><b>Deadline_date:</b> {{ formatDateRead(competition.deadline_date) }}</p>
           <p><b>Experience:</b> {{ competition.experience }}</p>
         </v-col>
         <v-col>
@@ -41,7 +41,15 @@ export default {
       name: "editCompetition",
       params: { id: competitionId }
     });
-    }
+    },
+    formatDateRead(competitionDate) {
+        const date = new Date(competitionDate);
+        let month = date.getMonth();
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        return month + '/' + day + '/' + year;
+    },
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
