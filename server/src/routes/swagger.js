@@ -40,6 +40,7 @@ const swaggerDefinition = {
 };
 
 export const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/*.js'] });
+swaggerSpec.openapi=  "3.0.1",
 
 swagger.use('/', swaggerUi.serve);
 swagger.get('/', swaggerUi.setup(swaggerSpec));
