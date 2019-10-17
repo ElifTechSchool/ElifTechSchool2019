@@ -25,14 +25,26 @@
                   />
                 </v-col>
               </v-row>
-              <v-text-field
-                type="email"
-                label="E-mail"
-                :rules="emailRules"
-                :counter="100"
-                name="email"
-                v-model="userData.email"
-              />
+              <v-row>
+                <v-col cols="12" sm="8" md="8">                
+                  <v-text-field
+                    type="email"
+                    label="E-mail"
+                    :rules="emailRules"
+                    :counter="100"
+                    name="email"
+                    v-model="userData.email"
+                  />
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-select
+                    :items="roles"
+                    label="User role"
+                    name="role"
+                    v-model="userData.role"
+                  ></v-select>
+                </v-col>
+              </v-row>
               <v-file-input
                 :label="userData.image_url.match(/[\w-]+.(jpg|png)/)[0]"
                 name="image_url"
@@ -81,7 +93,8 @@ export default {
       textareaRules: [
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ],
-      image_url: undefined
+      image_url: undefined,
+      roles: ['user', 'moderator', 'admin'],
     };
   },
   computed: {
@@ -107,7 +120,8 @@ export default {
           formData.append(key, value);
         }
       });
-      this.$store.dispatch("updateUser", { formData, id });
+      await this.$store.dispatch("updateUser", { formData, id });
+      await this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.goToDetail();
     },
     goToDetail() {

@@ -55,13 +55,16 @@ export default {
   },
   methods: {
     deleteUser() {
-      this.$store.dispatch("deleteUser", this.userData.id);
-      this.$router.push("users");
+      const id = this.userData.id;
+      const page = this.$route.query.page;
+      const pageSize = this.$route.query.pageSize;
+      const search = this.$route.query.search;
+      this.$store.dispatch("deleteUser", { id, page, pageSize, search });
     },
     goToDetail() {
       this.$router.push({
         name: "userDetails",
-        params: { Uid: this.userData.id }
+        params: { Uid: this.userData.id, page: this.$route.query.page },
       });
     }
   }

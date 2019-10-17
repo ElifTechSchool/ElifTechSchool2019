@@ -41,10 +41,9 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
-    const result = await authService.login(req.body);
-    const { userId, token, refreshToken } = result;
+    const { refreshToken, token, userId } = await authService.login(req.body, next);
     const browserInfo = req.headers['user-agent'];
     const sessionData = await sessionService.getSessionByUserIdAndBrowser(userId, browserInfo);
     if (sessionData != null) {
@@ -53,13 +52,9 @@ router.post('/', async (req, res) => {
       }
     }
     await sessionService.createSession({ userId, refreshToken, browserInfo });
-    if (result) {
-      res.send({ token, refreshToken });
-    } else {
-      res.status(401).end();
-    }
+    res.send({ token, refreshToken });
   } catch (err) {
-    console.log(err);
+    res.status(401).end();
   }
 });
 

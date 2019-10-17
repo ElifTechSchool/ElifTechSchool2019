@@ -1,18 +1,21 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="mx-auto" @click="getDetails">
-        <v-card-title>{{ competitionData.name }}</v-card-title>
-        <v-card-text>{{ competitionData.description }}</v-card-text>
-        <v-card-text>{{ competitionData.deadline_date }}</v-card-text>
-        <v-card-text>{{ competitionData.experience }}</v-card-text>
-        <v-card-actions> </v-card-actions>
-      </v-card>
-      <template>
+      <v-card class="mx-auto" >
+        <v-col col-8 @click="getDetails">
+          <v-card-title>Name: {{ competitionData.name }}</v-card-title>
+          <v-card-text>Description: {{ competitionData.description }}</v-card-text>
+          <v-card-text>Deadline_date: {{ formatDateRead() }}</v-card-text>
+          <v-card-text>Experience: {{ competitionData.experience }}</v-card-text>
+          <v-card-actions> </v-card-actions>
+        </v-col>
+        <v-col>
+          <template>
         <div class="text-right">
           <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on }">
               <v-btn color="red lighten-2" dark v-on="on">
+              <i class="material-icons">delete</i>
                 Delete
               </v-btn>
             </template>
@@ -38,13 +41,20 @@
                   outlined
                   color="error"
                   @click="deleteCompetition"
-                  >Delete</v-btn
+                  >
+                  <i class="material-icons">
+                  delete_forever
+                  </i>
+                  Delete
+                  </v-btn
                 >
               </v-card-actions>
             </v-card>
           </v-dialog>
         </div>
-      </template>
+      </template> 
+      </v-col>   
+    </v-card>
     </v-col>
   </v-row>
 </template>
@@ -53,21 +63,30 @@
 export default {
   data() {
     return {
-      dialog: false
-    };
+      dialog: false,
+    }
   },
   name: "Competition",
   props: ["competitionData"],
   methods: {
     deleteCompetition() {
       this.$store.dispatch("deleteCompetition", this.competitionData.id);
+      this.dialog = false;
     },
     getDetails() {
       this.$router.push({
         name: "competitionDetails",
         params: { id: this.competitionData.id }
       });
-    }
+    },
+    formatDateRead() {
+        const date = new Date(this.competitionData.deadline_date);
+        let month = date.getMonth();
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        return day + '/' + month + '/' + year;
+    },
   }
 };
 </script>

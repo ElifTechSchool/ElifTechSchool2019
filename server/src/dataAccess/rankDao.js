@@ -1,8 +1,30 @@
-import { models } from '../models/index.js';
+import sequelize, { models, Op } from '../models/index.js';
 
 const { ranks: rankModel } = models;
 
-const getRanks = () => rankModel.findAll();
+const getRanks = (offset, limit, search) => {
+  if (search) {
+    return rankModel.findAndCountAll({
+      where: {
+        name: { [Op.iLike]: `%${search}%` },
+      },
+      offset,
+      limit,
+      order: [
+        ['number', 'ASC'],
+      ],
+      attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
+    });
+  }
+  return rankModel.findAndCountAll({
+    offset,
+    limit,
+    order: [
+      ['number', 'ASC'],
+    ],
+    attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
+  });
+};
 
 const getRankById = (id) => rankModel.findByPk(id);
 
@@ -15,6 +37,23 @@ const updateRank = (id, rank) => rankModel.update(
   },
 );
 
+const updateNum = async (exp, query) => rankModel.update({ number: sequelize.literal(query) }, {
+  where: {
+    experience: { [Op.gt]: exp },
+  },
+});
+
+// find one Rank where experience < exp
+const getOneRank = (exp) => rankModel.findOne({
+  attributes: ['number', 'experience'],
+  where: {
+    experience: { [Op.lt]: exp },
+  },
+  order: [
+    ['number', 'DESC'],
+  ],
+});
+
 const deleteRank = (id) => rankModel.destroy({
   where: { id },
 });
@@ -25,4 +64,6 @@ export default {
   createRank,
   updateRank,
   deleteRank,
+  updateNum,
+  getOneRank,
 };

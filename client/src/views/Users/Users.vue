@@ -1,7 +1,16 @@
 <template>
   <v-container>
+    <v-text-field
+      type="text"
+      label="Find user"
+      name="search"
+      v-model="searchProxy"
+      append-icon="search"
+      @click:append="searchUser"
+      v-on:keyup.enter="searchUser"
+    />
     <User v-for="user in users" :userData="user" :key="user.id" />
-    <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
+    <v-btn class="mx-2" fab dark large to="add_user" color="primary">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
@@ -22,7 +31,8 @@ export default {
   },
   data() {
     return {
-      pageProxy: Number(this.$route.query.page)
+      pageProxy: Number(this.$route.query.page),
+      searchProxy: this.$route.query.search,
     };
   },
   computed: {
@@ -32,9 +42,17 @@ export default {
     pagesNum() {
       return this.$store.getters.numOfPages;
     },
+    search: {
+      get() {
+        return this.searchProxy || this.$route.query.search;
+      },
+      set(val) {
+        this.searchProxy = val;
+      }
+    },
     page: {
       get() {
-        return this.pageProxy || this.$route.query.page;
+        return Number(this.$route.query.page) || this.pageProxy;
       },
       set(val) {
         this.pageProxy = val;
@@ -42,28 +60,32 @@ export default {
     }
   },
   methods: {
-    addUser() {
-      this.$router.push({
-        name: "add_user"
-      });
+    nextPage(page, search) {
+      if (search === ''){
+        this.$router.replace({
+          name: "users",
+          query: { page: page || this.page, pageSize: this.$store.getters.pageSize}
+        });
+      } 
+      else {
+        this.$router.replace({
+          name: "users",
+          query: { page: page || this.page, pageSize: this.$store.getters.pageSize, search: this.search }
+        });
+      }
+      this.$store.dispatch("loadUsers", { page: page || this.page, pageSize: this.$store.getters.pageSize, search: this.search });
     },
-    nextPage() {
-      this.$router.replace({
-        name: "users",
-        query: { page: this.page, pageSize: this.$store.getters.pageSize }
-      });
-      const page = this.page;
-      const pageSize = this.$store.getters.pageSize;
-      const search = this.$store.getters.search;
-      this.$store.dispatch("loadUsers", { page, pageSize, search });
+    searchUser() {
+        this.nextPage(1, this.searchProxy)
     }
   },
   mounted() {
+    this.pageProxy = Number(this.$route.query.page) || 1;
     this.page = Number(this.$route.query.page) || 1;
-    const page = this.$route.query.page || 1;
-    const pageSize = this.$route.query.pageSize || this.$store.getters.pageSize;
-    const search = this.$route.query.search;
-    this.$store.dispatch("loadUsers", { page, pageSize, search });
+    this.$store.dispatch("loadUsers", { page: Number(this.$route.query.page) || 1, 
+                                        pageSize:this.$route.query.pageSize || this.$store.getters.pageSize, 
+                                        search: this.$route.query.search 
+                                        });
   }
 };
 </script>
@@ -73,5 +95,10 @@ export default {
   position: fixed;
   bottom: 50px;
   right: 80px;
+}
+.v-input{
+  position: absolute;
+  top: 5px;
+  right: 30px;
 }
 </style>

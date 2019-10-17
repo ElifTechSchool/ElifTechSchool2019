@@ -31,7 +31,7 @@ const getHash = (id) => usersModel.findAll({
   attributes: ['password'],
 }).then(e => e[0].dataValues.password);
 
-const getUsers = (offset, limit, search) => {
+const getUsersPage = (offset, limit, search) => {
   if(search){
     return usersModel.findAndCountAll({
       where:{
@@ -58,10 +58,16 @@ const getUsers = (offset, limit, search) => {
       attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
     });
   }
-
 }
 
-
+const getUsers = () => {
+  return usersModel.findAndCountAll({
+    order: [
+      ['experience', 'DESC'],
+    ],
+    attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
+  });
+}
 
 const getUserById = (id) => usersModel.findAll({
   where: { id },
@@ -96,6 +102,7 @@ export default {
   getNextRank,
   getHash,
   getUsers,
+  getUsersPage,
   getUserById,
   getUserByEmail,
   createUser,

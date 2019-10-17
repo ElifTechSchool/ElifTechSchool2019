@@ -1,12 +1,19 @@
 <template>
-  <div>
-    <h1>This is an home page</h1>
-  </div>
+  <v-container>
+    <Login v-if="this.$store.getters.showLogin"></Login>
+    <Me v-else></Me>
+  </v-container>
 </template>
 
 <script>
+import Login from '@/components/Login.vue';
+import Me from '@/components/Me.vue';
+
 export default {
-  components: {}
+  components: { 
+    Login,
+    Me,
+  }
 };
 </script>
 <style lang="scss"></style>

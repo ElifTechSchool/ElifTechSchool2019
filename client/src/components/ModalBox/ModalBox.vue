@@ -34,12 +34,7 @@ export default {
     hideModal() {
       this.$emit("hideModal")
     }
-  },
-  // watch: {
-  //   show(newValue, oldValue) {
-  //       this.dialog = true;
-  //   }
-  // },
+  }
 }
 </script>
 

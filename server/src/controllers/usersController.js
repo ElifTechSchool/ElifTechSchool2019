@@ -1,5 +1,6 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
+import authService from '../businessLogic/authService.js';
 import upload from '../businessLogic/cloudinaryService.js';
 import usersRolesService from '../businessLogic/usersRolesService.js';
 
@@ -18,11 +19,11 @@ const router = express.Router();
  *     parameters:
  *       - name: page
  *         in: query
- *         required: true
  *         type: number
+ *         default: 1
  *       - name: pageSize
  *         in: query
- *         required: true
+ *         default: 4
  *         type: number
  *     responses:
  *       200:
@@ -60,6 +61,58 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   usersService
     .getUsers(req.query)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/me:
+ *   get:
+ *     description: Authenticate user by token
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             name:
+ *               type: string
+ *             surname:
+ *               type: string
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             image_url:
+ *               type: string
+ *             description:
+ *               type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/me', (req, res, next) => {
+  authService.authUser(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -132,30 +185,33 @@ router.get('/:id', (req, res, next) => {
  *         in: formData
  *         required: true
  *         type: string
+ *         minLength: 3
  *       - name: surname
  *         in: formData
  *         required: true
  *         type: string
+ *         minLength: 3
  *       - name: email
  *         in: formData
  *         required: true
  *         type: string
+ *         format: email
  *       - name: password
  *         in: formData
  *         required: true
  *         type: string
+ *         minLength: 6
  *       - name: image_url
  *         in: formData
  *         required: true
  *         type: file
  *       - name: description
  *         in: formData
- *         required: true
  *         type: string
  *       - name: experience
  *         in: formData
  *         required: false
- *         type: string
+ *         type: number
  *     responses:
  *       201:
  *         description: added success
@@ -188,6 +244,7 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *     parameters:
  *       - name: id
  *         in: path
+ *         required: true
  *         type: number
  *       - name: name
  *         in: formData
@@ -198,18 +255,12 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *       - name: email
  *         in: formData
  *         type: string
- *       - name: password
- *         in: formData
- *         type: string
+ *         format: email
  *       - name: image_url
  *         in: formData
  *         type: file
  *       - name: description
  *         in: formData
- *         type: string
- *       - name: experience
- *         in: formData
- *         required: false
  *         type: string
  *     responses:
  *       204:
@@ -254,8 +305,12 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *           properties:
  *             oldPass:
  *               type: string
+ *               minLength: 6
+ *               required: true
  *             newPass:
  *               type: string
+ *               minLength: 6
+ *               required: true
  *     responses:
  *       204:
  *         description: added success

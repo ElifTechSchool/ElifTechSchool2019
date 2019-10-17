@@ -5,7 +5,8 @@ const state = {
   userById: {},
   usersCount: 0,
   pageSize: 3,
-  numOfPages: 0
+  numOfPages: 0,
+  search: '',
 };
 
 const getters = {
@@ -43,10 +44,11 @@ const mutations = {
 };
 
 const actions = {
-  loadUsers({ commit }, query) {
+  async loadUsers({ commit }, query) {
+    if(query.page){
     commit("setPageSize", query.pageSize);
     commit("setSearch", query.search);
-    axios
+    await axios
       .get(`users`, {
         params: { ...query }
       })
@@ -57,6 +59,15 @@ const actions = {
         commit("setNumOfPages");
       })
       .catch(err => console.log(err));
+    }
+    else {
+      await axios
+        .get(`users`)
+        .then(res => res.data)
+        .then(data => {
+          commit("setUsers", data.rows);
+        })
+    }
   },
   getUserById({ commit }, id) {
     axios
@@ -78,8 +89,9 @@ const actions = {
     axios.put(`users/${id}/passwords`, passData).catch(err => console.log(err));
     dispatch("getUserById", id);
   },
-  deleteUser(_, id) {
-    axios.delete(`users/${id}`);
+  async deleteUser({ dispatch }, { id, page, pageSize, search }) {
+    await axios.delete(`users/${id}`);
+    dispatch("loadUsers", { page, pageSize, search });
   }
 };
 

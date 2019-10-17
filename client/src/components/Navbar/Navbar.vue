@@ -13,7 +13,7 @@
         <v-btn text to="/about">
           About
         </v-btn>
-        <v-btn text to="/users">
+        <v-btn text to="/users" @click="refreshUsers">
           Users
         </v-btn>
         <v-btn text to="/competitions">
@@ -43,7 +43,14 @@ export default {
     }
   },
   methods: {
-
+    refreshUsers() {
+      this.$router.replace({
+        name: "users",
+        query: { page: 1, pageSize: this.$store.getters.pageSize }
+      });
+      this.$store.commit("setSearch", '');
+      this.$store.dispatch("loadUsers", { page: 1, pageSize: this.$route.query.pageSize || this.$store.getters.pageSize });
+    }
   },
   computed: {
 
@@ -53,6 +60,6 @@ export default {
 
 <style scoped lang="scss">
 .toolbar {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 </style>
