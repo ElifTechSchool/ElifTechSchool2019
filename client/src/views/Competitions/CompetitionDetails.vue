@@ -39,7 +39,7 @@ export default {
       dataFollower: {
         competition_id: null,
         user_id: 153
-      } 
+      },
     }
   },
   computed: {
@@ -51,7 +51,7 @@ export default {
     }
   },
   methods: {
-    updateCompetition(competitionId) {
+    updateCompetition(competitionId,) {
       this.$router.push({
       name: "editCompetition",
       params: { id: competitionId }
@@ -75,15 +75,15 @@ export default {
 
     subscribe(competitionId) {
       this.dataFollower.competition_id = competitionId;
-
+      
       if (this.hidden == false) {
         this.subscribeCompetition();
         alert("You are subscribed");
-        this.hidden = !this.hidden;
+        this.hidden = true;
       } else {
         this.unsubscribeCompetition();
         alert("You are unsubscribed");
-        this.hidden = this.hidden;
+        this.hidden = false;
       }
     },
   },
