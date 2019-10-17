@@ -11,7 +11,7 @@ const login = async (data) => {
   if (compare) {
   // const refreshToken = randToken.uid(50);
     const refreshToken = jwt.sign({ id: userId }, config.jwtRefreshSecret, { expiresIn: config.refreshTokenExpTime })
-    const token = jwt.sign({ id: user.id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
+    const token = jwt.sign({ id: userId }, config.jwtSecret, { expiresIn: config.tokenExpTime });
     return { refreshToken, token, userId };
   } else {
     return compare;

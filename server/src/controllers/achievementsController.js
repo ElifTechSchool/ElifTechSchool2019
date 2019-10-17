@@ -151,18 +151,17 @@ router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res
       ...req.body,
       photo_url: req.file.secure_url,
     });
-    
-// TODO: save user_achievement when pass access token
-    if(res.locals) {
+// TODO: save user_achievement when pass token
+    if (res.locals.userId) {
       await userAchievementsService.createUserAchievements({
-        userId: res.locals,
+        userId: res.locals.userId,
         achievementId: achievement.id,
       });
+// just for testing
       const getUserAchievements = await userAchievementsService.getUserAchievements();
-      console.log("getUserAchievements", getUserAchievements);    
+      console.log('getUserAchievements', getUserAchievements);
     }
-
-    res.status(201).send(achievement);
+    res.status(201).send();
   } catch (error) {
       next(error);
   }
