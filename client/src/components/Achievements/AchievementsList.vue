@@ -13,6 +13,7 @@
         </div>
         <div>
           <v-pagination
+            v-model="page"
             :length="getPages()"
             @input="page => getAchievementPerPage(page)"
           >
@@ -37,7 +38,8 @@ export default {
   props: [],
   data() {
     return {
-      limit: 5
+      limit: 5,
+      page: null
     };
   },
   mounted() {

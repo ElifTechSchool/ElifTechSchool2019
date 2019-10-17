@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn to="/achievements" icon class="ms-6">
+    <v-btn @click="goBack" icon class="ms-6">
       <v-icon>arrow_back</v-icon>
     </v-btn>
     <v-row align="center" justify="center">
@@ -93,6 +93,9 @@ export default {
           this.updating = false;
           alert(err.message)
         })
+    },
+    goBack() {
+      this.$router.go(-1)
     }
   },
   mounted() {
