@@ -47,8 +47,7 @@ router.post('/', async (req, res) => {
     const browserInfo = req.headers['user-agent'];
     const sessionData = await sessionService.getSessionByUserIdAndBrowser(decoded.id, browserInfo);
     if (
-      sessionData && 
-      sessionData.refresh_token === req.body.refreshToken
+      sessionData && sessionData.refresh_token === req.body.refreshToken
     ) {
       const token = jwt.sign({ id: sessionData.user_id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
       res.send({ token });
@@ -56,7 +55,6 @@ router.post('/', async (req, res) => {
       throw new Error('refresh token is not valid');
     }
   } catch (error) {
-    console.log(error);
     res.send({ error });
   }
 });

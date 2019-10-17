@@ -28,10 +28,4 @@ router.use('/api/v1/tokens', sessions);
 router.use('/api/v1/roles', roles);
 router.use('/api/v1/users_roles', usersRoles);
 
-
-router.use((error, req, res, next) => {
-    console.log(error)
-});
-
-
 export default router;

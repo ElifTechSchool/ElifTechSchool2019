@@ -23,7 +23,7 @@ async function getAchievementsPerPage (page, limit, types) {
     data: achievements.slice(startIndex, endIndex),
     count: achievements.length,
   };
-};
+}
 
 const getTypes = () => achievementsDao.getTypes();
 
