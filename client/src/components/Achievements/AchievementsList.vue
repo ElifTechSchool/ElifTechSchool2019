@@ -13,6 +13,7 @@
         </div>
         <div>
           <v-pagination
+            v-model="page"
             :length="getPages()"
             @input="page => getAchievementPerPage(page)"
           >
@@ -37,11 +38,12 @@ export default {
   props: [],
   data() {
     return {
-      limit: 5
+      limit: 5,
+      page: null
     };
   },
   mounted() {
-    this.$store.dispatch("setCurrentPage", 1)
+    this.$store.dispatch("setCurrentPage", this.getPage || 1);
     this.$store.dispatch("getAllAchievements");
   },
   methods: {
@@ -49,19 +51,16 @@ export default {
       return Math.ceil(this.achievementsCount / this.limit);
     },
     getAchievementPerPage(page) {
-      this.$store.dispatch("setCurrentPage", page)
+      this.$store.dispatch("setCurrentPage", page);
       this.$store.dispatch("getAllAchievements");
     },
     selectType(types) {
-      this.$store.dispatch("setTypes", types)
+      this.$store.dispatch("setTypes", types);
       this.$store.dispatch("getAllAchievements");
-    },
-    getDefaultPhotoUrt() {
-      return 'https://where2go.tech/assistant/img/achievements/win.png'
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount"])
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage"])
   }
 };
 </script>

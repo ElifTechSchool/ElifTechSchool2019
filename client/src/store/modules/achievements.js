@@ -31,6 +31,9 @@ const getters = {
   },
   achievementsCount: state => {
     return state.achievementsCount;
+  },
+  getPage: state => {
+    return state.page;
   }
 };
 
@@ -39,7 +42,7 @@ const mutations = {
     state.achievements = achievements;
   },
   addAchievement: (state, achievement) => {
-    state.achievements = [achievement].concat(state.achievements)
+    state.achievements = [achievement].concat(state.achievements);
   },
   setAchievementsCount: (state, achievementsCount) => {
     state.achievementsCount = achievementsCount;
@@ -48,7 +51,6 @@ const mutations = {
     state.page = page;
   },
   setTypes: (state, types) => {
-    console.log("types", types)
     state.types = types;
   }
 };
@@ -58,9 +60,7 @@ const actions = {
     const { page, limit, types } = state;
     try {
       const response = await axios
-        .get(
-          getQuerySrtingURL({ page, limit, types }, achievementsURL),
-        )
+        .get(getQuerySrtingURL({ page, limit, types }, achievementsURL))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);
@@ -84,9 +84,9 @@ const actions = {
   },
   async addAchievement({ commit }, achievement) {
     try {
-      const response = await axios.post(achievementsURL, achievement)
+      await axios.post(achievementsURL, achievement);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
   async updateAchievement(store, { achievement, id }) {
@@ -98,10 +98,10 @@ const actions = {
   },
   async deleteAchievement({ dispatch }, { id }) {
     try {
-      await axios.delete(achievementsURL + id)
+      await axios.delete(achievementsURL + id);
       dispatch("getAllAchievements");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 };

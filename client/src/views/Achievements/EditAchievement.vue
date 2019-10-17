@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn to="/achievements" icon class="ms-6">
+    <v-btn @click="goBack" icon class="ms-6">
       <v-icon>arrow_back</v-icon>
     </v-btn>
     <v-row align="center" justify="center">
@@ -17,14 +17,13 @@
                 />
                 <v-row>
                   <v-col cols="12" sm="9">
-                    <v-select
+                    <v-text-field
                       name="type"
                       label="Type"
-                      :items="['one', 'two', 'three', 'four']"
                       v-model="achievement.type"
                       outlined
                       required
-                    ></v-select>
+                    ></v-text-field>
                     </v-col>
                       <v-col cols="12" sm="3">
                     <v-text-field
@@ -94,6 +93,9 @@ export default {
           this.updating = false;
           alert(err.message)
         })
+    },
+    goBack() {
+      this.$router.go(-1)
     }
   },
   mounted() {

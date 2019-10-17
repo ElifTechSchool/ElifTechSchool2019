@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Sessions extends Sequelize.Model {
+module.exports = class Users_roles extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -10,13 +10,12 @@ module.exports = class Sessions extends Sequelize.Model {
         primaryKey: true,
       },
       user_id: Sequelize.INTEGER,
-      refresh_token: Sequelize.STRING,
-      browser_info: Sequelize.STRING,
+      role_id: Sequelize.INTEGER,
     },
     {
       sequelize,
-      tableName: 'Sessions',
-      modelName: 'Sessions',
+      tableName: 'users_roles',
+      modelName: 'users_roles',
       paranoid: false,
       timestamps: false,
     });

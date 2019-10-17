@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Sessions', {
+    return queryInterface.createTable('users_roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,15 +11,12 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
       },
-      refresh_token: {
-        type: Sequelize.STRING,
+      role_id: {
+        type: Sequelize.INTEGER,
       },
-      browser_info: {
-        type: Sequelize.STRING,
-      }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Sessions');
+    return queryInterface.dropTable('users_roles');
   }
 };

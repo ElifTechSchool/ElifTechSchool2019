@@ -46,7 +46,14 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/', /*authMiddleware, */ (req, res, next) => {
+
+router.get('/types', (req, res, next) => {
+  achievementService.getTypes()
+    .then((data) => res.json({ data }))
+    .catch((error) => next(error));
+}); 
+
+router.get('/', /*authMiddleware,*/ (req, res, next) => {
   achievementService.getAchievements(req.query)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
@@ -137,25 +144,24 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-//router.post('/', /*authMiddleware,*/ async (req, res, next) => {
+//router.post('/', authMiddleware, async (req, res, next) => {
 router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res, next) => {
   try {
     const achievement = await achievementService.createAchievement({
       ...req.body,
       photo_url: req.file.secure_url,
     });
-    
-// TODO: save user_achievement when pass access token
-    if(res.locals.userId) {
+// TODO: save user_achievement when pass token
+    if (res.locals.userId) {
       await userAchievementsService.createUserAchievements({
-        userId: res.locals,
+        userId: res.locals.userId,
         achievementId: achievement.id,
       });
+// just for testing
       const getUserAchievements = await userAchievementsService.getUserAchievements();
-      console.log("getUserAchievements", getUserAchievements)    
+      console.log('getUserAchievements', getUserAchievements);
     }
-
-    res.status(201).send(achievement);
+    res.status(201).send();
   } catch (error) {
       next(error);
   }
@@ -241,24 +247,28 @@ router.delete('/:id', (req, res, next) => {
  */
 router.put('/:id', upload.single('photo_url'), (req, res, next) => {
   const {
-    id,
     name,
     description,
     type,
     experience,
     createdAt,
-  } = req.body
-  achievementService.updateAchievement(req.params.id, {
-    id,
+  } = req.body;
+  const updates = {
     name,
     description,
     type,
     experience,
     createdAt: new Date(createdAt),
-    photo_url: req.file.secure_url,
-  })
+  };
+  if (req.file) {
+    const photo_url = req.file.secure_url;
+    updates.photo_url = photo_url;
+  }
+  achievementService.updateAchievement(req.params.id, updates)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
+
+
 
 export default router;
