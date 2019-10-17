@@ -87,9 +87,9 @@ const actions = {
   
   subscribeFollower(context, data){
     axios
-      .post(`competitions/${data.competitionId}/followers`, data )
+      .post(`competitions/${data.competition_id}/followers/` , data )
       .then( () => {
-        context.commit("getCompetitionById", competition);
+        context.dispatch("getSubscribedFollowers", data.competition_id);
       })
       .catch(err => console.log(err));
   },
@@ -107,9 +107,9 @@ const actions = {
 
   unsubscribeFollower(context, data){
     axios
-      .delete(`competitions/${data.competitionId}/followers/${data.userId}`)
+      .delete(`competitions/${data.competition_id}/followers/${data.user_id}`)
       .then( () => {
-        context.commit("getCompetitionById", competition);
+        context.dispatch("getSubscribedFollowers", data.competition_id);
       })
       .catch(err => console.log(err));
   },
