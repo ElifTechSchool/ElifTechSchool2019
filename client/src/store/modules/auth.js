@@ -3,16 +3,19 @@ import axios from "axios";
 const state = {
     showLogin: true,
     authData: {},
+    userMe: {},
 }
 
 const getters = {
     showLogin: state => state.showLogin,
     authData: state => state.authData,
+    userMe: state => state.userMe,
 }
 
 const mutations = {
     setShowLogin: (state, showLogin) => state.showLogin = showLogin,
     setAuthData: (state, data) => state.authData = data,
+    setUserMe: (state, data) => state.userMe = data,
 }
 
 const actions = {
@@ -30,7 +33,7 @@ const actions = {
             .get("users/me", {
                 params: { token: token }
             })
-            .then(res => console.log(res))
+            .then(res => commit("setUserMe", res.data))
             .catch(err => err);
     }
 };

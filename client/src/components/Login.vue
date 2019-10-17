@@ -34,8 +34,7 @@
                             <v-btn block color="primary" type="submit" height="50px" :disabled="!valid">LOGIN</v-btn>
                         </v-form>
                     </v-row>
-                    <v-row class="justify-space-between">
-                        <v-btn text small color="primary">Register</v-btn>
+                    <v-row class="float-right">
                         <v-btn text small color="primary">Forgot your password ?</v-btn>
                     </v-row>  
                 </v-col>
@@ -70,7 +69,6 @@ export default {
     methods: {
         async loginUser() {
             this.loginResult = await this.$store.dispatch("loginUser", this.user);
-            console.log(this.loginResult);
             if(this.loginResult.status === 200){
                 this.$store.commit("setShowLogin", false);
             }
