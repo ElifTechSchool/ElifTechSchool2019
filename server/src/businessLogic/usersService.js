@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import usersDao from '../dataAccess/usersDao.js';
 
 const hashPassword = (password) => bcrypt.hash(password, 10);

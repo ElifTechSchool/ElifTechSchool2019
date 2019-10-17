@@ -44,9 +44,9 @@ const router = express.Router();
  */
 router.post('/', async (req, res, next) => {
   try {
-    const { userId, token, refreshToken } = await authService.login(req.body, next);
+    const { refreshToken, token, userId } = await authService.login(req.body, next);
     await sessionService.createSession({ userId, refreshToken });
-    res.send({ token, refreshToken, userId });
+    res.send({ refreshToken, token });
   } catch (err) {
     res.status(401).end();
   }
