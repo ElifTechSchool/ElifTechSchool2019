@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col sm="10" md="5">
+    <v-col sm="10" md="7" lg="5">
       <v-form
         @submit.prevent="submitUser"
         enctype="multipart/form-data"
@@ -30,7 +30,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" sm="9" md="9">
+          <v-col cols="12" sm="12" md="12">
             <v-text-field
               type="email"
               :rules="emailRules"
@@ -42,7 +42,29 @@
               required
             />
           </v-col>
-          <v-col cols="12" sm="3" md="3">
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="8" md="8">
+          <v-text-field
+            type="password"
+            label="Password"
+            name="password"
+            :rules="passRules"
+            :counter="100"
+            v-model="user.password"
+            autocomplete="new-password"
+            required
+          />
+          </v-col>
+          <v-col cols="12" sm="2" md="2">
+            <v-select
+              :items="roles"
+              label="User role"
+              name="role"
+              v-model="user.role"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" sm="2" md="2">
             <v-text-field
               type="number"
               :rules="expRules"
@@ -52,16 +74,6 @@
             />
           </v-col>
         </v-row>
-        <v-text-field
-          type="password"
-          label="Password"
-          name="password"
-          :rules="passRules"
-          :counter="100"
-          v-model="user.password"
-          autocomplete="new-password"
-          required
-        />
         <v-file-input
           label="Select you profile picture"
           name="image_url"
@@ -118,8 +130,11 @@ export default {
   data() {
     return {
       user: {
-        image_url: undefined
+        image_url: undefined,
+        role: 'user',
+        experience: 0,
       },
+      roles: ['user', 'moderator', 'admin'],
       defaultImg: "defaultUserIcon.jpg",
       valid: true,
       nameRules: [
@@ -148,7 +163,7 @@ export default {
         v => v >= 0 || "Experience must be greater then or equal to zero"
       ],
       textareaRules: [
-        v => v.length <= 500 || "Field must be less than 500 characters"
+        v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ]
     };
   },

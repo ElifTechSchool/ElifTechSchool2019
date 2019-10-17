@@ -1,5 +1,6 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
+import authService from '../businessLogic/authService.js';
 import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
@@ -59,6 +60,58 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   usersService
     .getUsers(req.query)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/me:
+ *   get:
+ *     description: Authenticate user by token
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             name:
+ *               type: string
+ *             surname:
+ *               type: string
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             image_url:
+ *               type: string
+ *             description:
+ *               type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/me', (req, res, next) => {
+  authService.authUser(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -310,6 +363,5 @@ router.delete('/:id', (req, res, next) => {
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
-
 
 export default router;

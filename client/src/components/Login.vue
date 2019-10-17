@@ -16,6 +16,8 @@
                                 :counter="100"
                                 label="Email"
                                 v-model="user.email"
+                                @keyup="loginResult.status = 200"
+                                :error-messages="loginResult.status !== 200 ? ['Wrong email or password'] : []"
                                 required outlined 
                             ></v-text-field>
                             <v-text-field
@@ -25,13 +27,14 @@
                                 :counter="100"
                                 label="Password"
                                 v-model="user.password"
+                                @change="loginResult.status = 200"
+                                :error-messages="loginResult.status !== 200 ? ['Wrong email or password'] : []"
                                 required outlined
                             ></v-text-field>                       
                             <v-btn block color="primary" type="submit" height="50px" :disabled="!valid">LOGIN</v-btn>
                         </v-form>
                     </v-row>
-                    <v-row class="justify-space-between">
-                        <v-btn text small color="primary">Register</v-btn>
+                    <v-row class="float-right">
                         <v-btn text small color="primary">Forgot your password ?</v-btn>
                     </v-row>  
                 </v-col>
@@ -44,6 +47,9 @@
 export default {
     data() {
         return {
+            loginResult: {
+                status: 200,
+            },
             user: {},
             valid: true,
             emailRules: [
@@ -62,8 +68,10 @@ export default {
     },
     methods: {
         async loginUser() {
-            this.$store.dispatch("loginUser", this.user);
-            this.user = {};
+            this.loginResult = await this.$store.dispatch("loginUser", this.user);
+            if(this.loginResult.status === 200){
+                this.$store.commit("setShowLogin", false);
+            }
         },
     },
 }

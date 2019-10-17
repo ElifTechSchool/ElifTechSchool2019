@@ -42,19 +42,15 @@ const router = express.Router();
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
-    const result = await authService.login(req.body);
-    const { userId, token, refreshToken } = result;
+    const { refreshToken, token, userId } = await authService.login(req.body, next);
     await sessionService.createSession({ userId, refreshToken });
-    if (result) {
-      res.send({ token, refreshToken });
-    } else {
-      res.status(401).end();
-    }
+    res.send({ refreshToken, token });
   } catch (err) {
-    console.log(err);
+    res.status(401).end();
   }
+  
 });
 
 export default router;

@@ -44,10 +44,11 @@ const mutations = {
 };
 
 const actions = {
-  loadUsers({ commit }, query) {
+  async loadUsers({ commit }, query) {
+    if(query.page){
     commit("setPageSize", query.pageSize);
     commit("setSearch", query.search);
-    axios
+    await axios
       .get(`users`, {
         params: { ...query }
       })
@@ -58,6 +59,15 @@ const actions = {
         commit("setNumOfPages");
       })
       .catch(err => console.log(err));
+    }
+    else {
+      await axios
+        .get(`users`)
+        .then(res => res.data)
+        .then(data => {
+          commit("setUsers", data.rows);
+        })
+    }
   },
   getUserById({ commit }, id) {
     axios

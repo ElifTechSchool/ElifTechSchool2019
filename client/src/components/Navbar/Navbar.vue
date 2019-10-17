@@ -49,8 +49,7 @@ export default {
         query: { page: 1, pageSize: this.$store.getters.pageSize }
       });
       this.$store.commit("setSearch", '');
-      const pageSize = this.$route.query.pageSize || this.$store.getters.pageSize;
-      this.$store.dispatch("loadUsers", { page: 1, pageSize });
+      this.$store.dispatch("loadUsers", { page: 1, pageSize: this.$route.query.pageSize || this.$store.getters.pageSize });
     }
   },
   computed: {

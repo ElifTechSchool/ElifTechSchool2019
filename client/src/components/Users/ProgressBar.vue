@@ -12,7 +12,7 @@
         <h3 id="current">{{ rank.current.name }}</h3>
       </v-col>
       <v-col md="6">
-        <h3 id="next">{{ rank.next.name }}</h3>
+        <h3 id="next">{{ rank.next === null ? '' : rank.next.name}}</h3>
       </v-col>
     </v-row>
   </v-row>
@@ -27,11 +27,14 @@ export default {
   },
   computed: {
     progress() {
-      return Math.round(
-        ((this.userExperience - this.rank.current.experience) /
-          (this.rank.next.experience - this.rank.current.experience)) *
-          100
-      );
+      if(this.rank.next === null){
+        return 100
+      } else {
+        return Math.round(
+          ((this.userExperience - this.rank.current.experience) /
+            (this.rank.next.experience - this.rank.current.experience)) * 100
+        );
+      }
     }
   }
 };

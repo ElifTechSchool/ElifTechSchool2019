@@ -3,7 +3,6 @@ import axios from "axios";
 const achievementsURL = "http://localhost:3000/api/v1/achievements/";
 
 function getQuerySrtingURL({ page, limit, types }, url) {
-  debugger;
   let result = "";
   if (page && limit) {
     result = result + `${url}?page=${page}&limit=${limit}`;
