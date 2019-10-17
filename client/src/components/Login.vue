@@ -71,6 +71,12 @@ export default {
         async loginUser() {
             this.loginResult = await this.$store.dispatch("loginUser", this.user);
             console.log(this.loginResult);
+            if(this.loginResult.status === 200){
+                this.$router.replace({
+                    name: "userDetails",
+                    params: { Uid: this.loginResult.data.userId }
+                });
+            }
         },
     },
 }
