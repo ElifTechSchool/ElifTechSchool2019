@@ -38,11 +38,11 @@ const router = express.Router();
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/', (req, res, next) => {
   rankService
@@ -87,11 +87,11 @@ router.get('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   rankService
@@ -132,11 +132,11 @@ router.get('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.post('/', upload.single('image'), (req, res, next) => {
   req.body.photo_url = req.file.secure_url;
@@ -180,11 +180,11 @@ router.post('/', upload.single('image'), (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.put('/:id', upload.single('image'), (req, res, next) => {
   if (req.file) {
@@ -219,11 +219,11 @@ router.put('/:id', upload.single('image'), (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   rankService

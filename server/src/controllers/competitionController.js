@@ -35,11 +35,11 @@ const router = express.Router();
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 
 router.get('/', (req, res, next) => {
@@ -79,15 +79,15 @@ router.get('/', (req, res, next) => {
  *              deadline_date:
  *                  type: string
  *              experience:
- *                  type: number        
+ *                  type: number
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   competitionService.getCompetitionById(req.params.id)
@@ -126,11 +126,11 @@ router.get('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.post('/', (req, res, next) => {
   competitionService.createCompetition(req.body)
@@ -174,11 +174,11 @@ router.post('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.put('/:id', (req, res, next) => {
   competitionService.updateCompetition(req.params.id, req.body)
@@ -208,11 +208,11 @@ router.put('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   competitionService.deleteCompetition(req.params.id)
@@ -251,11 +251,11 @@ router.delete('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/:id/followers', (req, res, next) => {
   competitionService.getCompetitionFollowers(req.params.id)
@@ -295,11 +295,11 @@ router.get('/:id/followers', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 
 router.post('/:id/followers', (req, res, next) => {
@@ -335,11 +335,11 @@ router.post('/:id/followers', (req, res, next) => {
 *       401:
 *         description: Unauthorized access
 *         schema:
-*           $ref: '#/definitions/401'
+*           $ref: '#/components/schemas/401'
 *       500:
 *         description: Server error
 *         schema:
-*           $ref: '#/definitions/500'
+*           $ref: '#/components/schemas/500'
 */
 router.delete('/:id/followers/:follower_id', (req, res, next) => {
 competitionService.deleteCompetitionFollower(req.params.id, req.params.follower_id)

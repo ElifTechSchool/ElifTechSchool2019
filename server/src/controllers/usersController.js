@@ -50,11 +50,11 @@ const router = express.Router();
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/', (req, res, next) => {
   usersService
@@ -103,11 +103,11 @@ router.get('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   usersService
@@ -164,11 +164,11 @@ router.get('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.post('/', upload.single('image_url'), (req, res, next) => {
   usersService
@@ -214,11 +214,11 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.put('/:id', upload.single('image_url'), (req, res, next) => {
   usersService
@@ -263,11 +263,11 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.put('/:id/passwords', async (req, res, next) => {
   usersService
@@ -298,11 +298,11 @@ router.put('/:id/passwords', async (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   usersService

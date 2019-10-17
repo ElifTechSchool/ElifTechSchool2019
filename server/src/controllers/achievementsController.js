@@ -37,11 +37,11 @@ const router = express.Router();
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/', (req, res, next) => {
   achievementService.getAchievements(req.query)
@@ -83,11 +83,11 @@ router.get('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   achievementService.getAchievementById(req.params.id)
@@ -128,11 +128,11 @@ router.get('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.post('/', (req, res, next) => {
   achievementService.createAchievement(req.body)
@@ -162,11 +162,11 @@ router.post('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   achievementService.deleteAchievement(req.params.id)
@@ -212,11 +212,11 @@ router.delete('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.put('/:id', (req, res, next) => {
   achievementService.updateAchievement(req.params.id, req.body)

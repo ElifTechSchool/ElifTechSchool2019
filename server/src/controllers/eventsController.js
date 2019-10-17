@@ -41,11 +41,11 @@ const router = express.Router();
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/', (req, res, next) => {
   eventsService.getEvents()
@@ -93,11 +93,11 @@ router.get('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   eventsService.getEventById(req.params.id)
@@ -144,11 +144,11 @@ router.get('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.post('/', (req, res, next) => {
   eventsService.createEvent(req.body)
@@ -200,11 +200,11 @@ router.post('/', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.put('/:id', (req, res, next) => {
   eventsService.updateEvent(req.params.id, req.body)
@@ -234,11 +234,11 @@ router.put('/:id', (req, res, next) => {
  *       401:
  *         description: Unauthorized access
  *         schema:
- *           $ref: '#/definitions/401'
+ *           $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
  *         schema:
- *           $ref: '#/definitions/500'
+ *           $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   eventsService.deleteEvent(req.params.id)
