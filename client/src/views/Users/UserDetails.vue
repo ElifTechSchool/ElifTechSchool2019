@@ -33,16 +33,21 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
+              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
-                @click="warnDialog = true"
+                @click="changePassDialog = true"
                 outlined
+              >Change Password</v-btn>
+              <v-btn
+                color="primary" fab class="achivBtn"
+                @click="achivDialog = true"
               >
-                Change password
+                <v-icon>mdi-trophy</v-icon>
               </v-btn>
+
               <v-btn @click="goBack" color="grey" outlined>
                 Go back
               </v-btn>
@@ -58,12 +63,12 @@
               :userExperience="userById.experience"
               ></ProgressBar>
             </v-row>
-            <Multiselect class="multiselect" type="achiv"></Multiselect>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
-    <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
+    <Multiselect type="achiv" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
+    <ChangePass :show="changePassDialog" @hideModal="changePassDialog = false" />
   </v-row>
 </template>
 
@@ -84,7 +89,8 @@ export default {
   data() {
     return {
       id: this.$route.params.Uid,
-      warnDialog: false
+      changePassDialog: false,
+      achivDialog: false,
     };
   },
   computed: {
@@ -131,7 +137,15 @@ export default {
   transition: opacity 0.5s;
   opacity: 0;
 }
-.multiselect{
-  margin-top: 50px;
+
+.achivBtn{
+  position: absolute;
+  top: 10px;
+  right: -28px;
+}
+.editBtn{
+  position: absolute;
+  bottom: -20px;
+  right: -28px;
 }
 </style>

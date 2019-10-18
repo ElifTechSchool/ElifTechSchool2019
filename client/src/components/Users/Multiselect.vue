@@ -1,17 +1,30 @@
 <template>
-    <v-combobox
+  <v-dialog v-model="show" persistent max-width="600">
+    <v-card class="pa-9">
+      <h2>Set user's achievements</h2>
+      <br>
+      <v-combobox
           v-model="select"
           :items="items"
           :label="type"
           multiple
           chips
           deletable-chips outlined
-    ></v-combobox>
+      ></v-combobox>
+      <v-card-actions>
+        <div class="flex-grow-1"></div>
+        <v-btn text @click="hideModal">Cancel</v-btn>
+        <v-btn color="primary" text @click="saveUserAchiv"
+          >Save changes</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 export default {
     name: "Multiselect",
-    props: ["type"],
+    props: ["type","show"],
     data() {
         return {
             select: [],
@@ -32,6 +45,14 @@ export default {
       return text.toString()
         .toLowerCase()
         .indexOf(query.toString().toLowerCase()) > -1
+    },
+    hideModal() {
+      this.$emit("hideModal")
+    },
+    saveUserAchiv() {
+        const id = this.$route.params.Uid;
+        console.log(this.select);
+
     },
   },
   async created() {

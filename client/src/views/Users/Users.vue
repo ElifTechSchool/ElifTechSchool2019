@@ -1,14 +1,21 @@
 <template>
   <v-container>
-    <v-text-field
-      type="text"
-      label="Find user"
-      name="search"
-      v-model="searchProxy"
-      append-icon="search"
-      @click:append="searchUser"
-      v-on:keyup.enter="searchUser"
-    />
+    <v-row class="wrapme" justify="center">
+      <v-col md="5">
+        <v-text-field
+          class="search-bar"
+          type="text"
+          label="Find user"
+          name="search"
+          solo rounded clearable
+          v-model="searchProxy"
+          prepend-inner-icon="search"
+          @click:prepend-inner="searchUser"
+          v-on:keyup.enter="searchUser"
+        />
+      </v-col>
+    </v-row>
+    
     <User v-for="user in users" :userData="user" :key="user.id" />
     <v-btn class="mx-2" fab dark large to="add_user" color="primary">
       <v-icon>mdi-plus</v-icon>
@@ -96,9 +103,11 @@ export default {
   bottom: 50px;
   right: 80px;
 }
-.v-input{
-  position: absolute;
-  top: 5px;
-  right: 30px;
+.wrapme {
+  margin:auto;
+}
+
+.search-bar {
+  width: 100%;
 }
 </style>
