@@ -40,6 +40,7 @@ export default {
         competition_id: null,
         user_id: 153
       },
+      
     }
   },
   computed: {
@@ -72,6 +73,7 @@ export default {
     unsubscribeCompetition() {
       this.$store.dispatch( "unsubscribeFollower", this.dataFollower );
     },
+    
 
     subscribe(competitionId) {
       this.dataFollower.competition_id = competitionId;
@@ -80,6 +82,8 @@ export default {
         this.subscribeCompetition();
         alert("You are subscribed");
         this.hidden = true;
+        
+
       } else {
         this.unsubscribeCompetition();
         alert("You are unsubscribed");
@@ -91,8 +95,6 @@ export default {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
-  
-
 }
 </script>
 <style lang="scss" scoped>
