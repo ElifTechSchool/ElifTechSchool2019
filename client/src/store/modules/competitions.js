@@ -21,25 +21,12 @@ const actions = {
     axios 
       .get("competitions", { params: competitionParams})
       .then(res => res.data)
-      .then(competitions => {
-        context.commit("getCompetitions", competitions);
-      })
-      .then( () => {
-        context.dispatch("countCompetitions");
+      .then(data => {
+        context.commit("getCompetitions", data.rows);
+        context.commit("setCountCompetitions", data.count)
       })
       .catch(err => console.log(err));
   },
-
-  countCompetitions(context) {
-    axios
-      .get("competitions", { params: {limit: 10000, page: 1}})
-      .then(res => res.data)
-      .then(competitions => {
-        context.commit("setCountCompetitions", competitions.length);
-      })
-      .catch(err => console.log(err));
-  },
-
 
   loadCompetitionById(context, id) {
     axios
