@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="mx-auto" >
-        <v-col col-8 @click="getDetails">
+      <v-card class="mx-auto" @click="getDetails">
+        <v-col col-8 >
           <v-card-title>Name: {{ competitionData.name }}</v-card-title>
           <v-card-text>Description: {{ competitionData.description }}</v-card-text>
           <v-card-text>Deadline_date: {{ formatDateRead() }}</v-card-text>
