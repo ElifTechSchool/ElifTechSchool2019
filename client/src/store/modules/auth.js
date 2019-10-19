@@ -1,4 +1,6 @@
 import axios from "axios";
+import { resolve } from "url";
+import { rejects } from "assert";
 
 const state = {
     showLogin: true,
@@ -16,6 +18,12 @@ const mutations = {
     setShowLogin: (state, showLogin) => state.showLogin = showLogin,
     setAuthData: (state, data) => state.authData = data,
     setUserMe: (state, data) => state.userMe = data,
+    destroyAuthData: (state) => {
+        state.authData.token = null;
+        state.authData.refreshToken = null;
+        state.showLogin = true;
+        state.userMe = {}
+    },
 }
 
 const actions = {
@@ -35,7 +43,8 @@ const actions = {
             })
             .then(res => commit("setUserMe", res.data))
             .catch(err => err);
-    }
+    },
+    
 };
 export default {
     state,

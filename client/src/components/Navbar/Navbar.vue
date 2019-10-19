@@ -31,8 +31,8 @@
 
        <v-spacer></v-spacer>
       
-      <v-toolbar-items v-if="getAuthData.token" >
-        <v-btn text to="/" @click="userLogout">
+      <v-toolbar-items v-if="getAuthData.token && getAuthData.refreshToken" >
+        <v-btn text @click="userLogout">
         <i class="material-icons">
           exit_to_app
           </i>
@@ -65,7 +65,8 @@ export default {
       this.$store.dispatch("loadUsers", { page: 1, pageSize: this.$route.query.pageSize || this.$store.getters.pageSize });
     },
     userLogout() {
-      console.log("exist");
+      this.$store.commit("destroyAuthData");
+      this.$router.push("/").catch(err => {});
     },
     
     

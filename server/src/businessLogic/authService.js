@@ -16,7 +16,7 @@ const login = async (data, next) => {
     const refreshToken = jwt.sign({ id: userId }, config.jwtRefreshSecret, { expiresIn: config.refreshTokenExpTime })
     const token = jwt.sign({ id: userId }, config.jwtSecret, { expiresIn: config.tokenExpTime });
     return { refreshToken, token, userId };
-  } 
+  }  
   else {
     return compare;
   }
@@ -31,6 +31,8 @@ const authUser = async (query) => {
     return res.status(401).send('unauthorized');
   }
 };
+
+
 
 export default {
   login,
