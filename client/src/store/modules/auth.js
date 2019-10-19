@@ -2,8 +2,9 @@ import axios from "axios";
 
 const state = {
     showLogin: true,
-    authData: {},
+    authData: {status:200},
     userMe: {},
+    forgotPassDialog: false,
 }
 
 const getters = {
@@ -15,6 +16,7 @@ const getters = {
 const mutations = {
     setShowLogin: (state, showLogin) => state.showLogin = showLogin,
     setAuthData: (state, data) => state.authData = data,
+    setLoginStatus: (state, data) => state.authData.status = data,
     setUserMe: (state, data) => state.userMe = data,
 }
 
@@ -23,10 +25,13 @@ const actions = {
         return axios
             .post("login", newUser)
             .then(res => {
-                commit("setAuthData", res.data);
+                commit("setAuthData", res);
                 return res;
             })
-            .catch(err => err);
+            .catch(err => {
+                commit("setLoginStatus", 401);
+                return err;
+            });
     },
     authUser({ commit }, token){
         return axios

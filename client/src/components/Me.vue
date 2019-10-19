@@ -70,7 +70,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch("authUser", this.$store.getters.authData.token);
+        this.$store.dispatch("authUser", this.$store.getters.authData.data.token);
     },
 }
 </script>
