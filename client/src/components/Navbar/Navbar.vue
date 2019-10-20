@@ -7,6 +7,7 @@
         </router-link>
       </v-toolbar-title>
 
+      <v-spacer></v-spacer>
       <!-- <div class="flex-grow-1"></div> -->
 
       <v-toolbar-items>
@@ -24,6 +25,18 @@
         </v-btn>
         <v-btn text to="/ranks">
           Ranks
+        </v-btn>
+        
+      </v-toolbar-items>
+
+       <v-spacer></v-spacer>
+      
+      <v-toolbar-items v-if="getAuthData.token && getAuthData.refreshToken" >
+        <v-btn text @click="userLogout">
+        <i class="material-icons">
+          exit_to_app
+          </i>
+          Logout
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -50,10 +63,18 @@ export default {
       });
       this.$store.commit("setSearch", '');
       this.$store.dispatch("loadUsers", { page: 1, pageSize: this.$route.query.pageSize || this.$store.getters.pageSize });
-    }
+    },
+    userLogout() {
+      this.$store.commit("destroyAuthData");
+      this.$router.push("/").catch(err => {});
+    },
+    
+    
   },
   computed: {
-
+    getAuthData() {
+      return this.$store.getters.authData;
+    }
   }
 }
 </script>
