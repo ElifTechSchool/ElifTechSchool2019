@@ -1,25 +1,26 @@
 import axios from "axios";
 
 const state = {
-  showLogin: true,
-  authData: {},
+  token: localStorage.getItem("user-token") || "",
+  refreshToken: localStorage.getItem("user-refreshToken") || "",
   userMe: {}
 };
 
 const getters = {
-  showLogin: state => state.showLogin,
   authData: state => state.authData,
-  userMe: state => state.userMe
+  userMe: state => state.userMe,
+  isAuthenticated: state => !!state.token
 };
 
 const mutations = {
-  setShowLogin: (state, showLogin) => (state.showLogin = showLogin),
-  setAuthData: (state, data) => (state.authData = data),
+  setTokens: (state, data) => {
+    state.token = data.token;
+    state.refreshToken = data.refreshToken;
+  },
   setUserMe: (state, data) => (state.userMe = data),
   destroyAuthData: state => {
-    state.authData.token = null;
-    state.authData.refreshToken = null;
-    state.showLogin = true;
+    state.token = "";
+    state.refreshToken = "";
     state.userMe = {};
   }
 };
@@ -37,7 +38,7 @@ const actions = {
         axios.defaults.headers.common[
           "authorization"
         ] = `Bearer ${res.data.token}`;
-        commit("setAuthData", res.data);
+        commit("setTokens", res.data);
         return res;
       })
       .catch(err => {
