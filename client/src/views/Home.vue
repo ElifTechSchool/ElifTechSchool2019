@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import Login from '@/components/Login.vue';
-import Me from '@/components/Me.vue';
+import Login from "@/components/Login.vue";
+import Me from "@/components/Me.vue";
 
 export default {
-  components: { 
+  components: {
     Login,
-    Me,
+    Me
   }
 };
 </script>

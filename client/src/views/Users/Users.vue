@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       pageProxy: Number(this.$route.query.page),
-      searchProxy: this.$route.query.search,
+      searchProxy: this.$route.query.search
     };
   },
   computed: {
@@ -61,31 +61,42 @@ export default {
   },
   methods: {
     nextPage(page, search) {
-      if (search === ''){
+      if (search === "") {
         this.$router.replace({
           name: "users",
-          query: { page: page || this.page, pageSize: this.$store.getters.pageSize}
+          query: {
+            page: page || this.page,
+            pageSize: this.$store.getters.pageSize
+          }
         });
-      } 
-      else {
+      } else {
         this.$router.replace({
           name: "users",
-          query: { page: page || this.page, pageSize: this.$store.getters.pageSize, search: this.search }
+          query: {
+            page: page || this.page,
+            pageSize: this.$store.getters.pageSize,
+            search: this.search
+          }
         });
       }
-      this.$store.dispatch("loadUsers", { page: page || this.page, pageSize: this.$store.getters.pageSize, search: this.search });
+      this.$store.dispatch("loadUsers", {
+        page: page || this.page,
+        pageSize: this.$store.getters.pageSize,
+        search: this.search
+      });
     },
     searchUser() {
-        this.nextPage(1, this.searchProxy)
+      this.nextPage(1, this.searchProxy);
     }
   },
   mounted() {
     this.pageProxy = Number(this.$route.query.page) || 1;
     this.page = Number(this.$route.query.page) || 1;
-    this.$store.dispatch("loadUsers", { page: Number(this.$route.query.page) || 1, 
-                                        pageSize:this.$route.query.pageSize || this.$store.getters.pageSize, 
-                                        search: this.$route.query.search 
-                                        });
+    this.$store.dispatch("loadUsers", {
+      page: Number(this.$route.query.page) || 1,
+      pageSize: this.$route.query.pageSize || this.$store.getters.pageSize,
+      search: this.$route.query.search
+    });
   }
 };
 </script>
@@ -96,7 +107,7 @@ export default {
   bottom: 50px;
   right: 80px;
 }
-.v-input{
+.v-input {
   position: absolute;
   top: 5px;
   right: 30px;

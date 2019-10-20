@@ -26,15 +26,14 @@
         <v-btn text to="/ranks">
           Ranks
         </v-btn>
-        
       </v-toolbar-items>
 
-       <v-spacer></v-spacer>
-      
-      <v-toolbar-items v-if="getAuthData.token && getAuthData.refreshToken" >
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items v-if="getAuthData.token && getAuthData.refreshToken">
         <v-btn text @click="userLogout">
-        <i class="material-icons">
-          exit_to_app
+          <i class="material-icons">
+            exit_to_app
           </i>
           Logout
         </v-btn>
@@ -65,11 +64,11 @@ export default {
       this.$store.dispatch("loadUsers", { page: 1, pageSize: this.$route.query.pageSize || this.$store.getters.pageSize });
     },
     userLogout() {
-      this.$store.commit("destroyAuthData");
+      this.$store.dispatch("logOut");
       this.$router.push("/").catch(err => {});
     },
-    
-    
+
+
   },
   computed: {
     getAuthData() {

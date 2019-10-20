@@ -25,14 +25,13 @@
                   <p><b>Type:</b> {{ achievement.type }}</p>
                   <p><b>Experience:</b> {{ achievement.experience }}</p>
                   <p><b> Description:</b> {{ achievement.description }}</p>
-            <Multiselect class="multiselect" type="users"></Multiselect>
-
+                  <Multiselect class="multiselect" type="users"></Multiselect>
                 </v-card-text>
               </v-col>
               <v-card-actions>
                 <v-btn @click="startEdit" color="green" absolute right>
                   <v-icon>mdi-pencil</v-icon>
-                    Edit
+                  Edit
                 </v-btn>
               </v-card-actions>
             </v-row>
@@ -44,31 +43,31 @@
 </template>
 
 <script>
-
 import { mapActions, mapGetters } from "vuex";
 import Multiselect from "@/components/Users/Multiselect.vue";
 
 export default {
   name: "achievementDetails",
   components: {
-    Multiselect,
+    Multiselect
   },
   data() {
     return {
       isEditing: false,
       id: this.$route.params.id,
       achievement: {},
-      photo_url: "https://img.pngio.com/achievement-best-reward-trophy-win-icon-best-achievement-png-512_512.png",
+      photo_url:
+        "https://img.pngio.com/achievement-best-reward-trophy-win-icon-best-achievement-png-512_512.png"
     };
   },
   methods: {
     ...mapActions(["getAchievementById"]),
     ...mapGetters(["getPage"]),
     startEdit() {
-      this.$router.push(`/achievements/${this.id}/edit`)
+      this.$router.push(`/achievements/${this.id}/edit`);
     },
     goBack() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     }
   },
   mounted() {
@@ -76,6 +75,6 @@ export default {
       this.achievement = res.data.data[0];
       this.photo_url = res.data.data[0].photo_url;
     });
-  },
+  }
 };
 </script>
