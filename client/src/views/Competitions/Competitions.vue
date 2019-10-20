@@ -10,7 +10,7 @@
         </v-btn>
       </v-layout>
     </v-col>
-    <v-col class="text-center" cols="6" md="4">
+    <v-col v-if="this.$store.getters.userMe.user" class="text-center" cols="6" md="4">
       <v-btn class="mx-2" right fab dark color="indigo" @click="addCompetition">
       <v-icon dark>mdi-plus</v-icon>
       </v-btn>  
@@ -52,7 +52,7 @@ export default {
     },
     getCountCompetitions() {
       return this.$store.getters.getCountCompetitions;
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("loadCompetitions", this.competitionParams);
@@ -67,9 +67,9 @@ export default {
       // this.$store.dispatch("loadCompetitions", this.competitionParams);
     },
     addCompetition() {
-      this.$router.push({
+        this.$router.push({
         name: "add_competition",
-      });
+        });
     },
     getPages() {
       const result = Math.ceil(this.getCountCompetitions / this.competitionParams.limit);
