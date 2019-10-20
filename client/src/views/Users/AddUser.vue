@@ -45,16 +45,16 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="8" md="8">
-          <v-text-field
-            type="password"
-            label="Password"
-            name="password"
-            :rules="passRules"
-            :counter="100"
-            v-model="user.password"
-            autocomplete="new-password"
-            required
-          />
+            <v-text-field
+              type="password"
+              label="Password"
+              name="password"
+              :rules="passRules"
+              :counter="100"
+              v-model="user.password"
+              autocomplete="new-password"
+              required
+            />
           </v-col>
           <v-col cols="12" sm="2" md="2">
             <v-select
@@ -131,10 +131,10 @@ export default {
     return {
       user: {
         image_url: undefined,
-        role: 'user',
-        experience: 0,
+        role: "user",
+        experience: 0
       },
-      roles: ['user', 'moderator', 'admin'],
+      roles: ["user", "moderator", "admin"],
       defaultImg: "defaultUserIcon.jpg",
       valid: true,
       nameRules: [
@@ -184,7 +184,7 @@ export default {
       this.$store.dispatch("submitUser", formData);
       this.user = {};
       this.$router.push("users");
-    },
+    }
   }
 };
 </script>

@@ -19,7 +19,7 @@ const state = {
   achievementsCount: 0,
   limit: 5,
   types: [],
-  page: 1,
+  page: 1
 };
 
 const getters = {
@@ -70,10 +70,10 @@ const actions = {
     }
   },
   setCurrentPage: ({ commit }, currentPage) => {
-    commit('setCurrentPage', currentPage);
+    commit("setCurrentPage", currentPage);
   },
   setTypes: ({ commit }, types) => {
-    commit('setTypes', types);
+    commit("setTypes", types);
   },
   async getAchievementById(store, id) {
     try {

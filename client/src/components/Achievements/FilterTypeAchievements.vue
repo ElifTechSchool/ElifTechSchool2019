@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" v-if="showFiters && types">      
+  <v-row justify="center" v-if="showFiters && types">
     <v-checkbox
       v-for="(type, index) in types"
       :key="`type-${index}`"
@@ -18,7 +18,7 @@ export default {
     return {
       selected: [],
       showFiters: false,
-      types: null,
+      types: null
     };
   },
   methods: {
@@ -28,19 +28,19 @@ export default {
     typesAchievements() {
       const achievementsURL = "http://localhost:3000/api/v1/achievements/types";
       this.showFiters = false;
-      axios.get(achievementsURL)
+      axios
+        .get(achievementsURL)
         .then(res => {
           this.showFiters = true;
-          this.types = res.data.data
-          })
-        .catch(err =>
-        console.log(err))
-     }
-    },
-    mounted() {
-      this.typesAchievements();
+          this.types = res.data.data;
+        })
+        .catch(err => console.log(err));
     }
+  },
+  mounted() {
+    this.typesAchievements();
   }
+};
 </script>
 
 <style lang="scss">
