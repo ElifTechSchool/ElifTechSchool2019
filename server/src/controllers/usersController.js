@@ -3,6 +3,8 @@ import usersService from '../businessLogic/usersService.js';
 import authService from '../businessLogic/authService.js';
 import upload from '../businessLogic/cloudinaryService.js';
 import usersRolesService from '../businessLogic/usersRolesService.js';
+import userAchievementsService from '../businessLogic/userAchievementsService.js';
+import achievementsService from '../businessLogic/achievementsService.js';
 
 const router = express.Router();
 
@@ -422,6 +424,30 @@ router.put('/:id/roles', async (req, res, next) => {
   )
     .then(() => res.status(204).end())
     .catch((error) => next(error));
+});
+
+router.get('/:id/achievements', (req, res, next) => {
+  userAchievementsService.getAchievementsByUserId(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+router.post('/:userId/achievements/:achievementId', async (req, res) => {
+  try {
+    const { userId, achievementId } = req.params;
+    if (!userId || !achievementId) {
+      res.send({ message: 'incorrect input: missing userId or achievementId' });
+    }
+    const user = await usersService.getUserById(userId);
+    const achievement = await achievementsService.getAchievementById(achievementId);
+    res.send({
+      user: !!user,
+      achievement: !!achievement.length,
+    });
+
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
 });
 
 export default router;
