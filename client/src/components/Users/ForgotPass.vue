@@ -50,6 +50,9 @@ export default {
         hideModal() {
             this.$emit("hideModal")
         },
+        forgotPass() {
+            console.log('forgot');
+        }
     },
 }
 </script>
