@@ -1,23 +1,32 @@
 <template>
   <v-row align="center" justify="center">
-    <v-col cols="5">
+    <v-col cols="3">
       <v-hover v-slot:default="{ hover }">
-        <v-card :elevation="hover ? 12 : 2">
+        <v-card :elevation="hover ? 12 : 2" class="pa-4">
           <div @click="showDetails" class="container-achievement">
-            <div class="img-achievement">
-              <img v-bind:src="photo_url" />
-            </div>
-            <div class="info-block">
-              <v-card-title>
-                {{ name }}
-              </v-card-title>
-              <v-card-text>
-                {{ created_at }}
-              </v-card-text>
-            </div>
+            <v-row>
+              <v-col cols="12" sm="4">
+                <v-img
+                  v-bind:src="
+                    photo_url ||
+                      'https://where2go.tech/assistant/img/achievements/win.png'
+                  "
+                  alt="achievement image"
+                />
+              </v-col>
+              <v-col cols="12" sm="7" class="card_text">
+                <v-card-title>
+                  {{ name }}
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-text>
+                  {{ $moment(created_at).format("MMM Do YY HH:mm") }}
+                </v-card-text>
+              </v-col>
+            </v-row>
           </div>
           <template>
-            <v-layout row justify-center>
+            <v-layout row justify-center class="delete_btn_container">
               <v-dialog max-width="600" v-model="confirmModal">
                 <template v-slot:activator="{ on }">
                   <v-col>
@@ -50,6 +59,10 @@
 </template>
 
 <script>
+import Vue from "vue";
+import moment from "moment";
+Object.defineProperty(Vue.prototype, "$moment", { value: moment });
+
 export default {
   name: "achievement",
   props: [
@@ -76,7 +89,6 @@ export default {
     },
     deleteAchievement() {
       this.$store.dispatch("deleteAchievement", { id: this.id });
-      this.confirmModal = false;
     }
   }
 };
@@ -84,30 +96,13 @@ export default {
 
 <style scoped lang="scss">
 .container-achievement {
-  margin: 20px;
-  display: table;
   cursor: pointer;
+}
 
-  .img-achievement {
-    display: table-cell;
-    text-align: left;
-    width: 5%;
-
-    img {
-      width: 150px;
-      height: 150px;
-      margin: 10px;
-    }
-  }
-
-  .info-block {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: left;
-
-    .name {
-      font-size: 20px;
-    }
-  }
+.delete_btn_container {
+  text-align: right;
+}
+.card_text {
+  text-align: left;
 }
 </style>

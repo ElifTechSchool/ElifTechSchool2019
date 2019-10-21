@@ -1,6 +1,7 @@
 import express from 'express';
+import usersService from '../businessLogic/usersService.js';
 import authService from '../businessLogic/authService.js';
-
+import sessionService from '../businessLogic/sessionService.js';
 
 const router = express.Router();
 
@@ -43,16 +44,20 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/500'
  */
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
-    const result = await authService.login(req.body);
-    if (result) {
-      res.send(result);
-    } else {
-      res.status(401).end();
+    const { refreshToken, token, userId } = await authService.login(req.body, next);
+    const browserInfo = req.headers['user-agent'];
+    const sessionData = await sessionService.getSessionByUserIdAndBrowser(userId, browserInfo);
+    if (sessionData != null) {
+      if (userId === sessionData.user_id && browserInfo === sessionData.browser_info) {
+        await sessionService.deleteOldSession(sessionData.id);
+      }
     }
+    await sessionService.createSession({ userId, refreshToken, browserInfo });
+    res.send({ token, refreshToken });
   } catch (err) {
-    console.log(err);
+    res.status(401).end();
   }
 });
 

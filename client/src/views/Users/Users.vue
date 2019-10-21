@@ -1,16 +1,23 @@
 <template>
   <v-container>
-    <v-text-field
-      type="text"
-      label="Find user"
-      name="search"
-      v-model="searchProxy"
-      append-icon="search"
-      @click:append="searchUser"
-      v-on:keyup.enter="searchUser"
-    />
+    <v-row class="wrapme" justify="center">
+      <v-col md="5">
+        <v-text-field
+          class="search-bar"
+          type="text"
+          label="Find user"
+          name="search"
+          solo rounded clearable
+          v-model="searchProxy"
+          prepend-inner-icon="search"
+          @click:prepend-inner="searchUser"
+          v-on:keyup.enter="searchUser"
+        />
+      </v-col>
+    </v-row>
+    
     <User v-for="user in users" :userData="user" :key="user.id" />
-    <v-btn class="mx-2" fab dark large @click="addUser" color="primary">
+    <v-btn class="mx-2" fab dark large to="add_user" color="primary">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
@@ -32,7 +39,7 @@ export default {
   data() {
     return {
       pageProxy: Number(this.$route.query.page),
-      searchProxy: this.$route.query.search,
+      searchProxy: this.$route.query.search
     };
   },
   computed: {
@@ -52,7 +59,7 @@ export default {
     },
     page: {
       get() {
-        return this.$route.query.page || this.pageProxy;
+        return Number(this.$route.query.page) || this.pageProxy;
       },
       set(val) {
         this.pageProxy = val;
@@ -60,35 +67,43 @@ export default {
     }
   },
   methods: {
-    addUser() {
-      this.$router.push({
-        name: "add_user"
+    nextPage(page, search) {
+      if (search === "") {
+        this.$router.replace({
+          name: "users",
+          query: {
+            page: page || this.page,
+            pageSize: this.$store.getters.pageSize
+          }
+        });
+      } else {
+        this.$router.replace({
+          name: "users",
+          query: {
+            page: page || this.page,
+            pageSize: this.$store.getters.pageSize,
+            search: this.search
+          }
+        });
+      }
+      this.$store.dispatch("loadUsers", {
+        page: page || this.page,
+        pageSize: this.$store.getters.pageSize,
+        search: this.search
       });
-    },
-    nextPage(p) {
-      this.$router.replace({
-        name: "users",
-        query: { page: p || this.page, pageSize: this.$store.getters.pageSize, search: this.search }
-      });
-      const page = p || this.page;
-      const pageSize = this.$store.getters.pageSize;
-      const search = this.search;
-      this.$store.dispatch("loadUsers", { page, pageSize, search });
     },
     searchUser() {
-      if(this.search){
-        this.nextPage(1)
-      }
-      this.searchProxy = '';
+      this.nextPage(1, this.searchProxy);
     }
   },
   mounted() {
     this.pageProxy = Number(this.$route.query.page) || 1;
     this.page = Number(this.$route.query.page) || 1;
-    const page = this.$route.query.page || 1;
-    const pageSize = this.$route.query.pageSize || this.$store.getters.pageSize;
-    const search = this.$route.query.search;
-    this.$store.dispatch("loadUsers", { page, pageSize, search });
+    this.$store.dispatch("loadUsers", {
+      page: Number(this.$route.query.page) || 1,
+      pageSize: this.$route.query.pageSize || this.$store.getters.pageSize,
+      search: this.$route.query.search
+    });
   }
 };
 </script>
@@ -99,9 +114,11 @@ export default {
   bottom: 50px;
   right: 80px;
 }
-.v-input{
-  position: absolute;
-  top: 5px;
-  right: 30px;
+.wrapme {
+  margin:auto;
+}
+
+.search-bar {
+  width: 100%;
 }
 </style>

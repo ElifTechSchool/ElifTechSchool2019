@@ -47,7 +47,7 @@ const router = express.Router();
  */
 
 router.get('/', (req, res, next) => {
-  competitionService.getCompetitions()
+    competitionService.getCompetitions(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });

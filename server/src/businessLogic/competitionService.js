@@ -1,6 +1,6 @@
 import competitionDao from '../dataAccess/competitionDao.js';
 
-const getCompetitions = () => competitionDao.getCompetitions();
+const getCompetitions = (params) => competitionDao.getCompetitions(params);
 
 const getCompetitionById = (id) => competitionDao.getCompetitionById(id);
 

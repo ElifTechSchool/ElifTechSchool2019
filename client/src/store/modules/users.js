@@ -4,9 +4,9 @@ const state = {
   users: [],
   userById: {},
   usersCount: 0,
-  pageSize: 3,
+  pageSize: 4,
   numOfPages: 0,
-  search: '',
+  search: ""
 };
 
 const getters = {
@@ -44,20 +44,29 @@ const mutations = {
 };
 
 const actions = {
-  loadUsers({ commit }, query) {
-    commit("setPageSize", query.pageSize);
-    commit("setSearch", query.search);
-    axios
-      .get(`users`, {
-        params: { ...query }
-      })
-      .then(res => res.data)
-      .then(data => {
-        commit("setUsers", data.rows);
-        commit("setUsersCount", data.count);
-        commit("setNumOfPages");
-      })
-      .catch(err => console.log(err));
+  async loadUsers({ commit }, query) {
+    if (query.page) {
+      commit("setPageSize", query.pageSize);
+      commit("setSearch", query.search);
+      await axios
+        .get(`users`, {
+          params: { ...query }
+        })
+        .then(res => res.data)
+        .then(data => {
+          commit("setUsers", data.rows);
+          commit("setUsersCount", data.count);
+          commit("setNumOfPages");
+        })
+        .catch(err => console.log(err));
+    } else {
+      await axios
+        .get(`users`)
+        .then(res => res.data)
+        .then(data => {
+          commit("setUsers", data.rows);
+        });
+    }
   },
   getUserById({ commit }, id) {
     axios

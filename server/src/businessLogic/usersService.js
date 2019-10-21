@@ -7,12 +7,17 @@ const getNextRank = (experience) => usersDao.getNextRank(experience).then((el) =
 
 
 const getUsers = (query) => {
-  const offset = (Number(query.page) - 1) * query.pageSize;
-  return usersDao.getUsers(offset, query.pageSize, query.search);
+  if (query.page) {
+    const offset = (Number(query.page) - 1) * query.pageSize;
+    return usersDao.getUsersPage(offset, query.pageSize, query.search);
+  }
+
+  return usersDao.getUsers();
 };
 
 const getUserById = async (id) => {
   const user = await usersDao.getUserById(id).then((e) => e[0]);
+  if (!user) return null;
   const current = await getRank(user.dataValues.experience);
   const next = await getNextRank(user.dataValues.experience);
   return { user, userRank: { current, next } };

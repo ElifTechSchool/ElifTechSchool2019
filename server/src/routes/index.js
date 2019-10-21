@@ -8,6 +8,10 @@ import achievements from '../controllers/achievementsController.js';
 import users from '../controllers/usersController.js';
 import competitions from '../controllers/competitionController.js';
 import auth from '../controllers/authController.js';
+import sessions from '../controllers/sessionController.js';
+import roles from '../controllers/rolesController.js';
+import usersRoles from '../controllers/usersRolesController.js';
+
 
 const router = express.Router();
 
@@ -20,5 +24,8 @@ router.use('/api/v1/users', users);
 router.use('/api/v1/competitions', competitions);
 router.use('/api/v1/achievements', achievements);
 router.use('/api/v1/login', auth);
+router.use('/api/v1/tokens', sessions);
+router.use('/api/v1/roles', roles);
+router.use('/api/v1/users_roles', usersRoles);
 
 export default router;

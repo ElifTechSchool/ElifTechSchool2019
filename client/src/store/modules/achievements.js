@@ -17,7 +17,9 @@ function getQuerySrtingURL({ page, limit, types }, url) {
 const state = {
   achievements: [],
   achievementsCount: 0,
-  limit: 5
+  limit: 5,
+  types: [],
+  page: 1
 };
 
 const getters = {
@@ -29,6 +31,9 @@ const getters = {
   },
   achievementsCount: state => {
     return state.achievementsCount;
+  },
+  getPage: state => {
+    return state.page;
   }
 };
 
@@ -37,15 +42,22 @@ const mutations = {
     state.achievements = achievements;
   },
   addAchievement: (state, achievement) => {
-    state.achievements.push(achievement);
+    state.achievements = [achievement].concat(state.achievements);
   },
   setAchievementsCount: (state, achievementsCount) => {
     state.achievementsCount = achievementsCount;
+  },
+  setCurrentPage: (state, page) => {
+    state.page = page;
+  },
+  setTypes: (state, types) => {
+    state.types = types;
   }
 };
 
 const actions = {
-  async getAllAchievements({ commit }, { page, limit, types }) {
+  async getAllAchievements({ commit, state }) {
+    const { page, limit, types } = state;
     try {
       const response = await axios
         .get(getQuerySrtingURL({ page, limit, types }, achievementsURL))
@@ -54,40 +66,42 @@ const actions = {
       commit("setAchievementsCount", response.data.count);
       return response;
     } catch (error) {
-      return error;
+      console.log(error);
     }
+  },
+  setCurrentPage: ({ commit }, currentPage) => {
+    commit("setCurrentPage", currentPage);
+  },
+  setTypes: ({ commit }, types) => {
+    commit("setTypes", types);
   },
   async getAchievementById(store, id) {
     try {
       return await axios.get(achievementsURL + id);
     } catch (error) {
-      return error;
+      console.log(error);
     }
   },
   async addAchievement({ commit }, achievement) {
     try {
-      const response = await axios
-        .post(achievementsURL, achievement)
-        .then(() => {});
-      commit("addAchievement", response.data);
+      await axios.post(achievementsURL, achievement);
     } catch (error) {
-      return error;
+      console.log(error);
     }
   },
   async updateAchievement(store, { achievement, id }) {
     try {
-      return await axios.put(achievementsURL + id, achievement);
+      await axios.put(achievementsURL + id, achievement);
     } catch (error) {
-      return error;
+      console.log(error);
     }
   },
   async deleteAchievement({ dispatch }, { id }) {
     try {
-      return await axios
-        .delete(achievementsURL + id)
-        .then(() => dispatch("getAllAchievements"));
+      await axios.delete(achievementsURL + id);
+      dispatch("getAllAchievements");
     } catch (error) {
-      return error;
+      console.log(error);
     }
   }
 };

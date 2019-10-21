@@ -12,7 +12,17 @@ const router = express.Router();
  *     description: Get ranks
  *     tags:
  *       - ranks
- *     parameters: []
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: number
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: number
  *     responses:
  *       200:
  *         description: response
@@ -50,7 +60,7 @@ const router = express.Router();
  */
 router.get('/', (req, res, next) => {
   rankService
-    .getRanks()
+    .getRanks(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -127,8 +137,6 @@ router.get('/:id', (req, res, next) => {
  *                 type: string
  *               experience:
  *                 type: number
- *               number:
- *                 type: number
  *               image:
  *                 type: string
  *                 format: binary
@@ -174,8 +182,6 @@ router.post('/', upload.single('image'), (req, res, next) => {
  *               name:
  *                 type: string
  *               experience:
- *                 type: number
- *               number:
  *                 type: number
  *               image:
  *                 type: string

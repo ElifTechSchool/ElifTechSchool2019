@@ -10,6 +10,12 @@ const getAchievements = () => achievementsModel.findAll({
   ],
 });
 
+const getTypes = () => achievementsModel.findAll({    
+  attributes: [
+    [Sequelize.fn('DISTINCT', Sequelize.col('type')), 'type'],
+  ],
+}).then(result => result.map(col => col.type))
+
 const getAchievementByType = (types) => achievementsModel.findAll({
   raw: true,
   order: [
@@ -46,4 +52,5 @@ export default {
   createAchievement,
   updateAchievement,
   deleteAchievement,
+  getTypes,
 };

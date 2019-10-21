@@ -1,6 +1,14 @@
 import achievementsDao from '../dataAccess/achievementsDao.js';
 
-async function getAchievementsPerPage(page, limit, types) {
+const getAchievements = (params) => {
+  const { page, limit, types } = params;
+  if (page && limit) {
+    return getAchievementsPerPage(page, limit, types);
+  }
+  return achievementsDao.getAchievements();
+};
+
+async function getAchievementsPerPage (page, limit, types) {
   const achievements = !types ? await achievementsDao.getAchievements()
     : await achievementsDao.getAchievementByType(types);
   if (achievements.length <= limit) {
@@ -17,13 +25,7 @@ async function getAchievementsPerPage(page, limit, types) {
   };
 }
 
-const getAchievements = (params) => {
-  const { page, limit, types } = params;
-  if (page && limit) {
-    return getAchievementsPerPage(page, limit, types);
-  }
-  return achievementsDao.getAchievements();
-};
+const getTypes = () => achievementsDao.getTypes();
 
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 
@@ -39,4 +41,5 @@ export default {
   createAchievement,
   updateAchievement,
   deleteAchievement,
+  getTypes,
 };

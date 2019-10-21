@@ -13,6 +13,7 @@
         </div>
         <div>
           <v-pagination
+            v-model="page"
             :length="getPages()"
             @input="page => getAchievementPerPage(page)"
           >
@@ -37,29 +38,29 @@ export default {
   props: [],
   data() {
     return {
-      limit: 5
+      limit: 5,
+      page: null
     };
   },
   mounted() {
-    this.$store.dispatch("getAllAchievements", { page: 1, limit: this.limit });
+    this.$store.dispatch("setCurrentPage", this.getPage || 1);
+    this.$store.dispatch("getAllAchievements");
   },
   methods: {
     getPages() {
       return Math.ceil(this.achievementsCount / this.limit);
     },
     getAchievementPerPage(page) {
-      this.$store.dispatch("getAllAchievements", { page, limit: this.limit });
+      this.$store.dispatch("setCurrentPage", page);
+      this.$store.dispatch("getAllAchievements");
     },
     selectType(types) {
-      this.$store.dispatch("getAllAchievements", {
-        page: 1,
-        limit: this.limit,
-        types
-      });
+      this.$store.dispatch("setTypes", types);
+      this.$store.dispatch("getAllAchievements");
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount"])
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage"])
   }
 };
 </script>

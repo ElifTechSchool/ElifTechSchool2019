@@ -2,21 +2,26 @@ import axios from "axios";
 
 const state = {
   competitions: [],
-  competition: []
+  competition: [],
+  countCompetitions: 0,
+  followers: []
 };
 
 const getters = {
   getCompetitions: state => state.competitions,
-  getCompetition: state => state.competition
+  getCompetition: state => state.competition,
+  getCountCompetitions: state => state.countCompetitions,
+  getFollowers: state => state.followers
 };
 
 const actions = {
-  loadCompetitions({ commit }) {
+  loadCompetitions(context, competitionParams) {
     axios
-      .get("competitions")
+      .get("competitions", { params: competitionParams })
       .then(res => res.data)
-      .then(competitions => {
-        commit("getCompetitions", competitions);
+      .then(data => {
+        context.commit("getCompetitions", data.rows);
+        context.commit("setCountCompetitions", data.count);
       })
       .catch(err => console.log(err));
   },
@@ -35,7 +40,7 @@ const actions = {
     axios
       .post("competitions", newCompetition)
       .then(() => {
-        context.dispatch("loadCompetitions");
+        context.dispatch("loadCompetitions", { limit: 5, page: 1 });
       })
       .catch(err => console.log(err));
   },
@@ -46,6 +51,10 @@ const actions = {
       .then(() => {
         context.commit("getCompetitionById", updateData);
       })
+      .then(() => {
+        context.dispatch("loadCompetitions", { limit: 5, page: 1 });
+        context.dispatch("countCompetitions");
+      })
       .catch(err => console.log(err));
   },
 
@@ -53,7 +62,38 @@ const actions = {
     axios
       .delete("competitions/" + id)
       .then(() => {
-        context.dispatch("loadCompetitions");
+        context.dispatch("loadCompetitions", { limit: 5, page: 1 });
+        context.dispatch("countCompetitions");
+      })
+      .catch(err => console.log(err));
+  },
+
+  // Followers subscribe
+
+  subscribeFollower(context, data) {
+    axios
+      .post(`competitions/${data.competition_id}/followers/`, data)
+      .then(() => {
+        context.dispatch("getSubscribedFollowers", data.competition_id);
+      })
+      .catch(err => console.log(err));
+  },
+
+  getSubscribedFollowers(context, competitionId) {
+    axios
+      .get(`competitions/${competitionId}/followers`)
+      .then(res => res.data)
+      .then(followers => {
+        context.commit("setFollowers", followers);
+      })
+      .catch(err => console.log(err));
+  },
+
+  unsubscribeFollower(context, data) {
+    axios
+      .delete(`competitions/${data.competition_id}/followers/${data.user_id}`)
+      .then(() => {
+        context.dispatch("getSubscribedFollowers", data.competition_id);
       })
       .catch(err => console.log(err));
   }
@@ -65,6 +105,12 @@ const mutations = {
   },
   getCompetitionById: (state, competition) => {
     state.competition = competition;
+  },
+  setCountCompetitions: (state, countCompetitions) => {
+    state.countCompetitions = countCompetitions;
+  },
+  setFollowers: (state, followers) => {
+    state.followers = followers;
   }
 };
 

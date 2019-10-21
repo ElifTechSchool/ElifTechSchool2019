@@ -1,5 +1,5 @@
 <template lang="html">
-  <v-snackbar v-model="show" :color="color" :right="true">
+  <v-snackbar v-model="show" :color="color" :bottom="true">
     {{ message }}
   </v-snackbar>
 </template>

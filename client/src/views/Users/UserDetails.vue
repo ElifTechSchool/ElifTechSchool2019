@@ -6,67 +6,78 @@
           <v-col md="4">
             <v-img
               position="center left"
-              :src="this.userData.image_url"
+              :src="userById.image_url"
               alt="user image"
               aspect-ratio="1"
             />
-            <p class="rank">{{ userData.rank }}</p>
+            <p class="rank">{{ userById.rank }}</p>
             <v-card-text>
               <p>
                 <v-icon color="primary" class="ma-2"
                   >mdi-swap-vertical-bold</v-icon
                 >
                 <b>Experience:</b>
-                {{ userData.experience }}
+                {{ userById.experience }}
               </p>
               <p>
                 <v-icon color="primary" class="ma-2">mdi-email</v-icon>
                 <b>Email:</b>
-                {{ userData.email }}
+                {{ userById.email }}
               </p>
               <p>
                 <v-icon color="primary" class="ma-2"
                   >mdi-account-badge-outline</v-icon
                 >
                 <b>Description:</b>
-                {{ userData.description }}
+                {{ userById.description }}
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
+              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
-                @click="warnDialog = true"
+                @click="changePassDialog = true"
                 outlined
+              >Change Password</v-btn>
+              <v-btn
+                color="primary" fab class="achivBtn"
+                @click="achivDialog = true"
               >
-                Change password
+                <v-icon>mdi-trophy</v-icon>
               </v-btn>
-              <v-btn to="/users" color="grey" outlined>
+
+              <v-btn @click="goBack" color="grey" outlined>
                 Go back
               </v-btn>
             </v-card-actions>
           </v-col>
           <v-col md="7" justify-self="center">
-            <v-card-title class="font-weight-bold"
-              >{{ userData.name }} {{ userData.surname }}</v-card-title
-            >
-            <ProgressBar
-              :rank="rankData"
-              :userExperience="userData.experience"
-            ></ProgressBar>
+            <v-row>
+              <v-card-title class="font-weight-bold"
+                >{{ userById.name }} {{ userById.surname }}</v-card-title
+              >
+            </v-row>
+            <v-row>
+              <ProgressBar
+                :rank="rankData"
+                :userExperience="userById.experience"
+              ></ProgressBar>
+            </v-row>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
-    <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
+    <Multiselect type="achiv" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
+    <ChangePass :show="changePassDialog" @hideModal="changePassDialog = false" />
   </v-row>
 </template>
 
 <script>
 import ProgressBar from "@/components/Users/ProgressBar.vue";
 import ChangePass from "@/components/Users/ChangePass.vue";
+import Multiselect from "@/components/Users/Multiselect.vue";
 
 import { mapGetters } from "vuex";
 
@@ -74,19 +85,18 @@ export default {
   name: "userDetail",
   components: {
     ProgressBar,
-    ChangePass
+    ChangePass,
+    Multiselect
   },
   data() {
     return {
       id: this.$route.params.Uid,
-      warnDialog: false
+      changePassDialog: false,
+      achivDialog: false,
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData"]),
-    userData() {
-      return this.userById;
-    }
+    ...mapGetters(["findUserById", "userById", "rankData"])
   },
   methods: {
     goToEdit() {
@@ -96,12 +106,22 @@ export default {
       });
     },
     goBack() {
-      this.$store.commit("setUser", {});
-      this.$router.push({ name: "users" });
+      this.$router.replace({
+        name: "users",
+        query: {
+          page: this.$route.params.page || 1,
+          pageSize: this.$store.getters.pageSize,
+          search: this.search
+        }
+      });
     }
   },
   mounted() {
-    this.$store.dispatch("getUserById", this.$route.params.Uid);
+    if (this.$store.getters.userById === undefined) {
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+    }
   }
 };
 </script>
@@ -121,5 +141,15 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transition: opacity 0.5s;
   opacity: 0;
+}
+.achivBtn{
+  position: absolute;
+  top: 10px;
+  right: -28px;
+}
+.editBtn{
+  position: absolute;
+  bottom: -20px;
+  right: -28px;
 }
 </style>
