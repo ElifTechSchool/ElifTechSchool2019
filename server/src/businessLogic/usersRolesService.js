@@ -14,8 +14,13 @@ const getRolesOfSpecificUser = (userId) => usersRoles.findAll({
   ],
 }).then((result) => result.map((col) => col.role_id));
 
+const deleteRolesByUser = (userId) => usersRoles.destroy({
+  where: { user_id: userId },
+});
+
 export default {
   createUserRoles,
   getUserRoles,
   getRolesOfSpecificUser,
+  deleteRolesByUser,
 };
