@@ -409,23 +409,92 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/:id/roles', async (req, res, next) => {
   const userId = req.params.id;
-
-  if (!userId || !Array.isArray(req.body.roles)) {
+  const { roles } = req.body;
+  if (!userId || !Array.isArray(roles)) {
     res.status(401).send({ error: 'incorest data' });
   }
-  const userRoles = await usersRolesService.getRolesOfSpecificUser(userId);
-  const rolesToAdd = req.body.roles.filter((r) => userRoles.indexOf(r) === -1);
-  if (!rolesToAdd.length) {
-    res.send({ message: 'roles already exist' });
-    return;
-  }
+  usersRolesService.deleteRolesByUser(userId);
   usersRolesService.createUserRoles(
-    rolesToAdd.map((role) => ({ role_id: role, user_id: userId })),
+    roles.map((role) => ({ role_id: role, user_id: userId })),
   )
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
 
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/roles:
+ *   get:
+ *     description: Get roles by id user
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: number
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id/roles', (req, res, next) => {
+  usersRolesService.getRolesOfSpecificUser(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/achievements:
+ *   get:
+ *     description: Get achievements by id user
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+*           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
 router.get('/:id/achievements', (req, res, next) => {
   userAchievementsService.getAchievementsByUserId(req.params.id)
     .then((result) => res.json(result))
