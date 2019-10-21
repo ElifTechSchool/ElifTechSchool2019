@@ -3,7 +3,7 @@
     <v-col md="4">
       <v-hover v-slot:default="{ hover }">
         <v-card class="user d-flex mx-auto" :elevation="hover ? 6 : 2">
-          <v-col md="9" @click="goToDetail" class="d-flex flex-row cursor">
+          <v-col md="10" @click="goToDetail" class="d-flex flex-row cursor">
             <v-col md="7">
               <v-img
                 position="center left"
@@ -13,7 +13,7 @@
                 max-height="190px"
               />
             </v-col>
-            <v-col md="7" class="float-left pa-3">
+            <v-col md="5" class="float-left pa-3">
               <div class="userDetail">
                 <h3>{{ userData.name }} {{ userData.surname }}</h3>
                 <p>{{ userData.email }}</p>
@@ -21,9 +21,9 @@
               </div>
             </v-col>
           </v-col>
-          <v-col md="3">
+          <v-col md="2">
             <v-card-actions>
-              <v-btn class="deleteBtn" fab @click="warnDialog = true" color="primary" :elevation="hover ? 0 : 4">
+              <v-btn class="deleteBtn" fab @click="warnDialog = true" color="primary" :elevation="hover ? 0 : 5">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-card-actions>

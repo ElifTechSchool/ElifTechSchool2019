@@ -1,8 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col md="6">
-        <v-card :elevation="5" class="mx-auto">
+      <v-col md="8">
           <v-row>
             <v-col md="4">
               <v-img
@@ -31,6 +30,11 @@
                   <b>Description:</b>
                   {{ userById.description }}
                 </p>
+                <v-btn
+                  color="primary lighten-2"
+                  @click="changePassDialog = true"
+                  outlined
+                >Change Password</v-btn>
               </v-card-text>
             </v-col>
             <v-col md="7" justify-self="center">
@@ -47,9 +51,10 @@
               </v-row>
             </v-col>
           </v-row>
-        </v-card>
       </v-col>
-      <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
+      <v-dialog v-model="changePassDialog" persistent max-width="600">
+        <ChangePass @hideModal="changePassDialog=false" loggedIn=true />
+      </v-dialog>
     </v-row>
   </v-container>
 </template>
@@ -62,6 +67,11 @@ export default {
     components: {
         ProgressBar,
         ChangePass,
+    },
+    data() {
+      return {
+        changePassDialog: false,
+      }
     },
     computed: {
         userById() {

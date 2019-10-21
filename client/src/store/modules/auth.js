@@ -66,6 +66,15 @@ const actions = {
     commit("destroyAuthData");
     localStorage.removeItem("user-token");
     localStorage.removeItem("user-refreshToken");
+  },
+  forgotPass(_, email) {
+    return axios.post('users/passwords', email)
+    .catch(err => err);
+  },
+  changePasswordToken(_, data) {
+      return axios
+        .put('/users/passwords', data)
+        .catch(err => console.log(err));
   }
 };
 export default {

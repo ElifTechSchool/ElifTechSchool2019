@@ -70,7 +70,9 @@
       </v-card>
     </v-col>
     <Multiselect type="achiv" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
-    <ChangePass :show="changePassDialog" @hideModal="changePassDialog = false" />
+      <v-dialog v-model="changePassDialog" persistent max-width="600">
+        <ChangePass @hideModal="changePassDialog = false" loggedIn=1 />
+      </v-dialog>
   </v-row>
 </template>
 
