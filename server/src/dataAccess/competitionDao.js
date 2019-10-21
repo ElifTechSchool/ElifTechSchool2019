@@ -4,8 +4,8 @@ const { competitions: competitionModel } = models;
 const { users_competitions: competitionFollowersModel } = models;
 
 const getCompetitions = () => competitionModel.findAll({
-    attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
-  });
+  attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
+});
 
 const getCompetitionById = (id) => competitionModel.findByPk(id);
 
@@ -25,27 +25,26 @@ const deleteCompetition = (id) => competitionModel.destroy({
 });
 
 
-
 const getCompetitionFollowers = (competitionId) => competitionFollowersModel.findAll({
-    where: {competition_id: competitionId},
-    attributes: ['id', 'user_id', 'competition_id'],
-  });
+  where: { competition_id: competitionId },
+  attributes: ['id', 'user_id', 'competition_id'],
+});
 
 
-const createCompetitionFollower = (competitionId, competitionFollower) => competitionFollowersModel.create({user_id: competitionFollower.user_id, competition_id: competitionId});
+const createCompetitionFollower = (competitionId, competitionFollower) => competitionFollowersModel.create({ user_id: competitionFollower.user_id, competition_id: competitionId });
 
 
 const deleteCompetitionFollower = (id, followerId) => competitionFollowersModel.destroy({
-  where: { competition_id: id, user_id: followerId},
+  where: { competition_id: id, user_id: followerId },
 });
 
 export default {
-    getCompetitions,
-    getCompetitionById,
-    createCompetition,
-    updateCompetition,
-    deleteCompetition,
-    getCompetitionFollowers,
-    createCompetitionFollower,
-    deleteCompetitionFollower,
+  getCompetitions,
+  getCompetitionById,
+  createCompetition,
+  updateCompetition,
+  deleteCompetition,
+  getCompetitionFollowers,
+  createCompetitionFollower,
+  deleteCompetitionFollower,
 };

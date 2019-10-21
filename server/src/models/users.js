@@ -78,7 +78,7 @@ module.exports = class Users extends Sequelize.Model {
       },
     });
   }
-  /*static associate(models) {
+  /* static associate(models) {
     Users.belongsTo(models.ranks, {constraints: false});
-  }*/
+  } */
 };

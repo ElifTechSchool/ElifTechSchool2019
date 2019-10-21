@@ -7,7 +7,7 @@ import events from '../controllers/eventsController.js';
 import achievements from '../controllers/achievementsController.js';
 import users from '../controllers/usersController.js';
 import competitions from '../controllers/competitionController.js';
-import auth from '../controllers/authController.js'
+import auth from '../controllers/authController.js';
 
 const router = express.Router();
 

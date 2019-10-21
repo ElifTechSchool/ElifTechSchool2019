@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Users_competitions extends Sequelize.Model {
+module.exports = class UsersCompetitions extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -12,16 +12,16 @@ module.exports = class Users_competitions extends Sequelize.Model {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "users",
-          key: "id"
-        }
+          model: 'users',
+          key: 'id',
+        },
       },
       competition_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "competitions",
-          key: "id"
-        }
+          model: 'competitions',
+          key: 'id',
+        },
       },
     },
     {
@@ -44,5 +44,5 @@ module.exports = class Users_competitions extends Sequelize.Model {
   static associate(models) {
     this.user_id = this.hasMany(models.users);
     this.competition_id = this.hasMany(models.competitions);
- }
+  }
 };

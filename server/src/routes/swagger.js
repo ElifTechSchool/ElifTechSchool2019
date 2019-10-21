@@ -14,7 +14,6 @@ const swaggerDefinition = {
   servers: [
     { url: '/api' },
   ],
-  // basePath: '/api',
   components: {
     schemas: {
       400: {
@@ -24,8 +23,8 @@ const swaggerDefinition = {
         properties: {
           message: {
             type: 'string',
-            default: 'Validation exception'
-          }
+            default: 'Validation exception',
+          },
         },
       },
       401: {
@@ -35,8 +34,8 @@ const swaggerDefinition = {
         properties: {
           message: {
             type: 'string',
-            default: 'Unauthorized access'
-          }
+            default: 'Unauthorized access',
+          },
         },
       },
       404: {
@@ -46,8 +45,8 @@ const swaggerDefinition = {
         properties: {
           message: {
             type: 'string',
-            default: 'Page not found'
-          }
+            default: 'Page not found',
+          },
         },
       },
       500: {
@@ -57,8 +56,8 @@ const swaggerDefinition = {
         properties: {
           message: {
             type: 'string',
-            default: 'Server error'
-          }
+            default: 'Server error',
+          },
         },
       },
     },
@@ -66,7 +65,6 @@ const swaggerDefinition = {
 };
 
 export const swaggerSpec = swaggerJSDoc({ swaggerDefinition, apis: ['./src/controllers/*.js'] });
-// swaggerSpec.openapi=  "3.0.1",
 
 swagger.use('/', swaggerUi.serve);
 swagger.get('/', swaggerUi.setup(swaggerSpec));

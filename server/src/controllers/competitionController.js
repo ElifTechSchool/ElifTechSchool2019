@@ -11,39 +11,43 @@ const router = express.Router();
  *     description: Get competitions
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
  *     parameters: []
  *     responses:
  *       200:
  *         description: response
- *         schema:
- *           type: array
- *           items:
- *              type: object
- *              properties:
- *              id:
- *                  type: number
- *              name:
- *                  type: string
- *              description:
- *                  type: string
- *              deadline_date:
- *                  type: string
- *              experience:
- *                  type: number
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  type: object
+ *                  properties:
+ *                    id:
+ *                        type: number
+ *                    name:
+ *                        type: string
+ *                    description:
+ *                        type: string
+ *                    deadline_date:
+ *                        type: string
+ *                    experience:
+ *                        type: number
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 
 router.get('/', (req, res, next) => {
-    competitionService.getCompetitions()
+  competitionService.getCompetitions()
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -56,8 +60,6 @@ router.get('/', (req, res, next) => {
  *     description: Get competition by id
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -67,27 +69,33 @@ router.get('/', (req, res, next) => {
  *     responses:
  *       200:
  *         description: response
- *         schema:
- *           type: object
- *           properties:
- *              id:
- *                  type: number
- *              name:
- *                  type: string
- *              description:
- *                  type: string
- *              deadline_date:
- *                  type: string
- *              experience:
- *                  type: number
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  id:
+ *                      type: number
+ *                  name:
+ *                      type: string
+ *                  description:
+ *                      type: string
+ *                  deadline_date:
+ *                      type: string
+ *                  experience:
+ *                      type: number
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   competitionService.getCompetitionById(req.params.id)
@@ -103,34 +111,35 @@ router.get('/:id', (req, res, next) => {
  *     description: add competition
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *              name:
- *                  type: string
- *              description:
- *                  type: string
- *              deadline_date:
- *                  type: string
- *              experience:
- *                  type: number
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *                name:
+ *                    type: string
+ *                description:
+ *                    type: string
+ *                deadline_date:
+ *                    type: string
+ *                experience:
+ *                    type: number
  *     responses:
  *       201:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.post('/', (req, res, next) => {
   competitionService.createCompetition(req.body)
@@ -146,23 +155,21 @@ router.post('/', (req, res, next) => {
  *     description: update example
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *                name:
+ *                    type: string
+ *                description:
+ *                    type: string
+ *                deadline_date:
+ *                    type: string
+ *                experience:
+ *                    type: number
  *     parameters:
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *              name:
- *                  type: string
- *              description:
- *                  type: string
- *              deadline_date:
- *                  type: string
- *              experience:
- *                  type: number
  *       - name: id
  *         in: path
  *         required: true
@@ -173,12 +180,16 @@ router.post('/', (req, res, next) => {
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.put('/:id', (req, res, next) => {
   competitionService.updateCompetition(req.params.id, req.body)
@@ -194,8 +205,6 @@ router.put('/:id', (req, res, next) => {
  *     description: delete competition
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -207,12 +216,16 @@ router.put('/:id', (req, res, next) => {
  *         description: delete success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   competitionService.deleteCompetition(req.params.id)
@@ -228,8 +241,6 @@ router.delete('/:id', (req, res, next) => {
  *     description: Get competition followers
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -239,23 +250,29 @@ router.delete('/:id', (req, res, next) => {
  *     responses:
  *       200:
  *         description: response
- *         schema:
- *           type: object
- *           properties:
- *              id:
- *                  type: number
- *              user_id:
- *                  type: number
- *              competition_id:
- *                  type: number
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  id:
+ *                    type: number
+ *                  user_id:
+ *                    type: number
+ *                  competition_id:
+ *                    type: number
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.get('/:id/followers', (req, res, next) => {
   competitionService.getCompetitionFollowers(req.params.id)
@@ -271,19 +288,17 @@ router.get('/:id/followers', (req, res, next) => {
  *     description: add competition followers
  *     tags:
  *       - competitions
- *     produces:
- *       - application/json
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *                user_id:
+ *                  type: number
+ *                competition_id:
+ *                  type: number
  *     parameters:
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *              user_id:
- *                  type: number
- *              competition_id:
- *                  type: number
  *       - name: id
  *         in: path
  *         required: true
@@ -294,12 +309,16 @@ router.get('/:id/followers', (req, res, next) => {
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/components/schemas/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/components/schemas/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 
 router.post('/:id/followers', (req, res, next) => {
@@ -316,8 +335,6 @@ router.post('/:id/followers', (req, res, next) => {
 *     description: delete competition follower
 *     tags:
 *       - competitions
-*     produces:
-*       - application/json
 *     parameters:
 *       - name: id
 *         in: path
@@ -334,17 +351,21 @@ router.post('/:id/followers', (req, res, next) => {
 *         description: delete success
 *       401:
 *         description: Unauthorized access
-*         schema:
-*           $ref: '#/components/schemas/401'
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/401'
 *       500:
 *         description: Server error
-*         schema:
-*           $ref: '#/components/schemas/500'
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/500'
 */
 router.delete('/:id/followers/:follower_id', (req, res, next) => {
-competitionService.deleteCompetitionFollower(req.params.id, req.params.follower_id)
-  .then(() => res.status(204).end())
-  .catch((error) => next(error));
+  competitionService.deleteCompetitionFollower(req.params.id, req.params.follower_id)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
 });
 
 

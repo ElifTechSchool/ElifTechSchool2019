@@ -1,6 +1,7 @@
+import Sequelize from 'sequelize';
 import { models } from '../models/index.js';
-import  Sequelize from 'sequelize'
-const Op = Sequelize.Op;
+
+const { Op } = Sequelize;
 
 const { users: usersModel, ranks: rankModel } = models;
 
@@ -8,7 +9,7 @@ const getRank = (experience) => rankModel.findOne({
   where: {
     experience: {
       [Op.lte]: experience,
-    }
+    },
   },
   order: [
     ['experience', 'DESC'],
@@ -19,7 +20,7 @@ const getNextRank = (experience) => rankModel.findOne({
   where: {
     experience: {
       [Op.gt]: experience,
-    }
+    },
   },
   order: [
     ['experience', 'ASC'],
@@ -29,12 +30,12 @@ const getNextRank = (experience) => rankModel.findOne({
 const getHash = (id) => usersModel.findAll({
   where: { id },
   attributes: ['password'],
-}).then(e => e[0].dataValues.password);
+}).then((e) => e[0].dataValues.password);
 
 const getUsers = (offset, limit, search) => {
-  if(search){
+  if (search) {
     return usersModel.findAndCountAll({
-      where:{
+      where: {
         [Op.or]: {
           name: { [Op.iLike]: `%${search}%` },
           surname: { [Op.iLike]: `%${search}%` },
@@ -48,17 +49,16 @@ const getUsers = (offset, limit, search) => {
       ],
       attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
     });
-  } else {
-    return usersModel.findAndCountAll({
-      offset,
-      limit,
-      order: [
-        ['experience', 'DESC'],
-      ],
-      attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
-    });
   }
-}
+  return usersModel.findAndCountAll({
+    offset,
+    limit,
+    order: [
+      ['experience', 'DESC'],
+    ],
+    attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
+  });
+};
 
 const getUserById = (id) => usersModel.findAll({
   where: { id },
