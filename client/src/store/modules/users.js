@@ -4,7 +4,7 @@ const state = {
   users: [],
   userById: {},
   usersCount: 0,
-  pageSize: 3,
+  pageSize: 4,
   numOfPages: 0,
   search: ""
 };

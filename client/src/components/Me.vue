@@ -58,21 +58,24 @@ import ProgressBar from "@/components/Users/ProgressBar.vue";
 import ChangePass from "@/components/Users/ChangePass.vue";
 
 export default {
-  name: "Me",
-  components: {
-    ProgressBar,
-    ChangePass
-  },
-  computed: {
-    userById() {
-      return this.$store.getters.userMe.user;
+    name: "Me",
+    components: {
+        ProgressBar,
+        ChangePass,
+    },
+    computed: {
+        userById() {
+            return this.$store.getters.userMe.user;
+        },
+        rankData() {
+            return this.$store.getters.userMe.userRank;
+        }
+    },
+    mounted() {
+        this.$store.dispatch("authUser", this.$store.getters.token);
     },
     rankData() {
       return this.$store.getters.userMe.userRank;
     }
-  },
-  mounted() {
-    this.$store.dispatch("authUser", this.$store.getters.authData.token);
-  }
-};
+  };
 </script>
