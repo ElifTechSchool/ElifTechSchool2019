@@ -1,32 +1,31 @@
 <template>
   <v-row class="mx-auto" justify="center" align="center">
-    <v-col md="5">
+    <v-col md="4">
       <v-hover v-slot:default="{ hover }">
-        <v-card class="user d-flex mx-auto" :elevation="hover ? 9 : 1">
+        <v-card class="user d-flex mx-auto" :elevation="hover ? 6 : 2">
           <v-col md="9" @click="goToDetail" class="d-flex flex-row cursor">
-            <v-col md="4">
+            <v-col md="7">
               <v-img
                 position="center left"
                 :src="userData.image_url"
                 alt="user image"
-                max-width="150px"
-                max-height="150px"
+                max-width="190px"
+                max-height="190px"
               />
-            </v-col>
-            <v-col md="1">
-              <p class="rank">{{ userData.rank }}</p>
             </v-col>
             <v-col md="7" class="float-left pa-3">
               <div class="userDetail">
                 <h3>{{ userData.name }} {{ userData.surname }}</h3>
+                <p>{{ userData.email }}</p>
                 <p>Experience: {{ userData.experience }}</p>
-                <p>Email: {{ userData.email }}</p>
               </div>
             </v-col>
           </v-col>
           <v-col md="3">
             <v-card-actions>
-              <v-btn @click="warnDialog = true" color="error">Delete</v-btn>
+              <v-btn class="deleteBtn" fab @click="warnDialog = true" color="primary" :elevation="hover ? 0 : 4">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             </v-card-actions>
           </v-col>
         </v-card>
@@ -50,7 +49,7 @@ export default {
   },
   data() {
     return {
-      warnDialog: false
+      warnDialog: false,
     };
   },
   methods: {
@@ -74,11 +73,13 @@ export default {
 <style lang="scss" scoped>
 .user {
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 13px;
 
-  .v-btn {
-    width: 95px;
+  .deleteBtn {
     margin: 5px;
+    position: absolute;
+    bottom: 50;
+    right: -35px;
   }
   .rank {
     width: 50px;

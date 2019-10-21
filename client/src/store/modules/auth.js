@@ -1,6 +1,9 @@
 import axios from "axios";
 
 const state = {
+  showLogin: true,
+  authData: {status:200},
+  forgotPassDialog: false,
   token: localStorage.getItem("user-token") || "",
   refreshToken: localStorage.getItem("user-refreshToken") || "",
   userMe: {}
@@ -13,11 +16,14 @@ const getters = {
 };
 
 const mutations = {
+  setShowLogin: (state, showLogin) => state.showLogin = showLogin,
+  setAuthData: (state, data) => state.authData = data,
+  setLoginStatus: (state, data) => state.authData.status = data,
+  setUserMe: (state, data) => state.userMe = data,
   setTokens: (state, data) => {
     state.token = data.token;
     state.refreshToken = data.refreshToken;
   },
-  setUserMe: (state, data) => (state.userMe = data),
   destroyAuthData: state => {
     state.token = "";
     state.refreshToken = "";

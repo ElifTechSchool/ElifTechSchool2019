@@ -234,6 +234,47 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
 /**
  * @swagger
  *
+ * /v1/users/passwords:
+ *   put:
+ *     description: update users roles
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               format: email
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.put('/passwords', async (req, res, next) => {
+  authService
+    .passwordToken(req.body.email)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
+
+
+/**
+ * @swagger
+ *
  * /v1/users/{id}:
  *   put:
  *     description: update user
