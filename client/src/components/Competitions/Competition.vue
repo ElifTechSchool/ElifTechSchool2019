@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="mx-auto" max-width="400" color="#e9e5bb" @click="getDetails">
+      <v-card class="mx-auto" max-width="400" color="#fcded9" @click="getDetails">
         <v-card-title>Competition: {{ competitionData.name }}</v-card-title>
         <v-card-text class="text--primary">
           <div>Description: {{ competitionData.description }}</div>

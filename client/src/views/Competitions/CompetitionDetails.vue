@@ -1,14 +1,14 @@
 <template>
-  <v-card class="competition">
+  <v-card class="mx-auto" max-width="400" color="#fcded9">
     <v-row key="1" justify="center" class="userInfo d-flex">
-      <div v-for="competition in getCompetition" :key="competition.id">
+      <div v-for="competition in getCompetition"  :key="competition.id">
         <v-col >
           <h2><b>Name:</b> {{ competition.name }}</h2>
           <p><b>Description:</b> {{ competition.description }}</p>
           <p><b>Deadline_date:</b> {{ formatDateRead(competition.deadline_date) }}</p>
           <p><b>Experience:</b> {{ competition.experience }}</p>
         </v-col>
-        <v-col>
+        <v-col v-if="$store.getters.userMe.user" >
           <v-btn color="success" outlined @click="updateCompetition(competition.id)">
           <i class="material-icons">
           create
@@ -21,8 +21,8 @@
         </v-col>
         <v-col>
           <h4>Folllowers:</h4>
-          <div v-for="follower in getCompetitionFollowers" :key="follower.id">
-              <p>userId: {{follower.user_id}}</p>
+          <div  v-for="follower in getCompetitionFollowers"  :key="follower.id">
+              <p>userId: {{ follower.user_id}}</p>
           </div>
         </v-col>
       </div>
@@ -38,8 +38,9 @@ export default {
       hidden: false,
       dataFollower: {
         competition_id: null,
-        user_id: 153
+        user_id: null,
       },
+      
       
     }
   },
@@ -76,25 +77,44 @@ export default {
     
 
     subscribe(competitionId) {
-      this.dataFollower.competition_id = competitionId;
       
-      if (this.hidden == false) {
-        this.subscribeCompetition();
-        alert("You are subscribed");
-        this.hidden = true;
-        
 
-      } else {
-        this.unsubscribeCompetition();
-        alert("You are unsubscribed");
-        this.hidden = false;
-      }
+            this.dataFollower.competition_id = competitionId;
+      
+        if (this.hidden == false) {
+          this.subscribeCompetition();
+          alert("You are subscribed");
+          this.hidden = true;
+        } else {
+          this.unsubscribeCompetition();
+          alert("You are unsubscribed");
+          this.hidden = false;
+        }
+      
+      
     },
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
+  created() {
+     
+    if (this.$store.getters.userMe.user) {
+    this.dataFollower.user_id = this.$store.getters.userMe.user.id;
+    let followersId = this.$store.getters.getFollowers;
+
+      for(let i=0; i < followersId.length; i++){
+        if (this.$store.getters.userMe.user.id == followersId[i].user_id )  {
+            this.hidden = true;
+          }
+      }
+     
+    } else {
+        alert("Please login");
+    }
+    
+  }
 }
 </script>
 <style lang="scss" scoped>
