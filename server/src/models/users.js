@@ -50,10 +50,7 @@ module.exports = class Users extends Sequelize.Model {
           len: [0, 300],
         },
       },
-      image_id: {
-        type: Sequelize.STRING(300),
-        allowNull: true,
-      },
+      
       description: {
         type: Sequelize.STRING(500),
         allowNull: true,
@@ -78,7 +75,8 @@ module.exports = class Users extends Sequelize.Model {
       },
     });
   }
-  /*static associate(models) {
-    Users.belongsTo(models.ranks, {constraints: false});
-  }*/
+  static associate(models) {
+    this.userCompetitions = this.hasMany(models.users_competitions);
+    
+ }
 };

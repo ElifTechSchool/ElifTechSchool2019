@@ -22,7 +22,8 @@
         <v-col>
           <h4>Folllowers:</h4>
           <div  v-for="follower in getCompetitionFollowers"  :key="follower.id">
-              <p>userId: {{ follower.user_id}}</p>
+              <p>userId: {{ follower.user }}</p>
+              
           </div>
         </v-col>
       </div>
@@ -38,7 +39,7 @@ export default {
       hidden: false,
       dataFollower: {
         competition_id: null,
-        user_id: null,
+        userId: null,
       },
       
       
@@ -101,11 +102,11 @@ export default {
   created() {
      
     if (this.$store.getters.userMe.user) {
-    this.dataFollower.user_id = this.$store.getters.userMe.user.id;
+    this.dataFollower.userId = this.$store.getters.userMe.user.id;
     let followersId = this.$store.getters.getFollowers;
 
       for(let i=0; i < followersId.length; i++){
-        if (this.$store.getters.userMe.user.id == followersId[i].user_id )  {
+        if (this.$store.getters.userMe.user.id == followersId[i].userId )  {
             this.hidden = true;
           }
       }

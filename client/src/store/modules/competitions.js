@@ -94,7 +94,7 @@ const actions = {
 
   unsubscribeFollower(context, data){
     axios
-      .delete(`competitions/${data.competition_id}/followers/${data.user_id}`)
+      .delete(`competitions/${data.competition_id}/followers/${data.userId}`)
       .then( () => {
         context.dispatch("getSubscribedFollowers", data.competition_id);
       })

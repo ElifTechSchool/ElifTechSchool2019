@@ -1,7 +1,8 @@
 import { models } from '../models/index.js';
 
-const { competitions: competitionModel } = models;
+const { competitions: competitionModel} = models;
 const { users_competitions: competitionFollowersModel } = models;
+const { users: usersModel } = models;
 
 
 const getCompetitions = (params) => competitionModel.findAndCountAll({
@@ -34,15 +35,16 @@ const deleteCompetition = (id) => competitionModel.destroy({
 
 const getCompetitionFollowers = (competitionId) => competitionFollowersModel.findAll({
     where: {competition_id: competitionId},
-    attributes: ['id', 'user_id', 'competition_id'],
+    include: usersModel
+  
   });
 
 
-const createCompetitionFollower = (competitionId, competitionFollower) => competitionFollowersModel.create({user_id: competitionFollower.user_id, competition_id: competitionId});
+const createCompetitionFollower = (competitionId, competitionFollower) => competitionFollowersModel.create({userId: competitionFollower.userId, competition_id: competitionId});
 
 
 const deleteCompetitionFollower = (id, followerId) => competitionFollowersModel.destroy({
-  where: { competition_id: id, user_id: followerId},
+  where: { competition_id: id, userId: followerId},
 });
 
 export default {
