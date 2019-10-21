@@ -6,16 +6,19 @@
           <div @click="showDetails" class="container-achievement">
             <v-row>
               <v-col cols="12" sm="4">
-                <v-img 
-                    v-bind:src="photo_url || 'https://where2go.tech/assistant/img/achievements/win.png'" 
-                    alt="achievement image"
+                <v-img
+                  v-bind:src="
+                    photo_url ||
+                      'https://where2go.tech/assistant/img/achievements/win.png'
+                  "
+                  alt="achievement image"
                 />
               </v-col>
               <v-col cols="12" sm="7" class="card_text">
                 <v-card-title>
                   {{ name }}
                 </v-card-title>
-                  <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
                 <v-card-text>
                   {{ $moment(created_at).format("MMM Do YY HH:mm") }}
                 </v-card-text>
@@ -56,9 +59,9 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import moment from 'moment';
-Object.defineProperty(Vue.prototype, '$moment', { value: moment });
+import Vue from "vue";
+import moment from "moment";
+Object.defineProperty(Vue.prototype, "$moment", { value: moment });
 
 export default {
   name: "achievement",

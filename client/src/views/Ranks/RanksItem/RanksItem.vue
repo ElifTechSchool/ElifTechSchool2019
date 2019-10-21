@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import ModalBox from "../ModalBox/ModalBox";
+import ModalBox from "@/components/ModalBox/ModalBox.vue";
 import EditModal from "./EditModal";
 export default {
   name: "ranks-item",

@@ -41,7 +41,9 @@
             </v-card>
             <ForgotPass type="achiv" :show="forgotPassDialog" @hideModal="forgotPassDialog = false"/>
         </v-col>
-    </v-row>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -94,19 +96,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-card{
-    height: 700px;
+.v-card {
+  height: 700px;
 }
 .v-form {
-    width: 100%;
+  width: 100%;
 }
-.v-form .v-btn{
-    margin-top: 25px;
+.v-form .v-btn {
+  margin-top: 25px;
 }
-.v-btn{
-    margin-top: 15px;
+.v-btn {
+  margin-top: 15px;
 }
-h2{
-    margin: 50px;
+h2 {
+  margin: 50px;
 }
 </style>

@@ -55,12 +55,14 @@
           </v-col>
           <v-col md="7" justify-self="center">
             <v-row>
-              <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
+              <v-card-title class="font-weight-bold"
+                >{{ userById.name }} {{ userById.surname }}</v-card-title
+              >
             </v-row>
             <v-row>
               <ProgressBar
-              :rank="rankData"
-              :userExperience="userById.experience"
+                :rank="rankData"
+                :userExperience="userById.experience"
               ></ProgressBar>
             </v-row>
           </v-col>
@@ -84,7 +86,7 @@ export default {
   components: {
     ProgressBar,
     ChangePass,
-    Multiselect,
+    Multiselect
   },
   data() {
     return {
@@ -94,7 +96,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData"]),
+    ...mapGetters(["findUserById", "userById", "rankData"])
   },
   methods: {
     goToEdit() {
@@ -105,16 +107,19 @@ export default {
     },
     goBack() {
       this.$router.replace({
-          name: "users",
-          query: { page: this.$route.params.page || 1, pageSize: this.$store.getters.pageSize, search: this.search }
-        });
+        name: "users",
+        query: {
+          page: this.$route.params.page || 1,
+          pageSize: this.$store.getters.pageSize,
+          search: this.search
+        }
+      });
     }
   },
   mounted() {
-    if(this.$store.getters.userById === undefined){
+    if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
-    } 
-    else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
+    } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
   }
@@ -137,7 +142,6 @@ export default {
   transition: opacity 0.5s;
   opacity: 0;
 }
-
 .achivBtn{
   position: absolute;
   top: 10px;

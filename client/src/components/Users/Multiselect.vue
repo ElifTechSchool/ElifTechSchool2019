@@ -34,13 +34,13 @@ export default {
     computed: {
     },
   methods: {
-    filter (item, queryText, itemText) {
-      if (item.header) return false
+    filter(item, queryText, itemText) {
+      if (item.header) return false;
 
-      const hasValue = val => val != null ? val : ''
+      const hasValue = val => (val != null ? val : "");
 
-      const text = hasValue(itemText)
-      const query = hasValue(queryText)
+      const text = hasValue(itemText);
+      const query = hasValue(queryText);
 
       return text.toString()
         .toLowerCase()
@@ -56,15 +56,16 @@ export default {
     },
   },
   async created() {
-    if(this.type === "achiv"){
-        await this.$store.dispatch("getAllAchievements");
-        this.items = this.$store.getters.allAchievements.map(el => el.text = el.name);
-    } 
-    else if(this.type === "users"){
-        await this.$store.dispatch("loadUsers", {});
-        this.items = this.$store.getters.users.map(el => el.text = el.name);
+    if (this.type === "achiv") {
+      await this.$store.dispatch("getAllAchievements");
+      this.items = this.$store.getters.allAchievements.map(
+        el => (el.text = el.name)
+      );
+    } else if (this.type === "users") {
+      await this.$store.dispatch("loadUsers", {});
+      this.items = this.$store.getters.users.map(el => (el.text = el.name));
     }
-    console.log(this.items)
-  },
-}
+    console.log(this.items);
+  }
+};
 </script>

@@ -63,7 +63,7 @@ export default {
     goToDetail() {
       this.$router.push({
         name: "userDetails",
-        params: { Uid: this.userData.id, page: this.$route.query.page },
+        params: { Uid: this.userData.id, page: this.$route.query.page }
       });
     }
   }

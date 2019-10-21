@@ -64,42 +64,40 @@ export default {
       descriptionRules: [
         v => !!v || "This field is required",
         v =>
-          (v && v.length <= 5120) || "This field must be less than 50 characters"
+          (v && v.length <= 5120) ||
+          "This field must be less than 50 characters"
       ],
       experienceRules: [
+        v => (v && isFinite(v)) || "This field must be a number ",
+        v => (v && v.length <= 2) || "This field must have two digitals",
         v =>
-          (v && isFinite(v)) || "This field must be a number ",
-        v =>
-          (v && v.length <= 2) || "This field must have two digitals",
-        v =>
-          (v && Math.sign(v) !== -1 ) ||  "This field must be a positive number ",
+          (v && Math.sign(v) !== -1) || "This field must be a positive number "
       ],
-      dateRules: [
-         v => !!v || "This field is required",
-      ],
+      dateRules: [v => !!v || "This field is required"]
     };
   },
   computed: {
     getCompetition() {
       return [this.$store.getters.getCompetition];
-    },
+    }
   },
   methods: {
     updateCompetition(competition) {
-      if (competition.experience > 0 && 
-          competition.name &&
-          competition.description) {
-            this.$store.dispatch("updateCompetition", competition);
-            this.$router.push({
-              path: `/competitions/${competition.id}`
-            });
-          }
-    },
-    
+      if (
+        competition.experience > 0 &&
+        competition.name &&
+        competition.description
+      ) {
+        this.$store.dispatch("updateCompetition", competition);
+        this.$router.push({
+          path: `/competitions/${competition.id}`
+        });
+      }
+    }
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
-  },
+  }
 };
 </script>
 

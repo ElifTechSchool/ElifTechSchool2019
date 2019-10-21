@@ -1,45 +1,30 @@
 import axios from "axios";
 
 const state = {
-        competitions: [],
-        competition: [],
-        countCompetitions: 0,
-        followers: [],
-        
+  competitions: [],
+  competition: [],
+  countCompetitions: 0,
+  followers: []
 };
 
 const getters = {
-    getCompetitions : state => state.competitions,
-    getCompetition : state => state.competition,
-    getCountCompetitions: state => state.countCompetitions,
-    getFollowers: state => state.followers,
-    
-}; 
+  getCompetitions: state => state.competitions,
+  getCompetition: state => state.competition,
+  getCountCompetitions: state => state.countCompetitions,
+  getFollowers: state => state.followers
+};
 
 const actions = {
   loadCompetitions(context, competitionParams) {
-    axios 
-      .get("competitions", { params: competitionParams})
-      .then(res => res.data)
-      .then(competitions => {
-        context.commit("getCompetitions", competitions);
-      })
-      .then( () => {
-        context.dispatch("countCompetitions");
-      })
-      .catch(err => console.log(err));
-  },
-
-  countCompetitions(context) {
     axios
-      .get("competitions", { params: {limit: 10000, page: 1}})
+      .get("competitions", { params: competitionParams })
       .then(res => res.data)
-      .then(competitions => {
-        context.commit("setCountCompetitions", competitions.length);
+      .then(data => {
+        context.commit("getCompetitions", data.rows);
+        context.commit("setCountCompetitions", data.count);
       })
       .catch(err => console.log(err));
   },
-
 
   loadCompetitionById(context, id) {
     axios
@@ -52,11 +37,12 @@ const actions = {
   },
 
   addCompetition(context, newCompetition) {
-    axios.post("competitions", newCompetition)
-    .then( () => {
-        context.dispatch("loadCompetitions", {limit: 5, page: 1})
-    })
-    .catch(err => console.log(err));
+    axios
+      .post("competitions", newCompetition)
+      .then(() => {
+        context.dispatch("loadCompetitions", { limit: 5, page: 1 });
+      })
+      .catch(err => console.log(err));
   },
 
   updateCompetition(context, updateData) {
@@ -65,8 +51,8 @@ const actions = {
       .then(() => {
         context.commit("getCompetitionById", updateData);
       })
-      .then( () => {
-        context.dispatch("loadCompetitions", {limit: 5, page: 1});
+      .then(() => {
+        context.dispatch("loadCompetitions", { limit: 5, page: 1 });
         context.dispatch("countCompetitions");
       })
       .catch(err => console.log(err));
@@ -76,19 +62,18 @@ const actions = {
     axios
       .delete("competitions/" + id)
       .then(() => {
-        context.dispatch("loadCompetitions", {limit: 5, page: 1});
+        context.dispatch("loadCompetitions", { limit: 5, page: 1 });
         context.dispatch("countCompetitions");
       })
       .catch(err => console.log(err));
   },
 
-
   // Followers subscribe
-  
-  subscribeFollower(context, data){
+
+  subscribeFollower(context, data) {
     axios
-      .post(`competitions/${data.competition_id}/followers/` , data )
-      .then( () => {
+      .post(`competitions/${data.competition_id}/followers/`, data)
+      .then(() => {
         context.dispatch("getSubscribedFollowers", data.competition_id);
       })
       .catch(err => console.log(err));
@@ -102,33 +87,31 @@ const actions = {
         context.commit("setFollowers", followers);
       })
       .catch(err => console.log(err));
-      
   },
 
-  unsubscribeFollower(context, data){
+  unsubscribeFollower(context, data) {
     axios
       .delete(`competitions/${data.competition_id}/followers/${data.user_id}`)
-      .then( () => {
+      .then(() => {
         context.dispatch("getSubscribedFollowers", data.competition_id);
       })
       .catch(err => console.log(err));
-  },
-
+  }
 };
 
-const mutations =  {
-    getCompetitions: (state, competitions) => {
-        state.competitions = competitions;
-      },
-    getCompetitionById: (state, competition) => {
-        state.competition = competition;
-    },
-    setCountCompetitions: (state, countCompetitions) => {
-      state.countCompetitions = countCompetitions;
-    },
-    setFollowers: (state, followers) => {
-      state.followers = followers;
-    }
+const mutations = {
+  getCompetitions: (state, competitions) => {
+    state.competitions = competitions;
+  },
+  getCompetitionById: (state, competition) => {
+    state.competition = competition;
+  },
+  setCountCompetitions: (state, countCompetitions) => {
+    state.countCompetitions = countCompetitions;
+  },
+  setFollowers: (state, followers) => {
+    state.followers = followers;
+  }
 };
 
 export default {

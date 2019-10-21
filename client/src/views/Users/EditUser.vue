@@ -26,7 +26,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12" sm="8" md="8">                
+                <v-col cols="12" sm="8" md="8">
                   <v-text-field
                     type="email"
                     label="E-mail"
@@ -94,7 +94,7 @@ export default {
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ],
       image_url: undefined,
-      roles: ['user', 'moderator', 'admin'],
+      roles: ["user", "moderator", "admin"]
     };
   },
   computed: {
