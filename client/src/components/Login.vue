@@ -41,8 +41,6 @@
             </v-card>
             <ForgotPass type="achiv" :show="forgotPassDialog" @hideModal="forgotPassDialog = false"/>
         </v-col>
-      </v-card>
-    </v-col>
   </v-row>
 </template>
 

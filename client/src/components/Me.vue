@@ -72,14 +72,10 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch("authUser", this.$store.getters.authData.data.token);
+        this.$store.dispatch("authUser", this.$store.getters.token);
     },
     rankData() {
       return this.$store.getters.userMe.userRank;
     }
-  },
-  mounted() {
-    this.$store.dispatch("authUser", this.$store.getters.authData.token);
-  }
-};
+  };
 </script>

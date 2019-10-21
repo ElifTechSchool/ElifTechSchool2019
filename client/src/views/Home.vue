@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <Login v-if="!isAuthenticated"></Login>
-    <h1 v-else>This is home page</h1>
+    <Me v-else></Me>
   </v-container>
 </template>
 

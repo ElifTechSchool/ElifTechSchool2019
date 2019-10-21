@@ -11,6 +11,7 @@ const state = {
 
 const getters = {
   authData: state => state.authData,
+  token: state => state.token,
   userMe: state => state.userMe,
   isAuthenticated: state => !!state.token
 };
