@@ -14,7 +14,7 @@ const getTypes = () => achievementsModel.findAll({
   attributes: [
     [Sequelize.fn('DISTINCT', Sequelize.col('type')), 'type'],
   ],
-}).then(result => result.map(col => col.type))
+}).then((result) => result.map((col) => col.type));
 
 const getAchievementByType = (types) => achievementsModel.findAll({
   raw: true,
@@ -24,6 +24,30 @@ const getAchievementByType = (types) => achievementsModel.findAll({
   where: {
     type: {
       [Sequelize.Op.in]: types,
+    },
+  },
+});
+
+const getAchievementsByIds = (achievementsIds) => achievementsModel.findAll({
+  raw: true,
+  order: [
+    ['name', 'ASC'],
+  ],
+  where: {
+    id: {
+      [Sequelize.Op.in]: achievementsIds,
+    },
+  },
+});
+
+const getWantedAchievements = (achievementsIds) => achievementsModel.findAll({
+  raw: true,
+  order: [
+    ['name', 'ASC'],
+  ],
+  where: {
+    id: {
+      [Sequelize.Op.notIn]: achievementsIds,
     },
   },
 });
@@ -53,4 +77,6 @@ export default {
   updateAchievement,
   deleteAchievement,
   getTypes,
+  getAchievementsByIds,
+  getWantedAchievements,
 };

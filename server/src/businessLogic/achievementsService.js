@@ -1,16 +1,34 @@
 import achievementsDao from '../dataAccess/achievementsDao.js';
+import userAchievementsService from './userAchievementsService.js';
+import Sequelize from 'sequelize';
 
-const getAchievements = (params) => {
-  const { page, limit, types } = params;
+const getAchievements = (params, userId) => {
+  const { page, limit, types, type } = params;
   if (page && limit) {
-    return getAchievementsPerPage(page, limit, types);
+    return getAchievementsPerPage({ page, limit, types, type, userId });
   }
-  return achievementsDao.getAchievements();
+  return getAchievementsByUserId(userId);
 };
 
-async function getAchievementsPerPage (page, limit, types) {
-  const achievements = !types ? await achievementsDao.getAchievements()
-    : await achievementsDao.getAchievementByType(types);
+async function getAchievementsPerPage ({ page, limit, types, type, userId }) {
+  let achievements;
+  if (type) {
+    if (type === 'me') {
+      achievements = await getAchievementsByUserId(userId);
+    }
+    if (type === 'wanted') {
+      achievements = await getWantedAchievements(userId);
+    }
+    if (type === 'all') {
+      achievements = await achievementsDao.getAchievements();
+    }
+  } else {
+    achievements = await achievementsDao.getAchievements();
+  }
+
+  achievements = !types ? achievements
+    : achievements.filter((ach) => types.indexOf(ach.type) > -1);
+
   if (achievements.length <= limit) {
     return {
       data: achievements,
@@ -27,6 +45,18 @@ async function getAchievementsPerPage (page, limit, types) {
 
 const getTypes = () => achievementsDao.getTypes();
 
+const getAchievementsByUserId = async (userId) => (
+  await achievementsDao.getAchievementsByIds(
+    await userAchievementsService.getAchievementsByUserId(userId)
+  )
+)
+
+const getWantedAchievements = async (userId) => (
+  await achievementsDao.getWantedAchievements(
+    await userAchievementsService.getAchievementsByUserId(userId)
+  )
+)
+
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 
 const createAchievement = (achievement) => achievementsDao.createAchievement(achievement);
@@ -42,4 +72,5 @@ export default {
   updateAchievement,
   deleteAchievement,
   getTypes,
+  getAchievementsByUserId,
 };
