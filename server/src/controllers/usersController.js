@@ -114,7 +114,7 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/me', (req, res, next) => {
-  authService.authUser(req.query)
+  authService.authUser(req.user.id)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });

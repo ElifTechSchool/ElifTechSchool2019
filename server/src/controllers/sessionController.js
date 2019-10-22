@@ -41,7 +41,7 @@ router.get('/', (req, res, next) => {
  *         description: Server error
  *         schema:
  */
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.body.refreshToken, config.jwtRefreshSecret);
     const browserInfo = req.headers['user-agent'];
@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
       throw new Error('refresh token is not valid');
     }
   } catch (error) {
-    res.send({ error });
+    next(error);
   }
 });
 

@@ -17,21 +17,14 @@ const login = async (data, next) => {
     const refreshToken = jwt.sign({ id: userId }, config.jwtRefreshSecret, { expiresIn: config.refreshTokenExpTime });
     const token = jwt.sign({ id: userId }, config.jwtSecret, { expiresIn: config.tokenExpTime });
     return { refreshToken, token, userId };
-  }  
+  }
   else {
     return compare;
   }
 }
 
-const authUser = async (query) => {
-  try {
-    const token = query.token;
-    const decoded = jwt.verify(token, config.jwtSecret);
-    const user = await usersService.getUserById(decoded.id);
-    return user;
-  } catch (e) {
-    return res.status(401).send('unauthorized');
-  }
+const authUser = async (id) => {
+  return usersService.getUserById(id);
 };
 
 const passwordToken = async (email) => {
@@ -65,6 +58,8 @@ const changeUserPassword = async (newPass, token) => {
   try {
     const decoded = jwt.decode(token);
     const user = await usersService.getUserByEmail(decoded.email);
+    // if user exist
+    // validate token user.password
     usersService.updateUserPassword(user[0].id, undefined, newPass)
   } catch (e) {
     return res.status(401).send(e);
