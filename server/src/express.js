@@ -5,7 +5,6 @@ import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
 import errorHandle from './middleware/errorHandle.js';
-import authMiddleware from './middleware/auth.js';
 import logger from './helpers/logging.js';
 import config from '../config/env.js';
 import routes from './routes/index.js';
@@ -36,8 +35,6 @@ app.use(jwt({
     return null;
   },
 }));
-
-// app.use(authMiddleware);
 
 // mount all routes
 app.use('/', routes);
