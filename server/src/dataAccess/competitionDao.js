@@ -34,17 +34,17 @@ const deleteCompetition = (id) => competitionModel.destroy({
 
 
 const getCompetitionFollowers = (competitionId) => competitionFollowersModel.findAll({
-    where: {competition_id: competitionId},
-    include: usersModel
+    where: {competitionId: competitionId},
+    include: [usersModel, competitionModel]
   
   });
 
 
-const createCompetitionFollower = (competitionId, competitionFollower) => competitionFollowersModel.create({userId: competitionFollower.userId, competition_id: competitionId});
+const createCompetitionFollower = (competitionId, competitionFollower) => competitionFollowersModel.create({userId: competitionFollower.userId, competitionId: competitionId});
 
 
 const deleteCompetitionFollower = (id, followerId) => competitionFollowersModel.destroy({
-  where: { competition_id: id, userId: followerId},
+  where: { competitionId: id, userId: followerId},
 });
 
 export default {

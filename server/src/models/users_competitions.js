@@ -16,7 +16,7 @@ module.exports = class Users_competitions extends Sequelize.Model {
           key: "id"
         }
       },
-      competition_id: {
+      competitionId: {
         type: Sequelize.INTEGER,
         references: {
           model: "competitions",
@@ -43,6 +43,8 @@ module.exports = class Users_competitions extends Sequelize.Model {
 
   static associate(models) {
     this.userCompetition = this.belongsTo(models.users);
-    this.competition_Id = this.belongsTo(models.competitions, {foreignKey: 'id'});
+    this.competitionUser = this.belongsTo(models.competitions);
+    
+    
  }
 };

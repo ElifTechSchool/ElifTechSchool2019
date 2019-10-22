@@ -52,7 +52,6 @@ module.exports = class Competitions extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.competitionUsers = this.belongsTo(models.users);
-    
+    this.competitionsUsers = this.hasMany(models.users_competitions);
   }
 };

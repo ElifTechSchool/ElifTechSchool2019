@@ -22,8 +22,10 @@
         <v-col>
           <h4>Folllowers:</h4>
           <div  v-for="follower in getCompetitionFollowers"  :key="follower.id">
-              <p>userId: {{ follower.user }}</p>
-              
+            <a @click="toUserDetails(follower.user.id)">
+              {{`${follower.user.name} ${follower.user.surname}`}}
+            </a>
+               
           </div>
         </v-col>
       </div>
@@ -38,7 +40,7 @@ export default {
     return {
       hidden: false,
       dataFollower: {
-        competition_id: null,
+        competitionId: null,
         userId: null,
       },
       
@@ -80,7 +82,7 @@ export default {
     subscribe(competitionId) {
       
 
-            this.dataFollower.competition_id = competitionId;
+            this.dataFollower.competitionId = competitionId;
       
         if (this.hidden == false) {
           this.subscribeCompetition();
@@ -91,9 +93,18 @@ export default {
           alert("You are unsubscribed");
           this.hidden = false;
         }
-      
-      
     },
+    userProps(followerProps) {
+      if(followerProps !== null) {
+        const userProps = followerProps;
+      }
+    },
+    toUserDetails(userId) {
+      this.$router.push({
+        name: "userDetails",
+        params: { Uid: userId }
+        });
+    }
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
