@@ -65,8 +65,6 @@ export default {
       return competitions.sort((a, b) =>
         a.deadline_date < b.deadline_date ? 1 : -1
       );
-      // this.competitionParams.order = "created_at";
-      // this.$store.dispatch("loadCompetitions", this.competitionParams);
     },
     addCompetition() {
         this.$router.push({

@@ -44,7 +44,5 @@ module.exports = class Users_competitions extends Sequelize.Model {
   static associate(models) {
     this.userCompetition = this.belongsTo(models.users);
     this.competitionUser = this.belongsTo(models.competitions);
-    
-    
  }
 };

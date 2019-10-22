@@ -69,6 +69,7 @@ export default {
   },
   name: "Competition",
   props: ["competitionData"],
+  
   methods: {
     deleteCompetition() {
       this.$store.dispatch("deleteCompetition", this.competitionData.id);
@@ -88,6 +89,7 @@ export default {
 
         return day + '/' + month + '/' + year;
     },
+    
   }
 };
 </script>
