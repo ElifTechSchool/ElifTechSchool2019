@@ -1,10 +1,9 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col md="6">
-        <v-card :elevation="5" class="mx-auto">
+      <v-col md="10">
           <v-row>
-            <v-col md="4">
+            <v-col md="3">
               <v-img
                 position="center left"
                 :src="userById.image_url"
@@ -12,6 +11,7 @@
                 aspect-ratio="1"
               />
               <v-card-text>
+                <v-row class="flex-column">
                 <p>
                   <v-icon color="primary" class="ma-2"
                     >mdi-swap-vertical-bold</v-icon
@@ -31,13 +31,18 @@
                   <b>Description:</b>
                   {{ userById.description }}
                 </p>
+              </v-row>
+                <v-btn
+                  color="primary lighten-2"
+                  @click="changePassDialog = true"
+                  outlined
+                >Change Password</v-btn>
               </v-card-text>
             </v-col>
             <v-col md="7" justify-self="center">
               <v-row>
                 <v-card-title class="font-weight-bold"
-                  >{{ userById.name }} {{ userById.surname }}</v-card-title
-                >
+                  >{{ userById.name }} {{ userById.surname }}</v-card-title>
               </v-row>
               <v-row>
                 <ProgressBar
@@ -45,37 +50,65 @@
                   :userExperience="userById.experience"
                 ></ProgressBar>
               </v-row>
+              <Competition
+                v-for="competition in getCompetitions"
+                :competitionData="competition"
+                :key="competition.id"
+                class="competition"
+              />
             </v-col>
           </v-row>
-        </v-card>
       </v-col>
-      <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
+      <v-dialog v-model="changePassDialog" persistent max-width="600">
+        <ChangePass @hideModal="changePassDialog=false" loggedIn=true />
+      </v-dialog>
     </v-row>
   </v-container>
 </template>
 <script>
 import ProgressBar from "@/components/Users/ProgressBar.vue";
 import ChangePass from "@/components/Users/ChangePass.vue";
+import Competition from "@/components/Competitions/Competition";
 
 export default {
     name: "Me",
     components: {
         ProgressBar,
         ChangePass,
+        Competition
+    },
+    data() {
+      return {
+        changePassDialog: false,
+      }
     },
     computed: {
-        userById() {
-            return this.$store.getters.userMe.user;
-        },
-        rankData() {
-            return this.$store.getters.userMe.userRank;
-        }
+      userById() {
+          return this.$store.getters.userMe.user;
+      },
+      rankData() {
+          return this.$store.getters.userMe.userRank;
+      },
+      getCompetitions() {
+        return this.$store.getters.getCompetitions;
+      },
     },
     mounted() {
-        this.$store.dispatch("authUser", this.$store.getters.token);
+      this.$store.dispatch("authUser", this.$store.getters.token);
+      this.$store.dispatch("loadCompetitions", {limit: 3, page: 1});
     },
     rankData() {
       return this.$store.getters.userMe.userRank;
     }
   };
 </script>
+<style lang="scss" scoped>
+  .v-application p {
+    margin: 0;
+  }
+  .v-card__title{
+    padding-left: 0px;
+    font-size: 30px;
+  }
+
+</style>

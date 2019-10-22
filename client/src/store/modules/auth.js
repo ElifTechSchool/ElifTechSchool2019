@@ -1,8 +1,6 @@
 import axios from "axios";
 
 const state = {
-  showLogin: true,
-  authData: {status:200},
   forgotPassDialog: false,
   token: localStorage.getItem("user-token") || "",
   refreshToken: localStorage.getItem("user-refreshToken") || "",
@@ -10,16 +8,12 @@ const state = {
 };
 
 const getters = {
-  authData: state => state.authData,
   token: state => state.token,
   userMe: state => state.userMe,
   isAuthenticated: state => !!state.token
 };
 
 const mutations = {
-  setShowLogin: (state, showLogin) => state.showLogin = showLogin,
-  setAuthData: (state, data) => state.authData = data,
-  setLoginStatus: (state, data) => state.authData.status = data,
   setUserMe: (state, data) => state.userMe = data,
   setTokens: (state, data) => {
     state.token = data.token;
@@ -33,10 +27,11 @@ const mutations = {
 };
 
 const actions = {
-  loginUser({ commit }, newUser) {
-    return axios
+  async loginUser({ commit, dispatch }, newUser) {
+    return await axios
       .post("login", newUser)
       .then(res => {
+        commit("setTokens", res.data);
         localStorage.setItem("user-token", `Bearer ${res.data.token}`);
         localStorage.setItem(
           "user-refreshToken",
@@ -45,27 +40,39 @@ const actions = {
         axios.defaults.headers.common[
           "authorization"
         ] = `Bearer ${res.data.token}`;
-        commit("setTokens", res.data);
         return res;
       })
       .catch(err => {
+        dispatch("showSnackBar", { response: 'Bad email or password', color: "red" });
         localStorage.removeItem("user-token");
         localStorage.removeItem("user-refreshToken");
-        console.log(err.message);
-      });
+      }); 
   },
-  authUser({ commit }, token) {
+  authUser({ commit, dispatch }, token) {
+    const tokenParsed = token.split(/(Bearer )/).reverse()
     return axios
       .get("users/me", {
-        params: { token: token }
+        params: { token: tokenParsed[0]}
       })
       .then(res => commit("setUserMe", res.data))
-      .catch(err => err);
+      .catch(err => {
+        dispatch("showSnackBar", { response: err, color: "red" });
+        return err;
+      });
   },
   logOut({ commit }) {
     commit("destroyAuthData");
     localStorage.removeItem("user-token");
     localStorage.removeItem("user-refreshToken");
+  },
+  forgotPass(_, email) {
+    return axios.post('users/passwords', email)
+    .catch(err => err);
+  },
+  changePasswordToken({ dispatch }, data) {
+      return axios
+        .put('/users/passwords', data)
+        .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   }
 };
 export default {

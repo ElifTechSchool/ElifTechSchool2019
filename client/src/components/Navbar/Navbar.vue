@@ -2,7 +2,7 @@
   <div>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        <router-link to="/" tag="span" style="cursor: pointer">R{!}P
+        <router-link class="logo" to="/" tag="span" style="cursor: pointer">R{!}P
         </router-link>
 
       </v-toolbar-title>
@@ -94,5 +94,7 @@
   .toolbar {
     margin-bottom: 1.5rem;
   }
-
+  .logo{
+    margin:0 15px;
+  }
 </style>
