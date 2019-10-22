@@ -34,7 +34,6 @@ export default function axiosConfig() {
         const res = await axios.post("tokens", { refreshToken: refreshToken });
         if (res.status === 200) {
           localStorage.setItem("user-token", `Bearer ${res.data.token}`);
-          debugger;
           axios.defaults.headers.common[
             "authorization"
           ] = `Bearer ${res.data.token}`;
