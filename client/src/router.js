@@ -148,6 +148,11 @@ export default new Router({
         if (!store.getters.isAuthenticated) next("/");
         else next();
       }
+    },
+    {
+      path: "/changePassword",
+      name: "changePassword",
+      component: () => import("./views/ChangePassword.vue"),
     }
   ]
 });

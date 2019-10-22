@@ -25,7 +25,8 @@ const login = async (data, next) => {
 
 const authUser = async (query) => {
   try {
-    const decoded = jwt.verify(query.token, config.jwtSecret);
+    const token = query.token;
+    const decoded = jwt.verify(token, config.jwtSecret);
     const user = await usersService.getUserById(decoded.id);
     return user;
   } catch (e) {
@@ -38,7 +39,7 @@ const passwordToken = async (email) => {
   if (user[0] === undefined) {
     throw new Error('no such user');
   }
-  const token = jwt.sign({ email: user.email }, user.password, { expiresIn: config.tokenExpTime });
+  const token = jwt.sign({ email: user[0].email }, user[0].password, { expiresIn: config.tokenExpTime });
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -54,14 +55,25 @@ const passwordToken = async (email) => {
   const info = await transporter.sendMail({
     from: '"Eliftech School 2019 👻" <no-reply@gmail.com>', // sender address
     to: email, // list of receivers
-    subject: 'Hello ✔ Hello', // Subject line
+    subject: 'Password reset', // Subject line
     html: emailFile // html body
   });
   console.log('Message sent: %s', info.messageId);
 };
 
+const changeUserPassword = async (newPass, token) => {
+  try {
+    const decoded = jwt.decode(token);
+    const user = await usersService.getUserByEmail(decoded.email);
+    usersService.updateUserPassword(user[0].id, undefined, newPass)
+  } catch (e) {
+    return res.status(401).send(e);
+  }
+}
+
 export default {
   login,
   authUser,
   passwordToken,
+  changeUserPassword
 };

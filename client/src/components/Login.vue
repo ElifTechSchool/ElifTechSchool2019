@@ -16,8 +16,6 @@
                                 :counter="100"
                                 label="Email"
                                 v-model="user.email"
-                                @keypress="loginStatusChange"
-                                :error-messages="loginStatus !== 200 ? ['Wrong email or password'] : []"
                                 required outlined 
                             ></v-text-field>
                             <v-text-field
@@ -27,8 +25,6 @@
                                 :counter="100"
                                 label="Password"
                                 v-model="user.password"
-                                @keypress="loginStatusChange"
-                                :error-messages="loginStatus !== 200 ? ['Wrong email or password'] : []"
                                 required outlined
                             ></v-text-field>                       
                             <v-btn block color="primary" type="submit" height="50px">LOGIN</v-btn>
@@ -71,19 +67,11 @@ export default {
         }
     },
     computed: {
-        loginStatus: {
-            get(){
-                return this.$store.getters.authData.status
-            },
-        }
     },
     methods: {
         async loginUser() {
             if(this.valid){
-                this.loginResult = await this.$store.dispatch("loginUser", this.user);
-                if(this.loginResult.status === 200){
-                    this.$store.commit("setShowLogin", false);
-                }
+                this.$store.dispatch("loginUser", this.user);
             }
         },
         loginStatusChange(){

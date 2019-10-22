@@ -9,12 +9,11 @@
                     :rules="emailRules"
                     :counter="100"
                     label="Email"
-                    v-model="user.email"
-                    :error-messages="loginStatus !== 200 ? ['Wrong email or password'] : []"
+                    v-model="data.email"
                     required outlined 
                 ></v-text-field>
                 <v-row class="float-right pa-3">
-                    <v-btn color="primary">Send me instructions</v-btn>
+                    <v-btn color="primary" @click="forgotPass">Send me instructions</v-btn>
                     <v-btn text @click="hideModal">Cancel</v-btn>
                 </v-row>  
             </v-form>
@@ -27,7 +26,9 @@ export default {
     props: ["show"],
     data() {
         return {
-            user:{email:''},
+            data:{
+                email: ''
+            },
             emailRules: [
                 v => !!v || "E-mail is required",
                 v => (v && v.length <= 100) || "Field must be less than 100 characters",
@@ -51,7 +52,17 @@ export default {
             this.$emit("hideModal")
         },
         forgotPass() {
-            console.log('forgot');
+            this.$store.dispatch("forgotPass", this.data)
+            .then(res =>  {
+                if(res.status === 200){
+                    this.hideModal();
+                    this.$store.dispatch("showSnackBar", { response: "Message sent", color: "primary" });
+                }
+                else {
+                    this.hideModal();
+                    this.$store.dispatch("showSnackBar", { response: 'Wrong email, no such user', color: "red" });
+                }
+            })
         }
     },
 }
