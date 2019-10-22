@@ -1,8 +1,8 @@
 <template>
     <v-row align="center" justify="center">
-        <v-col md="6">
+        <v-col lg="6" md="6" sm="10">
             <v-card align="center" justify="center">
-                <v-col md="8">
+                <v-col md="8" sm="10">
                     <v-row>
                         <v-col>
                             <h2>R ! P</h2>
@@ -83,7 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-card {
-  height: 700px;
+  height: 550px;
 }
 .v-form {
   width: 100%;
