@@ -6,11 +6,12 @@ import httpHandler from "./helpers/httpHandler";
 import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
+//axios config
+httpHandler();
 
 new Vue({
   router,
   store,
-  httpHandler,
   vuetify,
   icons: {
     iconfont: "md"

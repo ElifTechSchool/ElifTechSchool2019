@@ -33,16 +33,21 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="orange lighten-2" @click="goToEdit" absolute right>
+              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
-                @click="warnDialog = true"
+                @click="changePassDialog = true"
                 outlined
+              >Change Password</v-btn>
+              <v-btn
+                color="primary" fab class="achivBtn"
+                @click="achivDialog = true"
               >
-                Change password
+                <v-icon>mdi-trophy</v-icon>
               </v-btn>
+
               <v-btn @click="goBack" color="grey" outlined>
                 Go back
               </v-btn>
@@ -50,20 +55,24 @@
           </v-col>
           <v-col md="7" justify-self="center">
             <v-row>
-              <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
+              <v-card-title class="font-weight-bold"
+                >{{ userById.name }} {{ userById.surname }}</v-card-title
+              >
             </v-row>
             <v-row>
               <ProgressBar
-              :rank="rankData"
-              :userExperience="userById.experience"
+                :rank="rankData"
+                :userExperience="userById.experience"
               ></ProgressBar>
             </v-row>
-            <Multiselect class="multiselect" type="achiv"></Multiselect>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
-    <ChangePass :show="warnDialog" @hideModal="warnDialog = false" />
+    <Multiselect type="achiv" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
+      <v-dialog v-model="changePassDialog" persistent max-width="600">
+        <ChangePass @hideModal="changePassDialog = false" loggedIn=1 />
+      </v-dialog>
   </v-row>
 </template>
 
@@ -79,16 +88,17 @@ export default {
   components: {
     ProgressBar,
     ChangePass,
-    Multiselect,
+    Multiselect
   },
   data() {
     return {
       id: this.$route.params.Uid,
-      warnDialog: false
+      changePassDialog: false,
+      achivDialog: false,
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData"]),
+    ...mapGetters(["findUserById", "userById", "rankData"])
   },
   methods: {
     goToEdit() {
@@ -99,16 +109,19 @@ export default {
     },
     goBack() {
       this.$router.replace({
-          name: "users",
-          query: { page: this.$route.params.page || 1, pageSize: this.$store.getters.pageSize, search: this.search }
-        });
+        name: "users",
+        query: {
+          page: this.$route.params.page || 1,
+          pageSize: this.$store.getters.pageSize,
+          search: this.search
+        }
+      });
     }
   },
   mounted() {
-    if(this.$store.getters.userById === undefined){
+    if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
-    } 
-    else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
+    } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
   }
@@ -131,7 +144,14 @@ export default {
   transition: opacity 0.5s;
   opacity: 0;
 }
-.multiselect{
-  margin-top: 50px;
+.achivBtn{
+  position: absolute;
+  top: 10px;
+  right: -28px;
+}
+.editBtn{
+  position: absolute;
+  bottom: -20px;
+  right: -28px;
 }
 </style>

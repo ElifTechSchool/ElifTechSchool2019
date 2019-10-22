@@ -19,6 +19,7 @@ const getUsers = (query) => {
 
 const getUserById = async (id) => {
   const user = await usersDao.getUserById(id).then(e => e[0]);
+  if (!user) return null;
   const current = await getRank(user.dataValues.experience);
   const next = await getNextRank(user.dataValues.experience);
   return {user, userRank: {current, next}}
@@ -49,20 +50,23 @@ const updateUser = async (req) => {
   usersDao.updateUser(req.params.id, userData);
 };
 
-const updateUserPassword = async (req, res, next) => {
+const updateUserPassword = async (id, oldPass, newPass) => {
   try {
-    const hash = await usersDao.getHash(req.params.id);
-    const check = await bcrypt.compare(req.body.oldPass, hash);
-    if (check){
-      const newPassword = await hashPassword(req.body.newPass);
-      usersDao.updateUserPassword(req.params.id, newPassword);
+    const hash = await usersDao.getHash(id);
+    if(oldPass){
+      const check = await bcrypt.compare(oldPass, hash);
+      if (!check) {
+        throw new Error('Wrong password');
+      }
+      const newPassword = await hashPassword(newPass);
+      usersDao.updateUserPassword(id, newPassword);
     } else {
-      res.status(401);
-      res.send({message: 'Wrong password'});
+      const newPassword = await hashPassword(newPass);
+      usersDao.updateUserPassword(id, newPassword);
     }
   }
   catch (err) {
-    next(err);
+    return err;
   }
 };
 

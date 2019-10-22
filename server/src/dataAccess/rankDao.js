@@ -2,29 +2,19 @@ import sequelize, { models, Op } from '../models/index.js';
 
 const { ranks: rankModel } = models;
 
-const getRanks = (offset, limit, search) => {
-  if (search) {
-    return rankModel.findAndCountAll({
-      where: {
-        name: { [Op.iLike]: `%${search}%` },
-      },
-      offset,
-      limit,
-      order: [
-        ['number', 'ASC'],
-      ],
-      attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
-    });
-  }
-  return rankModel.findAndCountAll({
-    offset,
-    limit,
-    order: [
-      ['number', 'ASC'],
-    ],
-    attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
-  });
-};
+const getRanks = (offset, limit, search) => rankModel.findAndCountAll({
+  ...search ? {
+    where: {
+      name: { [Op.iLike]: `%${search}%` },
+    },
+  } : {},
+  offset,
+  limit,
+  order: [
+    ['number', 'ASC'],
+  ],
+  attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
+});
 
 const getRankById = (id) => rankModel.findByPk(id);
 
@@ -37,20 +27,42 @@ const updateRank = (id, rank) => rankModel.update(
   },
 );
 
-const updateNum = async (exp, query) => rankModel.update({ number: sequelize.literal(query) }, {
+const updateNum = (exp, query) => rankModel.update({ number: sequelize.literal(query) }, {
   where: {
     experience: { [Op.gt]: exp },
   },
 });
 
 // find one Rank where experience < exp
-const getOneRank = (exp) => rankModel.findOne({
+const getPreviousRank = (exp) => rankModel.findOne({
   attributes: ['number', 'experience'],
   where: {
     experience: { [Op.lt]: exp },
   },
   order: [
     ['number', 'DESC'],
+  ],
+});
+
+// find one Rank where experience > exp
+const getNextRank = (exp) => rankModel.findOne({
+  attributes: ['number', 'experience'],
+  where: {
+    experience: { [Op.gt]: exp },
+  },
+  order: [
+    ['number', 'DESC'],
+  ],
+});
+
+// where experience > exp
+const updateNextRanks = (limit, exp, query) => rankModel.update({ number: sequelize.literal(query) }, {
+  where: {
+    experience: { [Op.gt]: exp },
+  },
+  limit: limit - 1,
+  order: [
+    ['experience', 'ASC'],
   ],
 });
 
@@ -65,5 +77,7 @@ export default {
   updateRank,
   deleteRank,
   updateNum,
-  getOneRank,
+  getPreviousRank,
+  getNextRank,
+  updateNextRanks,
 };

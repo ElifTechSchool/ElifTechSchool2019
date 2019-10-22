@@ -1,19 +1,24 @@
 <template>
   <v-container>
-    <Login v-if="this.$store.getters.showLogin"></Login>
+    <Login v-if="!isAuthenticated"></Login>
     <Me v-else></Me>
   </v-container>
 </template>
 
 <script>
-import Login from '@/components/Login.vue';
-import Me from '@/components/Me.vue';
-
+import Login from "@/components/Login.vue";
+import Me from "@/components/Me.vue";
+import {
+    mapGetters
+  } from "vuex";
 export default {
-  components: { 
+  components: {
     Login,
-    Me,
-  }
+    Me
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  },
 };
 </script>
 <style lang="scss"></style>

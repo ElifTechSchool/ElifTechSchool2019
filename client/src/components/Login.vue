@@ -1,8 +1,8 @@
 <template>
     <v-row align="center" justify="center">
-        <v-col md="6">
+        <v-col lg="6" md="6" sm="10">
             <v-card align="center" justify="center">
-                <v-col md="8">
+                <v-col md="8" sm="10">
                     <v-row>
                         <v-col>
                             <h2>R ! P</h2>
@@ -16,8 +16,6 @@
                                 :counter="100"
                                 label="Email"
                                 v-model="user.email"
-                                @keyup="loginResult.status = 200"
-                                :error-messages="loginResult.status !== 200 ? ['Wrong email or password'] : []"
                                 required outlined 
                             ></v-text-field>
                             <v-text-field
@@ -27,31 +25,33 @@
                                 :counter="100"
                                 label="Password"
                                 v-model="user.password"
-                                @change="loginResult.status = 200"
-                                :error-messages="loginResult.status !== 200 ? ['Wrong email or password'] : []"
                                 required outlined
                             ></v-text-field>                       
-                            <v-btn block color="primary" type="submit" height="50px" :disabled="!valid">LOGIN</v-btn>
+                            <v-btn block color="primary" type="submit" height="50px">LOGIN</v-btn>
                         </v-form>
                     </v-row>
                     <v-row class="float-right">
-                        <v-btn text small color="primary">Forgot your password ?</v-btn>
+                        <v-btn text small color="primary" @click="forgotPassDialog = true">Forgot your password ?</v-btn>
                     </v-row>  
                 </v-col>
             </v-card>
+            <ForgotPass type="achiv" :show="forgotPassDialog" @hideModal="forgotPassDialog = false"/>
         </v-col>
-    </v-row>
+  </v-row>
 </template>
 
 <script>
+import ForgotPass from "@/components/Users/ForgotPass.vue";
+
 export default {
+    components: {
+        ForgotPass,
+    },
     data() {
         return {
-            loginResult: {
-                status: 200,
-            },
-            user: {},
             valid: true,
+            forgotPassDialog: false,
+            user: {},
             emailRules: [
                 v => !!v || "E-mail is required",
                 v => (v && v.length <= 100) || "Field must be less than 100 characters",
@@ -66,31 +66,35 @@ export default {
             ],
         }
     },
+    computed: {
+    },
     methods: {
         async loginUser() {
-            this.loginResult = await this.$store.dispatch("loginUser", this.user);
-            if(this.loginResult.status === 200){
-                this.$store.commit("setShowLogin", false);
+            if(this.valid){
+                this.$store.dispatch("loginUser", this.user);
             }
         },
+        loginStatusChange(){
+            this.$store.commit("setLoginStatus", 200);
+        }
     },
 }
 </script>
 
 <style lang="scss" scoped>
-.v-card{
-    height: 700px;
+.v-card {
+  height: 550px;
 }
 .v-form {
-    width: 100%;
+  width: 100%;
 }
-.v-form .v-btn{
-    margin-top: 25px;
+.v-form .v-btn {
+  margin-top: 25px;
 }
-.v-btn{
-    margin-top: 15px;
+.v-btn {
+  margin-top: 15px;
 }
-h2{
-    margin: 50px;
+h2 {
+  margin: 50px;
 }
 </style>

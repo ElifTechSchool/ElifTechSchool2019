@@ -3,6 +3,8 @@ import usersService from '../businessLogic/usersService.js';
 import authService from '../businessLogic/authService.js';
 import upload from '../businessLogic/cloudinaryService.js';
 import usersRolesService from '../businessLogic/usersRolesService.js';
+import userAchievementsService from '../businessLogic/userAchievementsService.js';
+import achievementsService from '../businessLogic/achievementsService.js';
 
 const router = express.Router();
 
@@ -76,10 +78,10 @@ router.get('/', (req, res, next) => {
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: id
- *         in: path
+ *       - name: token
+ *         in: query
  *         required: true
- *         type: number
+ *         type: string
  *     responses:
  *       200:
  *         description: response
@@ -234,6 +236,86 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
 /**
  * @swagger
  *
+ * /v1/users/passwords:
+ *   post:
+ *     description: Get email to reset user password
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               format: email
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.post('/passwords', async (req, res, next) => {
+  authService
+    .passwordToken(req.body.email)
+    .then(() => res.status(200).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/passwords:
+ *   put:
+ *     description: reset user password
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               format: email
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.put('/passwords', async (req, res, next) => {
+  authService
+    .changeUserPassword(req.body.newPass, req.body.token)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
  * /v1/users/{id}:
  *   put:
  *     description: update user
@@ -325,7 +407,7 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  */
 router.put('/:id/passwords', async (req, res, next) => {
   usersService
-    .updateUserPassword(req, res, next)
+    .updateUserPassword(req.params.id, req.body.oldPass, req.body.newPass)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -407,21 +489,114 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/:id/roles', async (req, res, next) => {
   const userId = req.params.id;
-
-  if (!userId || !Array.isArray(req.body.roles)) {
+  const { roles } = req.body;
+  if (!userId || !Array.isArray(roles)) {
     res.status(401).send({ error: 'incorest data' });
   }
-  const userRoles = await usersRolesService.getRolesOfSpecificUser(userId);
-  const rolesToAdd = req.body.roles.filter((r) => userRoles.indexOf(r) === -1);
-  if (!rolesToAdd.length) {
-    res.send({ message: 'roles already exist' });
-    return;
-  }
+  usersRolesService.deleteRolesByUser(userId);
   usersRolesService.createUserRoles(
-    rolesToAdd.map((role) => ({ role_id: role, user_id: userId })),
+    roles.map((role) => ({ role_id: role, user_id: userId })),
   )
     .then(() => res.status(204).end())
     .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/roles:
+ *   get:
+ *     description: get role of a user
+ *     tags:
+ *       - users_roles
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: number
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id/roles', (req, res, next) => {
+  usersRolesService.getRolesOfSpecificUser(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/achievements:
+ *   get:
+ *     description: Get achievements by id user
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+*           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id/achievements', (req, res, next) => {
+  userAchievementsService.getAchievementsByUserId(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+router.post('/:userId/achievements/:achievementId', async (req, res) => {
+  try {
+    const { userId, achievementId } = req.params;
+    if (!userId || !achievementId) {
+      res.send({ message: 'incorrect input: missing userId or achievementId' });
+    }
+    const user = await usersService.getUserById(userId);
+    const achievement = await achievementsService.getAchievementById(achievementId);
+    res.send({
+      user: !!user,
+      achievement: !!achievement.length,
+    });
+
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
 });
 
 export default router;
