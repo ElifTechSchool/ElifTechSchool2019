@@ -25,7 +25,7 @@ const login = async (data, next) => {
 
 const authUser = async (query) => {
   try {
-    const token = query.token.split(' ')[1];
+    const token = query.token;
     const decoded = jwt.verify(token, config.jwtSecret);
     const user = await usersService.getUserById(decoded.id);
     return user;

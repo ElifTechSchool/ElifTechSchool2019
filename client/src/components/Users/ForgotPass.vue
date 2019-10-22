@@ -10,7 +10,6 @@
                     :counter="100"
                     label="Email"
                     v-model="data.email"
-                    :error-messages="loginStatus !== 200 ? ['Wrong email or password'] : []"
                     required outlined 
                 ></v-text-field>
                 <v-row class="float-right pa-3">
@@ -57,11 +56,11 @@ export default {
             .then(res =>  {
                 if(res.status === 200){
                     this.hideModal();
-                    alert("Message sent");
+                    this.$store.dispatch("showSnackBar", { response: "Message sent", color: "primary" });
                 }
                 else {
                     this.hideModal();
-                    alert(res)
+                    this.$store.dispatch("showSnackBar", { response: 'Wrong email, no such user', color: "red" });
                 }
             })
         }
