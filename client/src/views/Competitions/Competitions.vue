@@ -2,6 +2,7 @@
   <div class="competitions">
     <h2>Competitions list</h2>
     <v-row align="center">
+    
     <v-col class="text-center" cols="12" md="8">
       <v-layout>
         <v-btn small slat color="primery" @click="sortByDate">
@@ -15,6 +16,7 @@
       <v-icon dark>mdi-plus</v-icon>
       </v-btn>  
     </v-col>
+    
     </v-row>
     <Competition
       v-for="competition in getCompetitions"
