@@ -13,7 +13,7 @@ const getAchievements = (params, userId) => {
 async function getAchievementsPerPage ({ page, limit, types, type, userId }) {
   let achievements;
   if (type) {
-    if (type === 'me') {
+    if (type === 'my') {
       achievements = await getAchievementsByUserId(userId);
     }
     if (type === 'wanted') {

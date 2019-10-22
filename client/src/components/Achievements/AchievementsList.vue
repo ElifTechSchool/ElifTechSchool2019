@@ -1,7 +1,17 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <FilterTypeAchievements class="mt-0 pt-0" @filter="selectType" />
+      <v-col cols="2" sm="1" class="select_type">
+        <v-select  v-model="selected" @change="selectType"
+          :items="type"
+          :value="type"
+           label="Type"
+          dense
+          outlined
+        >
+        </v-select>
+      </v-col>
+      <FilterTypeAchievements class="mt-0 pt-0" @filter="selectTypes" />
       <div class="block-achievements">
         <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
           <Achievement
@@ -39,7 +49,9 @@ export default {
   data() {
     return {
       limit: 5,
-      page: null
+      page: null,
+      selected: "all",
+      type: ["my", "wanted", "all"]
     };
   },
   mounted() {
@@ -54,7 +66,11 @@ export default {
       this.$store.dispatch("setCurrentPage", page);
       this.$store.dispatch("getAllAchievements");
     },
-    selectType(types) {
+    selectType(type) {
+      this.$store.dispatch("setType", type);
+      this.$store.dispatch("getAllAchievements");
+    },
+    selectTypes(types) {
       this.$store.dispatch("setTypes", types);
       this.$store.dispatch("getAllAchievements");
     }
@@ -68,5 +84,9 @@ export default {
 <style lang="scss">
 .block-achievements {
   margin-left: 30px;
+}
+.select_type {
+  display: inline-block;
+  padding: 0;
 }
 </style>
