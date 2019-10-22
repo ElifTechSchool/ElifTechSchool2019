@@ -19,6 +19,7 @@ const getUsers = (query) => {
 
 const getUserById = async (id) => {
   const user = await usersDao.getUserById(id).then(e => e[0]);
+  if (!user) return null;
   const current = await getRank(user.dataValues.experience);
   const next = await getNextRank(user.dataValues.experience);
   return {user, userRank: {current, next}}

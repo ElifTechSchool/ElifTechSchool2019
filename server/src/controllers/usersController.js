@@ -3,6 +3,8 @@ import usersService from '../businessLogic/usersService.js';
 import authService from '../businessLogic/authService.js';
 import upload from '../businessLogic/cloudinaryService.js';
 import usersRolesService from '../businessLogic/usersRolesService.js';
+import userAchievementsService from '../businessLogic/userAchievementsService.js';
+import achievementsService from '../businessLogic/achievementsService.js';
 
 const router = express.Router();
 
@@ -487,18 +489,13 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/:id/roles', async (req, res, next) => {
   const userId = req.params.id;
-
-  if (!userId || !Array.isArray(req.body.roles)) {
+  const { roles } = req.body;
+  if (!userId || !Array.isArray(roles)) {
     res.status(401).send({ error: 'incorest data' });
   }
-  const userRoles = await usersRolesService.getRolesOfSpecificUser(userId);
-  const rolesToAdd = req.body.roles.filter((r) => userRoles.indexOf(r) === -1);
-  if (!rolesToAdd.length) {
-    res.send({ message: 'roles already exist' });
-    return;
-  }
+  usersRolesService.deleteRolesByUser(userId);
   usersRolesService.createUserRoles(
-    rolesToAdd.map((role) => ({ role_id: role, user_id: userId })),
+    roles.map((role) => ({ role_id: role, user_id: userId })),
   )
     .then(() => res.status(204).end())
     .catch((error) => next(error));
@@ -520,8 +517,15 @@ router.put('/:id/roles', async (req, res, next) => {
  *         required: true
  *         type: number
  *     responses:
- *       204:
- *         description: added success
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: number
  *       401:
  *         description: Unauthorized access
  *         schema:
@@ -531,12 +535,68 @@ router.put('/:id/roles', async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-
 router.get('/:id/roles', (req, res, next) => {
-  const userId = req.params.id;
-  usersRolesService.getRolesOfSpecificUser(userId)
-    .then((data) => res.send(data).end())
+  usersRolesService.getRolesOfSpecificUser(req.params.id)
+    .then((result) => res.json(result))
     .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/achievements:
+ *   get:
+ *     description: Get achievements by id user
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+*           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id/achievements', (req, res, next) => {
+  userAchievementsService.getAchievementsByUserId(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
+router.post('/:userId/achievements/:achievementId', async (req, res) => {
+  try {
+    const { userId, achievementId } = req.params;
+    if (!userId || !achievementId) {
+      res.send({ message: 'incorrect input: missing userId or achievementId' });
+    }
+    const user = await usersService.getUserById(userId);
+    const achievement = await achievementsService.getAchievementById(achievementId);
+    res.send({
+      user: !!user,
+      achievement: !!achievement.length,
+    });
+
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
 });
 
 export default router;
