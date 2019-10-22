@@ -8,6 +8,11 @@ const { users: usersModel } = models;
 const getCompetitions = (params) => competitionModel.findAndCountAll({
     limit: params.limit,
     offset: (params.page-1)*params.limit,
+    include: [{
+      model: usersModel,
+      through: competitionFollowersModel,
+      attributes: ['id', 'surname', 'name'],
+    }],
     attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
   });
 
@@ -36,7 +41,7 @@ const deleteCompetition = (id) => competitionModel.destroy({
 const getCompetitionFollowers = (competitionId) => competitionFollowersModel.findAll({
     where: {competitionId: competitionId},
     include: [usersModel, competitionModel]
-  
+
   });
 
 

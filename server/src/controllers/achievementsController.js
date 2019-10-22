@@ -1,6 +1,5 @@
 import express from 'express';
 import achievementService from '../businessLogic/achievementsService.js';
-import authMiddleware from '../middleware/auth.js';
 import userAchievementsService from '../businessLogic/userAchievementsService.js';
 import upload from '../businessLogic/cloudinaryService.js';
 
@@ -51,7 +50,7 @@ router.get('/types', (req, res, next) => {
   achievementService.getTypes()
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
-}); 
+});
 
 router.get('/', /*authMiddleware,*/ (req, res, next) => {
   achievementService.getAchievements(req.query)
@@ -285,8 +284,8 @@ router.post('/:id/users', async (req, res, next) => {
   )
     .then((response) => {// just for testing
       console.log('response', response);
-      return response 
-    })  
+      return response
+    })
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });

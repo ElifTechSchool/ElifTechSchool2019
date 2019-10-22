@@ -50,7 +50,7 @@ module.exports = class Users extends Sequelize.Model {
           len: [0, 300],
         },
       },
-      
+
       description: {
         type: Sequelize.STRING(500),
         allowNull: true,
@@ -76,7 +76,6 @@ module.exports = class Users extends Sequelize.Model {
     });
   }
   static associate(models) {
-    this.userCompetitions = this.hasMany(models.users_competitions);
-    
- }
+    this.belongsToMany(models.competitions, { through: 'users_competitions', foreignKey: 'userId' });
+  }
 };
