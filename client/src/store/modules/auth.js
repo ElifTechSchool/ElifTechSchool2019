@@ -67,8 +67,10 @@ const actions = {
     localStorage.removeItem("user-refreshToken");
   },
   forgotPass(_, email) {
-    return axios.post('users/passwords', email)
-    .catch(err => err);
+    return axios
+      .post('users/passwords', email)
+      .then(res => dispatch("showSnackBar", { response: res.statusText, color: "primary" }))
+      .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
   changePasswordToken({ dispatch }, data) {
       return axios

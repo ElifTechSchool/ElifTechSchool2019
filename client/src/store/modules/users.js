@@ -99,7 +99,11 @@ const actions = {
   changePassword({ dispatch }, { passData, id }) {
     axios
     .put(`users/${id}/passwords`, passData)
-    .then(res => dispatch("showSnackBar", { response: res.statusText, color: "primary" }))
+    .then(res => {
+      if(res.status === 204){
+        dispatch("showSnackBar", { response: "Password changed", color: "primary" })
+      }
+    })
     .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
     dispatch("getUserById", id);
   },
