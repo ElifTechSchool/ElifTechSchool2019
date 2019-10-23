@@ -41,21 +41,11 @@ router.get('/', (req, res, next) => {
  *         description: Server error
  *         schema:
  */
-router.post('/', async (req, res, next) => {
-  try {
-    const decoded = jwt.verify(req.body.refreshToken, config.jwtRefreshSecret);
-    const tokensData = await usersTokensService.getTokenByUserId(decoded.id);
-    if (
-      tokensData && tokensData.refresh_token === req.body.refreshToken
-    ) {
-      const token = jwt.sign({ id: tokensData.user_id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
-      res.send({ token });
-    } else {
-      throw new Error('refresh token is not valid');
-    }
-  } catch (error) {
-    next(error);
-  }
+
+router.post('/', (req, res, next) => {
+  usersTokensService.restoreTokens(req.body.refreshToken)
+    .then(({ token, refreshToken }) => res.status(201).send({ token, refreshToken }))
+    .catch((error) => next(error));
 });
 
 export default router;

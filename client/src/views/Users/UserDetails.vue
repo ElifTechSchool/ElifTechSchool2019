@@ -101,6 +101,7 @@
                   max-height="60px"
                   @click="goToAchievementDetails(achievement.id)"
                 />
+
               </v-col>
             </v-row>
           </v-col>
@@ -142,7 +143,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole"])
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById"])
   },
   methods: {
     goToEdit() {
@@ -219,8 +220,8 @@ export default {
 }
 .achievement:hover {
   cursor: pointer;
-  -webkit-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
-  -moz-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
-  box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  -webkit-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+  -moz-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+  box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
 }
 </style>
