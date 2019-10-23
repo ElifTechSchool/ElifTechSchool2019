@@ -143,26 +143,15 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-//router.post('/', authMiddleware, async (req, res, next) => {
-router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res, next) => {
+router.post('/', upload.single('photo_url'), async (req, res, next) => {
   try {
-    const achievement = await achievementService.createAchievement({
+    await achievementService.createAchievement({
       ...req.body,
       photo_url: req.file.secure_url,
     });
-// TODO: save user_achievement when pass token
-    if (res.locals.userId) {
-      await userAchievementsService.createUserAchievements({
-        userId: res.locals.userId,
-        achievementId: achievement.id,
-      });
-// just for testing
-      const getUserAchievements = await userAchievementsService.getUserAchievements();
-      console.log('getUserAchievements', getUserAchievements);
-    }
     res.status(201).send();
   } catch (error) {
-      next(error);
+    next(error);
   }
 });
 

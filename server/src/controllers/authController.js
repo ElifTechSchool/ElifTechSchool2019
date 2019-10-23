@@ -1,7 +1,7 @@
 import express from 'express';
 import usersService from '../businessLogic/usersService.js';
 import authService from '../businessLogic/authService.js';
-import sessionService from '../businessLogic/sessionService.js';
+import usersTokensService from '../businessLogic/usersTokensService.js';
 
 const router = express.Router();
 
@@ -44,17 +44,16 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
   try {
     const { refreshToken, token, userId } = await authService.login(req.body, next);
-    const browserInfo = req.headers['user-agent'];
-    const sessionData = await sessionService.getSessionByUserIdAndBrowser(userId, browserInfo);
-    if (sessionData != null) {
-      if (userId === sessionData.user_id && browserInfo === sessionData.browser_info) {
-        await sessionService.deleteOldSession(sessionData.id);
+    const userTokenData = await usersTokensService.getTokenByUserId(userId);
+    if (userTokenData) {
+      if (userId === userTokenData.user_id) {
+        await usersTokensService.deleteUserToken(userTokenData.id);
       }
     }
-    await sessionService.createSession({ userId, refreshToken, browserInfo });
+    await usersTokensService.createUserToken({ userId, refreshToken });
     res.send({ token, refreshToken });
   } catch (err) {
-    res.status(401).end();
+    next(err);
   }
 });
 
