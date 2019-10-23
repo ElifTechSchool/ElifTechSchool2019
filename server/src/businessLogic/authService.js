@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import config from '../../config/env.js';
-import usersService from '../businessLogic/usersService.js';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
-import randToken from 'rand-token';
+import config from '../../config/env.js';
+import usersService from './usersService.js';
 
 const login = async (data, next) => {
   const user = await usersService.getUserByEmail(data.email);
