@@ -3,6 +3,7 @@ import axios from "axios";
 const state = {
   users: [],
   userById: {},
+  userByIdRole: 3,
   usersCount: 0,
   pageSize: 4,
   numOfPages: 0,
@@ -13,6 +14,7 @@ const getters = {
   users: state => state.users,
   userById: state => state.userById.user,
   rankData: state => state.userById.userRank,
+  userByIdRole: state => state.userByIdRole,
   findUserById(state) {
     return id => state.users.find(el => el.id === id);
   },
@@ -40,7 +42,10 @@ const mutations = {
   },
   setSearch: (state, search) => {
     state.search = search;
-  }
+  },
+  setUserByIdRole: (state, role) => {
+    state.userByIdRole = role;
+  },
 };
 
 const actions = {
@@ -106,6 +111,18 @@ const actions = {
         dispatch("loadUsers", { page, pageSize, search });
       }})
     .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
+  },
+  updateUserRole(_, { userRole, id }) {
+    console.log(userRole);
+    axios.put(`users/${id}/roles`, { roles: [userRole] })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  },  
+  getUserRole({ commit }, id) {
+    axios.get(`/users/${id}/roles`)
+      .then(res => {
+        commit("setUserByIdRole", res.data[0])
+      })
   }
 };
 
