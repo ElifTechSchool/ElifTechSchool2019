@@ -123,7 +123,7 @@ const actions = {
       .then(res => {
         commit("setUserByIdRole", res.data[0])
       })
-  }
+  },
 };
 
 export default {

@@ -4,17 +4,20 @@ const state = {
   forgotPassDialog: false,
   token: localStorage.getItem("user-token") || "",
   refreshToken: localStorage.getItem("user-refreshToken") || "",
-  userMe: {}
+  userMe: {},
+  meRole: 3,
 };
 
 const getters = {
   token: state => state.token,
   userMe: state => state.userMe,
+  meRole: state => state.meRole,
   isAuthenticated: state => !!state.token
 };
 
 const mutations = {
   setUserMe: (state, data) => state.userMe = data,
+  setMeRole: (state, role) => state.meRole = role,
   setTokens: (state, data) => {
     state.token = data.token;
     state.refreshToken = data.refreshToken;
@@ -71,6 +74,12 @@ const actions = {
       return axios
         .put('/users/passwords', data)
         .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
+  },
+  getMeRole({ commit }, id) {
+    axios.get(`/users/${id}/roles`)
+      .then(res => {
+        commit("setMeRole", res.data[0])
+      })
   }
 };
 export default {
