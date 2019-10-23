@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col md="6">
+    <v-col lg="6" md="8" sm="10">
       <v-card :elevation="5" class="mx-auto">
         <v-row>
           <v-col md="4">
@@ -54,10 +54,9 @@
             </v-card-actions>
           </v-col>
           <v-col md="7" justify-self="center">
-            <v-row>
-              <v-card-title class="font-weight-bold"
-                >{{ userById.name }} {{ userById.surname }}</v-card-title
-              >
+            <v-row class="justify-space-between mb-2 flex-column">
+              <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
+              <h4>{{ userByIdRole === 1 ? 'Administrator' : userByIdRole === 2 ? 'Moderator' : 'User'}}</h4>
             </v-row>
             <v-row>
               <ProgressBar
@@ -98,7 +97,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData"])
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole"])
   },
   methods: {
     goToEdit() {
@@ -121,8 +120,10 @@ export default {
   mounted() {
     if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$store.dispatch("getUserRole", this.$route.params.Uid);
     } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$store.dispatch("getUserRole", this.$route.params.Uid);
     }
   }
 };
@@ -153,5 +154,9 @@ export default {
   position: absolute;
   bottom: -20px;
   right: -28px;
+}
+.v-card__title{
+  padding: 0px;
+  padding-bottom: 0px;
 }
 </style>

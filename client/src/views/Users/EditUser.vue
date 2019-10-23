@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center">
-    <v-col md="6">
+    <v-col lg="6" md="8" sm="10">
       <v-card :elevation="5" class="mx-auto">
         <v-row justify="center">
-          <v-col md="6">
+          <v-col lg="6" md="10" sm="10">
             <v-form @submit.prevent="updateUser" enctype="multipart/form-data">
               <v-row>
                 <v-col cols="12" sm="6" md="6">
@@ -41,7 +41,7 @@
                     :items="roles"
                     label="User role"
                     name="role"
-                    v-model="userData.role"
+                    v-model= "userRole"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -94,18 +94,30 @@ export default {
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ],
       image_url: undefined,
-      roles: ["user", "moderator", "admin"]
+      roles: [
+        { text: "user", value: 3 }, 
+        { text: "moderator", value:2 }, 
+        { text: "administrator", value:1 }],
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById"]),
+    ...mapGetters(["findUserById", "userById", "userByIdRole"]),
     userData() {
       if (this.findUserById(this.id)) {
         return this.findUserById(this.id);
       } else {
         return this.userById;
       }
-    }
+    },
+    userRole: {
+      get() {
+        return this.userByIdRole;
+      },
+      set(val) {
+        console.log(this.userByIdRole);
+        this.$store.commit("setUserByIdRole", val);
+      }
+    },
   },
   methods: {
     async updateUser() {
@@ -121,7 +133,7 @@ export default {
         }
       });
       await this.$store.dispatch("updateUser", { formData, id });
-      await this.$store.dispatch("getUserById", this.$route.params.Uid);
+      await this.$store.dispatch("updateUserRole", { userRole: this.userByIdRole, id });
       this.goToDetail();
     },
     goToDetail() {
