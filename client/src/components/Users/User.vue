@@ -1,6 +1,6 @@
 <template>
   <v-row class="mx-auto" justify="center" align="center">
-    <v-col lg="4" md="6" sm="8">
+    <v-col lg="4" md="8" sm="8">
       <v-hover v-slot:default="{ hover }">
         <v-card class="user d-flex mx-auto" :elevation="hover ? 6 : 2">
           <v-col md="10" @click="goToDetail" class="d-flex flex-row cursor">
