@@ -82,8 +82,8 @@ router.get('/', (req, res, next) => {
  *     tags:
  *       - users
  *     parameters:
- *       - name: id
- *         in: path
+ *       - name: token
+ *         in: query
  *         required: true
  *         schema:
  *           type: number
@@ -125,7 +125,7 @@ router.get('/', (req, res, next) => {
  *               $ref: '#/components/schemas/500'
  */
 router.get('/me', (req, res, next) => {
-  authService.authUser(req.query)
+  authService.authUser(req.user.id)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -248,8 +248,48 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  * @swagger
  *
  * /v1/users/passwords:
+ *   post:
+ *     description: Get email to reset user password
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               format: email
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.post('/passwords', async (req, res, next) => {
+  authService
+    .passwordToken(req.body.email)
+    .then(() => res.status(200).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/passwords:
  *   put:
- *     description: update users roles
+ *     description: reset user password
  *     tags:
  *       - users
  *     requestBody:
@@ -280,11 +320,10 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
 
 router.put('/passwords', async (req, res, next) => {
   authService
-    .passwordToken(req.body.email)
+    .changeUserPassword(req.body.newPass, req.body.token)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
-
 
 /**
  * @swagger
@@ -395,7 +434,7 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  */
 router.put('/:id/passwords', async (req, res, next) => {
   usersService
-    .updateUserPassword(req, res, next)
+    .updateUserPassword(req.params.id, req.body.oldPass, req.body.newPass)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -498,9 +537,11 @@ router.put('/:id/roles', async (req, res, next) => {
  *
  * /v1/users/{id}/roles:
  *   get:
- *     description: Get roles by id user
+ *     description: get role of a user
  *     tags:
- *       - users
+ *       - users_roles
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path

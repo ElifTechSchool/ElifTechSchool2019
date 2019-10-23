@@ -1,8 +1,8 @@
 <template>
-  <v-card class="competition">
+  <v-card class="mx-auto" max-width="400" color="#fcded9">
     <v-row key="1" justify="center" class="userInfo d-flex">
-      <div v-for="competition in getCompetition" :key="competition.id">
-        <v-col>
+      <div v-for="competition in getCompetition"  :key="competition.id">
+        <v-col >
           <h2><b>Name:</b> {{ competition.name }}</h2>
           <p><b>Description:</b> {{ competition.description }}</p>
           <p>
@@ -11,16 +11,11 @@
           </p>
           <p><b>Experience:</b> {{ competition.experience }}</p>
         </v-col>
-        <v-col>
-          <v-btn
-            color="success"
-            outlined
-            @click="updateCompetition(competition.id)"
-          >
-            <i class="material-icons">
-              create
-            </i>
-            Edit
+        <v-col v-if="$store.getters.userMe.user" >
+          <v-btn color="success" outlined @click="updateCompetition(competition.id)">
+          <i class="material-icons">
+          create
+          </i> Edit
           </v-btn>
           <v-btn
             color="red lighten-2"
@@ -35,8 +30,11 @@
         </v-col>
         <v-col>
           <h4>Folllowers:</h4>
-          <div v-for="follower in getCompetitionFollowers" :key="follower.id">
-            <p>userId: {{ follower.user_id }}</p>
+          <div  v-for="follower in getCompetitionFollowers"  :key="follower.id">
+            <a @click="toUserDetails(follower.user.id)">
+              {{`${follower.user.name} ${follower.user.surname}`}}
+            </a>
+               
           </div>
         </v-col>
       </div>
@@ -51,10 +49,12 @@ export default {
     return {
       hidden: false,
       dataFollower: {
-        competition_id: null,
-        user_id: 153
-      }
-    };
+        competitionId: null,
+        userId: null,
+      },
+      
+      
+    }
   },
   computed: {
     getCompetition() {
@@ -88,24 +88,54 @@ export default {
     },
 
     subscribe(competitionId) {
-      this.dataFollower.competition_id = competitionId;
+      
 
-      if (this.hidden == false) {
-        this.subscribeCompetition();
-        alert("You are subscribed");
-        this.hidden = true;
-      } else {
-        this.unsubscribeCompetition();
-        alert("You are unsubscribed");
-        this.hidden = false;
+            this.dataFollower.competitionId = competitionId;
+      
+        if (this.hidden == false) {
+          this.subscribeCompetition();
+          alert("You are subscribed");
+          this.hidden = true;
+        } else {
+          this.unsubscribeCompetition();
+          alert("You are unsubscribed");
+          this.hidden = false;
+        }
+    },
+    userProps(followerProps) {
+      if(followerProps !== null) {
+        const userProps = followerProps;
       }
+    },
+    toUserDetails(userId) {
+      this.$router.push({
+        name: "userDetails",
+        params: { Uid: userId }
+        });
     }
   },
   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
+  },
+  created() {
+     
+    if (this.$store.getters.userMe.user) {
+    this.dataFollower.userId = this.$store.getters.userMe.user.id;
+    let followersId = this.$store.getters.getFollowers;
+
+      for(let i=0; i < followersId.length; i++){
+        if (this.$store.getters.userMe.user.id == followersId[i].userId )  {
+            this.hidden = true;
+          }
+      }
+     
+    } else {
+        alert("Please login");
+    }
+    
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .v-card {

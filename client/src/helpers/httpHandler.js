@@ -31,8 +31,8 @@ export default function axiosConfig() {
       if (err.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         const refreshToken = localStorage.getItem("user-refreshToken");
-        const res = await axios.post("token", { refreshToken: refreshToken });
-        if (res.status === 201) {
+        const res = await axios.post("tokens", { refreshToken: refreshToken });
+        if (res.status === 200) {
           localStorage.setItem("user-token", `Bearer ${res.data.token}`);
           axios.defaults.headers.common[
             "authorization"

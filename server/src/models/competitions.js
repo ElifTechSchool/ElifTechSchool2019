@@ -51,6 +51,7 @@ module.exports = class Competitions extends Sequelize.Model {
     });
   }
 
-  // static associate(models) {
-  // }
+  static associate(models) {
+    this.belongsToMany(models.users, { through: 'users_competitions', foreignKey: 'competitionId' });
+  }
 };

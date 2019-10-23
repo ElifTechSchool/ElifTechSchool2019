@@ -9,14 +9,14 @@ module.exports = class UsersCompetitions extends Sequelize.Model {
         autoIncrement: true,
         primaryKey: true,
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
           key: 'id',
         },
       },
-      competition_id: {
+      competitionId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'competitions',
@@ -42,7 +42,7 @@ module.exports = class UsersCompetitions extends Sequelize.Model {
   }
 
   static associate(models) {
-    this.user_id = this.hasMany(models.users);
-    this.competition_id = this.hasMany(models.competitions);
-  }
+    this.userCompetition = this.belongsTo(models.users);
+    this.competitionUser = this.belongsTo(models.competitions);
+ }
 };
