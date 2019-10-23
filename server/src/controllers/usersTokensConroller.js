@@ -1,12 +1,12 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import sessionService from '../businessLogic/sessionService.js';
+import usersTokensService from '../businessLogic/usersTokensService.js';
 import config from '../../config/env.js';
 
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-  sessionService.getSessions(req.query)
+  usersTokensService.getUsersTokens(req.query)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
 });
@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
  *   post:
  *     description: Get token from refresh token
  *     tags:
- *       - session
+ *       - users_tokens
  *     produces:
  *       - application/json
  *     parameters:
@@ -44,12 +44,11 @@ router.get('/', (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.body.refreshToken, config.jwtRefreshSecret);
-    const browserInfo = req.headers['user-agent'];
-    const sessionData = await sessionService.getSessionByUserIdAndBrowser(decoded.id, browserInfo);
+    const tokensData = await usersTokensService.getTokenByUserId(decoded.id);
     if (
-      sessionData && sessionData.refresh_token === req.body.refreshToken
+      tokensData && tokensData.refresh_token === req.body.refreshToken
     ) {
-      const token = jwt.sign({ id: sessionData.user_id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
+      const token = jwt.sign({ id: tokensData.user_id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
       res.send({ token });
     } else {
       throw new Error('refresh token is not valid');
