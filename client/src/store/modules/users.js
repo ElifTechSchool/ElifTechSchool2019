@@ -81,20 +81,31 @@ const actions = {
       .then(res => dispatch("showSnackBar", { response: res.statusText, color: "primary" }))
       .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
-  async updateUser(_, { formData, id }) {
-    await axios
+  updateUser({ dispatch }, { formData, id }) {
+    axios
     .put(`users/${id}`, formData)
+    .then(res => {
+      if (res.status === 204) {
+        dispatch("showSnackBar", { response: "Updated!", color: "primary" });
+      }
+    })
     .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
   changePassword({ dispatch }, { passData, id }) {
     axios
     .put(`users/${id}/passwords`, passData)
+    .then(res => dispatch("showSnackBar", { response: res.statusText, color: "primary" }))
     .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
     dispatch("getUserById", id);
   },
-  async deleteUser({ dispatch }, { id, page, pageSize, search }) {
-    await axios.delete(`users/${id}`);
-    dispatch("loadUsers", { page, pageSize, search });
+  deleteUser({ dispatch }, { id, page, pageSize, search }) {
+    axios.delete(`users/${id}`)
+    .then(res => {
+      if(res.status === 204){
+        dispatch("showSnackBar", { response: "Deleted!", color: "primary" })
+        dispatch("loadUsers", { page, pageSize, search });
+      }})
+    .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   }
 };
 
