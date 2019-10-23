@@ -53,7 +53,6 @@ router.get('/types', (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-  console.log("header", req.headers.authorization)
   achievementService.getAchievements(req.query, req.headers.authorization)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));

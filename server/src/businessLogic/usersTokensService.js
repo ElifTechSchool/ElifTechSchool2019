@@ -11,7 +11,7 @@ const restoreTokens = async (refreshToken) => {
     const token = jwt.sign({ id: tokensData.user_id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
     const refreshToken = jwt.sign({ id: tokensData.user_id }, config.jwtRefreshSecret, { expiresIn: config.refreshTokenExpTime });
     await updateUserRefreshToken({ userId: tokensData.user_id, refreshToken });
-    return { token, refreshToken }
+    return { token, refreshToken };
   } else {
     throw new Error('refresh token is not valid');
   }

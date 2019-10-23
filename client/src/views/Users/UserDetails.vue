@@ -65,6 +65,16 @@
                 :userExperience="userById.experience"
               ></ProgressBar>
             </v-row>
+            <v-row> 
+              <v-col v-for="achievement in achievements" :key="achievement.id">
+              <v-img class="achievement"
+                :src="achievement.photo_url"
+                max-width="50px"
+                max-height="50px"
+                @click="goToAchievementDetails(achievement.id)"
+              />
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-card>
@@ -82,6 +92,7 @@ import ChangePass from "@/components/Users/ChangePass.vue";
 import Multiselect from "@/components/Users/Multiselect.vue";
 
 import { mapGetters } from "vuex";
+import axios from 'axios';
 
 export default {
   name: "userDetail",
@@ -95,10 +106,11 @@ export default {
       id: this.$route.params.Uid,
       changePassDialog: false,
       achivDialog: false,
+      achievements: []
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData"])
+    ...mapGetters(["findUserById", "userById", "rankData", "achievementById"])
   },
   methods: {
     goToEdit() {
@@ -116,6 +128,18 @@ export default {
           search: this.search
         }
       });
+    },
+    getOwnAchievements() {
+      axios.get(`users/${this.id}/achievements`)
+        .then(res => {
+          this.achievements = res.data;
+        })        
+        .catch(err => {
+          alert(err);
+        })
+    },
+    goToAchievementDetails(achievementId) {
+      this.$router.push(`/achievements/${achievementId}`)
     }
   },
   mounted() {
@@ -124,6 +148,7 @@ export default {
     } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
     }
+     this.getOwnAchievements()
   }
 };
 </script>
@@ -153,5 +178,11 @@ export default {
   position: absolute;
   bottom: -20px;
   right: -28px;
+}
+.achievement:hover {
+  cursor: pointer;
+-webkit-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+-moz-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
 }
 </style>
