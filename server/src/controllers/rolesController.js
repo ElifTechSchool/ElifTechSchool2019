@@ -11,35 +11,31 @@ const router = express.Router();
  *     description: Get roles
  *     tags:
  *       - roles
+ *     produces:
+ *       - application/json
  *     parameters: []
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                  type: object
- *                  properties:
- *                    id:
- *                      type: number
- *                    name:
- *                      type: string
- *                    description:
- *                      type: string
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                name:
+ *                  type: string
+ *                description:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
   rolesService.getRoles(req.query)

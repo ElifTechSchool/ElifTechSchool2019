@@ -16,55 +16,49 @@ const router = express.Router();
  *     description: Get users
  *     tags:
  *       - users
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: page
  *         in: query
- *         schema:
- *           type: number
- *           default: 1
+ *         type: number
+ *         default: 1
  *       - name: pageSize
  *         in: query
- *         schema:
- *           default: 4
- *           type: number
+ *         default: 4
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                  type: object
- *                  properties:
- *                    id:
- *                      type: number
- *                    name:
- *                      type: string
- *                    surname:
- *                      type: string
- *                    email:
- *                      type: string
- *                    password:
- *                      type: string
- *                    experience:
- *                      type: number
- *                    image_url:
- *                      type: string
- *                    description:
- *                      type: string
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                name:
+ *                  type: string
+ *                surname:
+ *                  type: string
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
+ *                experience:
+ *                  type: number
+ *                image_url:
+ *                  type: string
+ *                description:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
   usersService
@@ -81,48 +75,43 @@ router.get('/', (req, res, next) => {
  *     description: Authenticate user by token
  *     tags:
  *       - users
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: token
  *         in: query
  *         required: true
- *         schema:
- *           type: number
+ *         type: string
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: number
- *                 name:
- *                   type: string
- *                 surname:
- *                   type: string
- *                 email:
- *                   type: string
- *                 password:
- *                   type: string
- *                 experience:
- *                   type: number
- *                 image_url:
- *                   type: string
- *                 description:
- *                   type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             name:
+ *               type: string
+ *             surname:
+ *               type: string
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             image_url:
+ *               type: string
+ *             description:
+ *               type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/me', (req, res, next) => {
   authService.authUser(req.user.id)
@@ -138,48 +127,43 @@ router.get('/me', (req, res, next) => {
  *     description: Get user by id
  *     tags:
  *       - users
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: number
- *                 name:
- *                   type: string
- *                 surname:
- *                   type: string
- *                 email:
- *                   type: string
- *                 password:
- *                   type: string
- *                 experience:
- *                   type: number
- *                 image_url:
- *                   type: string
- *                 description:
- *                   type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             name:
+ *               type: string
+ *             surname:
+ *               type: string
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             image_url:
+ *               type: string
+ *             description:
+ *               type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
   usersService
@@ -196,46 +180,51 @@ router.get('/:id', (req, res, next) => {
  *     description: add user
  *     tags:
  *       - users
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 minLength: 3
- *               surname:
- *                 type: string
- *                 minLength: 3
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *                 minLength: 6
- *               image_url:
- *                 type: string
- *                 format: binary
- *               description:
- *                 type: string
- *               experience:
- *                 type: number
+ *     consumes:
+ *       - multipart/form-data
+ *     parameters:
+ *       - name: name
+ *         in: formData
+ *         required: true
+ *         type: string
+ *         minLength: 3
+ *       - name: surname
+ *         in: formData
+ *         required: true
+ *         type: string
+ *         minLength: 3
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *         format: email
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ *         minLength: 6
+ *       - name: image_url
+ *         in: formData
+ *         required: true
+ *         type: file
+ *       - name: description
+ *         in: formData
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: false
+ *         type: number
  *     responses:
  *       201:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.post('/', upload.single('image_url'), (req, res, next) => {
   usersService
@@ -292,30 +281,29 @@ router.post('/passwords', async (req, res, next) => {
  *     description: reset user password
  *     tags:
  *       - users
- *     requestBody:
- *       content:
- *         application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 email:
- *                   type: string
- *                   format: email
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               format: email
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 
 router.put('/passwords', async (req, res, next) => {
@@ -333,52 +321,40 @@ router.put('/passwords', async (req, res, next) => {
  *     description: update user
  *     tags:
  *       - users
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 minLength: 3
- *               surname:
- *                 type: string
- *                 minLength: 3
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *                 minLength: 6
- *               image_url:
- *                 type: string
- *                 format: binary
- *               description:
- *                 type: string
- *               experience:
- *                 type: number
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
+ *       - name: name
+ *         in: formData
+ *         type: string
+ *       - name: surname
+ *         in: formData
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         type: string
+ *         format: email
+ *       - name: image_url
+ *         in: formData
+ *         type: file
+ *       - name: description
+ *         in: formData
+ *         type: string
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.put('/:id', upload.single('image_url'), (req, res, next) => {
   usersService
@@ -395,42 +371,39 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *     description: update user's password
  *     tags:
  *       - users
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - oldPass
- *               - newPass
- *             properties:
- *               oldPass:
- *                 type: string
- *                 minLength: 6
- *               newPass:
- *                 type: string
- *                 minLength: 6
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: number
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             oldPass:
+ *               type: string
+ *               minLength: 6
+ *               required: true
+ *             newPass:
+ *               type: string
+ *               minLength: 6
+ *               required: true
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.put('/:id/passwords', async (req, res, next) => {
   usersService
@@ -447,6 +420,8 @@ router.put('/:id/passwords', async (req, res, next) => {
  *     description: delete user
  *     tags:
  *       - users
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -458,16 +433,12 @@ router.put('/:id/passwords', async (req, res, next) => {
  *         description: delete success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
   usersService
@@ -485,37 +456,35 @@ router.delete('/:id', (req, res, next) => {
  *     description: update users roles
  *     tags:
  *       - users_roles
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               roles:
- *                 type: array
- *                 items:
- *                   type: number
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: array
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: number
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 
 router.put('/:id/roles', async (req, res, next) => {
@@ -546,32 +515,25 @@ router.put('/:id/roles', async (req, res, next) => {
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 roles:
- *                   type: array
- *                   items:
- *                     type: number
+ *         schema:
+ *           type: object
+ *           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: number
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/:id/roles', (req, res, next) => {
   usersRolesService.getRolesOfSpecificUser(req.params.id)
@@ -587,36 +549,31 @@ router.get('/:id/roles', (req, res, next) => {
  *     description: Get achievements by id user
  *     tags:
  *       - users
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 roles:
- *                   type: array
- *                   items:
- *                     type: string
+ *         schema:
+ *           type: object
+*           properties:
+ *             roles:
+ *               type: array
+ *               items:
+ *                 type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/:id/achievements', (req, res, next) => {
   userAchievementsService.getAchievementsByUserId(req.params.id)
