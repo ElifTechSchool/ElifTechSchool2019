@@ -23,6 +23,7 @@ const state = {
   types: [],
   page: 1,
   type: "all"
+
 };
 
 const getters = {
