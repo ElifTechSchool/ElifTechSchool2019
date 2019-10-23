@@ -114,7 +114,6 @@ export default {
         return this.userByIdRole;
       },
       set(val) {
-        console.log(this.userByIdRole);
         this.$store.commit("setUserByIdRole", val);
       }
     },

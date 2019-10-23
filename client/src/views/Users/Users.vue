@@ -8,7 +8,7 @@
           label="Find user"
           name="search"
           solo rounded clearable
-          v-model="searchProxy"
+          v-model="searchVal"
           prepend-inner-icon="search"
           @click:prepend-inner="searchUser"
           v-on:keyup.enter="searchUser"
@@ -22,7 +22,7 @@
     </v-btn>
     <v-pagination
       v-model="page"
-      :length="pagesNum"
+      :length="numOfPages"
       @input="nextPage"
     ></v-pagination>
   </v-container>
@@ -30,6 +30,8 @@
 
 <script>
 import User from "@/components/Users/User.vue";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "users",
@@ -39,22 +41,16 @@ export default {
   data() {
     return {
       pageProxy: Number(this.$route.query.page),
-      searchProxy: this.$route.query.search
     };
   },
   computed: {
-    users() {
-      return this.$store.getters.users;
-    },
-    pagesNum() {
-      return this.$store.getters.numOfPages;
-    },
-    search: {
+    ...mapGetters(["users", "numOfPages", "search", "pageSize"]),
+    searchVal: {
       get() {
-        return this.searchProxy || this.$route.query.search;
+        return this.search;
       },
       set(val) {
-        this.searchProxy = val;
+        this.$store.commit("setSearch", val);
       }
     },
     page: {
@@ -68,7 +64,7 @@ export default {
   },
   methods: {
     nextPage(page, search) {
-      if (search === "") {
+      if (this.searchVal === "") {
         this.$router.replace({
           name: "users",
           query: {
@@ -82,18 +78,18 @@ export default {
           query: {
             page: page || this.page,
             pageSize: this.$store.getters.pageSize,
-            search: this.search
+            search: this.searchVal
           }
         });
       }
       this.$store.dispatch("loadUsers", {
         page: page || this.page,
         pageSize: this.$store.getters.pageSize,
-        search: this.search
+        search: this.searchVal
       });
     },
     searchUser() {
-      this.nextPage(1, this.searchProxy);
+      this.nextPage(1, this.searchVal);
     }
   },
   mounted() {
