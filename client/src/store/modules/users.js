@@ -73,19 +73,23 @@ const actions = {
       .get(`users/${id}`)
       .then(res => res.data)
       .then(user => commit("setUser", user))
-      .catch(err => console.log(err));
+      .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
-  submitUser(_, newUser) {
+  submitUser({ dispatch }, newUser) {
     axios
       .post("users", newUser)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => dispatch("showSnackBar", { response: res.statusText, color: "primary" }))
+      .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
   async updateUser(_, { formData, id }) {
-    await axios.put(`users/${id}`, formData).catch(err => console.log(err));
+    await axios
+    .put(`users/${id}`, formData)
+    .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
   changePassword({ dispatch }, { passData, id }) {
-    axios.put(`users/${id}/passwords`, passData).catch(err => console.log(err));
+    axios
+    .put(`users/${id}/passwords`, passData)
+    .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
     dispatch("getUserById", id);
   },
   async deleteUser({ dispatch }, { id, page, pageSize, search }) {
