@@ -7,6 +7,10 @@
           <div>Description: {{ competitionData.description }}</div>
           <div>Deadline_date: {{ formatDateRead() }}</div>
           <div>Experience: {{ competitionData.experience }}</div>
+          <p>Followers:</p>
+          <div v-for="users in competitionData.users" :key="users.id" > 
+            <p> {{ `${users.name} ${users.surname}`}} </p>
+          </div>
         </v-card-text>
           <v-card-actions v-if="this.$store.getters.userMe.user" > 
             <v-btn

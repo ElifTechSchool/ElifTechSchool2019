@@ -30,11 +30,6 @@
         <v-btn text to="/ranks">
           Ranks
         </v-btn>
-      </v-toolbar-items>
-
-      <v-spacer></v-spacer>
-
-      <v-toolbar-items v-if="isAuthenticated">
         <v-btn text @click="userLogout">
           <i class="material-icons">
             exit_to_app
@@ -42,6 +37,7 @@
           Logout
         </v-btn>
       </v-toolbar-items>
+
     </v-toolbar>
   </div>
 </template>
