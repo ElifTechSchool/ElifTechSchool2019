@@ -1,15 +1,10 @@
 <template>
-  <div class="achievements">
-    <h1>All achievements</h1>
-    <v-flex xs12 offset-xs8>
-      <v-btn class="mx-2" fab dark large @click="AddAchievement" color="green">
-        <v-icon dark>mdi-plus</v-icon>
-      </v-btn>
-    </v-flex>
-    <div>
-      <AchievementsList />
-    </div>
-  </div>
+  <v-row>
+    <AchievementsList />
+    <v-btn class="mx-2" fab dark large @click="AddAchievement" color="primary">
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
+  </v-row>
 </template>
 
 <script>
@@ -30,5 +25,10 @@ export default {
 <style lang="scss">
 .achievements {
   text-align: center;
+}
+.mx-2 {
+  position: fixed;
+  bottom: 50px;
+  right: 80px;
 }
 </style>
