@@ -52,8 +52,9 @@ router.get('/types', (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get('/', /*authMiddleware,*/ (req, res, next) => {
-  achievementService.getAchievements(req.query)
+router.get('/', (req, res, next) => {
+  console.log("header", req.headers.authorization)
+  achievementService.getAchievements(req.query, req.headers.authorization)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
 });

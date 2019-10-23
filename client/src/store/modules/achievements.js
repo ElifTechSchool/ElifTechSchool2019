@@ -2,10 +2,14 @@ import axios from "axios";
 
 const achievementsURL = "http://localhost:3000/api/v1/achievements/";
 
-function getQuerySrtingURL({ page, limit, types }, url) {
+function getQuerySrtingURL({ page, limit, types, type }, url) {
   let result = "";
   if (page && limit) {
     result = result + `${url}?page=${page}&limit=${limit}`;
+  }
+  if (type) {
+    const typeQuerySrting = `&type=${type}`;
+    result = result + `${typeQuerySrting}`;
   }
   if (types && types.length) {
     const typesQuerySrting = types.map(type => `&types[]=${type}`).join("");
@@ -19,7 +23,8 @@ const state = {
   achievementsCount: 0,
   limit: 5,
   types: [],
-  page: 1
+  page: 1,
+  type: "my"
 };
 
 const getters = {
@@ -52,15 +57,18 @@ const mutations = {
   },
   setTypes: (state, types) => {
     state.types = types;
+  },
+  setType: (state, type) => {
+    state.type = type;
   }
 };
 
 const actions = {
   async getAllAchievements({ commit, state }) {
-    const { page, limit, types } = state;
+    const { page, limit, types, type } = state;
     try {
       const response = await axios
-        .get(getQuerySrtingURL({ page, limit, types }, achievementsURL))
+        .get(getQuerySrtingURL({ page, limit, types, type }, achievementsURL))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);
@@ -71,6 +79,9 @@ const actions = {
   },
   setCurrentPage: ({ commit }, currentPage) => {
     commit("setCurrentPage", currentPage);
+  },
+  setType: ({ commit }, type) => {
+    commit("setType", type);
   },
   setTypes: ({ commit }, types) => {
     commit("setTypes", types);

@@ -1,7 +1,8 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <FilterTypeAchievements class="mt-0 pt-0" @filter="selectType" />
+      <FilterTypeAchievements @filter="selectType" />
+      <FilterTypesAchievements class="mt-0 pt-0" @filter="selectTypes" />
       <div class="block-achievements">
         <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
           <Achievement
@@ -27,12 +28,14 @@
 <script>
 import Achievement from "./Achievement";
 import { mapGetters } from "vuex";
-import FilterTypeAchievements from "./FilterTypeAchievements";
+import FilterTypesAchievements from "./FilterTypesAchievements";
+import FilterTypeAchievements from "./FilterTypeAchievements"
 
 export default {
   components: {
     Achievement,
-    FilterTypeAchievements
+    FilterTypeAchievements,
+    FilterTypesAchievements
   },
   name: "achievements-list",
   props: [],
@@ -54,7 +57,11 @@ export default {
       this.$store.dispatch("setCurrentPage", page);
       this.$store.dispatch("getAllAchievements");
     },
-    selectType(types) {
+    selectType(type) {
+      this.$store.dispatch("setType", type);
+      this.$store.dispatch("getAllAchievements");
+    },
+    selectTypes(types) {
       this.$store.dispatch("setTypes", types);
       this.$store.dispatch("getAllAchievements");
     }
