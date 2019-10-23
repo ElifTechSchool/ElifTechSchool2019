@@ -11,33 +11,29 @@ const router = express.Router();
  *     description: Get examples
  *     tags:
  *       - examples
+ *     produces:
+ *       - application/json
  *     parameters: []
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                  type: object
- *                  properties:
- *                    id:
- *                      type: number
- *                    message:
- *                      type: string
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                message:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 
 router.get('/', (req, res, next) => {
@@ -54,36 +50,31 @@ router.get('/', (req, res, next) => {
  *     description: Get example by id
  *     tags:
  *       - examples
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: number
- *                 message:
- *                   type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             message:
+ *               type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
   exampleService.getExampleById(req.params.id)
@@ -99,29 +90,28 @@ router.get('/:id', (req, res, next) => {
  *     description: add example
  *     tags:
  *       - examples
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               message:
- *                 type: string
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
  *     responses:
  *       201:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.post('/', (req, res, next) => {
   exampleService.createExample(req.body)
@@ -137,35 +127,33 @@ router.post('/', (req, res, next) => {
  *     description: update example
  *     tags:
  *       - examples
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               message:
- *                 type: string
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: number
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.put('/:id', (req, res, next) => {
   exampleService.updateExample(req.params.id, req.body)
@@ -181,6 +169,8 @@ router.put('/:id', (req, res, next) => {
  *     description: update example
  *     tags:
  *       - examples
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -192,16 +182,12 @@ router.put('/:id', (req, res, next) => {
  *         description: delete success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
   exampleService.deleteExample(req.params.id)

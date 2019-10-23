@@ -12,51 +12,45 @@ const router = express.Router();
  *     description: Get ranks
  *     tags:
  *       - ranks
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: page
  *         in: query
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *       - name: pageSize
  *         in: query
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                  type: object
- *                  properties:
- *                    id:
- *                      type: number
- *                    name:
- *                      type: string
- *                    experience:
- *                      type: number
- *                    number:
- *                      type: number
- *                    photo_url:
- *                      type: string
- *                    photo_id:
- *                      type: string
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                name:
+ *                  type: string
+ *                experience:
+ *                  type: number
+ *                number:
+ *                  type: number
+ *                photo_url:
+ *                  type: string
+ *                photo_id:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
   rankService
@@ -73,44 +67,39 @@ router.get('/', (req, res, next) => {
  *     description: Get rank by id
  *     tags:
  *       - ranks
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: number
- *                 name:
- *                   type: string
- *                 experience:
- *                   type: number
- *                 number:
- *                   type: number
- *                 photo_url:
- *                   type: string
- *                 photo_id:
- *                   type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *             name:
+ *               type: string
+ *             experience:
+ *               type: number
+ *             number:
+ *               type: number
+ *             photo_url:
+ *               type: string
+ *             photo_id:
+ *               type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
   rankService
@@ -127,34 +116,31 @@ router.get('/:id', (req, res, next) => {
  *     description: add rank
  *     tags:
  *       - ranks
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               experience:
- *                 type: number
- *               image:
- *                 type: string
- *                 format: binary
+ *     consumes:
+ *       - multipart/form-data
+ *     parameters:
+ *       - name: name
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         required: true
+ *         type: number
+ *       - name: image
+ *         in: formData
+ *         type: file
  *     responses:
  *       201:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.post('/', upload.single('image'), (req, res, next) => {
   req.body.photo_url = req.file.secure_url;
@@ -173,40 +159,33 @@ router.post('/', upload.single('image'), (req, res, next) => {
  *     description: update rank
  *     tags:
  *       - ranks
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               experience:
- *                 type: number
- *               image:
- *                 type: string
- *                 format: binary
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
+ *       - name: name
+ *         in: formData
+ *         type: string
+ *       - name: experience
+ *         in: formData
+ *         type: number
+ *       - name: image
+ *         in: formData
+ *         type: file
  *     responses:
  *       204:
  *         description: update success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.put('/:id', upload.single('image'), (req, res, next) => {
   if (req.file) {
@@ -227,6 +206,8 @@ router.put('/:id', upload.single('image'), (req, res, next) => {
  *     description: delete rank
  *     tags:
  *       - ranks
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -238,16 +219,12 @@ router.put('/:id', upload.single('image'), (req, res, next) => {
  *         description: delete success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
   rankService

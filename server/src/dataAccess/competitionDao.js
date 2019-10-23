@@ -37,6 +37,7 @@ const deleteCompetition = (id) => competitionModel.destroy({
 });
 
 
+
 const getCompetitionFollowers = (competitionId) => competitionFollowersModel.findAll({
     where: {competitionId: competitionId},
     include: [usersModel, competitionModel]

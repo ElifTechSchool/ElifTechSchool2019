@@ -13,41 +13,37 @@ const router = express.Router();
  *     description: Get achievements
  *     tags:
  *       - achievements
+ *     produces:
+ *       - application/json
  *     parameters: []
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                  type: object
- *                  properties:
- *                    id:
- *                      type: number
- *                    name:
- *                      type: string
- *                    description:
- *                      type: string
- *                    type:
- *                      type: string
- *                    experience:
- *                      type: number
- *                    photo_url:
- *                      type: string
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                name:
+ *                  type: string
+ *                description:
+ *                  type: string
+ *                type:
+ *                  type: string
+ *                experience:
+ *                  type: number
+ *                photo_url:
+ *                  type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 
 router.get('/types', (req, res, next) => {
@@ -70,42 +66,37 @@ router.get('/', /*authMiddleware,*/ (req, res, next) => {
  *     description: Get achievements by id
  *     tags:
  *       - achievements
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
+ *         type: number
  *     responses:
  *       200:
  *         description: response
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                 description:
- *                   type: string
- *                 type:
- *                   type: string
- *                 experience:
- *                    type: number
- *                 photo_url:
- *                   type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             description:
+ *               type: string
+ *             type:
+ *               type: string
+ *             experience:
+ *                type: number
+ *             photo_url:
+ *               type: string
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
   achievementService.getAchievementById(req.params.id)
@@ -121,37 +112,36 @@ router.get('/:id', (req, res, next) => {
  *     description: add achievement
  *     tags:
  *       - achievements
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *               type:
- *                 type: string
- *               experience:
- *                  type: number
- *               photo_url:
- *                 type: string
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             description:
+ *               type: string
+ *             type:
+ *               type: string
+ *             experience:
+ *                type: number
+ *             photo_url:
+ *               type: string
  *     responses:
  *       201:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 //router.post('/', authMiddleware, async (req, res, next) => {
 router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res, next) => {
@@ -184,6 +174,8 @@ router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res
  *     description: delete achievement
  *     tags:
  *       - achievements
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -195,16 +187,12 @@ router.post('/', upload.single('photo_url'), /*authMiddleware,*/ async (req, res
  *         description: delete success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.delete('/:id', (req, res, next) => {
   achievementService.deleteAchievement(req.params.id)
@@ -220,43 +208,41 @@ router.delete('/:id', (req, res, next) => {
  *     description: update achievement
  *     tags:
  *       - achievements
+ *     produces:
+ *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: number
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                  type: string
- *               type:
- *                  type: string
- *               experience:
- *                  type: number
- *               photo_url:
- *                  type: string
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             description:
+ *                type: string
+ *             type:
+ *                type: string
+ *             experience:
+ *                type: number
+ *             photo_url:
+ *                type: string
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/401'
+ *         schema:
+ *           $ref: '#/definitions/401'
  *       500:
  *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/500'
+ *         schema:
+ *           $ref: '#/definitions/500'
  */
 router.put('/:id', upload.single('photo_url'), (req, res, next) => {
   const {
