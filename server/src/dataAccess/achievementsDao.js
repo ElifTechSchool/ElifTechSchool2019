@@ -14,7 +14,7 @@ const getTypes = () => achievementsModel.findAll({
   attributes: [
     [Sequelize.fn('DISTINCT', Sequelize.col('type')), 'type'],
   ],
-}).then(result => result.map(col => col.type))
+}).then((result) => result.map((col) => col.type));
 
 const getAchievementByType = (types) => achievementsModel.findAll({
   raw: true,
