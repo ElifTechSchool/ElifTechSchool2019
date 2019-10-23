@@ -51,9 +51,7 @@ const actions = {
   authUser({ commit, dispatch }, token) {
     const tokenParsed = token.split(/(Bearer )/).reverse()
     return axios
-      .get("users/me", {
-        params: { token: tokenParsed[0]}
-      })
+      .get("users/me")
       .then(res => commit("setUserMe", res.data))
       .catch(err => {
         dispatch("showSnackBar", { response: err, color: "red" });
