@@ -12,7 +12,7 @@ import usersAchievements from '../controllers/usersAchievementsController.js';
 
 import competitions from '../controllers/competitionController.js';
 import auth from '../controllers/authController.js';
-import sessions from '../controllers/sessionController.js';
+import usersTokens from '../controllers/usersTokensConroller.js';
 import roles from '../controllers/rolesController.js';
 
 
@@ -30,7 +30,7 @@ router.use('/api/v1/users', users);
 router.use('/api/v1/competitions', competitions);
 router.use('/api/v1/achievements', achievements);
 router.use('/api/v1/login', auth);
-router.use('/api/v1/tokens', sessions);
+router.use('/api/v1/tokens', usersTokens);
 router.use('/api/v1/roles', roles);
 
 export default router;
