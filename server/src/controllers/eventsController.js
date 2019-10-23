@@ -11,41 +11,45 @@ const router = express.Router();
  *     description: Get events
  *     tags:
  *       - events
- *     produces:
- *       - application/json
  *     parameters: []
  *     responses:
  *       200:
  *         description: response
- *         schema:
- *           type: array
- *           items:
- *              type: object
- *              properties:
- *                id:
- *                  type: number
- *                title:
- *                  type: string
- *                description:
- *                  type: string
- *                location:
- *                  type: string
- *                max_people:
- *                  type: number
- *                image:
- *                  type: string
- *                date:
- *                  type: string
- *                time:
- *                  type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  type: object
+ *                  properties:
+ *                    id:
+ *                      type: number
+ *                    title:
+ *                      type: string
+ *                    description:
+ *                      type: string
+ *                    location:
+ *                      type: string
+ *                    max_people:
+ *                      type: number
+ *                    image:
+ *                      type: string
+ *                    date:
+ *                      type: string
+ *                    time:
+ *                      type: string
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.get('/', (req, res, next) => {
   eventsService.getEvents()
@@ -61,43 +65,48 @@ router.get('/', (req, res, next) => {
  *     description: Get event by id
  *     tags:
  *       - events
- *     produces:
- *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         type: number
+ *         schema:
+ *           type: number
  *     responses:
  *       200:
  *         description: response
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
- *               type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: number
+ *                 title:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 location:
+ *                   type: string
+ *                 max_people:
+ *                   type: number
+ *                 image:
+ *                   type: string
+ *                 date:
+ *                   type: string
+ *                 time:
+ *                   type: string
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.get('/:id', (req, res, next) => {
   eventsService.getEventById(req.params.id)
@@ -113,42 +122,43 @@ router.get('/:id', (req, res, next) => {
  *     description: add event
  *     tags:
  *       - events
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
- *               type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: number
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               location:
+ *                 type: string
+ *               max_people:
+ *                 type: number
+ *               image:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *               time:
+ *                 type: string
  *     responses:
  *       201:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.post('/', (req, res, next) => {
   eventsService.createEvent(req.body)
@@ -164,47 +174,49 @@ router.post('/', (req, res, next) => {
  *     description: update event
  *     tags:
  *       - events
- *     produces:
- *       - application/json
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: number
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               location:
+ *                 type: string
+ *               max_people:
+ *                 type: number
+ *               image:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *               time:
+ *                 type: string
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         schema:
  *           type: number
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
- *               type: string
  *     responses:
  *       204:
  *         description: added success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.put('/:id', (req, res, next) => {
   eventsService.updateEvent(req.params.id, req.body)
@@ -220,8 +232,6 @@ router.put('/:id', (req, res, next) => {
  *     description: delete event
  *     tags:
  *       - events
- *     produces:
- *       - application/json
  *     parameters:
  *       - name: id
  *         in: path
@@ -233,12 +243,16 @@ router.put('/:id', (req, res, next) => {
  *         description: delete success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.delete('/:id', (req, res, next) => {
   eventsService.deleteEvent(req.params.id)

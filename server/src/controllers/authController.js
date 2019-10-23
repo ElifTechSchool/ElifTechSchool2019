@@ -14,32 +14,35 @@ const router = express.Router();
  *     description: Get user by email
  *     tags:
  *       - auth
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: email
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             email:
- *               type: string
- *             password:
- *               type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
  *     responses:
  *       200:
  *         description: response
- *         schema:
- *           type: boolean
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: boolean
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.post('/', async (req, res, next) => {
   try {

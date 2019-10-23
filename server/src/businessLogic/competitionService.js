@@ -13,7 +13,9 @@ const deleteCompetition = (id) => competitionDao.deleteCompetition(id);
 
 const getCompetitionFollowers = (competitionId) => competitionDao.getCompetitionFollowers(competitionId);
 
-const createCompetitionFollower = (competitionId, competitionFollower) => competitionDao.createCompetitionFollower(competitionId, competitionFollower);
+const createCompetitionFollower = (competitionId, competitionFollower) => (
+  competitionDao.createCompetitionFollower(competitionId, competitionFollower)
+);
 
 const deleteCompetitionFollower = (id, followerId) => competitionDao.deleteCompetitionFollower(id, followerId);
 

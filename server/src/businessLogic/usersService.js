@@ -1,43 +1,40 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import usersDao from '../dataAccess/usersDao.js';
 
 const hashPassword = (password) => bcrypt.hash(password, 10);
-const getRank = (experience) => usersDao.getRank(experience).then(el => el);
-const getNextRank = (experience) => usersDao.getNextRank(experience).then(el => el);
+const getRank = (experience) => usersDao.getRank(experience).then((el) => el);
+const getNextRank = (experience) => usersDao.getNextRank(experience).then((el) => el);
 
 
 const getUsers = (query) => {
-  if(query.page){
+  if (query.page) {
     const offset = (Number(query.page) - 1) * query.pageSize;
-    return usersDao.getUsersPage(offset, query.pageSize, query.search)
+    return usersDao.getUsersPage(offset, query.pageSize, query.search);
   }
-  else {
-    return usersDao.getUsers()
-  }
-}
+
+  return usersDao.getUsers();
+};
 
 const getUserById = async (id) => {
-  const user = await usersDao.getUserById(id).then(e => e[0]);
+  const user = await usersDao.getUserById(id).then((e) => e[0]);
   if (!user) return null;
   const current = await getRank(user.dataValues.experience);
   const next = await getNextRank(user.dataValues.experience);
-  return {user, userRank: {current, next}}
+  return { user, userRank: { current, next } };
 };
 
 const getUserByEmail = (email) => usersDao.getUserByEmail(email);
 
 const createUser = async (req) => {
-  try{
+  try {
     const userData = req.body;
-    Object.setPrototypeOf(userData, {});    
+    Object.setPrototypeOf(userData, {});
     userData.password = await hashPassword(userData.password);
     if (req.file) {
       userData.image_url = req.file.secure_url;
-    } 
+    }
     usersDao.createUser(userData);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
   }
 };

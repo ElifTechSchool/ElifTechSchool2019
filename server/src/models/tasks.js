@@ -16,10 +16,10 @@ module.exports = class Tasks extends Sequelize.Model {
           len: [0, 100],
         },
       },
-      experience:{ 
-      type: Sequelize.INTEGER,
-      allowNull:false,
-      defaultValue: 0,
+      experience: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       name: {
         type: Sequelize.STRING(100),
@@ -28,24 +28,24 @@ module.exports = class Tasks extends Sequelize.Model {
           len: [0, 100],
         },
       },
-      description:{
+      description: {
         type: Sequelize.TEXT,
-        allowNull:false,
+        allowNull: false,
 
       },
-      owner_id:{
+      owner_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 1,
 
       },
-      deadline_date:{
+      deadline_date: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
 
       },
-      status:{
+      status: {
         type: Sequelize.STRING(100),
         allowNull: false,
         validate: {
@@ -73,10 +73,9 @@ module.exports = class Tasks extends Sequelize.Model {
           attributes: { exclude: ['createdat', 'deletedat', 'updatedat'] },
         },
       },
-    
-    });
 
-}
+    });
+  }
 
   // static associate(models) {
   // }

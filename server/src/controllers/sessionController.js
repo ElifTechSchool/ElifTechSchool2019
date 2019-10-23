@@ -19,27 +19,29 @@ router.get('/', (req, res, next) => {
  *     description: Get token from refresh token
  *     tags:
  *       - session
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: refreshToken
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             refreshToken:
- *               type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
  *     responses:
  *       200:
  *         description: created token success
  *       401:
  *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/401'
  *       500:
  *         description: Server error
- *         schema:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/500'
  */
 router.post('/', async (req, res, next) => {
   try {

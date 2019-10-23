@@ -32,8 +32,7 @@
         <v-row>
           <v-col cols="12" sm="12" md="12">
             <v-text-field
-              type="email"
-              :rules="emailRules"
+
               :counter="100"
               label="E-mail"
               name="email"
