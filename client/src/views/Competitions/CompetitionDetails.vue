@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       hidden: false,
+      isActiveCompetitions: false,
       dataFollower: {
         competitionId: null,
         userId: null,
@@ -146,6 +147,15 @@ export default {
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
   created() {
+    
+    if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
+        this.isActiveCompetitions = true;
+        console.log(this.isActiveCompetitions);
+    
+    }
+    
+    
+
     if (this.$store.getters.userMe.user) {
     this.dataFollower.userId = this.$store.getters.userMe.user.id;
     let followersId = this.$store.getters.getFollowers;
@@ -156,9 +166,8 @@ export default {
           }
       }
     } 
-    //  else {
-    //     alert("Please login");
-    // }
+
+    
     
   }
 }

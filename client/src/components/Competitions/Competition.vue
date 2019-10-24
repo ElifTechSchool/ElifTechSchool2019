@@ -81,6 +81,7 @@ export default {
     return {
       dialog: false,
       hover: false,
+      isActiveCompetitions: false,
     };
   },
   name: "Competition",
@@ -99,11 +100,18 @@ export default {
     },
     formatDateRead() {
       const date = new Date(this.competitionData.deadline_date);
-      let month = date.getMonth();
+      let month = date.getMonth()+1;
       let day = date.getDate();
       let year = date.getFullYear();
 
         return day + '/' + month + '/' + year;
+    },
+    created () {
+      if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
+          this.isActiveCompetitions = true;
+          console.log(this.isActiveCompetitions);
+          
+        }
     },
     
   }

@@ -1,13 +1,20 @@
 import { models } from '../models/index.js';
-
+import  Sequelize from 'sequelize'
+const Op = Sequelize.Op;
 const { competitions: competitionModel} = models;
 const { users_competitions: competitionFollowersModel } = models;
 const { users: usersModel } = models;
 
 
 const getCompetitions = (params) => competitionModel.findAndCountAll({
+   
     limit: params.limit,
     offset: (params.page-1)*params.limit,
+    // where: {
+    //   deadline_date: {
+    //     [Op.gt]: params.date
+    //   }
+    // },
     include: [{
       model: usersModel,
       through: competitionFollowersModel,

@@ -6,9 +6,9 @@ const router = express.Router();
 /**
  * @swagger
  *
- * /v1/competitions:
+ * /v1/competitions/:
  *   get:
- *     description: Get competitions
+ *     description: Get all competitions
  *     tags:
  *       - competitions
  *     produces:

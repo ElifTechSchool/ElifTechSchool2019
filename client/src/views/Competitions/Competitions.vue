@@ -41,7 +41,8 @@ export default {
     return {
       competitionParams: {
         limit: 5,
-        page: 1
+        page: 1,
+        // date: new Date(Date.now())
       }
     };
   },
@@ -59,10 +60,7 @@ export default {
   },
   methods: {
     sortByDate() {
-      const competitions = this.$store.getters.getCompetitions;
-      return competitions.sort((a, b) =>
-        a.deadline_date < b.deadline_date ? 1 : -1
-      );
+      this.$router.push({ name:  "competitions", query: { plan: "all"} })
     },
     addCompetition() {
         this.$router.push({
