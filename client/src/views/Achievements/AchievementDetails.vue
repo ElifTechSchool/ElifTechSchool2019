@@ -48,7 +48,6 @@
                 :show="achivDialog"
                 @hideModal="achivDialog = false"
               ></Multiselect>
-              </v-card-actions>
             </v-row>
           </div>
         </v-card>
