@@ -36,33 +36,14 @@ export default {
             ],
         }
     },
-    computed: {
-        loginStatus: {
-            get(){
-                return this.$store.getters.authData.status
-            },
-            set(){
-                this.$store.commit("setLoginStatus", 200)
-            }
-        }
-        
-    },
     methods: {
         hideModal() {
             this.$emit("hideModal")
         },
-        forgotPass() {
-            this.$store.dispatch("forgotPass", this.data)
-            .then(res =>  {
-                if(res.status === 200){
-                    this.hideModal();
-                    this.$store.dispatch("showSnackBar", { response: "Message sent", color: "primary" });
-                }
-                else {
-                    this.hideModal();
-                    this.$store.dispatch("showSnackBar", { response: 'Wrong email, no such user', color: "red" });
-                }
-            })
+        async forgotPass() {
+            await this.$store.dispatch("forgotPass", this.data)
+            this.hideModal();
+            
         }
     },
 }

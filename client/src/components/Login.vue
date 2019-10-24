@@ -1,6 +1,6 @@
 <template>
     <v-row align="center" justify="center">
-        <v-col lg="6" md="6" sm="10">
+        <v-col xl="4" lg="6" md="8" sm="10">
             <v-card align="center" justify="center">
                 <v-col md="8" sm="10">
                     <v-row>
@@ -20,11 +20,13 @@
                             ></v-text-field>
                             <v-text-field
                                 name="password"
-                                type="password"
                                 :rules="passRules"
                                 :counter="100"
                                 label="Password"
                                 v-model="user.password"
+                                :append-icon="show ? 'visibility' : 'visibility_off'"
+                                :type="show ? 'text' : 'password'"
+                                @click:append="show = !show"
                                 required outlined
                             ></v-text-field>                       
                             <v-btn block color="primary" type="submit" height="50px">LOGIN</v-btn>
@@ -64,6 +66,7 @@ export default {
                 v => /^(?=.*?[A-Z])(?=.*?[a-z])/.test(v) || "Password must have at least one upper case and one lower case English letter to be valid",
                 v => /(?=.*?[0-9])/.test(v) || "Password must have at least one digit",
             ],
+            show: false,
         }
     },
     computed: {

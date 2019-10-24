@@ -33,18 +33,20 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab>
+              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab v-if="($store.getters.meRole < 3) || (this.$route.params.Uid === this.$store.getters.userMe.user.id)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
                 @click="changePassDialog = true"
+                v-if="($store.getters.meRole < 3) || (this.$route.params.Uid === this.$store.getters.userMe.user.id)"
                 outlined
               >Change Password</v-btn>
               <v-btn
                 color="primary" fab class="achivBtn"
+                v-if="$store.getters.meRole < 3"
                 @click="achivDialog = true"
-              >
+               >
                 <v-icon>mdi-trophy</v-icon>
               </v-btn>
 
@@ -112,7 +114,7 @@ export default {
         query: {
           page: this.$route.params.page || 1,
           pageSize: this.$store.getters.pageSize,
-          search: this.search
+          search: this.$store.getters.search
         }
       });
     }

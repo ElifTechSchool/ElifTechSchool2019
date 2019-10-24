@@ -91,6 +91,7 @@ const actions = {
     .put(`users/${id}`, formData)
     .then(res => {
       if (res.status === 204) {
+        dispatch("getUserById", id);
         dispatch("showSnackBar", { response: "Updated!", color: "primary" });
       }
     })
@@ -99,7 +100,11 @@ const actions = {
   changePassword({ dispatch }, { passData, id }) {
     axios
     .put(`users/${id}/passwords`, passData)
-    .then(res => dispatch("showSnackBar", { response: res.statusText, color: "primary" }))
+    .then(res => {
+      if(res.status === 204){
+        dispatch("showSnackBar", { response: "Password changed", color: "primary" })
+      }
+    })
     .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
     dispatch("getUserById", id);
   },
@@ -124,6 +129,22 @@ const actions = {
         commit("setUserByIdRole", res.data[0])
       })
   },
+  getUserAchiev(_, id) {
+    axios.get(`/users/${id}/achievements`)
+      .then(res => {
+        console.log(res)
+        //commit("setUserAchiv", res.data[0])
+      })
+  },
+  addUserAchiev(_, {userId, achievId}) {
+    axios
+    .post(`/users/${userId}/achievements/${achievId}`)
+    .then(res => {
+      console.log(res)
+      //commit("setUserAchiv", res.data[0])
+    })
+    .catch(err => console.log(err))
+  }
 };
 
 export default {
