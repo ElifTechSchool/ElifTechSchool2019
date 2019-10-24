@@ -93,6 +93,16 @@
                 :userExperience="userById.experience"
               ></ProgressBar>
             </v-row>
+            <v-row> 
+              <v-col v-for="achievement in achievements" :key="achievement.id">
+                <v-img class="achievement"
+                  :src="achievement.photo_url"
+                  max-width="60px"
+                  max-height="60px"
+                  @click="goToAchievementDetails(achievement.id)"
+                />
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-card>
@@ -114,6 +124,7 @@ import ChangePass from "@/components/Users/ChangePass.vue";
 import Multiselect from "@/components/Users/Multiselect.vue";
 
 import { mapGetters } from "vuex";
+import axios from 'axios';
 
 export default {
   name: "userDetail",
@@ -126,7 +137,8 @@ export default {
     return {
       id: this.$route.params.Uid,
       changePassDialog: false,
-      achivDialog: false
+      achivDialog: false,
+      achievements: []
     };
   },
   computed: {
@@ -148,6 +160,18 @@ export default {
           search: this.search
         }
       });
+    },
+    getOwnAchievements() {
+      axios.get(`users/${this.id}/achievements`)
+        .then(res => {
+          this.achievements = res.data;
+        })        
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    goToAchievementDetails(achievementId) {
+      this.$router.push(`/achievements/${achievementId}`)
     }
   },
   mounted() {
@@ -158,6 +182,7 @@ export default {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.$store.dispatch("getUserRole", this.$route.params.Uid);
     }
+     this.getOwnAchievements()
   }
 };
 </script>
@@ -191,5 +216,11 @@ export default {
 .v-card__title {
   padding: 0px;
   padding-bottom: 0px;
+}
+.achievement:hover {
+  cursor: pointer;
+  -webkit-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
 }
 </style>

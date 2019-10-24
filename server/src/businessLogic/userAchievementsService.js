@@ -17,7 +17,10 @@ const getUserAchievements = () => userAchievements.findAll({ raw: true });
 
 const getAchievementsByUserId = (userId) => userAchievements.findAll({
   where: { user_id: userId },
-})
+  attributes: [
+    [Sequelize.fn('DISTINCT', Sequelize.col('achievement_id')), 'achievement_id'],
+  ],
+}).then((result) => result.map((col) => col.achievement_id));
 
 export default {
   createUserAchievements,

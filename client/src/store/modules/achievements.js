@@ -1,11 +1,13 @@
 import axios from "axios";
 
-const achievementsURL = "http://localhost:3000/api/v1/achievements/";
-
-function getQuerySrtingURL({ page, limit, types }, url) {
+function getQuerySrtingURL({ page, limit, types, type }, url) {
   let result = "";
   if (page && limit) {
     result = result + `${url}?page=${page}&limit=${limit}`;
+  }
+  if (type) {
+    const typeQuerySrting = `&type=${type}`;
+    result = result + `${typeQuerySrting}`;
   }
   if (types && types.length) {
     const typesQuerySrting = types.map(type => `&types[]=${type}`).join("");
@@ -19,7 +21,8 @@ const state = {
   achievementsCount: 0,
   limit: 5,
   types: [],
-  page: 1
+  page: 1,
+  type: "all"
 };
 
 const getters = {
@@ -52,15 +55,18 @@ const mutations = {
   },
   setTypes: (state, types) => {
     state.types = types;
+  },
+  setType: (state, type) => {
+    state.type = type;
   }
 };
 
 const actions = {
   async getAllAchievements({ commit, state }) {
-    const { page, limit, types } = state;
+    const { page, limit, types, type } = state;
     try {
       const response = await axios
-        .get(getQuerySrtingURL({ page, limit, types }, achievementsURL))
+        .get(getQuerySrtingURL({ page, limit, types, type }, `achievements`))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);
@@ -72,33 +78,36 @@ const actions = {
   setCurrentPage: ({ commit }, currentPage) => {
     commit("setCurrentPage", currentPage);
   },
+  setType: ({ commit }, type) => {
+    commit("setType", type);
+  },
   setTypes: ({ commit }, types) => {
     commit("setTypes", types);
   },
   async getAchievementById(store, id) {
     try {
-      return await axios.get(achievementsURL + id);
+      return await axios.get(`achievements/${id}`);
     } catch (error) {
       console.log(error);
     }
   },
   async addAchievement({ commit }, achievement) {
     try {
-      await axios.post(achievementsURL, achievement);
+      await axios.post(`achievements`, achievement);
     } catch (error) {
       console.log(error);
     }
   },
   async updateAchievement(store, { achievement, id }) {
     try {
-      await axios.put(achievementsURL + id, achievement);
+      await axios.put(`achievements/${id}`, achievement);
     } catch (error) {
       console.log(error);
     }
   },
   async deleteAchievement({ dispatch }, { id }) {
     try {
-      await axios.delete(achievementsURL + id);
+      await axios.delete(`achievements/${id}`);
       dispatch("getAllAchievements");
     } catch (error) {
       console.log(error);
