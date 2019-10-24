@@ -1,50 +1,39 @@
 <template>
-  <v-row justify="center" v-if="showFiters && types">
-    <v-checkbox
-      v-for="(type, index) in types"
-      :key="`type-${index}`"
-      v-model="selected"
-      :label="type"
-      :value="type"
-      @change="handleChange($event)"
-    >
-    </v-checkbox>
+  <v-row justify="center">
+    <v-col sm="2">
+      <v-select  
+        v-model="selected"
+        @change="handleChange($event)"
+        :items="type"
+        :value="type"
+        label="Type"
+        dense
+        outlined
+      >
+      </v-select>
+    </v-col>
   </v-row>
 </template>
+
 <script>
 import axios from "axios";
 export default {
   data() {
     return {
-      selected: [],
-      showFiters: false,
-      types: null
+      selected: "all",
+      type: ["my", "wanted", "all"]
     };
   },
   methods: {
     handleChange() {
       this.$emit("filter", this.selected);
     },
-    typesAchievements() {
-      const achievementsURL = "http://localhost:3000/api/v1/achievements/types";
-      this.showFiters = false;
-      axios
-        .get(achievementsURL)
-        .then(res => {
-          this.showFiters = true;
-          this.types = res.data.data;
-        })
-        .catch(err => console.log(err));
-    }
   },
-  mounted() {
-    this.typesAchievements();
-  }
 };
 </script>
 
 <style lang="scss">
-v-checkbox {
-  display: inline-block;
-}
+  v-select {
+    display: inline-block;
+  }
 </style>

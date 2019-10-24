@@ -24,19 +24,19 @@ export default function axiosConfig() {
       const originalRequest = err.config;
       if (err.response.status === 401) {
         const refreshToken = localStorage.getItem("user-refreshToken");
-        const res = await axios.post("tokens", { refreshToken: refreshToken });
-        console.log(res);
-        if (res.status === 200) {
-          localStorage.setItem("user-token", `${res.data.token}`);
-          console.log("seting");
-          originalRequest.headers.Authorization = `Bearer ${res.data.token}`;
-          // axios.defaults.headers.common[
-          //   "authorization"
-          // ] = `Bearer ${res.data.token}`;
-          return axios(originalRequest);
-        }
-        if (res.data.message == "jwt expired") {
-          console.log("logout");
+        try {
+          const res = await axios.post("tokens", {
+            refreshToken: refreshToken
+          });
+          if (res.status === 200) {
+            localStorage.setItem("user-token", `${res.data.token}`);
+            // originalRequest.headers.Authorization = `Bearer ${res.data.token}`;
+            axios.defaults.headers.common[
+              "authorization"
+            ] = `Bearer ${res.data.token}`;
+            return axios(originalRequest);
+          }
+        } catch (error) {
           store.dispatch("logOut");
           router.push("/login");
           return Promise.reject(err);

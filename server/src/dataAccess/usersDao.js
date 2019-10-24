@@ -32,15 +32,16 @@ const getHash = (id) => usersModel.findAll({
 }).then(e => e[0].dataValues.password);
 
 const getUsersPage = (offset, limit, search) => {
-  if(search){
     return usersModel.findAndCountAll({
-      where:{
-        [Op.or]: {
-          name: { [Op.iLike]: `%${search}%` },
-          surname: { [Op.iLike]: `%${search}%` },
-          email: { [Op.iLike]: `%${search}%` },
+      ...search ? {
+        where: {
+          [Op.or]: {
+            name: { [Op.iLike]: `%${search}%` },
+            surname: { [Op.iLike]: `%${search}%` },
+            email: { [Op.iLike]: `%${search}%` },
+          },
         },
-      },
+      } : {},
       offset,
       limit,
       order: [
@@ -48,16 +49,6 @@ const getUsersPage = (offset, limit, search) => {
       ],
       attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
     });
-  } else {
-    return usersModel.findAndCountAll({
-      offset,
-      limit,
-      order: [
-        ['experience', 'DESC'],
-      ],
-      attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
-    });
-  }
 }
 
 const getUsers = () => {
@@ -79,7 +70,7 @@ const getUserByEmail = (email) => usersModel.findAll({
   attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
 });
 
-const createUser = (user) => usersModel.create(user);
+const createUser = (user) => usersModel.create(user).catch(err => err);
 
 const updateUser = (id, user) => usersModel.update(
   user,
