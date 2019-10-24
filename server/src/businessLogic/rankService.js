@@ -19,19 +19,18 @@ const createRank = async (rank) => {
 const updateRank = async (id, rank) => {
   const newRank = rank;
   const oldRank = await rankDao.getRankById(id);
-  const previuosOldRank = await rankDao.getPreviousRank(oldRank.experience);
-  const nextOldRank = await rankDao.getNextRank(oldRank.experience);
-  if (oldRank.experience !== newRank.experience) {
-    const previousRank = await rankDao.getPreviousRank(newRank.experience);
-    newRank.number = previousRank == null ? 1 : previousRank.number;
-  }
-  if (newRank.experience > nextOldRank.experience) {
-    await rankDao.updateNextRanks(oldRank.number, newRank.experience, 'number - 1');
-  }
-  if (newRank.experience < previuosOldRank.experience) {
-    await rankDao.updateNextRanks(oldRank.number, newRank.experience, 'number + 1');
-  }
+  newRank.number = oldRank.number;
   const result = await rankDao.updateRank(id, newRank);
+  if (oldRank.experience !== newRank.experience) {
+    const sortedRanks = await rankDao.getSortedByExpRanks();
+    const ranksToUpdate = sortedRanks.map((el, index) => ({
+      id: el.id,
+      number: index + 1,
+    }));
+    await ranksToUpdate.forEach((rankItem) => {
+      rankDao.updateRank(rankItem.id, rankItem);
+    });
+  }
   return result;
 };
 

@@ -36,10 +36,7 @@ const actions = {
       .then(res => {
         commit("setTokens", res.data);
         localStorage.setItem("user-token", `Bearer ${res.data.token}`);
-        localStorage.setItem(
-          "user-refreshToken",
-          `Bearer ${res.data.refreshToken}`
-        );
+        localStorage.setItem("user-refreshToken", `${res.data.refreshToken}`);
         axios.defaults.headers.common[
           "authorization"
         ] = `Bearer ${res.data.token}`;
@@ -69,8 +66,7 @@ const actions = {
     localStorage.removeItem("user-refreshToken");
   },
   forgotPass(_, email) {
-    return axios.post('users/passwords', email)
-    .catch(err => err);
+    return axios.post("users/passwords", email).catch(err => err);
   },
   changePasswordToken({ dispatch }, data) {
       return axios

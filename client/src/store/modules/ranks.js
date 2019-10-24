@@ -53,7 +53,7 @@ const actions = {
       }
     } catch (error) {
       const message = error.message;
-      dispatch("showSnackBar", { message, color: "red" });
+      dispatch("showSnackBar", { response: message, color: "red" });
     }
   },
   async addRank({ commit, dispatch }, rank) {
@@ -65,17 +65,16 @@ const actions = {
       });
       commit("addRank", response.data);
       dispatch("showSnackBar", {
-        message: "Rank added succesfully",
+        response: "Rank added succesfully",
         color: "green"
       });
     } catch (error) {
       const message = error.message;
-      dispatch("showSnackBar", { message, color: "red" });
+      dispatch("showSnackBar", { response: message, color: "red" });
     }
   },
   async updateRank({ dispatch }, rank) {
     try {
-      console.log(rank);
       await axios.put(`ranks/${rank.id}`, rank.data, {
         headers: {
           "Content-Type": "multipart/form-data"
@@ -84,7 +83,7 @@ const actions = {
       dispatch("getAllRanks");
     } catch (error) {
       const message = error.message;
-      dispatch("showSnackBar", { message, color: "red" });
+      dispatch("showSnackBar", { response: message, color: "red" });
     }
   },
   async deleteRank({ dispatch }, id) {
@@ -93,7 +92,7 @@ const actions = {
       dispatch("getAllRanks");
     } catch (error) {
       const message = error.message;
-      dispatch("showSnackBar", { message, color: "red" });
+      dispatch("showSnackBar", { response: message, color: "red" });
     }
   }
 };

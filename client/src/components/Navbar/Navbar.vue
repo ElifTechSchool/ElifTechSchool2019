@@ -15,9 +15,6 @@
       <!-- <div class="flex-grow-1"></div> -->
 
       <v-toolbar-items v-if="isAuthenticated">
-        <v-btn text to="/about">
-          About
-        </v-btn>
         <v-btn text to="/users" @click="refreshUsers">
           Users
         </v-btn>
