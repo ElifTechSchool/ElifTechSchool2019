@@ -42,7 +42,7 @@
                     :items="roles"
                     label="User role"
                     name="role"
-                    v-model= "userRole"
+                    v-model="userRole"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -96,9 +96,10 @@ export default {
       ],
       image_url: undefined,
       roles: [
-        { text: "user", value: 3 }, 
-        { text: "moderator", value:2 }, 
-        { text: "administrator", value:1 }],
+        { text: "user", value: 3 },
+        { text: "moderator", value: 2 },
+        { text: "administrator", value: 1 }
+      ]
     };
   },
   computed: {
@@ -117,7 +118,7 @@ export default {
       set(val) {
         this.$store.commit("setUserByIdRole", val);
       }
-    },
+    }
   },
   methods: {
     async updateUser() {
@@ -133,7 +134,10 @@ export default {
         }
       });
       await this.$store.dispatch("updateUser", { formData, id });
-      await this.$store.dispatch("updateUserRole", { userRole: this.userByIdRole, id });
+      await this.$store.dispatch("updateUserRole", {
+        userRole: this.userByIdRole,
+        id
+      });
 
       this.goToDetail();
     },

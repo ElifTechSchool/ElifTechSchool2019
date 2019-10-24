@@ -7,7 +7,9 @@
           type="text"
           label="Find user"
           name="search"
-          solo rounded clearable
+          solo
+          rounded
+          clearable
           v-model="searchVal"
           prepend-inner-icon="search"
           @click:prepend-inner="searchUser"
@@ -15,9 +17,17 @@
         />
       </v-col>
     </v-row>
-    
+
     <User v-for="user in users" :userData="user" :key="user.id" />
-    <v-btn class="mx-2" fab dark large to="add_user" color="primary" v-if="$store.getters.meRole < 3">
+    <v-btn
+      class="mx-2"
+      fab
+      dark
+      large
+      to="add_user"
+      color="primary"
+      v-if="$store.getters.meRole < 3"
+    >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
@@ -40,7 +50,7 @@ export default {
   },
   data() {
     return {
-      pageProxy: Number(this.$route.query.page),
+      pageProxy: Number(this.$route.query.page)
     };
   },
   computed: {
@@ -63,7 +73,7 @@ export default {
     }
   },
   methods: {
-    nextPage(page, search) {
+    nextPage(page) {
       if (this.searchVal === "") {
         this.$router.replace({
           name: "users",
@@ -89,7 +99,7 @@ export default {
       });
     },
     searchUser() {
-      this.nextPage(1, this.searchVal);
+      this.nextPage(1);
     }
   },
   mounted() {
@@ -100,6 +110,7 @@ export default {
       pageSize: this.$route.query.pageSize || this.$store.getters.pageSize,
       search: this.$route.query.search
     });
+    this.$store.dispatch("getMeRole", this.$store.getters.userMe.user.id);
   }
 };
 </script>
@@ -111,7 +122,7 @@ export default {
   right: 80px;
 }
 .wrapme {
-  margin:auto;
+  margin: auto;
 }
 
 .search-bar {

@@ -8,7 +8,6 @@ import competitions from "./modules/competitions";
 import snackbar from "./modules/snackbar";
 import passReset from "./modules/passReset";
 
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -19,6 +18,6 @@ export default new Vuex.Store({
     achievements,
     competitions,
     snackbar,
-    passReset,
+    passReset
   }
 });

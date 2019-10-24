@@ -33,20 +33,37 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab v-if="($store.getters.meRole < 3) || (this.$route.params.Uid === this.$store.getters.userMe.user.id)">
+              <v-btn
+                class="editBtn"
+                color="orange lighten-2"
+                @click="goToEdit"
+                fab
+                v-if="
+                  $store.getters.meRole < 3 ||
+                    this.$route.params.Uid ===
+                      this.$store.getters.userMe.user.id
+                "
+              >
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
                 @click="changePassDialog = true"
-                v-if="($store.getters.meRole < 3) || (this.$route.params.Uid === this.$store.getters.userMe.user.id)"
+                v-if="
+                  $store.getters.meRole < 3 ||
+                    this.$route.params.Uid ===
+                      this.$store.getters.userMe.user.id
+                "
                 outlined
-              >Change Password</v-btn>
+                >Change Password</v-btn
+              >
               <v-btn
-                color="primary" fab class="achivBtn"
+                color="primary"
+                fab
+                class="achivBtn"
                 v-if="$store.getters.meRole < 3"
                 @click="achivDialog = true"
-               >
+              >
                 <v-icon>mdi-trophy</v-icon>
               </v-btn>
 
@@ -57,8 +74,18 @@
           </v-col>
           <v-col md="7" justify-self="center">
             <v-row class="justify-space-between mb-2 flex-column">
-              <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
-              <h4>{{ userByIdRole === 1 ? 'Administrator' : userByIdRole === 2 ? 'Moderator' : 'User'}}</h4>
+              <v-card-title class="font-weight-bold"
+                >{{ userById.name }} {{ userById.surname }}</v-card-title
+              >
+              <h4>
+                {{
+                  userByIdRole === 1
+                    ? "Administrator"
+                    : userByIdRole === 2
+                    ? "Moderator"
+                    : "User"
+                }}
+              </h4>
             </v-row>
             <v-row>
               <ProgressBar
@@ -70,10 +97,14 @@
         </v-row>
       </v-card>
     </v-col>
-    <Multiselect type="achiv" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
-      <v-dialog v-model="changePassDialog" persistent max-width="600">
-        <ChangePass @hideModal="changePassDialog = false" loggedIn=1 />
-      </v-dialog>
+    <Multiselect
+      type="achiv"
+      :show="achivDialog"
+      @hideModal="achivDialog = false"
+    ></Multiselect>
+    <v-dialog v-model="changePassDialog" persistent max-width="600">
+      <ChangePass @hideModal="changePassDialog = false" loggedIn="1" />
+    </v-dialog>
   </v-row>
 </template>
 
@@ -95,7 +126,7 @@ export default {
     return {
       id: this.$route.params.Uid,
       changePassDialog: false,
-      achivDialog: false,
+      achivDialog: false
     };
   },
   computed: {
@@ -147,17 +178,17 @@ export default {
   transition: opacity 0.5s;
   opacity: 0;
 }
-.achivBtn{
+.achivBtn {
   position: absolute;
   top: 10px;
   right: -28px;
 }
-.editBtn{
+.editBtn {
   position: absolute;
   bottom: -20px;
   right: -28px;
 }
-.v-card__title{
+.v-card__title {
   padding: 0px;
   padding-bottom: 0px;
 }

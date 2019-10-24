@@ -92,7 +92,7 @@ const actions = {
   unsubscribeFollower(context, data) {
     axios
       .delete(`competitions/${data.competitionId}/followers/${data.userId}`)
-      .then( () => {
+      .then(() => {
         context.dispatch("getSubscribedFollowers", data.competitionId);
       })
       .catch(err => console.log(err));
