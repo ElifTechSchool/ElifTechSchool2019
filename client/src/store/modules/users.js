@@ -129,6 +129,22 @@ const actions = {
         commit("setUserByIdRole", res.data[0])
       })
   },
+  getUserAchiev(_, id) {
+    axios.get(`/users/${id}/achievements`)
+      .then(res => {
+        console.log(res)
+        //commit("setUserAchiv", res.data[0])
+      })
+  },
+  addUserAchiev(_, {userId, achievId}) {
+    axios
+    .post(`/users/${userId}/achievements/${achievId}`)
+    .then(res => {
+      console.log(res)
+      //commit("setUserAchiv", res.data[0])
+    })
+    .catch(err => console.log(err))
+  }
 };
 
 export default {
