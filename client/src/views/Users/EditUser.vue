@@ -38,7 +38,6 @@
                 </v-col>
                 <v-col cols="12" sm="4" md="4">
                   <v-select
-                    v-if="this.$store.getters.meRole < 3"
                     :items="roles"
                     label="User role"
                     name="role"
@@ -116,6 +115,7 @@ export default {
         return this.userByIdRole;
       },
       set(val) {
+        console.log(this.userByIdRole);
         this.$store.commit("setUserByIdRole", val);
       }
     }
@@ -138,7 +138,6 @@ export default {
         userRole: this.userByIdRole,
         id
       });
-
       this.goToDetail();
     },
     goToDetail() {

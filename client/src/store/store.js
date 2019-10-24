@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import auth from "./modules/auth";
 import users from "./modules/users";
 import ranks from "./modules/ranks";
+import events from "./modules/events";
 import achievements from "./modules/achievements";
 import competitions from "./modules/competitions";
 import snackbar from "./modules/snackbar";
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     auth,
     users,
     ranks,
+    events,
     achievements,
     competitions,
     snackbar,

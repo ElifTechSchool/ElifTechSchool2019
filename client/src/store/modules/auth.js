@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const state = {
+  forgotPassDialog: false,
   token: localStorage.getItem("user-token") || "",
   refreshToken: localStorage.getItem("user-refreshToken") || "",
   userMe: {},
@@ -66,6 +67,15 @@ const actions = {
     commit("destroyAuthData");
     localStorage.removeItem("user-token");
     localStorage.removeItem("user-refreshToken");
+  },
+  forgotPass(_, email) {
+    return axios.post('users/passwords', email)
+    .catch(err => err);
+  },
+  changePasswordToken({ dispatch }, data) {
+      return axios
+        .put('/users/passwords', data)
+        .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
   getMeRole({ commit }, id) {
     axios.get(`/users/${id}/roles`).then(res => {

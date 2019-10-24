@@ -25,6 +25,7 @@
                   <p><b>Type:</b> {{ achievement.type }}</p>
                   <p><b>Experience:</b> {{ achievement.experience }}</p>
                   <p><b> Description:</b> {{ achievement.description }}</p>
+                  <Multiselect class="multiselect" type="users"></Multiselect>
                 </v-card-text>
               </v-col>
               <v-card-actions>
@@ -47,6 +48,7 @@
                 :show="achivDialog"
                 @hideModal="achivDialog = false"
               ></Multiselect>
+              </v-card-actions>
             </v-row>
           </div>
         </v-card>
@@ -68,7 +70,6 @@ export default {
     return {
       isEditing: false,
       id: this.$route.params.id,
-      achivDialog: false,
       achievement: {},
       photo_url:
         "https://img.pngio.com/achievement-best-reward-trophy-win-icon-best-achievement-png-512_512.png"

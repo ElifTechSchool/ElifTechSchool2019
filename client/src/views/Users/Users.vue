@@ -32,7 +32,7 @@
     </v-btn>
     <v-pagination
       v-model="page"
-      :length="numOfPages"
+      :length="pagesNum"
       @input="nextPage"
     ></v-pagination>
   </v-container>
@@ -40,8 +40,6 @@
 
 <script>
 import User from "@/components/Users/User.vue";
-
-import { mapGetters } from "vuex";
 
 export default {
   name: "users",
@@ -54,13 +52,18 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["users", "numOfPages", "search", "pageSize"]),
-    searchVal: {
+    users() {
+      return this.$store.getters.users;
+    },
+    pagesNum() {
+      return this.$store.getters.numOfPages;
+    },
+    search: {
       get() {
-        return this.search;
+        return this.searchProxy || this.$route.query.search;
       },
       set(val) {
-        this.$store.commit("setSearch", val);
+        this.searchProxy = val;
       }
     },
     page: {
@@ -88,14 +91,14 @@ export default {
           query: {
             page: page || this.page,
             pageSize: this.$store.getters.pageSize,
-            search: this.searchVal
+            search: this.search
           }
         });
       }
       this.$store.dispatch("loadUsers", {
         page: page || this.page,
         pageSize: this.$store.getters.pageSize,
-        search: this.searchVal
+        search: this.search
       });
     },
     searchUser() {
