@@ -30,24 +30,18 @@ module.exports = class Events extends Sequelize.Model {
       max_people: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        validate: {
-          len: [0, 100],
-        },
       },
-      image: {
-        type: Sequelize.STRING(100),
+      image_url: {
+        type: Sequelize.STRING(300),
         allowNull: true,
         validate: {
-          len: [0, 100],
+          len: [0, 300],
         },
       },
       date: {
         type: Sequelize.DATE,
         allowNull: false,
-      },
-      time: {
-        type: Sequelize.TIME,
-        allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
     },
 
