@@ -22,7 +22,7 @@ const state = {
   limit: 5,
   types: [],
   page: 1,
-  type: "my"
+  type: "all"
 };
 
 const getters = {

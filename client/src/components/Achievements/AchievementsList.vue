@@ -14,7 +14,7 @@
             />
           </div>
           <div>
-            <v-pagination
+            <v-pagination v-if="achievementsCount > limit"
               v-model="page"
               :length="getPages()"
               @input="page => getAchievementPerPage(page)"
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       limit: 5,
-      page: 1
+      page: 1,
     };
   },
   mounted() {

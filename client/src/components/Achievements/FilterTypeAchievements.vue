@@ -20,7 +20,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      selected: "my",
+      selected: "all",
       type: ["my", "wanted", "all"]
     };
   },

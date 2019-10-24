@@ -5,7 +5,7 @@
         <v-card :elevation="hover ? 12 : 2" class="pa-4">
           <v-col @click="showDetails" class="container-achievement">
             <v-row>
-              <v-col sm="5">
+              <v-col sm="4">
                 <v-img 
                   v-bind:src="
                     photo_url ||
