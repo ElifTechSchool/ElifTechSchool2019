@@ -22,8 +22,14 @@
             </v-col>
           </v-col>
           <v-col md="2">
-            <v-card-actions>
-              <v-btn class="deleteBtn" fab @click="warnDialog = true" color="primary" :elevation="hover ? 0 : 5">
+            <v-card-actions v-if="$store.getters.meRole === 1">
+              <v-btn
+                class="deleteBtn"
+                fab
+                @click="warnDialog = true"
+                color="primary"
+                :elevation="hover ? 0 : 5"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-card-actions>
@@ -49,7 +55,7 @@ export default {
   },
   data() {
     return {
-      warnDialog: false,
+      warnDialog: false
     };
   },
   methods: {

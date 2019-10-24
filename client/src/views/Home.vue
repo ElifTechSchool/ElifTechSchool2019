@@ -8,9 +8,7 @@
 <script>
 import Login from "@/components/Login.vue";
 import Me from "@/components/Me.vue";
-import {
-    mapGetters
-  } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   components: {
     Login,
@@ -18,7 +16,7 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated"])
-  },
+  }
 };
 </script>
 <style lang="scss"></style>

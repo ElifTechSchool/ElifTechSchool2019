@@ -170,7 +170,7 @@ export default new Router({
     {
       path: "/changePassword",
       name: "changePassword",
-      component: () => import("./views/ChangePassword.vue"),
+      component: () => import("./views/ChangePassword.vue")
     }
   ]
 });

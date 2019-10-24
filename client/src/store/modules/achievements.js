@@ -112,6 +112,20 @@ const actions = {
     } catch (error) {
       console.log(error);
     }
+  },
+  addUsersToAchiev(_, { id, users }) {
+    axios
+      .post(`${achievementsURL}${id}/users`, { users: users })
+      .then(res => {
+        console.log(res);
+        //commit("setUserAchiv", res.data[0])
+      })
+      .catch(err => console.log(err));
+  },
+  getAllAchiev(_) {
+    return axios
+      .get(achievementsURL)
+      .then(res => res.data.data);
   }
 };
 
