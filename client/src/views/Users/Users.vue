@@ -17,7 +17,7 @@
     </v-row>
     
     <User v-for="user in users" :userData="user" :key="user.id" />
-    <v-btn class="mx-2" fab dark large to="add_user" color="primary">
+    <v-btn class="mx-2" fab dark large to="add_user" color="primary" v-if="$store.getters.meRole < 3">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
