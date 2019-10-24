@@ -1,5 +1,5 @@
 <template lang="html">
-    <v-row justify="center" class="pa-0 ma-0">
+  <v-row justify="center" class="pa-0 ma-0">
     <v-col :md="loggedIn ? 12 : 5">
       <v-card class="pa-9">
         <v-card-title class="headline">Change password</v-card-title>
@@ -41,7 +41,7 @@
         </v-card-actions>
       </v-card>
     </v-col>
-    </v-row>
+  </v-row>
 </template>
 
 <script lang="js">

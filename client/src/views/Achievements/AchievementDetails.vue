@@ -33,6 +33,21 @@
                   <v-icon>mdi-pencil</v-icon>
                   Edit
                 </v-btn>
+                <v-btn
+                  color="primary"
+                  fab
+                  class="achivBtn"
+                  v-if="$store.getters.meRole < 3"
+                  @click="achivDialog = true"
+                >
+                  <v-icon>mdi-trophy</v-icon>
+                </v-btn>
+              </v-card-actions>
+              <Multiselect
+                type="users"
+                :show="achivDialog"
+                @hideModal="achivDialog = false"
+              ></Multiselect>
               </v-card-actions>
             </v-row>
           </div>
@@ -78,3 +93,10 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.achivBtn {
+  position: absolute;
+  top: 10px;
+  right: -28px;
+}
+</style>
