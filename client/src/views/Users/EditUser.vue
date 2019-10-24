@@ -133,6 +133,7 @@ export default {
       });
       await this.$store.dispatch("updateUser", { formData, id });
       await this.$store.dispatch("updateUserRole", { userRole: this.userByIdRole, id });
+
       this.goToDetail();
     },
     goToDetail() {

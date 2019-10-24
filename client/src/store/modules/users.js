@@ -91,6 +91,7 @@ const actions = {
     .put(`users/${id}`, formData)
     .then(res => {
       if (res.status === 204) {
+        dispatch("getUserById", id);
         dispatch("showSnackBar", { response: "Updated!", color: "primary" });
       }
     })
