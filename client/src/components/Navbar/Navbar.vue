@@ -21,6 +21,9 @@
         <v-btn text to="/users" @click="refreshUsers">
           Users
         </v-btn>
+        <v-btn text to="/events">
+          Events
+        </v-btn>
         <v-btn text to="/competitions">
           Competitions
         </v-btn>

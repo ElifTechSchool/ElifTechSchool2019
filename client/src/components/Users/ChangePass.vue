@@ -6,36 +6,30 @@
         <v-form v-model="valid">
           <v-text-field
             v-if="loggedIn"
+            type="password"
             label="Old password"
             :rules="oldPassRules"
             :counter="50"
             name="old_password"
             v-model="passData.oldPass"
-            :append-icon="show0 ? 'visibility' : 'visibility_off'"
-            :type="show0 ? 'text' : 'password'"
-            @click:append="show0 = !show0"
             required
           />
           <v-text-field
+            type="password"
             label="New password"
             :rules="passRules"
             :counter="50"
             name="new_password"
             v-model="passData.newPass"
-            :append-icon="show1 ? 'visibility' : 'visibility_off'"
-            :type="show1 ? 'text' : 'password'"
-            @click:append="show1 = !show1"
             required
           />
           <v-text-field
+            type="password"
             label="Re-type new password"
             :rules="newPassRules"
             :counter="50"
             name="new_password2"
             v-model="passData.newPass2"
-            :append-icon="show2 ? 'visibility' : 'visibility_off'"
-            :type="show2 ? 'text' : 'password'"
-            @click:append="show2 = !show2"
             required
           />
         </v-form>
@@ -76,10 +70,7 @@ export default {
           v => (v && v.length <= 50) || "This field must be less than 50 characters",
           v => v === this.passData.newPass || "Passwords don't match",
       ],
-      passData: {},
-      show0: false,
-      show1: false,
-      show2: false,
+      passData: {}
     }
   },
   methods: {

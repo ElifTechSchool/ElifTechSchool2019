@@ -8,7 +8,7 @@
           label="Find user"
           name="search"
           solo rounded clearable
-          v-model="searchVal"
+          v-model="searchProxy"
           prepend-inner-icon="search"
           @click:prepend-inner="searchUser"
           v-on:keyup.enter="searchUser"
@@ -17,12 +17,12 @@
     </v-row>
     
     <User v-for="user in users" :userData="user" :key="user.id" />
-    <v-btn class="mx-2" fab dark large to="add_user" color="primary" v-if="$store.getters.meRole < 3">
+    <v-btn class="mx-2" fab dark large to="add_user" color="primary">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-pagination
       v-model="page"
-      :length="numOfPages"
+      :length="pagesNum"
       @input="nextPage"
     ></v-pagination>
   </v-container>
@@ -30,8 +30,6 @@
 
 <script>
 import User from "@/components/Users/User.vue";
-
-import { mapGetters } from "vuex";
 
 export default {
   name: "users",
@@ -41,16 +39,22 @@ export default {
   data() {
     return {
       pageProxy: Number(this.$route.query.page),
+      searchProxy: this.$route.query.search
     };
   },
   computed: {
-    ...mapGetters(["users", "numOfPages", "search", "pageSize"]),
-    searchVal: {
+    users() {
+      return this.$store.getters.users;
+    },
+    pagesNum() {
+      return this.$store.getters.numOfPages;
+    },
+    search: {
       get() {
-        return this.search;
+        return this.searchProxy || this.$route.query.search;
       },
       set(val) {
-        this.$store.commit("setSearch", val);
+        this.searchProxy = val;
       }
     },
     page: {
@@ -64,7 +68,7 @@ export default {
   },
   methods: {
     nextPage(page, search) {
-      if (this.searchVal === "") {
+      if (search === "") {
         this.$router.replace({
           name: "users",
           query: {
@@ -78,18 +82,18 @@ export default {
           query: {
             page: page || this.page,
             pageSize: this.$store.getters.pageSize,
-            search: this.searchVal
+            search: this.search
           }
         });
       }
       this.$store.dispatch("loadUsers", {
         page: page || this.page,
         pageSize: this.$store.getters.pageSize,
-        search: this.searchVal
+        search: this.search
       });
     },
     searchUser() {
-      this.nextPage(1, this.searchVal);
+      this.nextPage(1, this.searchProxy);
     }
   },
   mounted() {
