@@ -1,16 +1,11 @@
 <template>
   <v-row>
     <v-col>
-<<<<<<< HEAD
-      <v-card class="mx-auto" max-width="400"  @click="getDetails">
-=======
       <v-card
         class="mx-auto"
         max-width="400"
-        color="#fcded9"
         @click="getDetails"
       >
->>>>>>> 82ffe9b90325597a369e887167f41b969eb2dce7
         <v-card-title>Competition: {{ competitionData.name }}</v-card-title>
         <v-card-text class="text--primary">
           <div>Description: {{ competitionData.description }}</div>
@@ -31,7 +26,6 @@
           </v-row>
           </v-col>
         </v-card-text>
-<<<<<<< HEAD
           <v-card-actions > 
             <v-btn
               color="error" 
@@ -48,15 +42,6 @@
             max-width="400"
             
           >
-=======
-        <v-card-actions v-if="this.$store.getters.userMe.user">
-          <v-btn color="error" dark @click.stop="dialog = true">
-            DELETE
-          </v-btn>
-        </v-card-actions>
-        <v-col>
-          <v-dialog v-model="dialog" max-width="400">
->>>>>>> 82ffe9b90325597a369e887167f41b969eb2dce7
             <v-card>
               <v-card-title class="headline"
                 >Delete competition {{ competitionData.name }} ?</v-card-title
@@ -116,9 +101,7 @@ export default {
       let month = date.getMonth()+1;
       let day = date.getDate();
       let year = date.getFullYear();
-
-<<<<<<< HEAD
-        return day + '/' + month + '/' + year;
+      return day + '/' + month + '/' + year;
     },
     created () {
       if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
@@ -128,10 +111,6 @@ export default {
         }
     },
     
-=======
-      return day + "/" + month + "/" + year;
-    }
->>>>>>> 82ffe9b90325597a369e887167f41b969eb2dce7
   }
 };
 </script>
