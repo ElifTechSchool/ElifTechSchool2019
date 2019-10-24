@@ -25,7 +25,6 @@
                   <p><b>Type:</b> {{ achievement.type }}</p>
                   <p><b>Experience:</b> {{ achievement.experience }}</p>
                   <p><b> Description:</b> {{ achievement.description }}</p>
-                  <Multiselect class="multiselect" type="users"></Multiselect>
                 </v-card-text>
               </v-col>
               <v-card-actions>
@@ -33,7 +32,15 @@
                   <v-icon>mdi-pencil</v-icon>
                   Edit
                 </v-btn>
+                <v-btn
+                color="primary" fab class="achivBtn"
+                v-if="$store.getters.meRole < 3"
+                @click="achivDialog = true"
+               >
+                <v-icon>mdi-trophy</v-icon>
+              </v-btn>
               </v-card-actions>
+              <Multiselect type="users" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
             </v-row>
           </div>
         </v-card>
@@ -55,6 +62,7 @@ export default {
     return {
       isEditing: false,
       id: this.$route.params.id,
+      achivDialog: false,
       achievement: {},
       photo_url:
         "https://img.pngio.com/achievement-best-reward-trophy-win-icon-best-achievement-png-512_512.png"
@@ -78,3 +86,10 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.achivBtn{
+  position: absolute;
+  top: 10px;
+  right: -28px;
+}
+</style>
