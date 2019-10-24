@@ -11,13 +11,6 @@ const getTokenByUserId = (userId) => usersTokensModel.findOne({
   where: { user_id: userId },
 });
 
-const updateUserRefreshToken = ({ userId, refreshToken }) => usersTokensModel.update(
-  { refresh_token: refreshToken },
-  {
-    where: { user_id: userId },
-  },
-);
-
 const deleteUserToken = (id) => usersTokensModel.destroy({
   where: { id },
 });
@@ -27,5 +20,4 @@ export default {
   getUsersTokens,
   getTokenByUserId,
   deleteUserToken,
-  updateUserRefreshToken,
 };

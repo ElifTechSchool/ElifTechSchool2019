@@ -28,6 +28,7 @@ const getUserById = async (id) => {
 const getUserByEmail = (email) => usersDao.getUserByEmail(email);
 
 const createUser = async (req) => {
+  try{
     const userData = req.body;
     Object.setPrototypeOf(userData, {});    
     userData.password = await hashPassword(userData.password);
@@ -35,6 +36,10 @@ const createUser = async (req) => {
       userData.image_url = req.file.secure_url;
     } 
     usersDao.createUser(userData);
+  }
+  catch (err) {
+    console.log(err);
+  }
 };
 
 const updateUser = async (req) => {

@@ -28,30 +28,6 @@ const getAchievementByType = (types) => achievementsModel.findAll({
   },
 });
 
-const getAchievementsByIds = (achievementsIds) => achievementsModel.findAll({
-  raw: true,
-  order: [
-    ['name', 'ASC'],
-  ],
-  where: {
-    id: {
-      [Sequelize.Op.in]: achievementsIds,
-    },
-  },
-});
-
-const getWantedAchievements = (achievementsIds) => achievementsModel.findAll({
-  raw: true,
-  order: [
-    ['name', 'ASC'],
-  ],
-  where: {
-    id: {
-      [Sequelize.Op.notIn]: achievementsIds,
-    },
-  },
-});
-
 const getAchievementById = (id) => achievementsModel.findAll({
   where: { id },
 });
@@ -77,6 +53,4 @@ export default {
   updateAchievement,
   deleteAchievement,
   getTypes,
-  getAchievementsByIds,
-  getWantedAchievements,
 };

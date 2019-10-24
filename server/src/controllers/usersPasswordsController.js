@@ -1,5 +1,5 @@
 import express from 'express';
-import userPasswordsService from '../businessLogic/userPasswordsService.js';
+import authService from '../businessLogic/authService.js';
 
 const router = express.Router();
 
@@ -37,9 +37,9 @@ const router = express.Router();
  */
 
 router.post('/', async (req, res, next) => {
-    userPasswordsService
+    authService
         .passwordToken(req.body.email)
-        .then(() => res.status(200).send('Message sent').end())
+        .then(() => res.status(200).end())
         .catch((error) => next(error));
 });
 
@@ -77,7 +77,7 @@ router.post('/', async (req, res, next) => {
  */
 
 router.put('/', async (req, res, next) => {
-    userPasswordsService
+    authService
         .changeUserPassword(req.body.newPass, req.body.token)
         .then(() => res.status(204).end())
         .catch((error) => next(error));
