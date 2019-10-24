@@ -28,8 +28,8 @@ const defaultConfig = {
   },
   jwtSecret: process.env.SECRET,
   jwtRefreshSecret: process.env.REFRESH_TOKEN_SECRET,
-  tokenExpTime: '1000',
-  refreshTokenExpTime: '2000',
+  tokenExpTime: '1d',
+  refreshTokenExpTime: '60d',
   email: process.env.EMAIL,
   emailPass: process.env.EMAIL_PASS
 };
