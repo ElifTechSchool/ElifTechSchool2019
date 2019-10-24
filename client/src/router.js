@@ -69,6 +69,15 @@ export default new Router({
       }
     },
     {
+      path: "/events",
+      name: "events",
+      component: () => import("./views/Events/Events.vue"),
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) next("/");
+        else next();
+      }
+    },
+    {
       path: "/achievements",
       name: "achievements",
       component: () => import("./views/Achievements/Achievements.vue"),
@@ -144,6 +153,15 @@ export default new Router({
       path: "/ranks/add",
       name: "addRanks",
       component: () => import("./views/Ranks/AddRank.vue"),
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) next("/");
+        else next();
+      }
+    },
+    {
+      path: "/events/add",
+      name: "addEvents",
+      component: () => import("./views/Events/AddEvent.vue"),
       beforeEnter: (to, from, next) => {
         if (!store.getters.isAuthenticated) next("/");
         else next();

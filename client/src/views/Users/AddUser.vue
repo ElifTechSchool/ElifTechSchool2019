@@ -46,15 +46,13 @@
         <v-row>
           <v-col cols="12" sm="8" md="8">
             <v-text-field
+              type="password"
               label="Password"
               name="password"
               :rules="passRules"
               :counter="100"
               v-model="user.password"
               autocomplete="new-password"
-              :append-icon="show ? 'visibility' : 'visibility_off'"
-              :type="show ? 'text' : 'password'"
-              @click:append="show = !show"
               required
             />
           </v-col>
@@ -166,8 +164,7 @@ export default {
       ],
       textareaRules: [
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
-      ],
-      show: false,
+      ]
     };
   },
   methods: {

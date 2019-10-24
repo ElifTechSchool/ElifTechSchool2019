@@ -42,7 +42,7 @@
             <v-col md="7" justify-self="center">
               <v-row class="justify-space-between mb-2 flex-column">
                 <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
-                <h4>{{ meRole === 1 ? 'Administrator' : meRole === 2 ? 'Moderator' : 'User'}}</h4>
+                <h4>{{ userByIdRole === 1 ? 'Administrator' : userByIdRole === 2 ? 'Moderator' : 'User'}}</h4>
               </v-row>
               <v-row>
                 <ProgressBar
@@ -85,7 +85,7 @@ export default {
       }
     },
     computed: {
-      ...mapGetters(["rankData", "userByIdRole", "userMe", "meRole"]),
+      ...mapGetters(["rankData", "userByIdRole", "userMe"]),
       userById() {
           return this.userMe.user;
       },
@@ -96,10 +96,10 @@ export default {
         return this.$store.getters.getCompetitions;
       },
     },
-    async mounted() {
-      await this.$store.dispatch("authUser", this.$store.getters.token);
+    mounted() {
+      this.$store.dispatch("authUser", this.$store.getters.token);
+      this.$store.dispatch("getMeRole", this.userMe.user.id);
       this.$store.dispatch("loadCompetitions", {limit: 3, page: 1});
-      this.$store.dispatch("getMeRole", this.userById.id);
     },
   };
 </script>
