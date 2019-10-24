@@ -1,21 +1,32 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="mx-auto" max-width="400" color="#fcded9" @click="getDetails">
+      <v-card class="mx-auto" max-width="400"  @click="getDetails">
         <v-card-title>Competition: {{ competitionData.name }}</v-card-title>
         <v-card-text class="text--primary">
           <div>Description: {{ competitionData.description }}</div>
           <div>Deadline_date: {{ formatDateRead() }}</div>
           <div>Experience: {{ competitionData.experience }}</div>
-          <p>Followers:</p>
-          <div v-for="users in competitionData.users" :key="users.id" > 
-            <p> {{ `${users.name} ${users.surname}`}} </p>
-          </div>
+          <h4>Followers:</h4>
+          <v-col>
+            <v-row>
+            <div v-for="users in competitionData.users" :key="users.id" >
+              <v-avatar size="36px">
+                <img 
+                  :title="`${users.name} ${users.name}`"
+                  :src="users.image_url"
+                  :alt="`${users.name} ${users.name}`"
+                >
+              </v-avatar>
+            </div>
+          </v-row>
+          </v-col>
         </v-card-text>
-          <v-card-actions v-if="this.$store.getters.userMe.user" > 
+          <v-card-actions > 
             <v-btn
-              color="error"
+              color="error" 
               dark
+              outlined
               @click.stop="dialog = true"
             >
               DELETE
@@ -68,7 +79,8 @@
 export default {
   data() {
     return {
-      dialog: false
+      dialog: false,
+      hover: false,
     };
   },
   name: "Competition",

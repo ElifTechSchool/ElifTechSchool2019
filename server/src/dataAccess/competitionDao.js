@@ -11,7 +11,7 @@ const getCompetitions = (params) => competitionModel.findAndCountAll({
     include: [{
       model: usersModel,
       through: competitionFollowersModel,
-      attributes: ['id', 'surname', 'name'],
+      attributes: ['id', 'surname', 'name', 'image_url'],
     }],
     attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
   });

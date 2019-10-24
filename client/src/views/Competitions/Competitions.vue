@@ -11,7 +11,7 @@
         </v-btn>
       </v-layout>
     </v-col>
-    <v-col v-if="this.$store.getters.userMe.user" class="text-center" cols="6" md="4">
+    <v-col class="text-center" cols="6" md="4">
       <v-btn class="mx-2" right fab dark color="indigo" @click="addCompetition">
       <v-icon dark>mdi-plus</v-icon>
       </v-btn>  
