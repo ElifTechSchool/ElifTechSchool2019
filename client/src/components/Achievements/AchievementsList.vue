@@ -1,45 +1,50 @@
 <template>
-  <v-row justify="center">
-    <v-col>
-      <FilterTypeAchievements class="mt-0 pt-0" @filter="selectType" />
-      <div class="block-achievements">
-        <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
-          <Achievement
-            :id="achievement.id"
-            :photo_url="achievement.photo_url"
-            :name="achievement.name"
-            :created_at="achievement.created_at"
-          />
+  <v-container>
+    <v-row justify="center">
+      <v-col>
+        <FilterTypeAchievements @filter="selectType" />
+        <FilterTypesAchievements class="mt-0 pt-0" @filter="selectTypes" />
+        <div class="block-achievements">
+          <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
+            <Achievement
+              :id="achievement.id"
+              :photo_url="achievement.photo_url"
+              :name="achievement.name"
+              :created_at="achievement.created_at"
+            />
+          </div>
+          <div>
+            <v-pagination v-if="achievementsCount > limit"
+              v-model="page"
+              :length="getPages()"
+              @input="page => getAchievementPerPage(page)"
+            >
+            </v-pagination>
+          </div>
         </div>
-        <div>
-          <v-pagination
-            v-model="page"
-            :length="getPages()"
-            @input="page => getAchievementPerPage(page)"
-          >
-          </v-pagination>
-        </div>
-      </div>
-    </v-col>
-  </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import Achievement from "./Achievement";
 import { mapGetters } from "vuex";
-import FilterTypeAchievements from "./FilterTypeAchievements";
+import FilterTypesAchievements from "./FilterTypesAchievements";
+import FilterTypeAchievements from "./FilterTypeAchievements"
 
 export default {
   components: {
     Achievement,
-    FilterTypeAchievements
+    FilterTypeAchievements,
+    FilterTypesAchievements
   },
   name: "achievements-list",
   props: [],
   data() {
     return {
       limit: 5,
-      page: null
+      page: 1,
     };
   },
   mounted() {
@@ -54,7 +59,11 @@ export default {
       this.$store.dispatch("setCurrentPage", page);
       this.$store.dispatch("getAllAchievements");
     },
-    selectType(types) {
+    selectType(type) {
+      this.$store.dispatch("setType", type);
+      this.$store.dispatch("getAllAchievements");
+    },
+    selectTypes(types) {
       this.$store.dispatch("setTypes", types);
       this.$store.dispatch("getAllAchievements");
     }

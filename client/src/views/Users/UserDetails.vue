@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col md="6">
+    <v-col lg="6" md="8" sm="10">
       <v-card :elevation="5" class="mx-auto">
         <v-row>
           <v-col md="4">
@@ -33,16 +33,35 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab>
+              <v-btn
+                class="editBtn"
+                color="orange lighten-2"
+                @click="goToEdit"
+                fab
+                v-if="
+                  $store.getters.meRole < 3 ||
+                    this.$route.params.Uid ===
+                      this.$store.getters.userMe.user.id
+                "
+              >
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
                 @click="changePassDialog = true"
+                v-if="
+                  $store.getters.meRole < 3 ||
+                    this.$route.params.Uid ===
+                      this.$store.getters.userMe.user.id
+                "
                 outlined
-              >Change Password</v-btn>
+                >Change Password</v-btn
+              >
               <v-btn
-                color="primary" fab class="achivBtn"
+                color="primary"
+                fab
+                class="achivBtn"
+                v-if="$store.getters.meRole < 3"
                 @click="achivDialog = true"
               >
                 <v-icon>mdi-trophy</v-icon>
@@ -54,10 +73,19 @@
             </v-card-actions>
           </v-col>
           <v-col md="7" justify-self="center">
-            <v-row>
+            <v-row class="justify-space-between mb-2 flex-column">
               <v-card-title class="font-weight-bold"
                 >{{ userById.name }} {{ userById.surname }}</v-card-title
               >
+              <h4>
+                {{
+                  userByIdRole === 1
+                    ? "Administrator"
+                    : userByIdRole === 2
+                    ? "Moderator"
+                    : "User"
+                }}
+              </h4>
             </v-row>
             <v-row>
               <ProgressBar
@@ -65,14 +93,28 @@
                 :userExperience="userById.experience"
               ></ProgressBar>
             </v-row>
+            <v-row> 
+              <v-col v-for="achievement in achievements" :key="achievement.id">
+                <v-img class="achievement"
+                  :src="achievement.photo_url"
+                  max-width="60px"
+                  max-height="60px"
+                  @click="goToAchievementDetails(achievement.id)"
+                />
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
-    <Multiselect type="achiv" :show="achivDialog" @hideModal="achivDialog = false"></Multiselect>
-      <v-dialog v-model="changePassDialog" persistent max-width="600">
-        <ChangePass @hideModal="changePassDialog = false" loggedIn=1 />
-      </v-dialog>
+    <Multiselect
+      type="achiv"
+      :show="achivDialog"
+      @hideModal="achivDialog = false"
+    ></Multiselect>
+    <v-dialog v-model="changePassDialog" persistent max-width="600">
+      <ChangePass @hideModal="changePassDialog = false" loggedIn="1" />
+    </v-dialog>
   </v-row>
 </template>
 
@@ -82,6 +124,7 @@ import ChangePass from "@/components/Users/ChangePass.vue";
 import Multiselect from "@/components/Users/Multiselect.vue";
 
 import { mapGetters } from "vuex";
+import axios from 'axios';
 
 export default {
   name: "userDetail",
@@ -95,10 +138,11 @@ export default {
       id: this.$route.params.Uid,
       changePassDialog: false,
       achivDialog: false,
+      achievements: []
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData"])
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole"])
   },
   methods: {
     goToEdit() {
@@ -116,14 +160,29 @@ export default {
           search: this.search
         }
       });
+    },
+    getOwnAchievements() {
+      axios.get(`users/${this.id}/achievements`)
+        .then(res => {
+          this.achievements = res.data;
+        })        
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    goToAchievementDetails(achievementId) {
+      this.$router.push(`/achievements/${achievementId}`)
     }
   },
   mounted() {
     if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$store.dispatch("getUserRole", this.$route.params.Uid);
     } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$store.dispatch("getUserRole", this.$route.params.Uid);
     }
+     this.getOwnAchievements()
   }
 };
 </script>
@@ -144,14 +203,24 @@ export default {
   transition: opacity 0.5s;
   opacity: 0;
 }
-.achivBtn{
+.achivBtn {
   position: absolute;
   top: 10px;
   right: -28px;
 }
-.editBtn{
+.editBtn {
   position: absolute;
   bottom: -20px;
   right: -28px;
+}
+.v-card__title {
+  padding: 0px;
+  padding-bottom: 0px;
+}
+.achievement:hover {
+  cursor: pointer;
+  -webkit-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
 }
 </style>

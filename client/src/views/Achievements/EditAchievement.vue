@@ -107,7 +107,6 @@ export default {
   mounted() {
     this.getAchievementById(this.$route.params.id).then(res => {
       this.achievement = res.data.data[0];
-      console.log(this.achievement);
     });
   }
 };

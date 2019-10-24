@@ -50,7 +50,6 @@ module.exports = class Users extends Sequelize.Model {
           len: [0, 300],
         },
       },
-
       description: {
         type: Sequelize.STRING(500),
         allowNull: true,

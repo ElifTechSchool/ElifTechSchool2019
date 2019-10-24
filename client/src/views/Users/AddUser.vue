@@ -164,7 +164,8 @@ export default {
       ],
       textareaRules: [
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
-      ]
+      ],
+      show: false
     };
   },
   methods: {

@@ -2,14 +2,30 @@
   <div class="competitions">
     <h2>Competitions list</h2>
     <v-row align="center">
-    
-    <v-col class="text-center" cols="12" md="8">
-      <v-layout>
-        <v-btn small slat color="primery" @click="sortByDate">
-          <v-icon left>event</v-icon>
-          <span class="caption text-lowercase">By date</span>
+      <v-col class="text-center" cols="12" md="8">
+        <v-layout>
+          <v-btn small slat color="primery" @click="sortByDate">
+            <v-icon left>event</v-icon>
+            <span class="caption text-lowercase">By date</span>
+          </v-btn>
+        </v-layout>
+      </v-col>
+      <v-col
+        v-if="this.$store.getters.userMe.user"
+        class="text-center"
+        cols="6"
+        md="4"
+      >
+        <v-btn
+          class="mx-2"
+          right
+          fab
+          dark
+          color="indigo"
+          @click="addCompetition"
+        >
+          <v-icon dark>mdi-plus</v-icon>
         </v-btn>
-      </v-layout>
     </v-col>
     <v-col class="text-center" cols="6" md="4">
       <v-btn class="mx-2" right fab dark color="indigo" @click="addCompetition">
@@ -53,7 +69,7 @@ export default {
     },
     getCountCompetitions() {
       return this.$store.getters.getCountCompetitions;
-    },
+    }
   },
   mounted() {
     this.$store.dispatch("loadCompetitions", this.competitionParams);
@@ -63,9 +79,9 @@ export default {
       this.$router.push({ name:  "competitions", query: { plan: "all"} })
     },
     addCompetition() {
-        this.$router.push({
-        name: "add_competition",
-        });
+      this.$router.push({
+        name: "add_competition"
+      });
     },
     getPages() {
       const result = Math.ceil(

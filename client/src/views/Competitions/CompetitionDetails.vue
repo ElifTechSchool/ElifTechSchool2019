@@ -18,8 +18,8 @@
     <v-col cols="12">
          <v-card class="mx-auto" max-width="400">
     <v-row key="1" justify="center" class="userInfo d-flex">
-      <div v-for="competition in getCompetition"  :key="competition.id">
-        <v-col >
+      <div v-for="competition in getCompetition" :key="competition.id">
+        <v-col>
           <h2><b>Name:</b> {{ competition.name }}</h2>
           <p><b>Description:</b> {{ competition.description }}</p>
           <p>
@@ -47,11 +47,10 @@
         </v-col>
         <v-col>
           <h4>Folllowers:</h4>
-          <div  v-for="follower in getCompetitionFollowers"  :key="follower.id">
+          <div v-for="follower in getCompetitionFollowers" :key="follower.id">
             <a @click="toUserDetails(follower.user.id)">
-              {{`${follower.user.name} ${follower.user.surname}`}}
+              {{ `${follower.user.name} ${follower.user.surname}` }}
             </a>
-               
           </div>
         </v-col>
       </div>
@@ -72,11 +71,9 @@ export default {
       isActiveCompetitions: false,
       dataFollower: {
         competitionId: null,
-        userId: null,
-      },
-      
-      
-    }
+        userId: null
+      }
+    };
   },
   computed: {
     getCompetition() {
@@ -110,7 +107,7 @@ export default {
     },
 
     subscribe(competitionId) {
-      
+      this.dataFollower.competitionId = competitionId;
 
         this.dataFollower.competitionId = competitionId;
       
@@ -126,7 +123,7 @@ export default {
         }
     },
     userProps(followerProps) {
-      if(followerProps !== null) {
+      if (followerProps !== null) {
         const userProps = followerProps;
       }
     },
@@ -157,20 +154,20 @@ export default {
     
 
     if (this.$store.getters.userMe.user) {
-    this.dataFollower.userId = this.$store.getters.userMe.user.id;
-    let followersId = this.$store.getters.getFollowers;
+      this.dataFollower.userId = this.$store.getters.userMe.user.id;
+      let followersId = this.$store.getters.getFollowers;
 
-      for(let i=0; i < followersId.length; i++){
-        if (this.$store.getters.userMe.user.id == followersId[i].userId )  {
-            this.hidden = true;
-          }
+      for (let i = 0; i < followersId.length; i++) {
+        if (this.$store.getters.userMe.user.id == followersId[i].userId) {
+          this.hidden = true;
+        }
       }
     } 
 
     
     
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .v-card {

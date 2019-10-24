@@ -2,9 +2,9 @@
   <div>
     <v-toolbar class="toolbar">
       <v-toolbar-title>
-        <router-link class="logo" to="/" tag="span" style="cursor: pointer">R{!}P
+        <router-link class="logo" to="/" tag="span" style="cursor: pointer"
+          >R{!}P
         </router-link>
-
       </v-toolbar-title>
       <v-toolbar-items>
         <v-btn text to="/about">
@@ -15,11 +15,11 @@
       <!-- <div class="flex-grow-1"></div> -->
 
       <v-toolbar-items v-if="isAuthenticated">
-        <v-btn text to="/about">
-          About
-        </v-btn>
         <v-btn text to="/users" @click="refreshUsers">
           Users
+        </v-btn>
+        <v-btn text to="/events">
+          Events
         </v-btn>
         <v-btn text to="/competitions">
           Competitions
@@ -43,54 +43,55 @@
 </template>
 
 <script lang="js">
-  import {
-    mapGetters
-  } from "vuex";
-  export default {
-    name: 'navbar',
-    props: [],
-    mounted() {
+import {
+  mapGetters
+} from "vuex";
+export default {
+  name: 'navbar',
+  props: [],
+  mounted() {
 
-    },
-    data() {
-      return {
+  },
+  data() {
+    return {
 
-      }
-    },
-    methods: {
-      refreshUsers() {
-        this.$router.replace({
-          name: "users",
-          query: {
-            page: 1,
-            pageSize: this.$store.getters.pageSize
-          }
-        });
-        this.$store.commit("setSearch", '');
-        this.$store.dispatch("loadUsers", {
-          page: 1,
-          pageSize: this.$route.query.pageSize || this.$store.getters.pageSize
-        });
-      },
-      userLogout() {
-        this.$store.dispatch("logOut");
-        this.$router.push("/");
-      },
-
-
-    },
-    computed: {
-      ...mapGetters(["isAuthenticated"])
     }
+  },
+  methods: {
+    refreshUsers() {
+      this.$router.replace({
+        name: "users",
+        query: {
+          page: 1,
+          pageSize: this.$store.getters.pageSize
+        }
+      });
+      this.$store.commit("setSearch", '');
+      this.$store.dispatch("loadUsers", {
+        page: 1,
+        pageSize: this.$route.query.pageSize || this.$store.getters.pageSize
+      });
+    },
+    userLogout() {
+      this.$store.dispatch("logOut");
+      this.$router.push("/");
+    },
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  },
+  async mounted() {
+    await this.$store.dispatch("authUser", this.$store.getters.token);
+    this.$store.dispatch("getMeRole", this.userMe.user.id);
   }
-
+}
 </script>
 
 <style scoped lang="scss">
-  .toolbar {
-    margin-bottom: 1.5rem;
-  }
-  .logo{
-    margin:0 15px;
-  }
+.toolbar {
+  margin-bottom: 1.5rem;
+}
+.logo {
+  margin: 0 15px;
+}
 </style>
