@@ -6,6 +6,8 @@ import ranks from "./modules/ranks";
 import achievements from "./modules/achievements";
 import competitions from "./modules/competitions";
 import snackbar from "./modules/snackbar";
+import passReset from "./modules/passReset";
+
 
 Vue.use(Vuex);
 
@@ -16,6 +18,7 @@ export default new Vuex.Store({
     ranks,
     achievements,
     competitions,
-    snackbar
+    snackbar,
+    passReset,
   }
 });

@@ -11,7 +11,7 @@ const getAchievements = (params, token) => {
   if (page && limit) {
     return getAchievementsPerPage({ page, limit, types, type, userId });
   }
-  return getAchievementsByUserId(userId);
+  return achievementsDao.getAchievements();
 };
 
 async function getAchievementsPerPage ({ page, limit, types, type, userId }) {

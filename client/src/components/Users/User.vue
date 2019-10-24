@@ -1,6 +1,6 @@
 <template>
   <v-row class="mx-auto" justify="center" align="center">
-    <v-col lg="4" md="8" sm="8">
+    <v-col xl="4" lg="5" md="8" sm="8">
       <v-hover v-slot:default="{ hover }">
         <v-card class="user d-flex mx-auto" :elevation="hover ? 6 : 2">
           <v-col md="10" @click="goToDetail" class="d-flex flex-row cursor">
@@ -22,7 +22,7 @@
             </v-col>
           </v-col>
           <v-col md="2">
-            <v-card-actions>
+            <v-card-actions v-if="$store.getters.meRole === 1">
               <v-btn class="deleteBtn" fab @click="warnDialog = true" color="primary" :elevation="hover ? 0 : 5">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>

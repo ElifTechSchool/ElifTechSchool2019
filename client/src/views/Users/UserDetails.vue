@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col md="6">
+    <v-col lg="6" md="8" sm="10">
       <v-card :elevation="5" class="mx-auto">
         <v-row>
           <v-col md="4">
@@ -33,18 +33,20 @@
               </p>
             </v-card-text>
             <v-card-actions>
-              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab>
+              <v-btn class="editBtn" color="orange lighten-2" @click="goToEdit" fab v-if="($store.getters.meRole < 3) || (this.$route.params.Uid === this.$store.getters.userMe.user.id)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn
                 color="primary lighten-2"
                 @click="changePassDialog = true"
+                v-if="($store.getters.meRole < 3) || (this.$route.params.Uid === this.$store.getters.userMe.user.id)"
                 outlined
               >Change Password</v-btn>
               <v-btn
                 color="primary" fab class="achivBtn"
+                v-if="$store.getters.meRole < 3"
                 @click="achivDialog = true"
-              >
+               >
                 <v-icon>mdi-trophy</v-icon>
               </v-btn>
 
@@ -54,10 +56,9 @@
             </v-card-actions>
           </v-col>
           <v-col md="7" justify-self="center">
-            <v-row>
-              <v-card-title class="font-weight-bold"
-                >{{ userById.name }} {{ userById.surname }}</v-card-title
-              >
+            <v-row class="justify-space-between mb-2 flex-column">
+              <v-card-title class="font-weight-bold">{{ userById.name }} {{ userById.surname }}</v-card-title>
+              <h4>{{ userByIdRole === 1 ? 'Administrator' : userByIdRole === 2 ? 'Moderator' : 'User'}}</h4>
             </v-row>
             <v-row>
               <ProgressBar
@@ -67,12 +68,12 @@
             </v-row>
             <v-row> 
               <v-col v-for="achievement in achievements" :key="achievement.id">
-              <v-img class="achievement"
-                :src="achievement.photo_url"
-                max-width="50px"
-                max-height="50px"
-                @click="goToAchievementDetails(achievement.id)"
-              />
+                <v-img class="achievement"
+                  :src="achievement.photo_url"
+                  max-width="60px"
+                  max-height="60px"
+                  @click="goToAchievementDetails(achievement.id)"
+                />
               </v-col>
             </v-row>
           </v-col>
@@ -110,7 +111,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData", "achievementById"])
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole"])
   },
   methods: {
     goToEdit() {
@@ -125,7 +126,7 @@ export default {
         query: {
           page: this.$route.params.page || 1,
           pageSize: this.$store.getters.pageSize,
-          search: this.search
+          search: this.$store.getters.search
         }
       });
     },
@@ -135,7 +136,7 @@ export default {
           this.achievements = res.data;
         })        
         .catch(err => {
-          alert(err);
+          console.log(err);
         })
     },
     goToAchievementDetails(achievementId) {
@@ -145,8 +146,10 @@ export default {
   mounted() {
     if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$store.dispatch("getUserRole", this.$route.params.Uid);
     } else if (this.$route.params.Uid !== this.$store.getters.userById.id) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$store.dispatch("getUserRole", this.$route.params.Uid);
     }
      this.getOwnAchievements()
   }
@@ -179,10 +182,14 @@ export default {
   bottom: -20px;
   right: -28px;
 }
+.v-card__title{
+  padding: 0px;
+  padding-bottom: 0px;
+}
 .achievement:hover {
   cursor: pointer;
--webkit-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
--moz-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+  -webkit-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 2px 11px -1px rgba(0,0,0,0.75);
 }
 </style>

@@ -9,10 +9,10 @@
     </v-col>
     <v-row justify="space-between">
       <v-col md="6">
-        <h3 id="current">{{ rank.current.name }}</h3>
+        <h4 id="current">{{ rank.current.name }}</h4>
       </v-col>
       <v-col md="6">
-        <h3 id="next">{{ rank.next === null ? "" : rank.next.name }}</h3>
+        <h4 id="next">{{ rank.next === null ? "" : rank.next.name }}</h4>
       </v-col>
     </v-row>
   </v-row>
@@ -22,9 +22,6 @@
 export default {
   name: "ProgressBar",
   props: ["rank", "userExperience"],
-  created() {
-    console.log(this.rank);
-  },
   computed: {
     progress() {
       if (this.rank.next === null) {

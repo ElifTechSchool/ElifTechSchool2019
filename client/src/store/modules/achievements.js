@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const achievementsURL = "http://localhost:3000/api/v1/achievements/";
-
 function getQuerySrtingURL({ page, limit, types, type }, url) {
   let result = "";
   if (page && limit) {
@@ -68,7 +66,7 @@ const actions = {
     const { page, limit, types, type } = state;
     try {
       const response = await axios
-        .get(getQuerySrtingURL({ page, limit, types, type }, achievementsURL))
+        .get(getQuerySrtingURL({ page, limit, types, type }, `achievements`))
         .then(res => res.data);
       commit("setAchievements", response.data.data);
       commit("setAchievementsCount", response.data.count);
@@ -88,28 +86,28 @@ const actions = {
   },
   async getAchievementById(store, id) {
     try {
-      return await axios.get(achievementsURL + id);
+      return await axios.get(`achievements/${id}`);
     } catch (error) {
       console.log(error);
     }
   },
   async addAchievement({ commit }, achievement) {
     try {
-      await axios.post(achievementsURL, achievement);
+      await axios.post(`achievements`, achievement);
     } catch (error) {
       console.log(error);
     }
   },
   async updateAchievement(store, { achievement, id }) {
     try {
-      await axios.put(achievementsURL + id, achievement);
+      await axios.put(`achievements/${id}`, achievement);
     } catch (error) {
       console.log(error);
     }
   },
   async deleteAchievement({ dispatch }, { id }) {
     try {
-      await axios.delete(achievementsURL + id);
+      await axios.delete(`achievements/${id}`);
       dispatch("getAllAchievements");
     } catch (error) {
       console.log(error);
