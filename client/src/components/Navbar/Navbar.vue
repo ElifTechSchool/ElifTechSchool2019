@@ -79,10 +79,6 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated"])
-  },
-  async mounted() {
-    await this.$store.dispatch("authUser", this.$store.getters.token);
-    this.$store.dispatch("getMeRole", this.userMe.user.id);
   }
 }
 </script>
