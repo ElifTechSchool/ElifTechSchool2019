@@ -18,6 +18,10 @@ export default {
   },
   data: () => ({
     //
-  })
+  }),
+  async mounted() {
+    await this.$store.dispatch("authUser", this.$store.getters.token);
+    this.$store.dispatch("getMeRole", this.$store.getters.userMe.user.id);
+  }
 };
 </script>

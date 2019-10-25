@@ -157,7 +157,7 @@ export default {
         query: {
           page: this.$route.params.page || 1,
           pageSize: this.$store.getters.pageSize,
-          search: this.search
+          search: this.$store.getters.search,
         }
       });
     },

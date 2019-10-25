@@ -49,7 +49,7 @@ router.get('/:id/achievements', (req, res, next) => {
  *
  * /v1/users/{id}/achievements/{achievementId}:
  *   post:
- *     description: Get achievements by id user
+ *     description: Add achievement to users
  *     tags:
  *       - usersAchievements
  *     produces:
