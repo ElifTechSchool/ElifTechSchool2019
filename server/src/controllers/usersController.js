@@ -332,6 +332,50 @@ router.put('/:id/passwords', async (req, res, next) => {
 /**
  * @swagger
  *
+ * /v1/users/{id}/experience:
+ *   put:
+ *     description: update user's experience
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             experience:
+ *               type: number
+ *               required: true
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.put('/:id/experience', async (req, res, next) => {
+  usersService
+    .updateUserExperience(req.params.id, req.body.experience)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
  * /v1/users/{id}:
  *   delete:
  *     description: delete user

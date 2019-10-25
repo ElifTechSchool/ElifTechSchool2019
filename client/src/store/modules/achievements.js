@@ -132,6 +132,15 @@ const actions = {
       .get(`achievements/${id}/users`)
       .then(res => res.data)
       .catch(err => console.log(err))
+  },
+  addAchievToUser(_, { id, achievData }){
+    axios
+      .post(`users/${id}/achievements`, { achievements: achievData })
+      .then(res => {
+        console.log(res);
+        //commit("setUserAchiv", res.data[0])
+      })
+      .catch(err => console.log(err));
   }
 };
 

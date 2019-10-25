@@ -96,4 +96,23 @@ router.post('/:userId/achievements/:achievementId', async (req, res) => {
     }
 });
 
+
+router.post('/:id/achievements', async (req, res, next) => {
+    const userId = req.params.id;
+    if (!userId || !Array.isArray(req.body.achievements)) {
+        res.status(401).send({ error: 'incorest data' });
+    }
+    const userAchievements = await userAchievementsService.getAchievementsByUserId(userId);
+    const achievementsToAdd = req.body.achievements.filter((a) => userAchievements.indexOf(a) === -1);
+    if (!achievementsToAdd.length) {
+        res.send({ message: 'achievements have already been add to this user' });
+        return;
+    }
+    userAchievementsService.createUserAchievements(
+        achievementsToAdd.map((achievement) => ({ user_id: userId, achievement_id: achievement })),
+    )
+        .then(() => res.status(201).end())
+        .catch((error) => next(error));
+});
+
 export default router;

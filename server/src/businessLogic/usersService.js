@@ -70,6 +70,13 @@ const updateUserPassword = async (id, oldPass, newPass) => {
   }
 };
 
+const updateUserExperience = async (id, experience) => {
+  const user = usersDao.getUserById(id);
+  if(user){
+    usersDao.updateUserExperience(id, experience);
+  }
+}
+
 const deleteUser = (id) => usersDao.deleteUser(id);
 
 export default {
@@ -79,5 +86,6 @@ export default {
   createUser,
   updateUser,
   updateUserPassword,
+  updateUserExperience,
   deleteUser,
 };

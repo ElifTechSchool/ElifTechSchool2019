@@ -40,8 +40,11 @@ export default {
       const data = this.select.map(el => el.value);
 
       if (this.type === "achiv") {
-        //TODO
         console.log(data);
+        this.$store.dispatch("addAchievToUser", {
+          id: id,
+          achievData: data
+        });
       } else if (this.type === "users") {
         console.log(data);
         this.$store.dispatch("addUsersToAchiev", {

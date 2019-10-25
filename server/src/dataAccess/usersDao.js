@@ -83,6 +83,8 @@ const updateUser = (id, user) => usersModel.update(
 
 const updateUserPassword = (id, newPassword) => usersModel.update({ password: newPassword }, { where: { id } });
 
+const updateUserExperience = (id, newExperience) => usersModel.update({ experience: newExperience }, { where: { id }});
+
 const deleteUser = (id) => usersModel.destroy({
   where: { id },
   attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
@@ -99,5 +101,6 @@ export default {
   createUser,
   updateUser,
   updateUserPassword,
+  updateUserExperience,
   deleteUser,
 };

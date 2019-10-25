@@ -164,6 +164,7 @@ export default {
     getOwnAchievements() {
       axios.get(`users/${this.id}/achievements`)
         .then(res => {
+          console.log(res.data);
           this.achievements = res.data;
         })        
         .catch(err => {
