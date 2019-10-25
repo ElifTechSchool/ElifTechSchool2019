@@ -9,17 +9,13 @@ const { users: usersModel } = models;
 const getCompetitions = (params) => competitionModel.findAndCountAll({
    
     limit: params.limit,
-    offset: (params.page-1)*params.limit,
-    // where: {
-    //   deadline_date: {
-    //     [Op.gt]: params.date
-    //   }
-    // },
+    offset: params.offset,
     include: [{
       model: usersModel,
       through: competitionFollowersModel,
       attributes: ['id', 'surname', 'name', 'image_url'],
     }],
+    distinct: true,
     attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
   });
 

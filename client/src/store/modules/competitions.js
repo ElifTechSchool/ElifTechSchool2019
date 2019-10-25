@@ -12,7 +12,7 @@ const getters = {
   getCompetition: state => state.competition,
   getCountCompetitions: state => state.countCompetitions,
   getFollowers: state => state.followers
-};
+};  
 
 const actions = {
   loadCompetitions(context, competitionParams) {

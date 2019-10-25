@@ -11,7 +11,6 @@
         </v-layout>
       </v-col>
       <v-col
-        v-if="this.$store.getters.userMe.user"
         class="text-center"
         cols="6"
         md="4"
@@ -26,14 +25,8 @@
         >
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
-    </v-col>
-    <v-col class="text-center" cols="6" md="4">
-      <v-btn class="mx-2" right fab dark color="indigo" @click="addCompetition">
-      <v-icon dark>mdi-plus</v-icon>
-      </v-btn>  
-    </v-col>
-    
-    </v-row>
+    </v-col>    
+  </v-row>
     <Competition
       v-for="competition in getCompetitions"
       :competitionData="competition"
@@ -58,7 +51,7 @@ export default {
       competitionParams: {
         limit: 5,
         page: 1,
-        // date: new Date(Date.now())
+        offset: null,
       }
     };
   },
@@ -85,14 +78,15 @@ export default {
     },
     getPages() {
       const result = Math.ceil(
-        this.getCountCompetitions / this.competitionParams.limit
+        this.$store.getters.getCountCompetitions / this.competitionParams.limit
       );
       return result;
     },
     setCompetitionPage(page) {
       this.competitionParams.page = page;
+      this.competitionParams.offset = (this.competitionParams.page - 1) * this.competitionParams.limit;
       this.$store.dispatch("loadCompetitions", this.competitionParams);
-    }
+    },  
   }
 };
 </script>
