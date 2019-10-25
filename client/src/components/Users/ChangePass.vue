@@ -13,7 +13,7 @@
             v-model="passData.oldPass"
             :append-icon="show0 ? 'visibility' : 'visibility_off'"
             :type="show0 ? 'text' : 'password'"
-            @click:append="show0 = !show0
+            @click:append="show0 = !show0"
             required
           />
           <v-text-field
@@ -28,7 +28,6 @@
             required
           />
           <v-text-field
-            type="password"
             label="Re-type new password"
             :rules="newPassRules"
             :counter="50"

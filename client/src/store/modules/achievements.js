@@ -126,6 +126,12 @@ const actions = {
     return axios
       .get("achievements/")
       .then(res => res.data.data);
+  },
+  getUsersByAchiev(_, id){
+    return axios
+      .get(`achievements/${id}/users`)
+      .then(res => res.data)
+      .catch(err => console.log(err))
   }
 };
 

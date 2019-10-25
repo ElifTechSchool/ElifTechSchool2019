@@ -279,5 +279,11 @@ router.post('/:id/users', async (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.get('/:id/users', (req, res, next) => {
+  userAchievementsService.getUsersOfSpecificAchievement(req.params.id)
+    .then((result) => res.json(result))
+    .catch((error) => next(error));
+});
+
 
 export default router;

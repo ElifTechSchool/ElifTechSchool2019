@@ -52,14 +52,15 @@ export default {
     },
     saveUserAchiv() {
       const id = this.$route.params.Uid || this.$route.params.id;
-      const selectedData = this.select.map(el => el.value);
       if (this.type === "achiv") {
         //TODO
-        console.log(selectedData);
+        console.log(this.select);
       } else if (this.type === "users") {
+        console.log(this.select);
+
         this.$store.dispatch("addUsersToAchiev", {
           id: id,
-          users: selectedData
+          users: this.select
         });
       }
     }
@@ -76,6 +77,7 @@ export default {
         }
       );
     } else if (this.type === "users") {
+      this.select = await this.$store.dispatch("getUsersByAchiev", this.$route.params.id);
       await this.$store.dispatch("loadUsers", {});
       this.items = this.$store.getters.users.map(el => {
         return {
