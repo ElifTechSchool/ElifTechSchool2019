@@ -115,7 +115,7 @@ const actions = {
   },
   addUsersToAchiev(_, { id, users }) {
     axios
-      .post(`${achievementsURL}${id}/users`, { users: users })
+      .post(`achievements/${id}/users`, { users: users })
       .then(res => {
         console.log(res);
         //commit("setUserAchiv", res.data[0])
@@ -124,7 +124,7 @@ const actions = {
   },
   getAllAchiev(_) {
     return axios
-      .get(achievementsURL)
+      .get("achievements/")
       .then(res => res.data.data);
   }
 };

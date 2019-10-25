@@ -52,23 +52,28 @@ export default {
     },
     saveUserAchiv() {
       const id = this.$route.params.Uid || this.$route.params.id;
-      const users = this.select.map(el => el.value);
-      console.log(users);
+      const selectedData = this.select.map(el => el.value);
       if (this.type === "achiv") {
         //TODO
+        console.log(selectedData);
       } else if (this.type === "users") {
         this.$store.dispatch("addUsersToAchiev", {
           id: id,
-          users: users
+          users: selectedData
         });
       }
     }
   },
   async created() {
     if (this.type === "achiv") {
-      this.items = await this.$store.dispatch("getAllAchiev");
-      this.items.map(
-        el => (el.text = el.name)
+      const data = await this.$store.dispatch("getAllAchiev");
+      this.items = data.map(
+        el => {
+          return {
+            text: el.name,
+            value: el.id,
+          }
+        }
       );
     } else if (this.type === "users") {
       await this.$store.dispatch("loadUsers", {});
@@ -79,7 +84,6 @@ export default {
         };
       });
     }
-    console.log(this.items);
   }
 };
 </script>

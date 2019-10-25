@@ -68,6 +68,7 @@ export default {
   data() {
     return {
       isEditing: false,
+      achivDialog: false,
       id: this.$route.params.id,
       achievement: {},
       photo_url:
