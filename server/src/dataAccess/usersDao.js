@@ -32,33 +32,24 @@ const getHash = (id) => usersModel.findAll({
 }).then(e => e[0].dataValues.password);
 
 const getUsersPage = (offset, limit, search) => {
-  if(search){
-    return usersModel.findAndCountAll({
-      where:{
+  return usersModel.findAndCountAll({
+    ...search ? {
+      where: {
         [Op.or]: {
           name: { [Op.iLike]: `%${search}%` },
           surname: { [Op.iLike]: `%${search}%` },
           email: { [Op.iLike]: `%${search}%` },
         },
       },
-      offset,
-      limit,
-      order: [
-        ['experience', 'DESC'],
-      ],
-      attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
-    });
-  } else {
-    return usersModel.findAndCountAll({
-      offset,
-      limit,
-      order: [
-        ['experience', 'DESC'],
-      ],
-      attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
-    });
-  }
-}
+    } : {},
+    offset,
+    limit,
+    order: [
+      ['experience', 'DESC'],
+    ],
+    attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
+  });
+};
 
 const getUsers = () => {
   return usersModel.findAndCountAll({
