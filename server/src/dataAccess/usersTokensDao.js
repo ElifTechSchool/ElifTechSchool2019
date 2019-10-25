@@ -11,8 +11,8 @@ const getTokenByUserId = (userId) => usersTokensModel.findOne({
   where: { user_id: userId },
 });
 
-const updateUserRefreshToken = ({ userId, refreshToken }) => usersTokensModel.update(
-  { refresh_token: refreshToken },
+const updateUserRefreshTokenExp = ({ userId }) => usersTokensModel.update(
+  { expiration_date: new Date(Date.now()).toISOString() },
   {
     where: { user_id: userId },
   },
@@ -27,5 +27,5 @@ export default {
   getUsersTokens,
   getTokenByUserId,
   deleteUserToken,
-  updateUserRefreshToken,
+  updateUserRefreshTokenExp,
 };
