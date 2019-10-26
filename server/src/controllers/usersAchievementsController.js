@@ -2,7 +2,6 @@ import express from 'express';
 import achievementsService from '../businessLogic/achievementsService.js';
 import usersService from '../businessLogic/usersService.js';
 import userAchievementsService from '../businessLogic/userAchievementsService.js';
-
 const router = express.Router();
 
 /**
@@ -40,7 +39,7 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/:id/achievements', (req, res, next) => {
-  userAchievementsService.getAchievementsByUserId(req.params.id)
+  achievementsService.getAchievementsByUserId(req.params.id)
    .then((result) => res.json(result))
    .catch((error) => next(error));
 });
