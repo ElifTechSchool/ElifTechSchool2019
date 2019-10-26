@@ -44,7 +44,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   usersTokensService.restoreTokens(req.body.refreshToken)
-    .then(({ token, refreshToken }) => res.status(201).send({ token, refreshToken }))
+    .then(({ token }) => res.status(201).send({ token }))
     .catch((error) => next(error));
 });
 

@@ -3,24 +3,21 @@ import usersTokensDao from '../dataAccess/usersTokensDao.js';
 import config from '../../config/env.js';
 
 const restoreTokens = async (refreshToken) => {
-  const decoded = jwt.verify(refreshToken, config.jwtRefreshSecret);
-  const tokensData = await getTokenByUserId(decoded.id);
-  const expirationDate = tokensData.expiration_date;
-  const difference = new Date(Date.now()).getMinutes() - new Date(expirationDate).getMinutes();
-  const efreshTokenExpTime = config.refreshTokenExpTime.split((/(d)/))[0];
-
-  if (difference >= efreshTokenExpTime * 1440) {
-    throw new Error('refresh token expiered');
-  }
+  const tokensData = await getToken(refreshToken);
   if (
     tokensData && tokensData.refresh_token === refreshToken
   ) {
+    const expirationDate = tokensData.expiration_date;
+    const difference = new Date(Date.now()).getMinutes() - new Date(expirationDate).getMinutes();
+    const refreshTokenExpTime = 60 * 1440;
+    if (difference >= refreshTokenExpTime) {
+      throw new Error('refresh token expiered');
+    }
     const token = jwt.sign({ id: tokensData.user_id }, config.jwtSecret, { expiresIn: config.tokenExpTime });
-    await updateUserRefreshTokenExp ({ userId: tokensData.user_id });
+    await updateUserRefreshTokenExp({ userId: tokensData.user_id });
     return { token };
-  } else {
-    throw new Error('refresh token is not valid');
-  }
+  } 
+  throw new Error('refresh token is not valid');
 };
 
 const updateUserRefreshTokenExp = ({ userId }) => usersTokensDao
@@ -32,11 +29,14 @@ const getUsersTokens = () => usersTokensDao.getUsersTokens();
 
 const getTokenByUserId = (userId) => usersTokensDao.getTokenByUserId(userId);
 
+const getToken = (refreshToken) => usersTokensDao.getToken(refreshToken);
+
 const deleteUserToken = (id) => usersTokensDao.deleteUserToken(id);
 
 export default {
   createUserToken,
   getUsersTokens,
+  getToken,
   getTokenByUserId,
   deleteUserToken,
   restoreTokens,

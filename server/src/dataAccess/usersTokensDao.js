@@ -7,6 +7,10 @@ const createUserToken = ({ userId, refreshToken }) => usersTokensModel
 
 const getUsersTokens = () => usersTokensModel.findAll({ raw: true });
 
+const getToken = (refreshToken) => usersTokensModel.findOne({
+  where: { refresh_token: refreshToken },
+});
+
 const getTokenByUserId = (userId) => usersTokensModel.findOne({
   where: { user_id: userId },
 });
@@ -25,6 +29,7 @@ const deleteUserToken = (id) => usersTokensModel.destroy({
 export default {
   createUserToken,
   getUsersTokens,
+  getToken,
   getTokenByUserId,
   deleteUserToken,
   updateUserRefreshTokenExp,
