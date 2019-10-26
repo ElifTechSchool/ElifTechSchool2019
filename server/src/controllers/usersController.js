@@ -368,7 +368,7 @@ router.put('/:id/passwords', async (req, res, next) => {
  */
 router.put('/:id/experience', async (req, res, next) => {
   usersService
-    .updateUserExperience(req.params.id, req.body.experience)
+    .addUserExperience(req.params.id, req.body.experience)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
