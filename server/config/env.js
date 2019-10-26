@@ -31,7 +31,8 @@ const defaultConfig = {
   tokenExpTime: '1d',
   refreshTokenExpTime: '60d',
   email: process.env.EMAIL,
-  emailPass: process.env.EMAIL_PASS
+  emailPass: process.env.EMAIL_PASS,
+  frontEndUrl: process.env.FRONT_END_URL || 'http://localhost:8080',
 };
 
 export default { ...defaultConfig, ...configs[env] };

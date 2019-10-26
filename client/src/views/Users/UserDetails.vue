@@ -175,7 +175,7 @@ export default {
       this.$router.push(`/achievements/${achievementId}`)
     }
   },
-  mounted() {
+  created() {
     if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.$store.dispatch("getUserRole", this.$route.params.Uid);

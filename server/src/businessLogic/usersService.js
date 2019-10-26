@@ -19,13 +19,21 @@ const getUsers = (query) => {
 
 const getUserById = async (id) => {
   const user = await usersDao.getUserById(id).then(e => e[0]);
-  if (!user) return null;
+  if (!user) {
+    throw new Error ('no such user')
+  }
   const current = await getRank(user.dataValues.experience);
   const next = await getNextRank(user.dataValues.experience);
   return {user, userRank: {current, next}}
 };
 
-const getUserByEmail = (email) => usersDao.getUserByEmail(email);
+const getUserByEmail = async (email) => {
+  const user = await usersDao.getUserByEmail(email).then(user => user[0])
+  if (!user) {
+    throw new Error('no such user')
+  }
+  return user
+}
 
 const createUser = async (req) => {
   try{

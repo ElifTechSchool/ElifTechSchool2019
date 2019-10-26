@@ -89,8 +89,11 @@ export default {
         this.passData = {};
         this.hideModal();
       } else {
-        this.$store.dispatch("changePasswordToken", { newPass:this.passData.newPass, token: this.$route.query.token });
+        this.$store.dispatch("resetPassword", { newPass:this.passData.newPass, token: this.$route.query.token });
         this.passData = {};
+        this.$router.replace({
+        name: "home",
+        });
       }
     },
     hideModal() {
