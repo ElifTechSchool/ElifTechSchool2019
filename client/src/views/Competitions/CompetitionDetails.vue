@@ -145,11 +145,11 @@ export default {
   },
   created() {
     
-    if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
-        this.isActiveCompetitions = true;
-        console.log(this.isActiveCompetitions);
+    // if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
+    //     this.isActiveCompetitions = true;
+    //     console.log(this.isActiveCompetitions);
     
-    }
+    // }
     
     
 

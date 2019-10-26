@@ -2,7 +2,7 @@
   <v-row>
     <v-col>
       <v-card
-        class="mx-auto"
+        v-bind:class="{active: isActive } "
         max-width="400"
         @click="getDetails"
       >
@@ -79,7 +79,7 @@ export default {
     return {
       dialog: false,
       hover: false,
-      isActiveCompetitions: false,
+      isActive: false,
     };
   },
   name: "Competition",
@@ -103,14 +103,17 @@ export default {
       let year = date.getFullYear();
       return day + '/' + month + '/' + year;
     },
-    created () {
-      if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
-          this.isActiveCompetitions = true;
-          console.log(this.isActiveCompetitions);
-          
-        }
-    },
-    
+  },
+  created () {
+    if (new Date(this.competitionData.deadline_date) > new Date(Date.now())) {
+        this.isActive = true;
+      } 
   }
 };
 </script>
+
+// <style lang="scss" scoped>
+.active {
+  background: #C8E6C9;
+}
+</style>
