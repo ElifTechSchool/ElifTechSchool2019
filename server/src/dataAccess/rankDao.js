@@ -55,15 +55,11 @@ const getNextRank = (exp) => rankModel.findOne({
   ],
 });
 
-// where experience > exp
-const updateNextRanks = (limit, exp, query) => rankModel.update({ number: sequelize.literal(query) }, {
-  where: {
-    experience: { [Op.gt]: exp },
-  },
-  limit: limit - 1,
+const getSortedByExpRanks = () => rankModel.findAll({
   order: [
     ['experience', 'ASC'],
   ],
+  attributes: ['id', 'name', 'experience', 'number', 'photo_url', 'photo_id'],
 });
 
 const deleteRank = (id) => rankModel.destroy({
@@ -79,5 +75,5 @@ export default {
   updateNum,
   getPreviousRank,
   getNextRank,
-  updateNextRanks,
+  getSortedByExpRanks,
 };

@@ -59,7 +59,7 @@ const router = express.Router();
  */
 router.get('/', (req, res, next) => {
   usersService
-    .getUsers(req.query, next)
+    .getUsers(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });

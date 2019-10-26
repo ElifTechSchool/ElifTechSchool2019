@@ -12,12 +12,32 @@ const getters = {
   getCompetition: state => state.competition,
   getCountCompetitions: state => state.countCompetitions,
   getFollowers: state => state.followers
-};
+};  
 
 const actions = {
   loadCompetitions(context, competitionParams) {
     axios
-      .get("competitions", { params: competitionParams })
+      .get("competitions/", { params: competitionParams })
+      .then(res => res.data)
+      .then(data => {
+        context.commit("getCompetitions", data.rows);
+        context.commit("setCountCompetitions", data.count);
+      })
+      .catch(err => console.log(err));
+  },
+  loadActiveCompetitions(context, competitionParams) {
+    axios
+      .get("competitions/active", { params: competitionParams })
+      .then(res => res.data)
+      .then(data => {
+        context.commit("getCompetitions", data.rows);
+        context.commit("setCountCompetitions", data.count);
+      })
+      .catch(err => console.log(err));
+  },
+  loadPastCompetitions(context, competitionParams) {
+    axios
+      .get("competitions/past", { params: competitionParams })
       .then(res => res.data)
       .then(data => {
         context.commit("getCompetitions", data.rows);
@@ -92,7 +112,7 @@ const actions = {
   unsubscribeFollower(context, data) {
     axios
       .delete(`competitions/${data.competitionId}/followers/${data.userId}`)
-      .then( () => {
+      .then(() => {
         context.dispatch("getSubscribedFollowers", data.competitionId);
       })
       .catch(err => console.log(err));

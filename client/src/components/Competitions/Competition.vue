@@ -1,17 +1,36 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="mx-auto" max-width="400" color="#fcded9" @click="getDetails">
+      <v-card
+        class="mx-auto"
+        max-width="400"
+        @click="getDetails"
+      >
         <v-card-title>Competition: {{ competitionData.name }}</v-card-title>
         <v-card-text class="text--primary">
           <div>Description: {{ competitionData.description }}</div>
           <div>Deadline_date: {{ formatDateRead() }}</div>
           <div>Experience: {{ competitionData.experience }}</div>
+          <h4>Followers:</h4>
+          <v-col>
+            <v-row>
+            <div v-for="users in competitionData.users" :key="users.id" >
+              <v-avatar size="36px">
+                <img 
+                  :title="`${users.name} ${users.name}`"
+                  :src="users.image_url"
+                  :alt="`${users.name} ${users.name}`"
+                >
+              </v-avatar>
+            </div>
+          </v-row>
+          </v-col>
         </v-card-text>
-          <v-card-actions v-if="this.$store.getters.userMe.user" > 
+          <v-card-actions > 
             <v-btn
-              color="error"
+              color="error" 
               dark
+              outlined
               @click.stop="dialog = true"
             >
               DELETE
@@ -24,38 +43,32 @@
             
           >
             <v-card>
-              <v-card-title class="headline">Delete competition {{ competitionData.name }} ?</v-card-title>
+              <v-card-title class="headline"
+                >Delete competition {{ competitionData.name }} ?</v-card-title
+              >
 
-                  <v-card-text>
-                    You want delete comeptition, are you sure?
-                  </v-card-text>
+              <v-card-text>
+                You want delete comeptition, are you sure?
+              </v-card-text>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn
-                  color="yellow darken-1"
-                  text
-                  @click="dialog = false"
-                >
+                <v-btn color="yellow darken-1" text @click="dialog = false">
                   Cancel
                 </v-btn>
 
-                <v-btn
-                  color="red darken-1"
-                  text
-                  @click="deleteCompetition"
-                >
-                <i class="material-icons">
-                  delete_forever
-                </i>
+                <v-btn color="red darken-1" text @click="deleteCompetition">
+                  <i class="material-icons">
+                    delete_forever
+                  </i>
                   Delete
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
         </v-col>
-    </v-card>
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -64,12 +77,14 @@
 export default {
   data() {
     return {
-      dialog: false
+      dialog: false,
+      hover: false,
+      isActiveCompetitions: false,
     };
   },
   name: "Competition",
   props: ["competitionData"],
-  
+
   methods: {
     deleteCompetition() {
       this.$store.dispatch("deleteCompetition", this.competitionData.id);
@@ -83,11 +98,17 @@ export default {
     },
     formatDateRead() {
       const date = new Date(this.competitionData.deadline_date);
-      let month = date.getMonth();
+      let month = date.getMonth()+1;
       let day = date.getDate();
       let year = date.getFullYear();
-
-        return day + '/' + month + '/' + year;
+      return day + '/' + month + '/' + year;
+    },
+    created () {
+      if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
+          this.isActiveCompetitions = true;
+          console.log(this.isActiveCompetitions);
+          
+        }
     },
     
   }

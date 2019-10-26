@@ -60,10 +60,10 @@ export default {
           "This field must be less than 50 characters"
       ],
       experienceRules: [
-        v => (v && isFinite(v)) || "This field must be a number ",
-        v => (v && v.length <= 2) || "This field must have two digitals",
+        v => (v && v !== 0) || "This field must be greater than zero",
+        v => (v && v <= this.$store.getters.userMe.user.experience) || "Can`t be more user experience",
         v =>
-          (v && Math.sign(v) !== -1) || "This field must be a positive number "
+          (v && Math.sign(v) !== -1) || "This field must be a positive number ",
       ],
       dateRules: [v => !!v || "This field is required"]
     };

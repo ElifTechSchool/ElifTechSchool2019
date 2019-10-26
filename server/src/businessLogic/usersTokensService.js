@@ -7,7 +7,7 @@ const restoreTokens = async (refreshToken) => {
   const tokensData = await getTokenByUserId(decoded.id);
   const expirationDate = tokensData.expiration_date;
   const difference = new Date(Date.now()).getMinutes() - new Date(expirationDate).getMinutes();
-  const efreshTokenExpTime = config.refreshTokenExpTime.split((/(d)/))[0]
+  const efreshTokenExpTime = config.refreshTokenExpTime.split((/(d)/))[0];
   if (difference >= efreshTokenExpTime * 1440) {
     throw new Error('refresh token expiered');
   }

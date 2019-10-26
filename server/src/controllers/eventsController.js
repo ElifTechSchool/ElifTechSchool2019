@@ -1,5 +1,6 @@
 import express from 'express';
 import eventsService from '../businessLogic/eventsService.js';
+import upload from '../businessLogic/cloudinaryService.js';
 
 const router = express.Router();
 
@@ -13,7 +14,15 @@ const router = express.Router();
  *       - events
  *     produces:
  *       - application/json
- *     parameters: []
+ *     parameters: 
+ *       - name: page
+ *         in: query
+ *         required: true
+ *         type: number
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         type: number
  *     responses:
  *       200:
  *         description: response
@@ -32,11 +41,9 @@ const router = express.Router();
  *                  type: string
  *                max_people:
  *                  type: number
- *                image:
+ *                image_url:
  *                  type: string
  *                date:
- *                  type: string
- *                time:
  *                  type: string
  *       401:
  *         description: Unauthorized access
@@ -48,7 +55,7 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/', (req, res, next) => {
-  eventsService.getEvents()
+  eventsService.getEvents(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
 });
@@ -84,11 +91,9 @@ router.get('/', (req, res, next) => {
  *               type: string
  *             max_people:
  *               type: number
- *             image:
+ *             image_url:
  *               type: string
  *             date:
- *               type: string
- *             time:
  *               type: string
  *       401:
  *         description: Unauthorized access
@@ -101,7 +106,7 @@ router.get('/', (req, res, next) => {
  */
 router.get('/:id', (req, res, next) => {
   eventsService.getEventById(req.params.id)
-    .then((result) => res.json(result[0]))
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 
@@ -113,31 +118,29 @@ router.get('/:id', (req, res, next) => {
  *     description: add event
  *     tags:
  *       - events
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
- *       - name: body
- *         in: body
+ *       - name: title
+ *         in: formData
  *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
- *               type: string
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: location
+ *         in: formData
+ *         type: string
+ *       - name: max_people
+ *         in: formData
+ *         type: number
+ *       - name: image_url
+ *         in: formData
+ *         type: file
+ *       - name: date
+ *         in: formData
+ *         type: string
  *     responses:
  *       201:
  *         description: added success
@@ -150,7 +153,8 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('image_url'), (req, res, next) => {
+  req.body.image_url = req.file.secure_url;
   eventsService.createEvent(req.body)
     .then(() => res.status(201).end())
     .catch((error) => next(error));
@@ -164,36 +168,31 @@ router.post('/', (req, res, next) => {
  *     description: update event
  *     tags:
  *       - events
- *     produces:
- *       - application/json
+ *     consumes:
+ *       - multipart/form-data
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         schema:
- *           type: number
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *             title:
- *               type: string
- *             description:
- *               type: string
- *             location:
- *               type: string
- *             max_people:
- *               type: number
- *             image:
- *               type: string
- *             date:
- *               type: string
- *             time:
- *               type: string
+ *         type: number
+ *       - name: title
+ *         in: formData
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         type: string
+ *       - name: location
+ *         in: formData
+ *         type: string
+ *       - name: max_people
+ *         in: formData
+ *         type: number
+ *       - name: image_url
+ *         in: formData
+ *         type: file
+ *       - name: date
+ *         in: formData
+ *         type: string
  *     responses:
  *       204:
  *         description: added success
@@ -206,7 +205,10 @@ router.post('/', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', (req, res, next) => {
+router.put('/:id', upload.single('image_url'), (req, res, next) => {
+  if (req.file) {
+    req.body.image_url = req.file.secure_url;
+  }
   eventsService.updateEvent(req.params.id, req.body)
     .then(() => res.status(204).end())
     .catch((error) => next(error));

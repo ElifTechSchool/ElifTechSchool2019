@@ -81,7 +81,6 @@ router.get('/types', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-
 router.get('/', (req, res, next) => {
   achievementService.getAchievements(req.query, req.headers.authorization)
     .then((data) => res.json({ data }))
@@ -287,45 +286,6 @@ router.put('/:id', upload.single('photo_url'), (req, res, next) => {
     .catch((error) => next(error));
 });
 
-/**
- * @swagger
- *
- * /v1/achievements/{id}/users:
- *   post:
- *     description: add achievement to users
- *     tags:
- *       - usersAchievements
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: array
- *       - name: body
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             users:
- *               type: array
- *               items:
- *                 type: number
- *     responses:
- *       204:
- *         description: added success
- *       401:
- *         description: Unauthorized access
- *         schema:
- *           $ref: '#/definitions/401'
- *       500:
- *         description: Server error
- *         schema:
- *           $ref: '#/definitions/500'
- */
-
 router.post('/:id/users', async (req, res, next) => {
   const achievementId = req.params.id;
   if (!achievementId || !Array.isArray(req.body.users)) {
@@ -340,6 +300,10 @@ router.post('/:id/users', async (req, res, next) => {
   userAchievementsService.createUserAchievements(
     usersToAdd.map((user) => ({ user_id: user, achievement_id: achievementId })),
   )
+    .then((response) => {// just for testing
+      console.log('response', response);
+      return response
+    })
     .then(() => res.status(201).end())
     .catch((error) => next(error));
 });

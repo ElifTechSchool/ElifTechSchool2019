@@ -6,9 +6,9 @@ const router = express.Router();
 /**
  * @swagger
  *
- * /v1/competitions:
+ * /v1/competitions/:
  *   get:
- *     description: Get competitions
+ *     description: Get all competitions
  *     tags:
  *       - competitions
  *     produces:
@@ -46,6 +46,97 @@ router.get('/', (req, res, next) => {
     competitionService.getCompetitions(req.query)
     .then((result) => res.json(result))
     .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/competitions/active:
+ *   get:
+ *     description: Get active competitions
+ *     tags:
+ *       - competitions
+ *     produces:
+ *       - application/json
+ *     parameters: []
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *              id:
+ *                  type: number
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.get('/active', (req, res, next) => {
+  competitionService.getActiveCompetitions(req.query)
+  .then((result) => res.json(result))
+  .catch((error) => next(error));
+});
+
+
+/**
+ * @swagger
+ *
+ * /v1/competitions/past:
+ *   get:
+ *     description: Get past competitions
+ *     tags:
+ *       - competitions
+ *     produces:
+ *       - application/json
+ *     parameters: []
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *              id:
+ *                  type: number
+ *              name:
+ *                  type: string
+ *              description:
+ *                  type: string
+ *              deadline_date:
+ *                  type: string
+ *              experience:
+ *                  type: number
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.get('/past', (req, res, next) => {
+  competitionService.getPastCompetitions(req.query)
+  .then((result) => res.json(result))
+  .catch((error) => next(error));
 });
 
 /**

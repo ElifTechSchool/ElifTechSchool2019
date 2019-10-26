@@ -40,9 +40,9 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 router.get('/:id/achievements', (req, res, next) => {
-  achievementsService.getAchievementsByUserId(req.params.id)
-    .then((result) => res.json(result))
-    .catch((error) => next(error));
+  userAchievementsService.getAchievementsByUserId(req.params.id)
+   .then((result) => res.json(result))
+   .catch((error) => next(error));
 });
 /**
  * @swagger

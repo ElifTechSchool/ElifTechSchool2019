@@ -1,8 +1,25 @@
 <template>
-  <v-card class="mx-auto" max-width="400" color="#fcded9">
+  <v-row>
+    <v-col cols="4">
+      <v-btn
+        @click="goBack"
+        color="grey"
+        dark
+        small
+        top
+        left
+        fab
+      >
+        <i class="material-icons">
+          keyboard_backspace
+        </i>
+      </v-btn>
+    </v-col>
+    <v-col cols="12">
+         <v-card class="mx-auto" max-width="400">
     <v-row key="1" justify="center" class="userInfo d-flex">
-      <div v-for="competition in getCompetition"  :key="competition.id">
-        <v-col >
+      <div v-for="competition in getCompetition" :key="competition.id">
+        <v-col>
           <h2><b>Name:</b> {{ competition.name }}</h2>
           <p><b>Description:</b> {{ competition.description }}</p>
           <p>
@@ -11,7 +28,7 @@
           </p>
           <p><b>Experience:</b> {{ competition.experience }}</p>
         </v-col>
-        <v-col v-if="$store.getters.userMe.user" >
+        <v-col >
           <v-btn color="success" outlined @click="updateCompetition(competition.id)">
           <i class="material-icons">
           create
@@ -30,16 +47,19 @@
         </v-col>
         <v-col>
           <h4>Folllowers:</h4>
-          <div  v-for="follower in getCompetitionFollowers"  :key="follower.id">
+          <div v-for="follower in getCompetitionFollowers" :key="follower.id">
             <a @click="toUserDetails(follower.user.id)">
-              {{`${follower.user.name} ${follower.user.surname}`}}
+              {{ `${follower.user.name} ${follower.user.surname}` }}
             </a>
-               
           </div>
         </v-col>
       </div>
     </v-row>
   </v-card>
+    </v-col>
+   
+  </v-row>
+  
 </template>
 
 <script>
@@ -48,13 +68,12 @@ export default {
   data() {
     return {
       hidden: false,
+      isActiveCompetitions: false,
       dataFollower: {
         competitionId: null,
-        userId: null,
-      },
-      
-      
-    }
+        userId: null
+      }
+    };
   },
   computed: {
     getCompetition() {
@@ -88,9 +107,10 @@ export default {
     },
 
     subscribe(competitionId) {
-      
+      this.dataFollower.competitionId = competitionId;
 
-            this.dataFollower.competitionId = competitionId;
+        this.dataFollower.competitionId = competitionId;
+      
       
         if (this.hidden == false) {
           this.subscribeCompetition();
@@ -103,7 +123,7 @@ export default {
         }
     },
     userProps(followerProps) {
-      if(followerProps !== null) {
+      if (followerProps !== null) {
         const userProps = followerProps;
       }
     },
@@ -112,6 +132,11 @@ export default {
         name: "userDetails",
         params: { Uid: userId }
         });
+    },
+    goBack() {
+      this.$router.push({
+        name: "competitions",
+        });
     }
   },
   mounted() {
@@ -119,23 +144,30 @@ export default {
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
   created() {
-     
-    if (this.$store.getters.userMe.user) {
-    this.dataFollower.userId = this.$store.getters.userMe.user.id;
-    let followersId = this.$store.getters.getFollowers;
-
-      for(let i=0; i < followersId.length; i++){
-        if (this.$store.getters.userMe.user.id == followersId[i].userId )  {
-            this.hidden = true;
-          }
-      }
-     
-    } else {
-        alert("Please login");
+    
+    if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
+        this.isActiveCompetitions = true;
+        console.log(this.isActiveCompetitions);
+    
     }
     
+    
+
+    if (this.$store.getters.userMe.user) {
+      this.dataFollower.userId = this.$store.getters.userMe.user.id;
+      let followersId = this.$store.getters.getFollowers;
+
+      for (let i = 0; i < followersId.length; i++) {
+        if (this.$store.getters.userMe.user.id == followersId[i].userId) {
+          this.hidden = true;
+        }
+      }
+    } 
+
+    
+    
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .v-card {
