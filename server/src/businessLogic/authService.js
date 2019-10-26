@@ -21,7 +21,12 @@ const authUser = async (id) => {
   return usersService.getUserById(id);
 };
 
+const checkRole = (token) => {
+  const decoded = jwt.decode(token);
+}
+
 export default {
   login,
   authUser,
+  checkRole
 };

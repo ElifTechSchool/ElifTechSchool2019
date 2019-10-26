@@ -30,24 +30,20 @@ const sendEmailToResetPass = async (email) => {
 };
 
 const changeUserPassword = async (newPass, token) => {
-    try {
-        const decoded = jwt.decode(token);
-        const user = await usersService.getUserByEmail(decoded.email);
+    const decoded = jwt.decode(token);
+    const user = await usersService.getUserByEmail(decoded.email);
 
-        const tokenCheck = jwt.verify(token, user.password)
-        if (!tokenCheck) {
-            throw new Error('token is not valid')
-        }
-        usersService.updateUserPassword(user.id, undefined, newPass);
-        await transporter.sendMail({
-            from: '"Eliftech School 2019 👻" <no-reply@gmail.com>', // sender address
-            to: user.email, // list of receivers
-            subject: 'Password reset success!', // Subject line
-            html: "<h1> Your password has been reset successfully! </h1>" // html body
-        });
-    } catch (e) {
-        return res.status(401).send(e);
+    const tokenCheck = jwt.verify(token, user.password)
+    if (!tokenCheck) {
+        throw new Error('token is not valid')
     }
+    usersService.updateUserPassword(user.id, undefined, newPass);
+    await transporter.sendMail({
+        from: '"Eliftech School 2019 👻" <no-reply@gmail.com>', // sender address
+        to: user.email, // list of receivers
+        subject: 'Password reset success!', // Subject line
+        html: "<h1> Your password has been reset successfully! </h1>" // html body
+    });
 }
 
 export default {
