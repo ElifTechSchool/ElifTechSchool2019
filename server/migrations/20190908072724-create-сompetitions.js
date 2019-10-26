@@ -31,6 +31,10 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
+      owner_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     }, {
       transaction: t,
     });
