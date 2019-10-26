@@ -18,18 +18,31 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      selected: "all",
       type: ["my", "wanted", "all"]
     };
   },
   methods: {
-    handleChange() {
+    handleChange(event) {
+      console.log(event)
       this.$emit("filter", this.selected);
     },
   },
+  computed: {
+    ...mapGetters(["getType"]),
+    selected: {
+      get() {
+        return this.getType || 'all';
+      },
+      set(val) {
+        this.$store.commit("setType", val);
+      }
+    },
+  }
 };
 </script>
 

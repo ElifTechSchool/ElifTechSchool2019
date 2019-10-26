@@ -49,28 +49,68 @@ export default {
     };
   },
   mounted() {
+    if(!this.paramsExists()) {
+      this.setQueryParams()
+    } 
+    this.setInitialStateParams(this.getQueryparams())
+
     this.$store.dispatch("setCurrentPage", this.getPage || 1);
     this.$store.dispatch("getAllAchievements");
-  },
+
+},
   methods: {
+    setInitialStateParams(params) {
+      this.$store.dispatch("setInitialStateParams", params);
+    },
+    getQueryparams() {
+      const params = new URLSearchParams(location.search);
+      let types = params.get('types');
+      types = typeof types === 'string' ? types.split(',') : types;
+      return {
+        type: params.get('type'),
+        types,
+        page: params.get('page'),
+        limit: params.get('limit'),
+      }
+    },
+    paramsExists() {
+      const searchParams = new URLSearchParams(location.search);
+      return searchParams.has('page') || searchParams.has('limit') || searchParams.has('type') || searchParams.has('types')
+    },
+    setQueryParams() {
+      const params = new URLSearchParams(location.search);
+      params.set('page', this.getPage);
+      params.set('limit', this.limit); 
+      if (this.getType) {
+        params.set('type', this.getType);
+      }
+      if (this.getTypes && this.getTypes.length) {
+        params.set('types', this.getTypes);
+      }
+      window.history.replaceState({}, '', `${location.pathname}?${params}`);
+    },
+
     getPages() {
       return Math.ceil(this.achievementsCount / this.limit);
     },
     getAchievementPerPage(page) {
       this.$store.dispatch("setCurrentPage", page);
       this.$store.dispatch("getAllAchievements");
+      this.setQueryParams()
     },
     selectType(type) {
       this.$store.dispatch("setType", type);
       this.$store.dispatch("getAllAchievements");
+      this.setQueryParams()
     },
     selectTypes(types) {
       this.$store.dispatch("setTypes", types);
       this.$store.dispatch("getAllAchievements");
+      this.setQueryParams()
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount", "getPage"])
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getTypes", "getType"]),
   }
 };
 </script>

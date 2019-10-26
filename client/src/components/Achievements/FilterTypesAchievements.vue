@@ -13,10 +13,11 @@
 </template>
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      selected: [],
       showFiters: false,
       types: null
     };
@@ -39,6 +40,17 @@ export default {
   },
   mounted() {
     this.typesAchievements();
+  },
+  computed: {
+    ...mapGetters(["getTypes"]),
+    selected: {
+      get() {
+        return this.getTypes || [];
+      },
+      set(val) {
+        this.$store.commit("setTypes", val);
+      }
+    },
   }
 };
 </script>
