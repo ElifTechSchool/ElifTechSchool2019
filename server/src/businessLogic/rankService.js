@@ -27,9 +27,9 @@ const updateRank = async (id, rank) => {
       id: el.id,
       number: index + 1,
     }));
-    await ranksToUpdate.forEach((rankItem) => {
-      rankDao.updateRank(rankItem.id, rankItem);
-    });
+    await Promise.all(
+      ranksToUpdate.map((rankItem) => rankDao.updateRank(rankItem.id, rankItem.number)),
+    );
   }
   return result;
 };
