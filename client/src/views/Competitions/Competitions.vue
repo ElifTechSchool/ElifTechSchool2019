@@ -4,9 +4,23 @@
     <v-row align="center">
       <v-col class="text-center" cols="12" md="8">
         <v-layout>
-          <v-btn small slat color="primery" @click="sortByDate">
-            <v-icon left>event</v-icon>
-            <span class="caption text-lowercase">By date</span>
+          <v-btn small slat color="primery" @click="sortBy('all')">
+            <i class="material-icons">
+              timer
+              </i>
+            <span class="caption text-lowercase">All</span>
+          </v-btn>
+          <v-btn small slat color="primery" @click="sortBy('active')">
+            <i class="material-icons">
+             access_time
+              </i>
+            <span class="caption text-lowercase">Active</span>
+          </v-btn>
+          <v-btn small slat color="primery" @click="sortBy('past')">
+            <i class="material-icons">
+              timer_off
+              </i>
+            <span class="caption text-lowercase">Past</span>
           </v-btn>
         </v-layout>
       </v-col>
@@ -52,6 +66,7 @@ export default {
         limit: 5,
         page: 1,
         offset: null,
+        
       }
     };
   },
@@ -66,10 +81,22 @@ export default {
   },
   mounted() {
     this.$store.dispatch("loadCompetitions", this.competitionParams);
+    
   },
   methods: {
-    sortByDate() {
-      this.$router.push({ name:  "competitions", query: { plan: "all"} })
+    sortBy(type) {
+        if (type == 'active') {
+          this.$store.dispatch("loadActiveCompetitions", this.competitionParams);
+          
+        } else if(type == 'past') {
+          this.$store.dispatch("loadPastCompetitions", this.competitionParams);
+          
+        } else {
+          this.$store.dispatch("loadCompetitions", this.competitionParams);
+          
+        }
+        
+        
     },
     addCompetition() {
       this.$router.push({
@@ -87,7 +114,7 @@ export default {
       this.competitionParams.offset = (this.competitionParams.page - 1) * this.competitionParams.limit;
       this.$store.dispatch("loadCompetitions", this.competitionParams);
     },  
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
