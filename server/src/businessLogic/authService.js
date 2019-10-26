@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../../config/env.js';
 import usersService from '../businessLogic/usersService.js';
+import usersRolesService from '../businessLogic/usersRolesService.js';
 
 const login = async (data, next) => {
   const user = await usersService.getUserByEmail(data.email);
@@ -21,8 +22,9 @@ const authUser = async (id) => {
   return usersService.getUserById(id);
 };
 
-const checkRole = (token) => {
+const checkRole = async (token) => {
   const decoded = jwt.decode(token);
+  const userRole = await usersRolesService.getRolesOfSpecificUser(decoded.id);
 }
 
 export default {

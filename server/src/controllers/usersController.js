@@ -163,7 +163,7 @@ router.get('/me', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-  console.log(req.headers.authorization.split(' ')[1]);
+  authService.checkRole(req.headers.authorization.split(' ')[1]);
   usersService
     .getUserById(req.params.id)
     .then((result) => res.json(result))
