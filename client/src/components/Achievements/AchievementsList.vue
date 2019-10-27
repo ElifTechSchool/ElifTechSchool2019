@@ -13,6 +13,15 @@
               :created_at="achievement.created_at"
             />
           </div>
+          
+          <v-row justify="center" align="center">
+            <v-card v-if="!allAchievements || !allAchievements.length" max-height="100px" max-width="200px">
+              <v-card-title>
+                No items found
+              </v-card-title>
+            </v-card>
+          </v-row>
+  
           <div>
             <v-pagination v-if="achievementsCount > limit"
               v-model="page"
@@ -21,7 +30,6 @@
             >
             </v-pagination>
           </div>
-
         </div>
       </v-col>
     </v-row>
@@ -132,4 +140,5 @@ export default {
 .block-achievements {
   margin-left: 30px;
 }
+
 </style>
