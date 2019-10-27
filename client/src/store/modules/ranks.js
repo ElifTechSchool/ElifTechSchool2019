@@ -102,12 +102,16 @@ const actions = {
       const search = router.currentRoute.query.search;
       if (
         (this.getters.ranksQty - 1) % this.getters.ranksPageSize === 0 &&
-        currentPage !== currentPage - 1
+        currentPage === this.getters.pageQty
       ) {
         currentPage -= 1;
         router.push({ path: "/ranks", query: { page: currentPage } });
       }
-      dispatch("getAllRanks", { page: currentPage, pageSize, search });
+      dispatch("getAllRanks", {
+        page: currentPage,
+        pageSize,
+        search
+      });
       dispatch("showSnackBar", {
         response: "Rank deleted successfully!",
         color: "primary"

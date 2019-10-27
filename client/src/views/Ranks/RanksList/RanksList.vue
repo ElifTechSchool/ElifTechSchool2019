@@ -68,9 +68,9 @@
       nextPage(newPage) {
         this.$router.replace({
           name: "ranks",
-          query: { page: this.pageProxy }
+          query: { page: newPage }
         }).catch(err => {});
-        const page = this.pageProxy;
+        const page = newPage;
         const pageSize = this.ranksPageSize;
         const search = this.search;
         this.$store.dispatch("getAllRanks", { page, pageSize, search });

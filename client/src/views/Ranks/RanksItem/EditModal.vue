@@ -68,7 +68,7 @@ export default {
             id: this.rank.id,
             data: formData
           });
-          this.$store.dispatch("showSnackBar", { response: "Rank added succesfully", color: "primary" });
+          this.$store.dispatch("showSnackBar", { response: "Rank updated successfully", color: "primary" });
           this.hideModal();
         } catch (error) {
           const message = error.message;
