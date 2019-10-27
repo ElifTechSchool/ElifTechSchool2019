@@ -66,7 +66,7 @@ const createAchievement = (req) => {
   if (req.file) {
     achievement.photo_url = req.file.secure_url;
   }
-  achievementsDao.createAchievement(achievement);
+  return achievementsDao.createAchievement(achievement);
 };
 
 const updateAchievement = (id, achievement) => achievementsDao.updateAchievement(id, achievement);
