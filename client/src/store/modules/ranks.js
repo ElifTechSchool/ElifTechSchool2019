@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 
 const state = {
   ranks: [],
@@ -64,9 +65,10 @@ const actions = {
         }
       });
       commit("addRank", response.data);
+      router.push({ path: "/ranks" });
       dispatch("showSnackBar", {
         response: "Rank added succesfully",
-        color: "green"
+        color: "primary"
       });
     } catch (error) {
       const message = error.message;
@@ -74,17 +76,15 @@ const actions = {
     }
   },
   async updateRank({ dispatch }, rank) {
-    try {
-      await axios.put(`ranks/${rank.id}`, rank.data, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
-      dispatch("getAllRanks");
-    } catch (error) {
-      const message = error.message;
-      dispatch("showSnackBar", { response: message, color: "red" });
-    }
+    await axios.put(`ranks/${rank.id}`, rank.data, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    const page = router.currentRoute.query.page;
+    const pageSize = this.ranksPageSize;
+    const search = router.currentRoute.query.search;
+    dispatch("getAllRanks", { page, pageSize, search });
   },
   async deleteRank({ dispatch }, id) {
     try {
