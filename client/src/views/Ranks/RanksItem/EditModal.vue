@@ -45,16 +45,7 @@
 <script lang="js">
 export default {
   name: 'edit-modal',
-  props: {
-    rank: {
-      type: Object,
-      required: true
-    },
-    show: {
-      type: Boolean,
-      required: true
-    }
-  },
+  props: ["rank", "show"],
   data() {
     return {
         editRank: { ...this.rank },
@@ -72,12 +63,17 @@ export default {
         formData.append("name", this.editRank.name);
         formData.append("experience", this.editRank.experience);
         formData.append("image", this.rankImage);
-
-        this.$store.dispatch("updateRank", {
-          id: this.rank.id,
-          data: formData
-        });
-        this.hideModal();
+        try {
+          this.$store.dispatch("updateRank", {
+            id: this.rank.id,
+            data: formData
+          });
+          this.$store.dispatch("showSnackBar", { response: "Rank updated successfully", color: "primary" });
+          this.hideModal();
+        } catch (error) {
+          const message = error.message;
+          this.$store.dispatch("showSnackBar", { response: message, color: "red" });
+        }
       }
     },
     hideModal() {
