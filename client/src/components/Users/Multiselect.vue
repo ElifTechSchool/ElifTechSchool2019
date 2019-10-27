@@ -32,34 +32,24 @@ export default {
   },
   computed: {},
   methods: {
-    filter(item, queryText, itemText) {
-      if (item.header) return false;
-
-      const hasValue = val => (val != null ? val : "");
-
-      const text = hasValue(itemText);
-      const query = hasValue(queryText);
-
-      return (
-        text
-          .toString()
-          .toLowerCase()
-          .indexOf(query.toString().toLowerCase()) > -1
-      );
-    },
     hideModal() {
       this.$emit("hideModal");
     },
     saveUserAchiv() {
       const id = this.$route.params.Uid || this.$route.params.id;
-      const selectedData = this.select.map(el => el.value);
+      const data = this.select.map(el => el.value);
+
       if (this.type === "achiv") {
-        //TODO
-        console.log(selectedData);
+        console.log(data);
+        this.$store.dispatch("addAchievToUser", {
+          id: id,
+          achievData: data
+        });
       } else if (this.type === "users") {
+        console.log(data);
         this.$store.dispatch("addUsersToAchiev", {
           id: id,
-          users: selectedData
+          users: data
         });
       }
     }
@@ -76,13 +66,19 @@ export default {
         }
       );
     } else if (this.type === "users") {
+      const data = await this.$store.dispatch("getUsersByAchiev", this.$route.params.id);
       await this.$store.dispatch("loadUsers", {});
+
       this.items = this.$store.getters.users.map(el => {
         return {
           text: el.name + " " + el.surname,
           value: el.id
         };
       });
+
+      this.select = this.items.filter((item) => {
+        return data.includes(item.value); 
+      })
     }
   }
 };

@@ -60,12 +60,12 @@ const getUsers = () => {
   });
 }
 
-const getUserById = (id) => usersModel.findAll({
+const getUserById = (id) => usersModel.findOne({
   where: { id },
   attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
 });
 
-const getUserByEmail = (email) => usersModel.findAll({
+const getUserByEmail = (email) => usersModel.findOne({
   where: { email },
   attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
 });
@@ -83,6 +83,8 @@ const updateUser = (id, user) => usersModel.update(
 
 const updateUserPassword = (id, newPassword) => usersModel.update({ password: newPassword }, { where: { id } });
 
+const addUserExperience = (id, newExperience) => usersModel.update({ experience: newExperience }, { where: { id }});
+
 const deleteUser = (id) => usersModel.destroy({
   where: { id },
   attributes: ['id', 'name', 'surname', 'email', 'password', 'experience', 'image_url', 'description'],
@@ -99,5 +101,6 @@ export default {
   createUser,
   updateUser,
   updateUserPassword,
+  addUserExperience,
   deleteUser,
 };

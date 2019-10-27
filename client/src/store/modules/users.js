@@ -122,7 +122,10 @@ const actions = {
           dispatch("loadUsers", { page, pageSize, search });
         }
       })
-      .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
+      .catch(err => {
+        dispatch("showSnackBar", { response: err, color: "red" });
+        console.log(err);
+      });
   },
   updateUserRole(_, { userRole, id }) {
     console.log(userRole);

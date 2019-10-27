@@ -26,7 +26,8 @@ export default {
     progress() {
       if (this.rank.next === null) {
         return 100;
-      } else {
+      }
+      else {
         return Math.round(
           ((this.userExperience - this.rank.current.experience) /
             (this.rank.next.experience - this.rank.current.experience)) *
@@ -34,7 +35,15 @@ export default {
         );
       }
     }
-  }
+  },
+  created() {
+    if (!this.rank.current){
+        this.rank.current = {
+          experience: 0,
+          name: ' ',
+        }
+    }
+  },
 };
 </script>
 

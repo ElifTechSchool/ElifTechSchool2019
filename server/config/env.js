@@ -30,7 +30,8 @@ const defaultConfig = {
   jwtRefreshSecret: process.env.REFRESH_TOKEN_SECRET,
   tokenExpTime: '1d',
   email: process.env.EMAIL,
-  emailPass: process.env.EMAIL_PASS
+  emailPass: process.env.EMAIL_PASS,
+  frontEndUrl: process.env.FRONT_END_URL || 'http://localhost:8080',
 };
 
 export default { ...defaultConfig, ...configs[env] };

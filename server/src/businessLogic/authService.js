@@ -2,17 +2,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../../config/env.js';
 import usersService from '../businessLogic/usersService.js';
-import nodemailer from 'nodemailer';
-import ejs from 'ejs';
-import randToken from 'rand-token';
+import usersRolesService from '../businessLogic/usersRolesService.js';
 
 const login = async (data, next) => {
   const user = await usersService.getUserByEmail(data.email);
-  if (user[0].id === undefined) {
-    throw new Error('no such user');
-  }
-  const userId = user[0].id;
-  const compare = await bcrypt.compare(data.password, user[0].password);
+  const userId = user.id;
+  const compare = await bcrypt.compare(data.password, user.password);
   if (compare) {
     const refreshToken = randToken.generate(50);
     const token = jwt.sign({ id: userId }, config.jwtSecret, { expiresIn: config.tokenExpTime });
@@ -27,48 +22,31 @@ const authUser = async (id) => {
   return usersService.getUserById(id);
 };
 
-const passwordToken = async (email) => {
-  const user = await usersService.getUserByEmail(email);
-  if (user[0] === undefined) {
-    throw new Error('no such user');
-  }
-  const token = jwt.sign({ email: user[0].email }, user[0].password, { expiresIn: config.tokenExpTime });
-
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: config.email,
-      pass: config.emailPass,
-    }
-  });
-  const emailFile = await ejs.renderFile("files/passReset.ejs", { token: token });
-
-  const info = await transporter.sendMail({
-    from: '"Eliftech School 2019 👻" <no-reply@gmail.com>', // sender address
-    to: email, // list of receivers
-    subject: 'Password reset', // Subject line
-    html: emailFile // html body
-  });
-  console.log('Message sent: %s', info.messageId);
-};
-
-const changeUserPassword = async (newPass, token) => {
-  try {
+const checkRoleUsers = async (req, res, next) => {
+  try{
+    const token = req.headers.authorization.split(' ')[1];
+    const id = req.params.id;
+    const method = req.method;
     const decoded = jwt.decode(token);
-    const user = await usersService.getUserByEmail(decoded.email);
-    // if user exist
-    // validate token user.password
-    usersService.updateUserPassword(user[0].id, undefined, newPass)
-  } catch (e) {
-    return res.status(401).send(e);
+    const userRole = await usersRolesService.getRolesOfSpecificUser(decoded.id);
+
+    if (method === 'PUT' && (userRole[0] !== 1 && userRole[0] !== 2 && decoded.id !== id)) {
+      throw new Error('no rights to update');
+    }
+    else if (method === 'POST' && (userRole[0] !== 1 && userRole[0] !== 2)) {
+      throw new Error('no rights to create');
+    }
+    else if (method === 'DELETE' && userRole[0] !== 1) {
+      throw new Error('no rights to delete');
+    }
   }
-}
+  catch (err) {
+    res.status(403).send(err);
+  }
+};
 
 export default {
   login,
   authUser,
-  passwordToken,
-  changeUserPassword
+  checkRoleUsers,
 };

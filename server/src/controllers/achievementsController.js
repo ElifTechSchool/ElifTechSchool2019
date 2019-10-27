@@ -287,28 +287,6 @@ router.put('/:id', upload.single('photo_url'), (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.post('/:id/users', async (req, res, next) => {
-  const achievementId = req.params.id;
-  if (!achievementId || !Array.isArray(req.body.users)) {
-    res.status(401).send({ error: 'incorest data' });
-  }
-  const achievementUsers = await userAchievementsService.getUsersOfSpecificAchievement(achievementId);
-  const usersToAdd = req.body.users.filter((u) => achievementUsers.indexOf(u) === -1);
-  if (!usersToAdd.length) {
-    res.send({ message: 'users have already been add to this achievement' });
-    return;
-  }
-  userAchievementsService.createUserAchievements(
-    usersToAdd.map((user) => ({ user_id: user, achievement_id: achievementId })),
-  )
-    .then((response) => {// just for testing
-      console.log('response', response);
-      return response
-    })
-    .then(() => res.status(201).end())
-    .catch((error) => next(error));
-});
-
 /**
  * @swagger
  *
