@@ -1,6 +1,5 @@
 <template>
-  <v-row justify="center">
-    <v-col sm="2">
+    <div class="filterType">
       <v-select  
         v-model="selected"
         @change="handleChange($event)"
@@ -11,8 +10,7 @@
         outlined
       >
       </v-select>
-    </v-col>
-  </v-row>
+    </div>
 </template>
 
 <script>
@@ -48,5 +46,10 @@ export default {
 <style lang="scss">
   v-select {
     display: inline-block;
+  }
+
+  .filterType {
+    display: inline-block;
+    width: 150px;
   }
 </style>

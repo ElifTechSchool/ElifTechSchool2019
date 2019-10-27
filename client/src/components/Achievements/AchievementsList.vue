@@ -1,9 +1,13 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      <v-col>
-        <FilterTypeAchievements @filter="selectType" />
-        <FilterTypesAchievements class="mt-0 pt-0" @filter="selectTypes" />
+    <v-row>
+      <div class="wrapper">
+
+        <div class="filters">
+          <FilterTypeAchievements @filter="selectType" />
+          <FilterTypesAchievements  @filter="selectTypes" />
+        </div>
+
         <div class="block-achievements">
           <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
             <Achievement
@@ -13,12 +17,15 @@
               :created_at="achievement.created_at"
             />
           </div> 
-          <v-row justify="center" align="center">
-            <v-card v-if="!allAchievements || !allAchievements.length" max-height="100px" max-width="200px">
-              <v-card-title>
-                No items found
-              </v-card-title>
-            </v-card>
+          <v-row v-if="!allAchievements || !allAchievements.length" align="center" justify="center" >
+            <v-col md="5">
+              <v-card>
+                <v-card-title class="justify-center">
+                  No items found
+                </v-card-title>
+              </v-card>
+            </v-col>
+         
           </v-row>
           <div>
             <v-pagination v-if="achievementsCount > limit"
@@ -29,7 +36,8 @@
             </v-pagination>
           </div>
         </div>
-      </v-col>
+
+      </div>
     </v-row>
   </v-container>
 </template>
@@ -136,7 +144,13 @@ export default {
 
 <style lang="scss">
 .block-achievements {
-  margin-left: 30px;
+  width: 100%;
+  margin-left: 10px;
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 </style>
