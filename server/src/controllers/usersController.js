@@ -163,7 +163,6 @@ router.get('/me', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 router.get('/:id', (req, res, next) => {
-  authService.checkRole(req.headers.authorization.split(' ')[1]);
   usersService
     .getUserById(req.params.id)
     .then((result) => res.json(result))
@@ -224,7 +223,7 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('image_url'), (req, res, next) => {
+router.post('/', authService.checkRoleUsers, upload.single('image_url'), (req, res, next) => {
   usersService
     .createUser(req)
     .then(() => res.status(201).end())
@@ -274,7 +273,7 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', upload.single('image_url'), (req, res, next) => {
+router.put('/:id', authService.checkRoleUsers, upload.single('image_url'), (req, res, next) => {
   usersService
     .updateUser(req)
     .then(() => res.status(204).end())
@@ -323,7 +322,7 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id/passwords', async (req, res, next) => {
+router.put('/:id/passwords', authService.checkRoleUsers, async (req, res, next) => {
   usersService
     .updateUserPassword(req.params.id, req.body.oldPass, req.body.newPass)
     .then(() => res.status(204).end())
@@ -367,7 +366,7 @@ router.put('/:id/passwords', async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id/experience', async (req, res, next) => {
+router.put('/:id/experience', authService.checkRoleUsers, async (req, res, next) => {
   usersService
     .addUserExperience(req.params.id, req.body.experience)
     .then(() => res.status(204).end())
@@ -402,7 +401,7 @@ router.put('/:id/experience', async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', authService.checkRoleUsers, (req, res, next) => {
   usersService
     .deleteUser(req.params.id)
     .then(() => res.status(204).end())
