@@ -70,11 +70,13 @@ export default {
   },
   methods: {
     addCompetition() {
+      
       if (
         this.competition.experience > 0 &&
         this.competition.name &&
         this.competition.description
       ) {
+        this.competition.owner_id = this.$store.getters.userMe.user.id;
         this.$store.dispatch("addCompetition", this.competition);
         this.competition = {};
         this.showForm = false;
@@ -83,7 +85,7 @@ export default {
         });
       }
     }
-  }
+  },
 };
 </script>
 

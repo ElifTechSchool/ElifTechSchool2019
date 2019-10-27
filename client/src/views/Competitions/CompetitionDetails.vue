@@ -28,13 +28,14 @@
           </p>
           <p><b>Experience:</b> {{ competition.experience }}</p>
         </v-col>
-        <v-col >
-          <v-btn color="success" outlined @click="updateCompetition(competition.id)">
+        <v-col  >
+          <v-btn v-if="isActive" color="success" outlined @click="updateCompetition(competition.id)">
           <i class="material-icons">
           create
           </i> Edit
           </v-btn>
           <v-btn
+            v-if="isActive"
             color="red lighten-2"
             outlined
             @click="subscribe(competition.id)"
@@ -68,7 +69,7 @@ export default {
   data() {
     return {
       hidden: false,
-      isActiveCompetitions: false,
+      isActive: false,
       dataFollower: {
         competitionId: null,
         userId: null
@@ -92,6 +93,9 @@ export default {
     },
     formatDateRead(competitionDate) {
       const date = new Date(competitionDate);
+      if ( date > new Date(Date.now())) {
+        this.isActive = true;
+      } 
       let month = date.getMonth();
       let day = date.getDate();
       let year = date.getFullYear();
@@ -145,14 +149,6 @@ export default {
   },
   created() {
     
-    if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
-        this.isActiveCompetitions = true;
-        console.log(this.isActiveCompetitions);
-    
-    }
-    
-    
-
     if (this.$store.getters.userMe.user) {
       this.dataFollower.userId = this.$store.getters.userMe.user.id;
       let followersId = this.$store.getters.getFollowers;
@@ -163,9 +159,6 @@ export default {
         }
       }
     } 
-
-    
-    
   }
 };
 </script>

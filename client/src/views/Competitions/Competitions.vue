@@ -115,12 +115,14 @@ export default {
       this.$store.dispatch("loadCompetitions", this.competitionParams);
     },  
   },
+
+  
 };
 </script>
 <style lang="scss" scoped>
 .competitions {
   width: 50vw;
-  height: 600px;
+  height: 2448 px;
   padding: 40px;
   margin: auto;
   margin-top: 80px;
