@@ -13,7 +13,7 @@ const configs = {
 
 const defaultConfig = {
   GAE_ENV: process.env.GAE_ENV,
-  port: 3000,
+  port: process.env.PORT || 3000,
   db: {
     host: process.env.DB_HOST || 'localhost',
     name: process.env.DB_NAME,
