@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import config from '../../config/env.js';
 import usersService from '../businessLogic/usersService.js';
 import usersRolesService from '../businessLogic/usersRolesService.js';
+import randToken from 'rand-token';
 
 const login = async (data, next) => {
   const user = await usersService.getUserByEmail(data.email);
