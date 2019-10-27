@@ -33,6 +33,10 @@ module.exports = class Competitions extends Sequelize.Model {
         allowNull: false,
         defaultValue: 0,
       },
+      owner_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

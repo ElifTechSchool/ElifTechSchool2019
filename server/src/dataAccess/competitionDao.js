@@ -16,7 +16,7 @@ const getCompetitions = (params) => competitionModel.findAndCountAll({
       attributes: ['id', 'surname', 'name', 'image_url'],
     }],
     distinct: true,
-    attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
+    attributes: ['id', 'name', 'description', 'deadline_date', 'experience', 'owner_id'],
     
   });
 
@@ -30,7 +30,7 @@ const getCompetitions = (params) => competitionModel.findAndCountAll({
       attributes: ['id', 'surname', 'name', 'image_url'],
     }],
     distinct: true,
-    attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
+    attributes: ['id', 'name', 'description', 'deadline_date', 'experience', 'owner_id'],
     where: {'deadline_date': {[Op.gt]: new Date(Date.now())}  },
   });
 
@@ -44,12 +44,12 @@ const getCompetitions = (params) => competitionModel.findAndCountAll({
       attributes: ['id', 'surname', 'name', 'image_url'],
     }],
     distinct: true,
-    attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
+    attributes: ['id', 'name', 'description', 'deadline_date', 'experience', 'owner_id'],
     where: {'deadline_date': {[Op.lt]: new Date(Date.now())}  },
   });
 
 const getCompetitionById = (id) => competitionModel.findByPk(id, {
-  attributes: ['id', 'name', 'description', 'deadline_date', 'experience'],
+  attributes: ['id', 'name', 'description', 'deadline_date', 'experience', 'owner_id'],
     }
   );
 

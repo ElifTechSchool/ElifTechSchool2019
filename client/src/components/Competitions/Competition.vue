@@ -2,7 +2,7 @@
   <v-row>
     <v-col>
       <v-card
-        class="mx-auto"
+        v-bind:class="{active: isActive } "
         max-width="400"
         @click="getDetails"
       >
@@ -26,7 +26,7 @@
           </v-row>
           </v-col>
         </v-card-text>
-          <v-card-actions > 
+          <v-card-actions v-if="isActive" > 
             <v-btn
               color="error" 
               dark
@@ -79,7 +79,7 @@ export default {
     return {
       dialog: false,
       hover: false,
-      isActiveCompetitions: false,
+      isActive: false,
     };
   },
   name: "Competition",
@@ -87,8 +87,11 @@ export default {
 
   methods: {
     deleteCompetition() {
-      this.$store.dispatch("deleteCompetition", this.competitionData.id);
-      this.dialog = false;
+      if(this.$store.getters.userMe.user.id == this.competitionData.owner_id) {
+          this.$store.dispatch("deleteCompetition", this.competitionData.id);
+          this.dialog = false;
+      } alert("Can`t, delete competition. You are not the owner of the competition");
+      
     },
     getDetails() {
       this.$router.push({
@@ -103,14 +106,17 @@ export default {
       let year = date.getFullYear();
       return day + '/' + month + '/' + year;
     },
-    created () {
-      if (this.$store.getters.getCompetition.deadline_date < new Date(Date.now())) {
-          this.isActiveCompetitions = true;
-          console.log(this.isActiveCompetitions);
-          
-        }
-    },
-    
+  },
+  created () {
+    if (new Date(this.competitionData.deadline_date) > new Date(Date.now())) {
+        this.isActive = true;
+      } 
   }
 };
 </script>
+
+// <style lang="scss" scoped>
+.active {
+  background: #C8E6C9;
+}
+</style>
