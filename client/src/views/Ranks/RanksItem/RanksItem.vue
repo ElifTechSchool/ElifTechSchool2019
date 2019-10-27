@@ -50,12 +50,7 @@ export default {
     ModalBox,
     EditModal
   },
-  props: {
-    rank: {
-      type: Object,
-      required: true
-    }
-  },
+  props: ["rank"],
   data() {
     return {
       editDialog: false,
