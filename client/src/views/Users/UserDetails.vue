@@ -139,11 +139,11 @@ export default {
       id: this.$route.params.Uid,
       changePassDialog: false,
       achivDialog: false,
-      achievements: []
+      achievements: [],
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById"])
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById"]),
   },
   methods: {
     goToEdit() {
@@ -162,21 +162,12 @@ export default {
         }
       });
     },
-    getOwnAchievements() {
-      axios.get(`users/${this.id}/achievements`)
-        .then(res => {
-          console.log(res.data);
-          this.achievements = res.data;
-        })        
-        .catch(err => {
-          console.log(err);
-        })
-    },
+    
     goToAchievementDetails(achievementId) {
       this.$router.push(`/achievements/${achievementId}`)
     }
   },
-  created() {
+  async created() {
     if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.$store.dispatch("getUserRole", this.$route.params.Uid);
@@ -184,7 +175,7 @@ export default {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.$store.dispatch("getUserRole", this.$route.params.Uid);
     }
-     this.getOwnAchievements()
+     this.achievements = await this.$store.dispatch("getOwnAchievements", this.id);
   }
 };
 </script>

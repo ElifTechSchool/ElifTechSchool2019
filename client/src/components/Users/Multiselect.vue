@@ -56,8 +56,9 @@ export default {
   },
   async created() {
     if (this.type === "achiv") {
-      const data = await this.$store.dispatch("getAllAchiev");
-      this.items = data.map(
+      const data = await this.$store.dispatch("getOwnAchievements", this.$route.params.Uid);
+      const allAchievs = await this.$store.dispatch("getAllAchiev");
+      this.select = data.map(
         el => {
           return {
             text: el.name,
@@ -65,7 +66,16 @@ export default {
           }
         }
       );
-    } else if (this.type === "users") {
+      this.items = allAchievs.map(
+        el => {
+          return {
+            text: el.name,
+            value: el.id,
+          }
+        }
+      );
+    } 
+    else if (this.type === "users") {
       const data = await this.$store.dispatch("getUsersByAchiev", this.$route.params.id);
       await this.$store.dispatch("loadUsers", {});
 
