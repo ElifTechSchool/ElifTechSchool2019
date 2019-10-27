@@ -45,16 +45,7 @@
 <script lang="js">
 export default {
   name: 'edit-modal',
-  props: {
-    rank: {
-      type: Object,
-      required: true
-    },
-    show: {
-      type: Boolean,
-      required: true
-    }
-  },
+  props: ["rank", "show"],
   data() {
     return {
         editRank: { ...this.rank },

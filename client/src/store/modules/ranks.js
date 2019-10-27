@@ -49,7 +49,15 @@ const actions = {
       commit("setRanks", response.data.rows);
       commit("setRanksQty", response.data.count);
       commit("setPageQty");
-      if (state.ranks.length === 0) {
+      if (state.ranks.length === 0 && state.ranksQty > 0) {
+        dispatch("getAllRanks", {
+          page: 1,
+          pageSize: state.ranksPageSize,
+          search: state.searchRank
+        });
+        router.push({ path: "/ranks", query: { page: 1 } });
+      }
+      if (state.ranks.length === 0 && state.ranksQty === 0) {
         state.isEmpty = true;
       }
     } catch (error) {
@@ -81,15 +89,29 @@ const actions = {
         "Content-Type": "multipart/form-data"
       }
     });
-    const page = router.currentRoute.query.page;
-    const pageSize = this.ranksPageSize;
+    const page = Number(router.currentRoute.query.page);
+    const pageSize = this.getters.ranksPageSize;
     const search = router.currentRoute.query.search;
     dispatch("getAllRanks", { page, pageSize, search });
   },
   async deleteRank({ dispatch }, id) {
     try {
       await axios.delete(`ranks/${id}`);
-      dispatch("getAllRanks");
+      let currentPage = Number(router.currentRoute.query.page);
+      const pageSize = this.getters.ranksPageSize;
+      const search = router.currentRoute.query.search;
+      if (
+        (this.getters.ranksQty - 1) % this.getters.ranksPageSize === 0 &&
+        currentPage !== currentPage - 1
+      ) {
+        currentPage -= 1;
+        router.push({ path: "/ranks", query: { page: currentPage } });
+      }
+      dispatch("getAllRanks", { page: currentPage, pageSize, search });
+      dispatch("showSnackBar", {
+        response: "Rank deleted successfully!",
+        color: "primary"
+      });
     } catch (error) {
       const message = error.message;
       dispatch("showSnackBar", { response: message, color: "red" });

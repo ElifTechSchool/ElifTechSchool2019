@@ -30,7 +30,7 @@ const updateRank = async (id, rank) => {
       number: index + 1,
     }));
     await Promise.all(
-      ranksToUpdate.map((rankItem) => rankDao.updateRank(rankItem.id, rankItem.number)),
+      ranksToUpdate.map((rankItem) => rankDao.updateRank(rankItem.id, rankItem)),
     );
   }
   return result;
