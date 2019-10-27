@@ -8,6 +8,3 @@ handlers:
   - url: /.*
     static_files: dist/index.html
     upload: dist/index.html
-
-env_variables:
-  VUE_BACKEND_BASE_URL: 'https://backend-dot-eliftech-school-2019.appspot.com'
