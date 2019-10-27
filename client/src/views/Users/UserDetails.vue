@@ -153,14 +153,7 @@ export default {
       });
     },
     goBack() {
-      this.$router.replace({
-        name: "users",
-        query: {
-          page: this.$route.params.page || 1,
-          pageSize: this.$store.getters.pageSize,
-          search: this.$store.getters.search,
-        }
-      });
+      this.$router.go(-1);      
     },
     
     goToAchievementDetails(achievementId) {

@@ -188,7 +188,7 @@ const actions = {
         //commit("setUserAchiv", res.data[0])
       })
       .catch(err => console.log(err));
-  }
+  },
 };
 
 export default {
