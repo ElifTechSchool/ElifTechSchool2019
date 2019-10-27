@@ -1,3 +1,4 @@
+import cloudinary from 'cloudinary';
 import rankDao from '../dataAccess/rankDao.js';
 
 const getRanks = (query) => {
@@ -20,6 +21,7 @@ const updateRank = async (id, rank) => {
   const newRank = rank;
   const oldRank = await rankDao.getRankById(id);
   newRank.number = oldRank.number;
+  await cloudinary.v2.uploader.destroy(oldRank.photo_id);
   const result = await rankDao.updateRank(id, newRank);
   if (oldRank.experience !== newRank.experience) {
     const sortedRanks = await rankDao.getSortedByExpRanks();
@@ -35,8 +37,9 @@ const updateRank = async (id, rank) => {
 };
 
 const deleteRank = async (id) => {
-  const localRank = await rankDao.getRankById(id);
-  await rankDao.updateNum(localRank.experience, 'number - 1');
+  const oldRank = await rankDao.getRankById(id);
+  await cloudinary.v2.uploader.destroy(oldRank.photo_id);
+  await rankDao.updateNum(oldRank.experience, 'number - 1');
   const result = await rankDao.deleteRank(id);
   return result;
 };

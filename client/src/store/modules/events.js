@@ -15,7 +15,7 @@ const getters = {
   eventsPageSize: state => state.eventsPageSize,
   pageQty: state => state.pageQty,
   eventsQty: state => state.eventsQty,
-  searchRank: state => state.searchEvent
+  searchEvent: state => state.searchEvent
 };
 
 const mutations = {
