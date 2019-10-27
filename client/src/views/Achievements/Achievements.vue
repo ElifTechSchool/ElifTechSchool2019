@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <AchievementsList />
-    <v-btn class="mx-2" fab dark large @click="AddAchievement" color="primary">
+    <v-btn class="mx-2" fab dark large @click="AddAchievement" v-if="$store.getters.meRole < 3" color="primary">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
   </v-row>
