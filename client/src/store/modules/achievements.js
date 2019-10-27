@@ -23,6 +23,7 @@ const state = {
   types: [],
   page: 1,
   type: "all"
+
 };
 
 const getters = {
@@ -37,7 +38,14 @@ const getters = {
   },
   getPage: state => {
     return state.page;
-  }
+  },
+  getType: state => {
+    return state.type
+  },
+  getTypes: state => {
+    return state.types
+  },
+  
 };
 
 const mutations = {
@@ -58,6 +66,9 @@ const mutations = {
   },
   setType: (state, type) => {
     state.type = type;
+  },
+  setLimit: (state, limit) => {
+    state.limit = limit;
   }
 };
 
@@ -75,6 +86,22 @@ const actions = {
       console.log(error);
     }
   },
+  setInitialStateParams: ({ commit }, { type, types, limit, page }) => {
+    if (type) {
+      commit('setType', type)
+    }
+    if (types) {
+      commit('setTypes', types)
+    }
+    if (page) {
+      commit("setCurrentPage", page);
+    }
+    if (limit) {
+      commit("setLimit", limit)
+    }
+  },
+
+
   setCurrentPage: ({ commit }, currentPage) => {
     commit("setCurrentPage", currentPage);
   },

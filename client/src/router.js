@@ -127,7 +127,7 @@ export default new Router({
       }
     },
     {
-      path: "/competitions",
+      path: "/competitions/",
       name: "competitions",
       component: () => import("./views/Competitions/Competitions.vue"),
       beforeEnter: (to, from, next) => {

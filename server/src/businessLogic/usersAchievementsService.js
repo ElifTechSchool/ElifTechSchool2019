@@ -3,7 +3,7 @@ import { models } from '../models/index.js';
 
 const { user_achievements: userAchievements } = models;
 
-const createUserAchievements = (users) => userAchievements
+const createUsersAchievements = (users) => userAchievements
   .bulkCreate(users);
 
 const getUsersOfSpecificAchievement = (achievementId) => userAchievements.findAll({
@@ -23,7 +23,7 @@ const getAchievementsByUserId = (userId) => userAchievements.findAll({
 }).then((result) => result.map((col) => col.achievement_id));
 
 export default {
-  createUserAchievements,
+  createUsersAchievements,
   getUserAchievements,
   getUsersOfSpecificAchievement,
   getAchievementsByUserId,
