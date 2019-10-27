@@ -5,11 +5,12 @@
     </v-btn>
     <v-row justify="center">
       <v-col sm="8">
-        <v-form @submit.prevent="addAchievement" ref="form">
+        <v-form @submit.prevent="addAchievement" v-model="validate" ref="form">
           <h1>Create new achievement</h1>
           <v-text-field
             name="name"
             label="Name"
+            :rules="nameRules"
             v-model="achievement.name"
             outlined
             required
@@ -19,6 +20,8 @@
               <v-text-field
                 name="type"
                 label="Type"
+                :rules="typeRules"
+                autocomplete="type"
                 v-model="achievement.type"
                 outlined
                 required
@@ -28,6 +31,7 @@
               <v-text-field
                 name="experience"
                 label="Experience"
+                :rules="experienceRules"
                 type="number"
                 v-model="achievement.experience"
                 outlined
@@ -43,14 +47,15 @@
             accept=".jpg, .png"
           >
           </v-file-input>
-          <v-text-field
+          <v-textarea
             name="description"
             label="Description"
+            :rules="descriptionRules"
             v-model="achievement.description"
             outlined
             required
-          />
-          <v-btn type="submit" color="green"> Create </v-btn>
+          ></v-textarea>
+          <v-btn type="submit" color="green" :disabled="!validate"> Create </v-btn>
           <v-btn color="error" class="ma-5" @click="reset">Reset Form</v-btn>
         </v-form>
       </v-col>
@@ -62,13 +67,34 @@
 export default {
   data() {
     return {
-      achievement: {},
-      errors: []
+      achievement: {
+        photo_url: undefined
+      },
+      validate: true,
+      nameRules: [
+        v => !!v || "This field is required",
+        v =>
+          (v && v.length <= 50) || "This field must be less than 50 characters"
+      ],
+      typeRules: [
+        v => !!v || "This field is required",
+        v =>
+          (v && v.length <= 30) || "This field must be less than 30 characters"
+      ],
+      experienceRules: [
+        v => v >= 0 || "Experience must be greater then or equal to zero"
+      ],
+      descriptionRules: [
+        v => (v && v.length <= 500) || "Field must be less than 500 characters"
+      ]
     };
   },
   methods: {
     addAchievement() {
       const formData = new FormData();
+      this.achievement.photo_url ? this.achievement.photo_url 
+        : this.achievement.photo_url = "https://res.cloudinary.com/dphouqbtl/image/upload/v1572027418/images/nmtbsun9rslbesw2ggbz.jpg"
+        console.log("this.achievement.photo_url", this.achievement.photo_url)
       Object.entries(this.achievement).forEach(([key, value]) => {
         formData.append(key, value);
       });

@@ -8,6 +8,42 @@ const router = express.Router();
 /**
  * @swagger
  *
+ * /v1/achievements/types:
+ *   get:
+ *     description: Get achievements types
+ *     tags:
+ *       - achievements
+ *     produces:
+ *       - application/json
+ *     parameters: []
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: array
+ *           items:
+ *              type: object
+ *              properties:
+ *                types:
+ *                  type: array
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.get('/types', (req, res, next) => {
+  achievementService.getTypes()
+    .then((data) => res.json({ data }))
+    .catch((error) => next(error));
+});
+/**
+ * @swagger
+ *
  * /v1/achievements:
  *   get:
  *     description: Get achievements
@@ -46,14 +82,8 @@ const router = express.Router();
  *           $ref: '#/definitions/500'
  */
 
-router.get('/types', (req, res, next) => {
-  achievementService.getTypes()
-    .then((data) => res.json({ data }))
-    .catch((error) => next(error));
-});
-
-router.get('/', /*authMiddleware,*/ (req, res, next) => {
-  achievementService.getAchievements(req.query)
+router.get('/', (req, res, next) => {
+  achievementService.getAchievements(req.query, req.headers.authorization)
     .then((data) => res.json({ data }))
     .catch((error) => next(error));
 });
@@ -265,7 +295,7 @@ router.post('/:id/users', async (req, res, next) => {
   const achievementUsers = await userAchievementsService.getUsersOfSpecificAchievement(achievementId);
   const usersToAdd = req.body.users.filter((u) => achievementUsers.indexOf(u) === -1);
   if (!usersToAdd.length) {
-    res.send({ message: 'user has already been add to this achievement' });
+    res.send({ message: 'users have already been add to this achievement' });
     return;
   }
   userAchievementsService.createUserAchievements(
@@ -276,6 +306,99 @@ router.post('/:id/users', async (req, res, next) => {
       return response
     })
     .then(() => res.status(201).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/achievements/{id}/users:
+ *   get:
+ *     description: Get users by id achievement
+ *     tags:
+ *       - achievements
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             users:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+
+router.post('/:id/users', async (req, res, next) => {
+  const achievementId = req.params.id;
+  if (!achievementId || !Array.isArray(req.body.users)) {
+    res.status(401).send({ error: 'incorest data' });
+  }
+  const achievementUsers = await userAchievementsService.getUsersOfSpecificAchievement(achievementId);
+  const usersToAdd = req.body.users.filter((u) => achievementUsers.indexOf(u) === -1);
+  if (!usersToAdd.length) {
+    res.send({ message: 'users have already been add to this achievement' });
+    return;
+  }
+  userAchievementsService.createUserAchievements(
+    usersToAdd.map((user) => ({ user_id: user, achievement_id: achievementId })),
+  )
+    .then(() => res.status(201).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/achievements/{id}/users:
+ *   get:
+ *     description: Get users by id achievement
+ *     tags:
+ *       - achievements
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: response
+ *         schema:
+ *           type: object
+ *           properties:
+ *             users:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.get('/:id/users', (req, res, next) => {
+  userAchievementsService.getUsersOfSpecificAchievement(req.params.id)
+    .then((result) => res.json(result))
     .catch((error) => next(error));
 });
 
