@@ -43,9 +43,7 @@ export default {
   name: "achievements-list",
   props: [],
   data() {
-    return {
-      limit: 5,
-    };
+    return {};
   },
   mounted() {
     if(!this.paramsExists()) {
@@ -109,7 +107,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getTypes", "getType"]),
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getLimit", "getTypes", "getType"]),
       page: {
         get() {
           return this.getPage || 1;
@@ -118,6 +116,14 @@ export default {
         this.$store.commit("setCurrentPage", val);
       }
     },
+    limit: {
+      get() {
+        return this.getLimit || 5;
+    },
+    set(val) {
+      this.$store.commit("setLimit", val);
+    }
+  },
   }
 };
 </script>

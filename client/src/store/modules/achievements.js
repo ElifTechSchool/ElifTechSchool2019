@@ -39,13 +39,15 @@ const getters = {
   getPage: state => {
     return state.page;
   },
+  getLimit: state => {
+    return state.limit;
+  },
   getType: state => {
     return state.type
   },
   getTypes: state => {
     return state.types
-  },
-  
+  }
 };
 
 const mutations = {
