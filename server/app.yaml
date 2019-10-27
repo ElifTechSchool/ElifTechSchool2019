@@ -1,0 +1,11 @@
+runtime: nodejs12
+
+service: backend
+
+handlers:
+  - url: /.*
+    script: auto
+
+basic_scaling:
+  idle_timeout: 60m
+  max_instances: 1

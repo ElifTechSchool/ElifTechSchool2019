@@ -3,7 +3,7 @@ import router from "../router";
 import store from "../store/store";
 
 export default function axiosConfig() {
-  axios.defaults.baseURL = "http://localhost:3000/api/v1/";
+  axios.defaults.baseURL = `${process.env.VUE_BACKEND_BASE_URL || 'http://localhost:3000'}/api/v1/`;
   axios.interceptors.request.use(
     config => {
       const token = localStorage.getItem("user-token");

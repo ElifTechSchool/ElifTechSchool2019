@@ -150,5 +150,4 @@ router.post('/:userId/achievements/:achievementId', async (req, res) => {
   }
 });
 
-
 export default router;

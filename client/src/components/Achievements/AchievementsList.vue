@@ -12,7 +12,14 @@
               :name="achievement.name"
               :created_at="achievement.created_at"
             />
-          </div>
+          </div> 
+          <v-row justify="center" align="center">
+            <v-card v-if="!allAchievements || !allAchievements.length" max-height="100px" max-width="200px">
+              <v-card-title>
+                No items found
+              </v-card-title>
+            </v-card>
+          </v-row>
           <div>
             <v-pagination v-if="achievementsCount > limit"
               v-model="page"
@@ -21,7 +28,6 @@
             >
             </v-pagination>
           </div>
-
         </div>
       </v-col>
     </v-row>
@@ -43,10 +49,7 @@ export default {
   name: "achievements-list",
   props: [],
   data() {
-    return {
-      limit: 5,
-      page: 1,
-    };
+    return {};
   },
   mounted() {
     if(!this.paramsExists()) {
@@ -110,7 +113,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getTypes", "getType"]),
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getLimit", "getTypes", "getType"]),
+      page: {
+        get() {
+          return this.getPage || 1;
+      },
+      set(val) {
+        this.$store.commit("setCurrentPage", val);
+      }
+    },
+    limit: {
+      get() {
+        return this.getLimit || 5;
+    },
+    set(val) {
+      this.$store.commit("setLimit", val);
+    }
+  },
   }
 };
 </script>
@@ -119,4 +138,5 @@ export default {
 .block-achievements {
   margin-left: 30px;
 }
+
 </style>

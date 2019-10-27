@@ -27,10 +27,9 @@ export default {
       this.$emit("filter", this.selected);
     },
     typesAchievements() {
-      const achievementsURL = "http://localhost:3000/api/v1/achievements/types";
       this.showFiters = false;
       axios
-        .get(achievementsURL)
+        .get(`achievements/types`)
         .then(res => {
           this.showFiters = true;
           this.types = res.data.data;

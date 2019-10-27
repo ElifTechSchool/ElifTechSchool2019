@@ -16,14 +16,22 @@ const getUsers = (query) => {
 };
 
 const getUserById = async (id) => {
-  const user = await usersDao.getUserById(id).then(e => e[0]);
-  if (!user) return null;
+  const user = await usersDao.getUserById(id);
+  if (!user) {
+    throw new Error ('no such user')
+  }
   const current = await getRank(user.dataValues.experience);
   const next = await getNextRank(user.dataValues.experience);
   return { user, userRank: { current, next } };
 };
 
-const getUserByEmail = (email) => usersDao.getUserByEmail(email);
+const getUserByEmail = async (email) => {
+  const user = await usersDao.getUserByEmail(email);
+  if (!user) {
+    throw new Error('no such user')
+  }
+  return user
+}
 
 const createUser = async (req) => {
   try {
@@ -68,6 +76,12 @@ const updateUserPassword = async (id, oldPass, newPass) => {
   }
 };
 
+const addUserExperience = async (id, experience) => {
+  const user = await usersDao.getUserById(id);
+  experience += user.experience;
+  usersDao.addUserExperience(id, experience);
+}
+
 const deleteUser = (id) => usersDao.deleteUser(id);
 
 export default {
@@ -77,5 +91,6 @@ export default {
   createUser,
   updateUser,
   updateUserPassword,
+  addUserExperience,
   deleteUser,
 };

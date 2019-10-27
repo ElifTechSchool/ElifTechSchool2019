@@ -1,7 +1,6 @@
 <template>
   <v-row justify="center">
     <v-col sm="2">
-
       <v-select  
         v-model="selected"
         @change="handleChange($event)"

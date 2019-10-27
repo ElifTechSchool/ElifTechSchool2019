@@ -13,7 +13,7 @@
             v-model="passData.oldPass"
             :append-icon="show0 ? 'visibility' : 'visibility_off'"
             :type="show0 ? 'text' : 'password'"
-            @click:append="show0 = !show0
+            @click:append="show0 = !show0"
             required
           />
           <v-text-field
@@ -28,7 +28,6 @@
             required
           />
           <v-text-field
-            type="password"
             label="Re-type new password"
             :rules="newPassRules"
             :counter="50"
@@ -90,8 +89,11 @@ export default {
         this.passData = {};
         this.hideModal();
       } else {
-        this.$store.dispatch("changePasswordToken", { newPass:this.passData.newPass, token: this.$route.query.token });
+        this.$store.dispatch("resetPassword", { newPass:this.passData.newPass, token: this.$route.query.token });
         this.passData = {};
+        this.$router.replace({
+        name: "home",
+        });
       }
     },
     hideModal() {
