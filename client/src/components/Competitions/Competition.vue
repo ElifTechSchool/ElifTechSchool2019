@@ -26,7 +26,7 @@
           </v-row>
           </v-col>
         </v-card-text>
-          <v-card-actions > 
+          <v-card-actions v-if="isActive" > 
             <v-btn
               color="error" 
               dark
@@ -87,8 +87,11 @@ export default {
 
   methods: {
     deleteCompetition() {
-      this.$store.dispatch("deleteCompetition", this.competitionData.id);
-      this.dialog = false;
+      if(this.$store.getters.userMe.user.id == this.competitionData.owner_id) {
+          this.$store.dispatch("deleteCompetition", this.competitionData.id);
+          this.dialog = false;
+      } alert("Can`t, delete competition. You are not the owner of the competition");
+      
     },
     getDetails() {
       this.$router.push({
