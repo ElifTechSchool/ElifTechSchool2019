@@ -1,9 +1,13 @@
 <template>
+<div>
+      <v-btn @click="goBack" icon class="ms-6">
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
   <v-row justify="center">
     <v-col lg="6" md="8" sm="10">
       <v-card :elevation="5" class="mx-auto">
         <v-row>
-          <v-col md="4">
+          <v-col md="4" sm="8">
             <v-img
               position="center left"
               :src="userById.image_url"
@@ -66,13 +70,9 @@
               >
                 <v-icon>mdi-trophy</v-icon>
               </v-btn>
-
-              <v-btn @click="goBack" color="grey" outlined>
-                Go back
-              </v-btn>
             </v-card-actions>
           </v-col>
-          <v-col md="7" justify-self="center">
+          <v-col md="7" sm="10 ms-8" justify-self="center">
             <v-row class="justify-space-between mb-2 flex-column">
               <v-card-title class="font-weight-bold"
                 >{{ userById.name }} {{ userById.surname }}</v-card-title
@@ -117,6 +117,7 @@
       <ChangePass @hideModal="changePassDialog = false" loggedIn="1" />
     </v-dialog>
   </v-row>
+  </div>
 </template>
 
 <script>
@@ -208,5 +209,9 @@ export default {
   -webkit-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
   -moz-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
   box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+}
+.goBack {
+  display: absolute;
+  left: 24px;
 }
 </style>
