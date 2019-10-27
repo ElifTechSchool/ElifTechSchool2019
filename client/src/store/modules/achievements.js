@@ -100,10 +100,8 @@ const actions = {
       commit("setLimit", limit)
     }
   },
-
-
   setCurrentPage: ({ commit }, currentPage) => {
-    commit("setCurrentPage", currentPage);
+    commit("setCurrentPage", parseInt(currentPage));
   },
   setType: ({ commit }, type) => {
     commit("setType", type);

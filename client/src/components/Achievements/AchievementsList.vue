@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       limit: 5,
-      page: 1,
     };
   },
   mounted() {
@@ -111,6 +110,14 @@ export default {
   },
   computed: {
     ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getTypes", "getType"]),
+      page: {
+        get() {
+          return this.getPage || 1;
+      },
+      set(val) {
+        this.$store.commit("setCurrentPage", val);
+      }
+    },
   }
 };
 </script>
