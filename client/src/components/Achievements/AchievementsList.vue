@@ -12,8 +12,7 @@
               :name="achievement.name"
               :created_at="achievement.created_at"
             />
-          </div>
-          
+          </div> 
           <v-row justify="center" align="center">
             <v-card v-if="!allAchievements || !allAchievements.length" max-height="100px" max-width="200px">
               <v-card-title>
@@ -21,7 +20,6 @@
               </v-card-title>
             </v-card>
           </v-row>
-  
           <div>
             <v-pagination v-if="achievementsCount > limit"
               v-model="page"

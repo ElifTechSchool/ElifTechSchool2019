@@ -61,7 +61,13 @@ const getWantedAchievements = async (userId) => (
 
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 
-const createAchievement = (achievement) => achievementsDao.createAchievement(achievement);
+const createAchievement = (req) => {
+  const achievement = req.body;
+  if (req.file) {
+    achievement.photo_url = req.file.secure_url;
+  }
+  achievementsDao.createAchievement(achievement);
+};
 
 const updateAchievement = (id, achievement) => achievementsDao.updateAchievement(id, achievement);
 

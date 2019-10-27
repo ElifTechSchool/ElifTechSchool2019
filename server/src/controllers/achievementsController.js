@@ -173,16 +173,10 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('photo_url'), async (req, res, next) => {
-  try {
-    await achievementService.createAchievement({
-      ...req.body,
-      photo_url: req.file.secure_url,
-    });
-    res.status(201).send();
-  } catch (error) {
-    next(error);
-  }
+router.post('/', upload.single('photo_url'), (req, res, next) => {
+  achievementService.createAchievement(req)
+    .then(() => res.status(201).send())
+    .catch((error) => next(error));
 });
 
 /**

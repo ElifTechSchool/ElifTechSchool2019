@@ -98,7 +98,6 @@ export default {
       const formData = new FormData();
       this.achievement.photo_url ? this.achievement.photo_url 
         : this.achievement.photo_url = "https://res.cloudinary.com/dphouqbtl/image/upload/v1572027418/images/nmtbsun9rslbesw2ggbz.jpg"
-        console.log("this.achievement.photo_url", this.achievement.photo_url)
       Object.entries(this.achievement).forEach(([key, value]) => {
         formData.append(key, value);
       });
