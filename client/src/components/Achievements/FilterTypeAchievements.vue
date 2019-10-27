@@ -1,6 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col sm="2">
+
       <v-select  
         v-model="selected"
         @change="handleChange($event)"
@@ -17,18 +18,31 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      selected: "all",
       type: ["my", "wanted", "all"]
     };
   },
   methods: {
-    handleChange() {
+    handleChange(event) {
+      console.log(event)
       this.$emit("filter", this.selected);
     },
   },
+  computed: {
+    ...mapGetters(["getType"]),
+    selected: {
+      get() {
+        return this.getType || 'all';
+      },
+      set(val) {
+        this.$store.commit("setType", val);
+      }
+    },
+  }
 };
 </script>
 

@@ -14,7 +14,7 @@ const login = async (data, next) => {
   const userId = user[0].id;
   const compare = await bcrypt.compare(data.password, user[0].password);
   if (compare) {
-    const refreshToken = jwt.sign({ id: userId }, config.jwtRefreshSecret, { expiresIn: config.refreshTokenExpTime });
+    const refreshToken = randToken.generate(50);
     const token = jwt.sign({ id: userId }, config.jwtSecret, { expiresIn: config.tokenExpTime });
     return { refreshToken, token, userId };
   }
