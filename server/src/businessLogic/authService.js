@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import randToken from 'rand-token';
 import config from '../../config/env.js';
 import usersService from '../businessLogic/usersService.js';
 import usersRolesService from '../businessLogic/usersRolesService.js';
