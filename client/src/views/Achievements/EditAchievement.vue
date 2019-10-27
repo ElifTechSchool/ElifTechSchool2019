@@ -92,13 +92,13 @@ export default {
       ],
       typeRules: [
         v => !!v || "This field is required",
-        v =>
-          (v && v.length <= 30) || "This field must be less than 30 characters"
+        v => (v && v.length <= 30) || "This field must be less than 30 characters"
       ],
       experienceRules: [
-        v => v >= 0 || "Experience must be greater then or equal to zero"
+        v => /^[0-9]{1,}$/.test(v) || "Experience must be a positive number",
       ],
       descriptionRules: [
+        v => !!v || "This field is required",
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ]
     };
