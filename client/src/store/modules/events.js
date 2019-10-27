@@ -4,7 +4,7 @@ const state = {
   events: [],
   isEmpty: false,
   eventsPageSize: 4,
-  pageQty: 0,
+  eventPageQty: 0,
   eventsQty: 0,
   searchEvent: ""
 };
@@ -13,7 +13,7 @@ const getters = {
   allEvents: state => state.events,
   eventIsEmpty: state => state.isEmpty,
   eventsPageSize: state => state.eventsPageSize,
-  pageQty: state => state.pageQty,
+  eventPageQty: state => state.eventPageQty,
   eventsQty: state => state.eventsQty,
   searchEvent: state => state.searchEvent
 };
@@ -29,7 +29,7 @@ const mutations = {
     state.eventsPageSize = events;
   },
   setPageQty: state => {
-    state.pageQty = Math.ceil(state.eventsQty / state.eventsPageSize);
+    state.eventPageQty = Math.ceil(state.eventsQty / state.eventsPageSize);
   },
   setSearch: (state, events) => {
     state.searchEvent = events;
