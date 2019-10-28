@@ -78,6 +78,7 @@ const actions = {
   },
   getMeRole({ commit }, id) {
     axios.get(`/users/${id}/roles`).then(res => {
+      console.log(res.data[0]);
       commit("setMeRole", res.data[0]);
     });
   }

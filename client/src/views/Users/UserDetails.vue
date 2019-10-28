@@ -28,13 +28,13 @@
                 <b>Email:</b>
                 {{ userById.email }}
               </p>
-              <p>
+              <div>
                 <v-icon color="primary" class="ma-2"
                   >mdi-account-badge-outline</v-icon
                 >
-                <b>Description:</b>
-                {{ userById.description }}
-              </p>
+                <b>Description:</b><br>
+                <p class="description">{{ userById.description }}</p>
+              </div>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -154,7 +154,7 @@ export default {
       });
     },
     goBack() {
-      this.$router.go(-1);      
+      this.$router.go(-1);
     },
     
     goToAchievementDetails(achievementId) {
@@ -213,5 +213,9 @@ export default {
 .goBack {
   display: absolute;
   left: 24px;
+}
+
+.description {
+  text-align: justify;
 }
 </style>

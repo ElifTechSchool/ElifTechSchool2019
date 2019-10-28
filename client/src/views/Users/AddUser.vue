@@ -61,9 +61,10 @@
           <v-col cols="12" sm="2" md="2">
             <v-select
               :items="roles"
+              v-if="this.$store.getters.meRole === 1"
               label="User role"
               name="role"
-              v-model="user.role"
+              v-model="userRole"
             ></v-select>
           </v-col>
           <v-col cols="12" sm="2" md="2">
@@ -133,10 +134,14 @@ export default {
     return {
       user: {
         image_url: undefined,
-        role: "user",
-        experience: 0
+        experience: 0,
+        userRole: 'user'
       },
-      roles: ["user", "moderator", "admin"],
+      roles: [
+        { text: "user", value: 3 },
+        { text: "moderator", value: 2 },
+        { text: "administrator", value: 1 }
+      ],
       defaultImg: "defaultUserIcon.jpg",
       valid: true,
       nameRules: [
@@ -185,6 +190,10 @@ export default {
         formData.append(key, value);
       });
       this.$store.dispatch("submitUser", formData);
+      await this.$store.dispatch("updateUserRole", {
+        userRole: this.userRole,
+        id
+      });
       this.user = {};
       this.$router.push("users");
     }
