@@ -41,9 +41,9 @@
                     @click="subscribe(competition.id)"
                   >
                     <i class="material-icons">{{
-                      hidden ? "person_add_disabled" : "person_add"
+                      hidden ? "person_add" :  "person_add_disabled" 
                     }}</i>
-                    {{ hidden ? "Unsubscribe" : "Subscribe" }}
+                    {{ hidden ? "Subscribe"  :  "Unsubscribe"}}
                   </v-btn>
                 </v-card-actions>
                 <v-col v-if="isAdmin">
@@ -136,11 +136,11 @@ export default {
         if (this.hidden) {
           this.subscribeCompetition();
           alert("You are subscribed");
-          this.hidden = true;
+          this.hidden = false;
         } else {
           this.unsubscribeCompetition();
           alert("You are unsubscribed");
-          this.hidden = false;
+          this.hidden = true;
         }
     },
     userProps(followerProps) {
@@ -169,17 +169,20 @@ export default {
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
   created() {
+   
+        this.dataFollower.userId = this.$store.getters.userMe.user.id;
+        
       
-      this.dataFollower.userId = this.$store.getters.userMe.user.id;
-      const followersId = this.$store.getters.getFollowers;
-
-      for (let i = 0; i < followersId.length; i++) {
-        if (this.$store.getters.userMe.user.id == followersId[i].userId) {
-          this.hidden = true;
+       if(this.$store.getters.userMe.user.id) { 
+        const followersId = this.$store.getters.getFollowers;
+        for (let i = 0; i < followersId.length; i++) {
+          if (this.$store.getters.userMe.user.id == followersId[i].userId) {
+            this.hidden = false;
+          }
         }
-      }
-    
-
+    };
+      
+  
     if (this.$store.getters.meRole == 2) {
       this.isAdmin = true;
     }
