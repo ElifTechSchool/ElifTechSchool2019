@@ -5,9 +5,11 @@ const env = process.env.NODE_ENV || 'development';
 const configs = {
   development: {
     env: 'development',
+    frontEndUrl: 'http://localhost:8080/',
   },
   production: {
     env: 'production',
+    frontEndUrl: process.env.FRONT_END_URL,
   },
 };
 
@@ -31,7 +33,6 @@ const defaultConfig = {
   tokenExpTime: '1d',
   email: process.env.EMAIL,
   emailPass: process.env.EMAIL_PASS,
-  frontEndUrl: process.env.FRONT_END_URL || 'http://localhost:8080',
 };
 
 export default { ...defaultConfig, ...configs[env] };
