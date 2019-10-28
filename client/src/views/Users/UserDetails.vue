@@ -43,9 +43,9 @@
                 @click="goToEdit"
                 fab
                 v-if="
-                  $store.getters.meRole < 3 ||
-                    this.$route.params.Uid ===
-                      this.$store.getters.userMe.user.id
+                  meRole < 3 ||
+                    Number(this.$route.params.Uid) ===
+                      userMe.user.id
                 "
               >
                 <v-icon>mdi-pencil</v-icon>
@@ -54,9 +54,9 @@
                 color="primary lighten-2"
                 @click="changePassDialog = true"
                 v-if="
-                  $store.getters.meRole < 3 ||
-                    this.$route.params.Uid ===
-                      this.$store.getters.userMe.user.id
+                  meRole < 3 ||
+                    Number(this.$route.params.Uid) ===
+                      userMe.user.id
                 "
                 outlined
                 >Change Password</v-btn
@@ -65,7 +65,7 @@
                 color="primary"
                 fab
                 class="achivBtn"
-                v-if="$store.getters.meRole < 3"
+                v-if="meRole < 3"
                 @click="achivDialog = true"
               >
                 <v-icon>mdi-trophy</v-icon>
@@ -144,7 +144,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById"]),
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById", "userMe", "meRole"]),
   },
   methods: {
     goToEdit() {
