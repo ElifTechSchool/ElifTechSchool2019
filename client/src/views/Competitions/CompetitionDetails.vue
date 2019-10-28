@@ -74,7 +74,7 @@ export default {
       dataFollower: {
         competitionId: null,
         userId: null
-      }
+      }, 
     };
   },
   computed: {
@@ -167,18 +167,7 @@ export default {
       this.isAdmin = true;
     }
   }, 
-  watch: {
-    userMe(newValue, oldValue) {
-      console.log(`Updating from ${oldValue} to ${newValue}`);
-
-      // Do whatever makes sense now
-      if (newValue === 'success') {
-        this.complex = {
-          deep: 'some deep object',
-        };
-      }
-    },
-  }
+  
 };
 </script>
 <style lang="scss" scoped>
