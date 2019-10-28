@@ -37,6 +37,10 @@ module.exports = class Competitions extends Sequelize.Model {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      winner_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

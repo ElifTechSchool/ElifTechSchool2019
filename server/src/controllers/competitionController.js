@@ -234,7 +234,7 @@ router.post('/', (req, res, next) => {
  *
  * /v1/competitions/{id}:
  *   put:
- *     description: update example
+ *     description: update competition
  *     tags:
  *       - competitions
  *     produces:
@@ -276,6 +276,49 @@ router.put('/:id', (req, res, next) => {
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
+
+/**
+ * @swagger
+ *
+ * /v1/competitions/{id}/winner:
+ *   put:
+ *     description: set competition winner
+ *     tags:
+ *       - competitions
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *              winner_id:
+ *                  type: number
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.put('/:id/winner', (req, res, next) => {
+  competitionService.setCompetitionWinner(req.params.id, req.body)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
+
 
 /**
  * @swagger

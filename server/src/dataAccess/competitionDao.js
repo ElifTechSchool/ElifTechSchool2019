@@ -64,6 +64,15 @@ const updateCompetition = (id, competition) => competitionModel.update(
   },
 );
 
+const setCompetitionWinner = (id, data) => competitionModel.update(
+  data,
+  {
+    
+   where: { id },
+   winner_id: winner_id
+  },
+);
+
 const deleteCompetition = (id) => competitionModel.destroy({
   where: { id },
 });
@@ -91,6 +100,7 @@ export default {
     getCompetitionById,
     createCompetition,
     updateCompetition,
+    setCompetitionWinner,
     deleteCompetition,
     getCompetitionFollowers,
     createCompetitionFollower,

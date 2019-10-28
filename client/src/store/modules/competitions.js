@@ -73,10 +73,23 @@ const actions = {
       })
       .then(() => {
         context.dispatch("loadCompetitions", { limit: 5, page: 1 });
-        context.dispatch("countCompetitions");
       })
       .catch(err => console.log(err));
   },
+
+  setCompetitionWinner(context, updateData) {
+    axios
+      .put(`competitions/${updateData.id}/winner`, updateData)
+      .then(() => {
+        context.dispatch("loadCompetitionById", updateData.id);
+      })
+      .catch(err => console.log(err));
+  },
+
+
+
+
+
 
   deleteCompetition(context, id) {
     axios
@@ -104,6 +117,7 @@ const actions = {
       .then(res => res.data)
       .then(followers => {
         context.commit("setFollowers", followers);
+        
       })
       .catch(err => console.log(err));
   },

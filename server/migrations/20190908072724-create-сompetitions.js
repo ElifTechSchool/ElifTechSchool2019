@@ -35,6 +35,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      winner_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     }, {
       transaction: t,
     });
