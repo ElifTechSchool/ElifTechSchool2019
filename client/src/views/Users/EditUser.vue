@@ -39,6 +39,7 @@
                 <v-col cols="12" sm="4" md="4">
                   <v-select
                     :items="roles"
+                    v-if="this.$store.getters.meRole === 1"
                     label="User role"
                     name="role"
                     v-model="userRole"
@@ -98,7 +99,7 @@ export default {
         { text: "user", value: 3 },
         { text: "moderator", value: 2 },
         { text: "administrator", value: 1 }
-      ]
+      ],
     };
   },
   computed: {
@@ -141,10 +142,8 @@ export default {
       this.goToDetail();
     },
     goToDetail() {
-      this.$router.push({
-        name: "userDetails",
-        params: { Uid: this.userData.id }
-      });
+      this.$store.dispatch("getUserById", this.$route.params.Uid);
+      this.$router.go(-1);      
     }
   },
   mounted() {
