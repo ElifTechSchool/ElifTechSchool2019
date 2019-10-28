@@ -40,6 +40,7 @@ const checkRoleUsers = async (req, res, next) => {
     else if (method === 'DELETE' && userRole[0] !== 1) {
       throw new Error('no rights to delete');
     }
+    next();
   }
   catch (err) {
     res.status(403).send(err);
