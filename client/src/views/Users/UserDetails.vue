@@ -1,9 +1,13 @@
 <template>
+<div>
+      <v-btn @click="goBack" icon class="ms-6">
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
   <v-row justify="center">
     <v-col lg="6" md="8" sm="10">
       <v-card :elevation="5" class="mx-auto">
         <v-row>
-          <v-col md="4">
+          <v-col md="4" sm="8">
             <v-img
               position="center left"
               :src="userById.image_url"
@@ -66,13 +70,9 @@
               >
                 <v-icon>mdi-trophy</v-icon>
               </v-btn>
-
-              <v-btn @click="goBack" color="grey" outlined>
-                Go back
-              </v-btn>
             </v-card-actions>
           </v-col>
-          <v-col md="7" justify-self="center">
+          <v-col md="7" sm="10 ms-8" justify-self="center">
             <v-row class="justify-space-between mb-2 flex-column">
               <v-card-title class="font-weight-bold"
                 >{{ userById.name }} {{ userById.surname }}</v-card-title
@@ -117,6 +117,7 @@
       <ChangePass @hideModal="changePassDialog = false" loggedIn="1" />
     </v-dialog>
   </v-row>
+  </div>
 </template>
 
 <script>
@@ -139,11 +140,11 @@ export default {
       id: this.$route.params.Uid,
       changePassDialog: false,
       achivDialog: false,
-      achievements: []
+      achievements: [],
     };
   },
   computed: {
-    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById"])
+    ...mapGetters(["findUserById", "userById", "rankData", "userByIdRole", "achievementById"]),
   },
   methods: {
     goToEdit() {
@@ -153,30 +154,14 @@ export default {
       });
     },
     goBack() {
-      this.$router.replace({
-        name: "users",
-        query: {
-          page: this.$route.params.page || 1,
-          pageSize: this.$store.getters.pageSize,
-          search: this.$store.getters.search,
-        }
-      });
+      this.$router.go(-1);      
     },
-    getOwnAchievements() {
-      axios.get(`users/${this.id}/achievements`)
-        .then(res => {
-          console.log(res.data);
-          this.achievements = res.data;
-        })        
-        .catch(err => {
-          console.log(err);
-        })
-    },
+    
     goToAchievementDetails(achievementId) {
       this.$router.push(`/achievements/${achievementId}`)
     }
   },
-  created() {
+  async created() {
     if (this.$store.getters.userById === undefined) {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.$store.dispatch("getUserRole", this.$route.params.Uid);
@@ -184,7 +169,7 @@ export default {
       this.$store.dispatch("getUserById", this.$route.params.Uid);
       this.$store.dispatch("getUserRole", this.$route.params.Uid);
     }
-     this.getOwnAchievements()
+     this.achievements = await this.$store.dispatch("getOwnAchievements", this.id);
   }
 };
 </script>
@@ -224,5 +209,9 @@ export default {
   -webkit-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
   -moz-box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
   box-shadow: -3px 4px 17px 0px rgba(0,0,0,0.59);
+}
+.goBack {
+  display: absolute;
+  left: 24px;
 }
 </style>

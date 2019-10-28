@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="wrapme" justify="center">
-      <v-col md="5">
+      <v-col lg="5" md="6" sm="8">
         <v-text-field
           class="search-bar"
           type="text"

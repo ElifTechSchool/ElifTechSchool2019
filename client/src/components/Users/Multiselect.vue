@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       select: [],
-      items: []
+      items: [],
+      ownAchievs: [],
     };
   },
   computed: {},
@@ -37,27 +38,42 @@ export default {
     },
     saveUserAchiv() {
       const id = this.$route.params.Uid || this.$route.params.id;
-      const data = this.select.map(el => el.value);
-
+      
       if (this.type === "achiv") {
-        console.log(data);
-        this.$store.dispatch("addAchievToUser", {
-          id: id,
-          achievData: data
-        });
-      } else if (this.type === "users") {
-        console.log(data);
+        const achievData = this.select.map(el => el.value);
+        const exp = this.select.map(el => el.experience);
+        const expData = exp.reduce((a, b) => a + b);
+        if(JSON.stringify(this.select.map(el => el.value)) !== JSON.stringify(this.ownAchievs.map(el => el.id))){
+          this.$store.dispatch("addExperienceToUser", { expData, id });
+          this.$store.dispatch("addAchievToUser", {
+            id: id,
+            achievData: achievData,
+          });
+        }
+      } 
+      else if (this.type === "users") {
         this.$store.dispatch("addUsersToAchiev", {
           id: id,
           users: data
         });
       }
+      this.hideModal();
     }
   },
   async created() {
     if (this.type === "achiv") {
-      const data = await this.$store.dispatch("getAllAchiev");
-      this.items = data.map(
+      this.ownAchievs = await this.$store.dispatch("getOwnAchievements", this.$route.params.Uid);
+      const allAchievs = await this.$store.dispatch("getAllAchiev");
+      this.select = this.ownAchievs.map(
+        el => {
+          return {
+            text: el.name,
+            value: el.id,
+            experience: el.experience,
+          }
+        }
+      );
+      this.items = allAchievs.map(
         el => {
           return {
             text: el.name,
@@ -65,7 +81,8 @@ export default {
           }
         }
       );
-    } else if (this.type === "users") {
+    } 
+    else if (this.type === "users") {
       const data = await this.$store.dispatch("getUsersByAchiev", this.$route.params.id);
       await this.$store.dispatch("loadUsers", {});
 

@@ -152,8 +152,28 @@ const actions = {
   getAllAchiev(_) {
     return axios
       .get("achievements/")
-      .then(res => res.data.data);
+      .then(res => res.data.data)
+      .catch(err => {
+        console.log(err);
+      })
   },
+  getOwnAchievements(_, id) {
+    return axios.get(`users/${id}/achievements`)
+      .then(res => res.data)
+      .catch(err => {
+        console.log(err);
+      })
+  },
+  /*getOwnAchievements() {
+    axios.get(`users/${this.id}/achievements`)
+      .then(res => {
+        console.log(res.data);
+        this.achievements = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, */
   getUsersByAchiev(_, id){
     return axios
       .get(`achievements/${id}/users`)
@@ -168,7 +188,7 @@ const actions = {
         //commit("setUserAchiv", res.data[0])
       })
       .catch(err => console.log(err));
-  }
+  },
 };
 
 export default {

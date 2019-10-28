@@ -366,7 +366,7 @@ router.put('/:id/passwords', authService.checkRoleUsers, async (req, res, next) 
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id/experience', authService.checkRoleUsers, async (req, res, next) => {
+router.put('/:id/experience', async (req, res, next) => {
   usersService
     .addUserExperience(req.params.id, req.body.experience)
     .then(() => res.status(204).end())
