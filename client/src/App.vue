@@ -19,10 +19,10 @@ export default {
   data: () => ({
     //
   }),
-  async mounted() {    
+  async created() {    
     if(this.$store.getters.isAuthenticated){    
       await this.$store.dispatch("authUser", this.$store.getters.token);    
-      this.$store.dispatch("getMeRole", this.$store.getters.userMe.user.id);    
+      await this.$store.dispatch("getMeRole", this.$store.getters.userMe.user.id);    
     }    
   }
 };
