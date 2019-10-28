@@ -83,7 +83,6 @@ const actions = {
       .delete("competitions/" + id)
       .then(() => {
         context.dispatch("loadCompetitions", { limit: 5, page: 1 });
-        context.dispatch("countCompetitions");
       })
       .catch(err => console.log(err));
   },

@@ -66,7 +66,6 @@ export default {
         limit: 5,
         page: 1,
         offset: null,
-        
       }
     };
   },
@@ -115,8 +114,6 @@ export default {
       this.$store.dispatch("loadCompetitions", this.competitionParams);
     },  
   },
-
-  
 };
 </script>
 <style lang="scss" scoped>

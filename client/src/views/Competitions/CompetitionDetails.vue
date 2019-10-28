@@ -29,7 +29,7 @@
           <p><b>Experience:</b> {{ competition.experience }}</p>
         </v-col>
         <v-col  >
-          <v-btn v-if="isActive" color="success" outlined @click="updateCompetition(competition.id)">
+          <v-btn v-if="isAdmin" color="success" outlined @click="updateCompetition(competition.id)">
           <i class="material-icons">
           create
           </i> Edit
@@ -70,6 +70,7 @@ export default {
     return {
       hidden: false,
       isActive: false,
+      isAdmin: false,
       dataFollower: {
         competitionId: null,
         userId: null
@@ -82,6 +83,9 @@ export default {
     },
     getCompetitionFollowers() {
       return this.$store.getters.getFollowers;
+    },
+    getUserMe() {
+      return this.$store.getters.userMe.user;
     }
   },
   methods: {
@@ -138,9 +142,7 @@ export default {
         });
     },
     goBack() {
-      this.$router.push({
-        name: "competitions",
-        });
+      this.$router.go(-1);
     }
   },
   mounted() {
@@ -150,6 +152,7 @@ export default {
   created() {
     
     if (this.$store.getters.userMe.user) {
+      
       this.dataFollower.userId = this.$store.getters.userMe.user.id;
       let followersId = this.$store.getters.getFollowers;
 
@@ -158,7 +161,23 @@ export default {
           this.hidden = true;
         }
       }
-    } 
+    };
+
+    if (this.$store.getters.meRole == 2) {
+      this.isAdmin = true;
+    }
+  }, 
+  watch: {
+    userMe(newValue, oldValue) {
+      console.log(`Updating from ${oldValue} to ${newValue}`);
+
+      // Do whatever makes sense now
+      if (newValue === 'success') {
+        this.complex = {
+          deep: 'some deep object',
+        };
+      }
+    },
   }
 };
 </script>
