@@ -59,15 +59,6 @@
             />
           </v-col>
           <v-col cols="12" sm="2" md="2">
-            <v-select
-              :items="roles"
-              v-if="this.$store.getters.meRole === 1"
-              label="User role"
-              name="role"
-              v-model="userRole"
-            ></v-select>
-          </v-col>
-          <v-col cols="12" sm="2" md="2">
             <v-text-field
               type="number"
               :rules="expRules"
@@ -135,7 +126,7 @@ export default {
       user: {
         image_url: undefined,
         experience: 0,
-        userRole: 'user'
+        userRole: 3,
       },
       roles: [
         { text: "user", value: 3 },
@@ -176,8 +167,9 @@ export default {
     };
   },
   methods: {
-    async submitUser() {
+    submitUser() {
       const formData = new FormData();
+      debugger
       this.user.experience < 0
         ? (this.user.experience = 0)
         : this.user.experience;
@@ -190,9 +182,9 @@ export default {
         formData.append(key, value);
       });
       this.$store.dispatch("submitUser", formData);
-      await this.$store.dispatch("updateUserRole", {
+      this.$store.dispatch("updateUserRole", {
         userRole: this.userRole,
-        id
+        id: this.user.id,
       });
       this.user = {};
       this.$router.push("users");
