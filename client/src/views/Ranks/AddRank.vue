@@ -71,7 +71,6 @@
           formData.append("image", this.rankImage);
 
           this.$store.dispatch("addRank", formData);
-          this.$router.push({ path: '/ranks' });
         }
       }
     },

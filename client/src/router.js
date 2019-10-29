@@ -64,6 +64,15 @@ export default new Router({
       }
     },
     {
+      path: "/eventDetails/:Eid",
+      name: "eventDetails",
+      component: () => import("./views/Events/EventDetails.vue"),
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) next("/");
+        else next();
+      }
+    },
+    {
       path: "/editUser/:Uid",
       name: "editUser",
       component: () => import("./views/Users/EditUser.vue"),

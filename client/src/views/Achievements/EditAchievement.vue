@@ -13,6 +13,7 @@
                   name="name"
                   label="Name"
                   :rules="nameRules"
+                  :counter="50"
                   v-model="achievement.name"
                   outlined
                   required
@@ -23,6 +24,7 @@
                       name="type"
                       label="Type"
                       :rules="typeRules"
+                      :counter="30"
                       v-model="achievement.type"
                       outlined
                       required
@@ -51,6 +53,7 @@
                   name="description"
                   label="Description"
                   :rules="descriptionRules"
+                  :counter="500"
                   v-model="achievement.description"
                   outlined
                   required
@@ -58,7 +61,8 @@
               </v-col>
               <v-btn
                 :disabled="!validate"
-                color="green"
+                color="success"
+                tile outlined
                 type="submit"
                 class="ma-3"
                 @click="updating"
@@ -92,13 +96,13 @@ export default {
       ],
       typeRules: [
         v => !!v || "This field is required",
-        v =>
-          (v && v.length <= 30) || "This field must be less than 30 characters"
+        v => (v && v.length <= 30) || "This field must be less than 30 characters"
       ],
       experienceRules: [
-        v => v >= 0 || "Experience must be greater then or equal to zero"
+        v => /^[0-9]{1,}$/.test(v) || "Experience must be a positive number",
       ],
       descriptionRules: [
+        v => !!v || "This field is required",
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ]
     };

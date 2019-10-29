@@ -29,7 +29,7 @@
                 </v-card-text>
               </v-col>
               <v-card-actions>
-                <v-btn @click="startEdit" color="green" absolute right>
+                <v-btn @click="startEdit" v-if="$store.getters.meRole < 3" color="success" tile outlined absolute right>
                   <v-icon>mdi-pencil</v-icon>
                   Edit
                 </v-btn>

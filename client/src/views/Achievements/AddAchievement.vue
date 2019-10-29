@@ -12,22 +12,24 @@
             label="Name"
             :rules="nameRules"
             v-model="achievement.name"
+            :counter="50"
             outlined
             required
           />
           <v-row>
-            <v-col cols="12" sm="9">
+            <v-col cols="12" sm="8">
               <v-text-field
                 name="type"
                 label="Type"
                 :rules="typeRules"
                 autocomplete="type"
+                :counter="30"
                 v-model="achievement.type"
                 outlined
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
               <v-text-field
                 name="experience"
                 label="Experience"
@@ -51,6 +53,7 @@
             name="description"
             label="Description"
             :rules="descriptionRules"
+            :counter="500"
             v-model="achievement.description"
             outlined
             required
@@ -82,9 +85,10 @@ export default {
           (v && v.length <= 30) || "This field must be less than 30 characters"
       ],
       experienceRules: [
-        v => v >= 0 || "Experience must be greater then or equal to zero"
+        v => /^[0-9]{1,}$/.test(v) || "Experience must be a positive number",
       ],
       descriptionRules: [
+        v => !!v || "This field is required",
         v => (v && v.length <= 500) || "Field must be less than 500 characters"
       ]
     };
@@ -94,7 +98,6 @@ export default {
       const formData = new FormData();
       this.achievement.photo_url ? this.achievement.photo_url 
         : this.achievement.photo_url = "https://res.cloudinary.com/dphouqbtl/image/upload/v1572027418/images/nmtbsun9rslbesw2ggbz.jpg"
-        console.log("this.achievement.photo_url", this.achievement.photo_url)
       Object.entries(this.achievement).forEach(([key, value]) => {
         formData.append(key, value);
       });

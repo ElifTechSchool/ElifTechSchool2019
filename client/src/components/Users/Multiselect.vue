@@ -27,47 +27,53 @@ export default {
   data() {
     return {
       select: [],
-      items: []
+      items: [],
+      ownAchievs: [],
     };
   },
   computed: {},
   methods: {
-    filter(item, queryText, itemText) {
-      if (item.header) return false;
-
-      const hasValue = val => (val != null ? val : "");
-
-      const text = hasValue(itemText);
-      const query = hasValue(queryText);
-
-      return (
-        text
-          .toString()
-          .toLowerCase()
-          .indexOf(query.toString().toLowerCase()) > -1
-      );
-    },
     hideModal() {
       this.$emit("hideModal");
     },
     saveUserAchiv() {
       const id = this.$route.params.Uid || this.$route.params.id;
-      const selectedData = this.select.map(el => el.value);
+      
       if (this.type === "achiv") {
-        //TODO
-        console.log(selectedData);
-      } else if (this.type === "users") {
+        const achievData = this.select.map(el => el.value);
+        const exp = this.select.map(el => el.experience);
+        const expData = exp.reduce((a, b) => a + b);
+        if(JSON.stringify(this.select.map(el => el.value)) !== JSON.stringify(this.ownAchievs.map(el => el.id))){
+          this.$store.dispatch("addExperienceToUser", { expData, id });
+          this.$store.dispatch("addAchievToUser", {
+            id: id,
+            achievData: achievData,
+          });
+        }
+      } 
+      else if (this.type === "users") {
         this.$store.dispatch("addUsersToAchiev", {
           id: id,
-          users: selectedData
+          users: data
         });
       }
+      this.hideModal();
     }
   },
   async created() {
     if (this.type === "achiv") {
-      const data = await this.$store.dispatch("getAllAchiev");
-      this.items = data.map(
+      this.ownAchievs = await this.$store.dispatch("getOwnAchievements", this.$route.params.Uid);
+      const allAchievs = await this.$store.dispatch("getAllAchiev");
+      this.select = this.ownAchievs.map(
+        el => {
+          return {
+            text: el.name,
+            value: el.id,
+            experience: el.experience,
+          }
+        }
+      );
+      this.items = allAchievs.map(
         el => {
           return {
             text: el.name,
@@ -75,14 +81,21 @@ export default {
           }
         }
       );
-    } else if (this.type === "users") {
+    } 
+    else if (this.type === "users") {
+      const data = await this.$store.dispatch("getUsersByAchiev", this.$route.params.id);
       await this.$store.dispatch("loadUsers", {});
+
       this.items = this.$store.getters.users.map(el => {
         return {
           text: el.name + " " + el.surname,
           value: el.id
         };
       });
+
+      this.select = this.items.filter((item) => {
+        return data.includes(item.value); 
+      })
     }
   }
 };

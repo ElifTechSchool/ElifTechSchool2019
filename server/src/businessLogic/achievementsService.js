@@ -4,14 +4,13 @@ import userAchievementsService from './userAchievementsService.js';
 import config from '../../config/env.js';
 
 const getAchievements = (params, token) => {
-  /////!!!!!
   const decoded = jwt.verify(token.split(/(Bearer )/)[2], config.jwtSecret);
   const userId = decoded.id;
   const { page, limit, types, type } = params;
   if (page && limit) {
     return getAchievementsPerPage({ page, limit, types, type, userId });
   }
-  return getAchievementsByUserId(userId);
+  return achievementsDao.getAchievements();
 };
 
 async function getAchievementsPerPage ({ page, limit, types, type, userId }) {
@@ -62,7 +61,13 @@ const getWantedAchievements = async (userId) => (
 
 const getAchievementById = (id) => achievementsDao.getAchievementById(id);
 
-const createAchievement = (achievement) => achievementsDao.createAchievement(achievement);
+const createAchievement = (req) => {
+  const achievement = req.body;
+  if (req.file) {
+    achievement.photo_url = req.file.secure_url;
+  }
+  return achievementsDao.createAchievement(achievement);
+};
 
 const updateAchievement = (id, achievement) => achievementsDao.updateAchievement(id, achievement);
 

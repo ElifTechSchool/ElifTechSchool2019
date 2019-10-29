@@ -3,38 +3,44 @@ import jwt from 'jsonwebtoken';
 import usersDao from '../dataAccess/usersDao.js';
 
 const hashPassword = (password) => bcrypt.hash(password, 10);
-const getRank = (experience) => usersDao.getRank(experience).then(el => el);
-const getNextRank = (experience) => usersDao.getNextRank(experience).then(el => el);
+const getRank = (experience) => usersDao.getRank(experience).then((el) => el);
+const getNextRank = (experience) => usersDao.getNextRank(experience).then((el) => el);
 
 
 const getUsers = (query) => {
-  if(query.page){
+  if (query.page) {
     const offset = (Number(query.page) - 1) * query.pageSize;
-    return usersDao.getUsersPage(offset, query.pageSize, query.search)
+    return usersDao.getUsersPage(offset, query.pageSize, query.search);
   }
-  else {
-    return usersDao.getUsers()
-  }
-}
-
-const getUserById = async (id) => {
-  const user = await usersDao.getUserById(id).then(e => e[0]);
-  if (!user) return null;
-  const current = await getRank(user.dataValues.experience);
-  const next = await getNextRank(user.dataValues.experience);
-  return {user, userRank: {current, next}}
+  return usersDao.getUsers();
 };
 
-const getUserByEmail = (email) => usersDao.getUserByEmail(email);
+const getUserById = async (id) => {
+  const user = await usersDao.getUserById(id);
+  if (!user) {
+    throw new Error ('no such user')
+  }
+  const current = await getRank(user.dataValues.experience);
+  const next = await getNextRank(user.dataValues.experience);
+  return { user, userRank: { current, next } };
+};
+
+const getUserByEmail = async (email) => {
+  const user = await usersDao.getUserByEmail(email);
+  if (!user) {
+    throw new Error('no such user')
+  }
+  return user
+}
 
 const createUser = async (req) => {
-  try{
+  try {
     const userData = req.body;
     Object.setPrototypeOf(userData, {});    
     userData.password = await hashPassword(userData.password);
     if (req.file) {
       userData.image_url = req.file.secure_url;
-    } 
+    }
     usersDao.createUser(userData);
   }
   catch (err) {
@@ -47,13 +53,13 @@ const updateUser = async (req) => {
   if (req.file) {
     userData.image_url = req.file.secure_url;
   }
-  usersDao.updateUser(req.params.id, userData);
+  await usersDao.updateUser(req.params.id, userData);
 };
 
 const updateUserPassword = async (id, oldPass, newPass) => {
   try {
     const hash = await usersDao.getHash(id);
-    if(oldPass){
+    if (oldPass) {
       const check = await bcrypt.compare(oldPass, hash);
       if (!check) {
         throw new Error('Wrong password');
@@ -70,6 +76,12 @@ const updateUserPassword = async (id, oldPass, newPass) => {
   }
 };
 
+const addUserExperience = async (id, experience) => {
+  const user = await usersDao.getUserById(id);
+  experience += user.experience;
+  usersDao.addUserExperience(id, experience);
+}
+
 const deleteUser = (id) => usersDao.deleteUser(id);
 
 export default {
@@ -79,5 +91,6 @@ export default {
   createUser,
   updateUser,
   updateUserPassword,
+  addUserExperience,
   deleteUser,
 };

@@ -45,6 +45,7 @@ export default {
     },
     async forgotPass() {
       await this.$store.dispatch("forgotPass", this.data);
+      this.data = {}
       this.hideModal();
     }
   }

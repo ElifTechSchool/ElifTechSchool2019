@@ -1,6 +1,7 @@
 <template>
   <v-row>
-    <v-col md="12" sm="12">
+    <v-col md="11" sm="10">
+      <v-col md="12" sm="12">
       <v-progress-linear
         :value="progress"
         color="primary lighten-2"
@@ -15,6 +16,7 @@
         <h4 id="next">{{ rank.next === null ? "" : rank.next.name }}</h4>
       </v-col>
     </v-row>
+    </v-col>
   </v-row>
 </template>
 
@@ -26,7 +28,8 @@ export default {
     progress() {
       if (this.rank.next === null) {
         return 100;
-      } else {
+      }
+      else {
         return Math.round(
           ((this.userExperience - this.rank.current.experience) /
             (this.rank.next.experience - this.rank.current.experience)) *
@@ -34,7 +37,15 @@ export default {
         );
       }
     }
-  }
+  },
+  created() {
+    if (!this.rank.current){
+        this.rank.current = {
+          experience: 0,
+          name: ' ',
+        }
+    }
+  },
 };
 </script>
 

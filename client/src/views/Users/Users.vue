@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="wrapme" justify="center">
-      <v-col md="5">
+      <v-col lg="5" md="6" sm="8">
         <v-text-field
           class="search-bar"
           type="text"
@@ -26,7 +26,7 @@
       large
       to="add_user"
       color="primary"
-      v-if="$store.getters.meRole < 3"
+      v-if="meRole !== 3"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -54,7 +54,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["users", "numOfPages", "search", "pageSize"]),
+    ...mapGetters(["users", "numOfPages", "search", "pageSize", "meRole"]),
     searchVal: {
       get() {
         return this.search;

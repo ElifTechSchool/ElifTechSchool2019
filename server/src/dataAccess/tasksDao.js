@@ -7,7 +7,7 @@ const getTasks = () => tasksModel.findAll({
 });
 
 const getTaskById = (id) => tasksModel.findAll({
-  where: {id},
+  where: { id },
   attributes: ['id','type', 'experience', 'name', 'description','owner_id','deadline_date','status','max_participants'],
 });
 

@@ -122,7 +122,10 @@ const actions = {
           dispatch("loadUsers", { page, pageSize, search });
         }
       })
-      .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
+      .catch(err => {
+        dispatch("showSnackBar", { response: err, color: "red" });
+        console.log(err);
+      });
   },
   updateUserRole(_, { userRole, id }) {
     console.log(userRole);
@@ -141,6 +144,11 @@ const actions = {
       console.log(res);
       //commit("setUserAchiv", res.data[0])
     });
+  },
+  addExperienceToUser(_, {expData, id}){
+    axios.put(`users/${id}/experience`, {experience: expData})
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
   }
 };
 

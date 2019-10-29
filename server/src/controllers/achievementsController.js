@@ -2,6 +2,7 @@ import express from 'express';
 import achievementService from '../businessLogic/achievementsService.js';
 import userAchievementsService from '../businessLogic/userAchievementsService.js';
 import upload from '../businessLogic/cloudinaryService.js';
+import authorize from '../helpers/authorize.js';
 
 const router = express.Router();
 
@@ -173,16 +174,10 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('photo_url'), async (req, res, next) => {
-  try {
-    await achievementService.createAchievement({
-      ...req.body,
-      photo_url: req.file.secure_url,
-    });
-    res.status(201).send();
-  } catch (error) {
-    next(error);
-  }
+router.post('/', authorize('moderator'), upload.single('photo_url'), (req, res, next) => {
+  achievementService.createAchievement(req)
+    .then(() => res.status(201).send())
+    .catch((error) => next(error));
 });
 
 /**
@@ -213,7 +208,7 @@ router.post('/', upload.single('photo_url'), async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', authorize('admin'), (req, res, next) => {
   achievementService.deleteAchievement(req.params.id)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
@@ -263,7 +258,7 @@ router.delete('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', upload.single('photo_url'), (req, res, next) => {
+router.put('/:id', authorize('moderator'), upload.single('photo_url'), (req, res, next) => {
   const {
     name,
     description,
@@ -284,28 +279,6 @@ router.put('/:id', upload.single('photo_url'), (req, res, next) => {
   }
   achievementService.updateAchievement(req.params.id, updates)
     .then(() => res.status(204).end())
-    .catch((error) => next(error));
-});
-
-router.post('/:id/users', async (req, res, next) => {
-  const achievementId = req.params.id;
-  if (!achievementId || !Array.isArray(req.body.users)) {
-    res.status(401).send({ error: 'incorest data' });
-  }
-  const achievementUsers = await userAchievementsService.getUsersOfSpecificAchievement(achievementId);
-  const usersToAdd = req.body.users.filter((u) => achievementUsers.indexOf(u) === -1);
-  if (!usersToAdd.length) {
-    res.send({ message: 'users have already been add to this achievement' });
-    return;
-  }
-  userAchievementsService.createUserAchievements(
-    usersToAdd.map((user) => ({ user_id: user, achievement_id: achievementId })),
-  )
-    .then((response) => {// just for testing
-      console.log('response', response);
-      return response
-    })
-    .then(() => res.status(201).end())
     .catch((error) => next(error));
 });
 

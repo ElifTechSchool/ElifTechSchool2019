@@ -39,13 +39,15 @@ const getters = {
   getPage: state => {
     return state.page;
   },
+  getLimit: state => {
+    return state.limit;
+  },
   getType: state => {
     return state.type
   },
   getTypes: state => {
     return state.types
-  },
-  
+  }
 };
 
 const mutations = {
@@ -100,10 +102,8 @@ const actions = {
       commit("setLimit", limit)
     }
   },
-
-
   setCurrentPage: ({ commit }, currentPage) => {
-    commit("setCurrentPage", currentPage);
+    commit("setCurrentPage", parseInt(currentPage));
   },
   setType: ({ commit }, type) => {
     commit("setType", type);
@@ -152,8 +152,43 @@ const actions = {
   getAllAchiev(_) {
     return axios
       .get("achievements/")
-      .then(res => res.data.data);
-  }
+      .then(res => res.data.data)
+      .catch(err => {
+        console.log(err);
+      })
+  },
+  getOwnAchievements(_, id) {
+    return axios.get(`users/${id}/achievements`)
+      .then(res => res.data)
+      .catch(err => {
+        console.log(err);
+      })
+  },
+  /*getOwnAchievements() {
+    axios.get(`users/${this.id}/achievements`)
+      .then(res => {
+        console.log(res.data);
+        this.achievements = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, */
+  getUsersByAchiev(_, id){
+    return axios
+      .get(`achievements/${id}/users`)
+      .then(res => res.data)
+      .catch(err => console.log(err))
+  },
+  addAchievToUser(_, { id, achievData }){
+    axios
+      .post(`users/${id}/achievements`, { achievements: achievData })
+      .then(res => {
+        console.log(res);
+        //commit("setUserAchiv", res.data[0])
+      })
+      .catch(err => console.log(err));
+  },
 };
 
 export default {

@@ -2,6 +2,8 @@ import express from 'express';
 import achievementsService from '../businessLogic/achievementsService.js';
 import usersService from '../businessLogic/usersService.js';
 import userAchievementsService from '../businessLogic/userAchievementsService.js';
+import authorize from '../helpers/authorize.js';
+
 const router = express.Router();
 
 /**
@@ -82,7 +84,7 @@ router.get('/:id/achievements', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 
-router.post('/:id/achievements', async (req, res, next) => {
+router.post('/:id/achievements', authorize('moderator'), async (req, res, next) => {
   const userId = req.params.id;
   if (!userId || !Array.isArray(req.body.achievements)) {
     res.status(401).send({ error: 'incorest data' });
@@ -149,6 +151,5 @@ router.post('/:userId/achievements/:achievementId', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 
 export default router;

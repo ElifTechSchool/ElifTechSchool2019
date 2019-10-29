@@ -1,6 +1,7 @@
 import express from 'express';
 import rankService from '../businessLogic/rankService.js';
 import upload from '../businessLogic/cloudinaryService.js';
+import authorize from '../helpers/authorize.js';
 
 const router = express.Router();
 
@@ -142,7 +143,7 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('image'), (req, res, next) => {
+router.post('/', authorize('admin'), upload.single('image'), (req, res, next) => {
   req.body.photo_url = req.file.secure_url;
   req.body.photo_id = req.file.public_id;
   rankService
@@ -187,7 +188,7 @@ router.post('/', upload.single('image'), (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', upload.single('image'), (req, res, next) => {
+router.put('/:id', authorize('admin'), upload.single('image'), (req, res, next) => {
   if (req.file) {
     req.body.photo_url = req.file.secure_url;
     req.body.photo_id = req.file.public_id;
@@ -226,7 +227,7 @@ router.put('/:id', upload.single('image'), (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', authorize('admin'), (req, res, next) => {
   rankService
     .deleteRank(req.params.id)
     .then(() => res.status(204).end())

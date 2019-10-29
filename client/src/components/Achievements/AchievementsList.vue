@@ -1,9 +1,13 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      <v-col>
-        <FilterTypeAchievements @filter="selectType" />
-        <FilterTypesAchievements class="mt-0 pt-0" @filter="selectTypes" />
+    <v-row>
+      <div class="wrapper">
+
+        <div class="filters">
+          <FilterTypeAchievements @filter="selectType" />
+          <FilterTypesAchievements  @filter="selectTypes" />
+        </div>
+
         <div class="block-achievements">
           <div v-for="achievement in allAchievements" v-bind:key="achievement.id">
             <Achievement
@@ -12,7 +16,17 @@
               :name="achievement.name"
               :created_at="achievement.created_at"
             />
-          </div>
+          </div> 
+          <v-row v-if="!allAchievements || !allAchievements.length" align="center" justify="center" >
+            <v-col md="5">
+              <v-card>
+                <v-card-title class="justify-center">
+                  No items found
+                </v-card-title>
+              </v-card>
+            </v-col>
+         
+          </v-row>
           <div>
             <v-pagination v-if="achievementsCount > limit"
               v-model="page"
@@ -21,9 +35,9 @@
             >
             </v-pagination>
           </div>
-
         </div>
-      </v-col>
+
+      </div>
     </v-row>
   </v-container>
 </template>
@@ -43,10 +57,7 @@ export default {
   name: "achievements-list",
   props: [],
   data() {
-    return {
-      limit: 5,
-      page: 1,
-    };
+    return {};
   },
   mounted() {
     if(!this.paramsExists()) {
@@ -110,13 +121,36 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getTypes", "getType"]),
+    ...mapGetters(["allAchievements", "achievementsCount", "getPage", "getLimit", "getTypes", "getType"]),
+      page: {
+        get() {
+          return this.getPage || 1;
+      },
+      set(val) {
+        this.$store.commit("setCurrentPage", val);
+      }
+    },
+    limit: {
+      get() {
+        return this.getLimit || 5;
+    },
+    set(val) {
+      this.$store.commit("setLimit", val);
+    }
+  },
   }
 };
 </script>
 
 <style lang="scss">
 .block-achievements {
-  margin-left: 30px;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 </style>

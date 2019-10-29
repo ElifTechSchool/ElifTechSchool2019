@@ -7,10 +7,7 @@
             <v-row>
               <v-col sm="4">
                 <v-img 
-                  v-bind:src="
-                    photo_url ||
-                      'https://where2go.tech/assistant/img/achievements/win.png'
-                  "
+                  v-bind:src="photo_url"
                   alt="achievement image"
                 />
               </v-col>
@@ -27,7 +24,7 @@
           </v-col>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="confirmModal = true" color="#F0EFEF">
+              <v-btn @click="confirmModal = true" v-if="$store.getters.meRole === 1" color="red" tile outlined>
                   Delete
                   <v-icon>mdi-delete</v-icon>
               </v-btn>

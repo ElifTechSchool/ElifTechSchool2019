@@ -2,6 +2,7 @@ import express from 'express';
 import usersService from '../businessLogic/usersService.js';
 import authService from '../businessLogic/authService.js';
 import upload from '../businessLogic/cloudinaryService.js';
+import authorize from '../helpers/authorize.js';
 
 const router = express.Router();
 
@@ -162,7 +163,7 @@ router.get('/me', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.get('/:id', (req, res, next) => {
+router.get('/:id', authorize('user'), (req, res, next) => {
   usersService
     .getUserById(req.params.id)
     .then((result) => res.json(result))
@@ -223,7 +224,7 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.post('/', upload.single('image_url'), (req, res, next) => {
+router.post('/', authorize('moderator'), upload.single('image_url'), (req, res, next) => {
   usersService
     .createUser(req)
     .then(() => res.status(201).end())
@@ -273,7 +274,7 @@ router.post('/', upload.single('image_url'), (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id', upload.single('image_url'), (req, res, next) => {
+router.put('/:id', authorize('moderator'), upload.single('image_url'), (req, res, next) => {
   usersService
     .updateUser(req)
     .then(() => res.status(204).end())
@@ -322,9 +323,53 @@ router.put('/:id', upload.single('image_url'), (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.put('/:id/passwords', async (req, res, next) => {
+router.put('/:id/passwords', authorize('moderator'), async (req, res, next) => {
   usersService
     .updateUserPassword(req.params.id, req.body.oldPass, req.body.newPass)
+    .then(() => res.status(204).end())
+    .catch((error) => next(error));
+});
+
+/**
+ * @swagger
+ *
+ * /v1/users/{id}/experience:
+ *   put:
+ *     description: update user's experience
+ *     tags:
+ *       - users
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: number
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             experience:
+ *               type: number
+ *               required: true
+ *     responses:
+ *       204:
+ *         description: added success
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           $ref: '#/definitions/401'
+ *       500:
+ *         description: Server error
+ *         schema:
+ *           $ref: '#/definitions/500'
+ */
+router.put('/:id/experience', authorize('moderator'), async (req, res, next) => {
+  usersService
+    .addUserExperience(req.params.id, req.body.experience)
     .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
@@ -357,7 +402,7 @@ router.put('/:id/passwords', async (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/500'
  */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', authorize('admin'), (req, res, next) => {
   usersService
     .deleteUser(req.params.id)
     .then(() => res.status(204).end())

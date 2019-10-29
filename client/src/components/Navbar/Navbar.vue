@@ -74,7 +74,7 @@ export default {
     },
     userLogout() {
       this.$store.dispatch("logOut");
-      this.$router.push("/");
+      this.$router.push("/").catch(err => {});
     },
   },
   computed: {

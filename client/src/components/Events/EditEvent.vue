@@ -7,20 +7,20 @@
           <v-text-field
             label="Title"
             v-model="editEvent.title"
-            :rules="nameRules"
+            :rules="titleRules"
             :counter="50"
             required
           ></v-text-field>
           <v-text-field
             label="Description"
             v-model="editEvent.description"
-            :counter="1000"
+            :rules = "descriptionRules"
             required
           ></v-text-field>
           <v-text-field
             label="Location"
             v-model="editEvent.location"
-            :rules="nameRules"
+            :rules="locationRules"
             :counter="80"
             required
           ></v-text-field>
@@ -30,12 +30,14 @@
             type="number"
             min="0"
             required
+            :rules = "maxPeopleRules"
           ></v-text-field>
           <v-file-input
             prepend-icon="add_photo_alternate"
             v-model="eventImage"
             accept="image/png, image/jpeg"
             placeholder="Pick event image"
+            required
           >
           </v-file-input>
         </v-form>
@@ -72,9 +74,19 @@ export default {
     return {
         editEvent: { ...this.event },
         eventImage: null,
-        nameRules: [
+        titleRules: [
           v => !!v || "Title is required",
           v => (v && v.length <= 50) || "Title must be less than 50 characters"
+        ],
+        locationRules: [
+          v => !!v || "Litle is required",
+          v => (v && v.length <= 80) || "Title must be less than 50 characters"
+        ],
+        descriptionRules: [
+          v => !!v || "Description is required",
+        ],
+        maxPeopleRules: [
+          v => !!v || "Max count of people is required",
         ],
       }
   },

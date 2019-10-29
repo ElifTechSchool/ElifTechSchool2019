@@ -68,13 +68,17 @@ const actions = {
   forgotPass(_, email) {
     return axios.post("users/passwords", email).catch(err => err);
   },
-  changePasswordToken({ dispatch }, data) {
+  resetPassword({ dispatch }, data) {
       return axios
         .put('/users/passwords', data)
+        .then(res => {
+          console.log(res);
+        })
         .catch(err => dispatch("showSnackBar", { response: err, color: "red" }));
   },
   getMeRole({ commit }, id) {
     axios.get(`/users/${id}/roles`).then(res => {
+      console.log(res.data[0]);
       commit("setMeRole", res.data[0]);
     });
   }

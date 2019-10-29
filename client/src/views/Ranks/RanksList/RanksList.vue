@@ -1,13 +1,30 @@
 <template lang="html">
-  <div v-if="!rankIsEmpty">
+  <v-container class="body" v-if="!rankIsEmpty">
+     <v-row class="wrapme" justify="center">
+      <v-col lg="5" md="6" sm="8">
+        <v-text-field
+          class="search-bar"
+          type="text"
+          label="Find rank"
+          name="search"
+          solo
+          rounded
+          clearable
+          v-model="searchRankValue"
+          prepend-inner-icon="search"
+          @click:prepend-inner="searchRanks"
+          v-on:keyup.enter="searchRanks"
+        />
+      </v-col>
+    </v-row>
     <div v-for="rank in allRanks" :key="rank.number">
       <RanksItem :rank="rank" />
     </div>
-    <v-btn class="mx-2" fab dark large color="primary" to="/ranks/add">
+    <v-btn class="mx-2" fab dark large color="primary" to="/ranks/add" v-if="meRole !== 3">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-pagination v-model="page" :length="pageQty" @input="nextPage"></v-pagination>
-  </div>
+    <v-pagination v-model="pageProxy" :length="pageQty" @input="nextPage"></v-pagination>
+  </v-container>
   <v-container fluid fill-height v-else>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
@@ -22,7 +39,7 @@
           </v-card-text>
           <v-card-actions>
             <v-fab-transition>
-              <v-btn color="primary" dark absolute bottom right fab to="/ranks/add">
+              <v-btn color="primary" dark absolute bottom right fab to="/ranks/add" v-if="meRole !== 3">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-fab-transition>
@@ -44,10 +61,9 @@
       RanksItem
     },
     name: "ranks-list",
-    props: [],
-    created() {
-      this.page = Number(this.$route.query.page) || 1;
-      const page = this.$route.query.page || 1;
+    mounted() {
+      this.pageProxy = Number(this.$route.query.page) || 1;
+      const page = this.pageProxy;
       const pageSize = this.ranksPageSize;
       const search = this.$route.query.search;
       this.$store.dispatch("getAllRanks", { page, pageSize, search });
@@ -57,27 +73,36 @@
         pageProxy: Number(this.$route.query.page)
       };
     },
+    watch: {
+      pageProxy: function(newPage, oldPage) {
+        this.nextPage(newPage);
+      }
+    },
     computed: {
-      ...mapGetters(["allRanks", "rankIsEmpty", "pageQty", "ranksPageSize", "searchRank"]),
-      page: {
+      ...mapGetters(["allRanks", "rankIsEmpty", "pageQty", "ranksPageSize", "searchRank", "meRole"]),
+      searchRankValue: {
         get() {
-          return this.pageProxy || this.$route.query.page;
+          return this.searchRank;
         },
         set(val) {
-          this.pageProxy = val;
+          this.$store.commit("setSearch", val);
         }
       }
     },
+    
     methods: {
-      nextPage() {
+      nextPage(newPage) {
         this.$router.replace({
           name: "ranks",
-          query: { page: this.page }
-        })
-        const page = this.page;
+          query: { page: newPage }
+        }).catch(err => {});
+        const page = newPage;
         const pageSize = this.ranksPageSize;
-        const search = this.search;
+        const search = this.searchRankValue;
         this.$store.dispatch("getAllRanks", { page, pageSize, search });
+      },
+      searchRanks() {
+        this.nextPage(1);
       }
     },
   };
@@ -90,5 +115,4 @@
     bottom: 50px;
     right: 80px;
   }
-
 </style>

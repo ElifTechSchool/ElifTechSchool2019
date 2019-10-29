@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --experimental-modules index.js",
+    "start": "node --experimental-modules index.js",
     "start:dev": "nodemon --experimental-modules index.js",
     "migrate": "sequelize db:migrate",
-    "migrate:undo": "sequelize db:migrate:undo"
+    "migrate:undo": "sequelize db:migrate:undo",
+    "deploy": "gcloud app deploy"
   },
   "repository": {
     "url": "https://github.com/ElifTechSchool/ElifTechSchool2019"
+  },
+  "engines": {
+    "node": ">=12.0"
   },
   "type": "module",
   "author": "",
@@ -36,9 +40,7 @@
     "pg": "^7.12.1",
     "pino": "^5.13.2",
     "pino-http": "^4.3.0",
-    "pino-multi-stream": "^4.2.0",
     "pino-pretty": "^3.2.1",
-    "pino-stackdriver": "^1.2.7",
     "rand-token": "^0.4.0",
     "sequelize": "^5.18.4",
     "swagger-jsdoc": "^3.4.0",

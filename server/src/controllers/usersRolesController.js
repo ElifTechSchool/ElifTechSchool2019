@@ -1,5 +1,6 @@
 import express from 'express';
 import usersRolesService from '../businessLogic/usersRolesService.js';
+import authorize from '../helpers/authorize.js';
 
 const router = express.Router();
 
@@ -91,7 +92,7 @@ router.get('/:id/roles', (req, res, next) => {
  *           $ref: '#/definitions/500'
  */
 
-router.put('/:id/roles', async (req, res, next) => {
+router.put('/:id/roles', authorize('admin'), async (req, res, next) => {
   const userId = req.params.id;
   const { roles } = req.body;
   if (!userId || !Array.isArray(roles)) {

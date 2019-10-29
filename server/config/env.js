@@ -5,15 +5,17 @@ const env = process.env.NODE_ENV || 'development';
 const configs = {
   development: {
     env: 'development',
+    frontEndUrl: 'http://localhost:8080/',
   },
   production: {
     env: 'production',
+    frontEndUrl: process.env.FRONT_END_URL,
   },
 };
 
 const defaultConfig = {
   GAE_ENV: process.env.GAE_ENV,
-  port: 3000,
+  port: process.env.PORT || 3000,
   db: {
     host: process.env.DB_HOST || 'localhost',
     name: process.env.DB_NAME,
@@ -30,7 +32,7 @@ const defaultConfig = {
   jwtRefreshSecret: process.env.REFRESH_TOKEN_SECRET,
   tokenExpTime: '1d',
   email: process.env.EMAIL,
-  emailPass: process.env.EMAIL_PASS
+  emailPass: process.env.EMAIL_PASS,
 };
 
 export default { ...defaultConfig, ...configs[env] };
