@@ -4,32 +4,36 @@ const state = {
   events: [],
   isEmpty: false,
   eventsPageSize: 4,
-  pageQty: 0,
+  countOfPages: 0,
   eventsQty: 0,
-  searchEvent: ""
+  searchEvent: "",
 };
 
 const getters = {
   allEvents: state => state.events,
   eventIsEmpty: state => state.isEmpty,
   eventsPageSize: state => state.eventsPageSize,
-  pageQty: state => state.pageQty,
+  countOfPages: state => state.countOfPages,
   eventsQty: state => state.eventsQty,
-  searchRank: state => state.searchEvent
+  searchEvent: state => state.searchEvent,
+  eventById: id => state.events.find(el => el.id === id),
 };
 
 const mutations = {
   setEvents: (state, events) => {
     state.events = events;
   },
-  addRank: (state, events) => {
+  setEvent: (state, event) => {
+    state.eventById = event;
+  },
+  addEvent: (state, events) => {
     state.events.push(events);
   },
   setPageSize: (state, events) => {
     state.eventsPageSize = events;
   },
-  setPageQty: state => {
-    state.pageQty = Math.ceil(state.eventsQty / state.eventsPageSize);
+  setCountOfPages: state => {
+    state.countOfPages = Math.ceil(state.eventsQty / state.eventsPageSize);
   },
   setSearch: (state, events) => {
     state.searchEvent = events;
@@ -47,13 +51,20 @@ const actions = {
       const response = await axios.get("events", { params: { ...query } });
       commit("setEvents", response.data.rows);
       commit("setEventsQty", response.data.count);
-      commit("setPageQty");
+      commit("setCountOfPages");
       if (state.events.length === 0) {
         state.isEmpty = true;
       }
     } catch (error) {
       const message = error.message;
       dispatch("showSnackBar", { message, color: "red" });
+    }
+  },
+  async getEventById(store, id) {
+    try {
+      return await axios.get(`events/${id}`);
+    } catch (error) {
+      console.log(error);
     }
   },
   async addEvent({ commit, dispatch }, event) {
@@ -87,7 +98,7 @@ const actions = {
       dispatch("showSnackBar", { message, color: "red" });
     }
   },
-  async deleteRank({ dispatch }, id) {
+  async deleteEvent({ dispatch }, id) {
     try {
       await axios.delete(`events/${id}`);
       dispatch("getAllEvents");
