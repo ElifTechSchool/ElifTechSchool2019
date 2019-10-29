@@ -46,15 +46,15 @@
                     {{ hidden ? "Subscribe"  :  "Unsubscribe"}}
                   </v-btn>
                 </v-card-actions>
-                <v-col v-if="isAdmin">
+                <v-col v-if="!isActive && isAdmin">
                   <v-form @submit.prevent="setCompetitionWinner()">
-                  <v-text-field v-if="isAdmin"
-                    type="number"
-                    label="WinnerId"
-                    name="winner_id"
-                    v-model="winnerData.winner_id"
-                    required
-                  />
+                  <v-select 
+                  :items="items"
+                  label="Winner id"
+                  v-model="winnerData.winner_id"
+                  required
+                  outlined>
+                  </v-select> 
                   <v-btn type="submit" color="success"> Set winner </v-btn>
                   </v-form>
                 </v-col>
@@ -62,7 +62,7 @@
                   <h4>Folllowers:</h4>
                   <div v-for="follower in getCompetitionFollowers" :key="follower.id">
                     <a @click="toUserDetails(follower.user.id)">
-                      {{ `${follower.user.name} ${follower.user.surname}` }}
+                      {{ `${follower.user.name} ${follower.user.surname} id: ${follower.user.id}` }}
                     </a>
                   </div>
                 </v-col>
@@ -86,6 +86,7 @@ export default {
       isActive: false,
       isAdmin: false,
       showInput: false,
+      items: [],
       dataFollower: {
         competitionId: null,
         userId: null
@@ -105,6 +106,13 @@ export default {
     getUserMe() {
       return this.$store.getters.userMe.user;
     },
+    // setItems() {
+    //   const usersId = getCompetition.users;
+    //   for(let i = 0; i < usersId.length; i++){
+    //     this.items[items.length -1] = usersId[i].id;
+    //   }
+      
+    // }
   },
   methods: {
     updateCompetition(competitionId) {
@@ -166,18 +174,19 @@ export default {
         this.winnerData.id = this.$route.params.id,
         this.$store.dispatch("setCompetitionWinner", this.winnerData);
         this.winnerData = {};
-    }
+    },
+
   },
    mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
   created() {
-  
     if( this.hidden == true) { 
         this.dataFollower.userId = this.userMe.user.id;
         const followersId = this.$store.getters.getFollowers;
         for (let i = 0; i < followersId.length; i++) {
+          this.items[this.items.length] =followersId[i].user.id;
           if (this.$store.getters.userMe.user.id == followersId[i].userId) {
             this.hidden = false;
           } 
@@ -185,7 +194,23 @@ export default {
     };
     if (this.$store.getters.meRole == 2 || this.$store.getters.meRole == 1) {
       this.isAdmin = true;
-    }
+    };
+
+    
+      // const usersId = this.$store.getters.getFollowers;
+
+      // const itemId = [];
+      // for (let i =0; i < usersId.length; i++){
+      //   itemId[itemId.length] = usersId[i].user;
+      // }
+
+      // console.log(itemId);  
+      // console.log(usersId);
+      // for(let i = 0; i < usersId.length; i++){
+      //   this.items = usersId[i].id;
+      // }
+      
+    
   }, 
   
 };

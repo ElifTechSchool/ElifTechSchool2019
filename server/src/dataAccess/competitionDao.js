@@ -49,7 +49,13 @@ const getCompetitions = (params) => competitionModel.findAndCountAll({
   });
 
 const getCompetitionById = (id) => competitionModel.findByPk(id, {
-  attributes: ['id', 'name', 'description', 'deadline_date', 'experience', 'owner_id'],
+  attributes: ['id', 'name', 'description', 'deadline_date', 'experience', 'owner_id', 'winner_id'],
+  include: [{
+    model: usersModel,
+    through: competitionFollowersModel,
+    attributes: ['id', 'surname', 'name', 'experience', 'image_url'],
+  }],
+  
     }
   );
 
