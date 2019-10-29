@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: "CompetitionDetails",
   data() {
@@ -92,6 +94,8 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["getCompetition", "getFollowers", "userMe",]),
+
     getCompetition() {
       return [this.$store.getters.getCompetition];
     },
@@ -100,7 +104,7 @@ export default {
     },
     getUserMe() {
       return this.$store.getters.userMe.user;
-    }
+    },
   },
   methods: {
     updateCompetition(competitionId) {
@@ -164,15 +168,14 @@ export default {
         this.winnerData = {};
     }
   },
-  mounted() {
+   mounted() {
     this.$store.dispatch("loadCompetitionById", this.$route.params.id);
     this.$store.dispatch("getSubscribedFollowers", this.$route.params.id);
   },
   created() {
-   
-    this.dataFollower.userId = this.$store.getters.userMe.user.id;
-
-       if(this.$store.getters.userMe.user.id && this.hidden == true) { 
+  
+    if( this.hidden == true) { 
+        this.dataFollower.userId = this.userMe.user.id;
         const followersId = this.$store.getters.getFollowers;
         for (let i = 0; i < followersId.length; i++) {
           if (this.$store.getters.userMe.user.id == followersId[i].userId) {
@@ -180,9 +183,7 @@ export default {
           } 
         }
     };
-      
-  
-    if (this.$store.getters.meRole == 2) {
+    if (this.$store.getters.meRole == 2 || this.$store.getters.meRole == 1) {
       this.isAdmin = true;
     }
   }, 
