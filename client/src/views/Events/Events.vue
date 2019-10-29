@@ -6,7 +6,7 @@
     <v-btn class="mx-2" fab dark large color="primary" to="/events/add">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-pagination v-model="page" :length="pageQty" @input="nextPage"></v-pagination>
+    <v-pagination v-model="page" :length="countOfPages" @input="nextPage"></v-pagination>
   </div>
   <v-container fluid fill-height v-else>
     <v-layout align-center justify-center>
@@ -39,6 +39,7 @@
   } from "vuex";
   import Event from "../../components/Events/Event";
 
+
   export default {
     components: {
       Event
@@ -58,7 +59,7 @@
       };
     },
     computed: {
-      ...mapGetters(["allEvents", "eventIsEmpty", "pageQty", "eventsPageSize", "searchEvent"]),
+      ...mapGetters(["allEvents", "eventIsEmpty", "countOfPages", "eventsPageSize", "searchEvent"]),
       page: {
         get() {
           return this.pageProxy || this.$route.query.page;

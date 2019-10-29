@@ -9,19 +9,20 @@
               <v-text-field
                 label="Title"
                 v-model="title"
+                :rules = "titleRules"
                 :counter="50"
                 required
               ></v-text-field>
           <v-text-field
             label="Description"
             v-model="description"
-            :counter="1000"
+            :rules = "descriptionRules"
             required
           ></v-text-field>
               <v-text-field
                 label="Location"
                 v-model="location"
-                :rules="nameRules"
+                :rules="locationRules"
                 :counter="80"
                 required
           ></v-text-field>
@@ -29,14 +30,16 @@
             label="Max people:"
             v-model="max_people"
             type="number"
-            min="0"
+            min=0
             required
+            :rules = "maxPeopleRules"
           ></v-text-field>
               <v-file-input
                 prepend-icon="add_photo_alternate"
                 v-model="eventImage"
                 accept="image/png, image/jpeg"
                 placeholder="Pick event image"
+                required
               >
               </v-file-input>
             </v-form>
@@ -67,12 +70,22 @@
     data() {
       return {
         title: '',
-        nameRules: [
+        titleRules: [
           v => !!v || "Title is required",
           v => (v && v.length <= 50) || "Title must be less than 50 characters"
         ],
+        locationRules: [
+          v => !!v || "Location is required",
+          v => (v && v.length <= 80) || "Title must be less than 80 characters"
+        ],
+        descriptionRules: [
+          v => !!v || "Description is required",
+        ],
+        maxPeopleRules: [
+          v => !!v || "Max count of people is required",
+        ],
         eventImage: null,
-        max_people: 0,
+        max_people: null,
         location: '',
         description: '',
       }
@@ -87,7 +100,7 @@
           formData.append("max_people", this.max_people);
           formData.append("image_url", this.eventImage);
 
-          this.$store.dispatch("addEvent", formData);
+          this.$store.commit("addEvent", formData);
           this.$router.push({ path: '/events' });
         }
       }
@@ -99,6 +112,6 @@
 </script>
 
 <style scoped lang="scss">
-.add-event {
-}
+
+
 </style>
