@@ -21,6 +21,7 @@
               <div v-for="competition in getCompetition" :key="competition.id">
                 <v-col>
                   <h2><b>Name:</b> {{ competition.name }}</h2>
+                  <h2><b>Winner:</b> {{ competition.winner_id }}</h2>
                   <p><b>Description:</b> {{ competition.description }}</p>
                   <p>
                     <b>Deadline_date:</b>
