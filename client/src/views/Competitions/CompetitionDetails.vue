@@ -80,7 +80,7 @@ export default {
   name: "CompetitionDetails",
   data() {
     return {
-      hidden: false,
+      hidden: true,
       isActive: false,
       isAdmin: false,
       showInput: false,
@@ -170,15 +170,14 @@ export default {
   },
   created() {
    
-        this.dataFollower.userId = this.$store.getters.userMe.user.id;
-        
-      
-       if(this.$store.getters.userMe.user.id) { 
+    this.dataFollower.userId = this.$store.getters.userMe.user.id;
+
+       if(this.$store.getters.userMe.user.id && this.hidden == true) { 
         const followersId = this.$store.getters.getFollowers;
         for (let i = 0; i < followersId.length; i++) {
           if (this.$store.getters.userMe.user.id == followersId[i].userId) {
             this.hidden = false;
-          }
+          } 
         }
     };
       
