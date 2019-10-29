@@ -1,9 +1,9 @@
 <template lang="html">
   <div>
     <v-hover v-slot:default="{ hover }" close-delay="200">
-      <v-card max-width="400" class="mx-auto card" :elevation="hover ? 16 : 2">
+      <v-card max-width="500" class="mx-auto card" :elevation="hover ? 16 : 2">
         <v-list-item class="grow">
-          <v-list-item-avatar size="65" class="grey lighten-2"
+          <v-list-item-avatar size="85" class="grey lighten-2"
             ><img :src="event.image_url" />
           </v-list-item-avatar>
           <v-list-item-content class="align-self-start">
