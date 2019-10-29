@@ -8,7 +8,7 @@
       <v-col md="7">
         <v-card class="pl-3 pr-6 pb-4">
             <v-row>
-              <v-col sm="3" md="3" style="background-color: red;">
+              <v-col sm="3" md="3">
               <v-img
                 position="center left"
                 :src="event.image_url"
